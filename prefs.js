@@ -118,6 +118,11 @@ class Settings {
             title: _("Paste on select")
         });
 
+        this.field_auto_paste = new Adw.SwitchRow({
+            title: _("Auto-paste on selection"),
+            subtitle: _("Automatically paste after selecting an item from the popup")
+        });
+
         this.field_cache_images = new Adw.SwitchRow({
             title: _("Cache images"),
             active: true
@@ -186,6 +191,7 @@ class Settings {
         this.ui.add(this.field_pinned_on_bottom);
 
         this.behavior.add(this.field_paste_on_select);
+        this.behavior.add(this.field_auto_paste);
         this.behavior.add(this.field_cache_images);
         this.behavior.add(this.field_clear_on_boot);
         this.behavior.add(this.field_clear_history_on_interval);
@@ -229,6 +235,7 @@ class Settings {
         this.schema.bind(PrefsFields.ENABLE_KEYBINDING, this.field_keybinding_activation, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_ON_BOOT, this.field_clear_on_boot, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.PASTE_ON_SELECT, this.field_paste_on_select, 'active', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.AUTO_PASTE, this.field_auto_paste, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_IMAGES, this.field_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);
@@ -255,7 +262,8 @@ class Settings {
 
     #shortcuts = {
         [PrefsFields.BINDING_PRIVATE_MODE]: _("Private mode"),
-        [PrefsFields.BINDING_TOGGLE_MENU]: _("Toggle the menu"),
+        [PrefsFields.BINDING_TOGGLE_MENU]: _("Toggle the panel menu"),
+        [PrefsFields.BINDING_TOGGLE_POPUP]: _("Toggle the cursor popup (Alt+X)"),
         [PrefsFields.BINDING_CLEAR_HISTORY]: _("Clear history"),
         [PrefsFields.BINDING_PREV_ENTRY]: _("Previous entry"),
         [PrefsFields.BINDING_NEXT_ENTRY]: _("Next entry")

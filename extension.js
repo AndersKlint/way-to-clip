@@ -47,6 +47,7 @@ let CLEAR_HISTORY_INTERVAL    = 60;
 let NEXT_HISTORY_CLEAR        = -1;
 let CASE_SENSITIVE_SEARCH     = false;
 let REGEX_SEARCH              = false;
+let AUTO_PASTE                = true;
 
 export default class ClipboardIndicatorExtension extends Extension {
     enable () {
@@ -78,6 +79,7 @@ const ClipboardIndicator = GObject.registerClass({
         this._disconnectSelectionListener();
         this._clearDelayedSelectionTimeout();
         this.#clearTimeouts();
+        this._closeCursorPopup();
         this.dialogManager.destroy();
         this.keyboard.destroy();
 
@@ -445,10 +447,14 @@ const ClipboardIndicator = GObject.registerClass({
         return shortened;
     }
 
-    _setEntryLabel (menuItem) {
+    _setEntryLabel (menuItem, index = -1) {
         const { entry } = menuItem;
         if (entry.isText()) {
-            menuItem.label.set_text(this._truncate(entry.getStringValue(), MAX_ENTRY_LENGTH));
+            let labelText = this._truncate(entry.getStringValue(), MAX_ENTRY_LENGTH);
+            if (index >= 0 && index < 9) {
+                labelText = `${index + 1}. ${labelText}`;
+            }
+            menuItem.label.set_text(labelText);
         }
         else if (entry.isImage()) {
             this.registry.getEntryAsImage(entry).then(img => {
@@ -512,7 +518,25 @@ const ClipboardIndicator = GObject.registerClass({
             AnimationUtils.ensureActorVisibleInScrollView(viewToScroll, menuItem);
         });
         menuItem.actor.connect('key-press-event', (actor, event) => {
-            switch (event.get_key_symbol()) {
+            const key = event.get_key_symbol();
+            
+            // 1-9 keys for quick selection
+            if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
+                const visibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
+                const index = key - Clutter.KEY_1;
+                if (index < visibleItems.length) {
+                    const targetItem = visibleItems[index];
+                    this._selectMenuItem(targetItem, true);
+                    if (AUTO_PASTE) {
+                        this.#autoPasteAndClose(targetItem);
+                    } else {
+                        this.menu.close();
+                    }
+                }
+                return Clutter.EVENT_STOP;
+            }
+            
+            switch (key) {
                 case Clutter.KEY_Delete:
                     this.#selectNextMenuItem(menuItem);
                     this._removeEntry(menuItem, 'delete');
@@ -526,7 +550,7 @@ const ClipboardIndicator = GObject.registerClass({
                     break;
                 case Clutter.KEY_KP_Enter:
                 case Clutter.KEY_Return:
-                    if (PASTE_ON_SELECT) {
+                    if (PASTE_ON_SELECT || AUTO_PASTE) {
                         this.#pasteItem(menuItem);
                     }
                     this._onMenuItemSelectedAndMenuClose(menuItem, true);
@@ -1135,6 +1159,7 @@ const ClipboardIndicator = GObject.registerClass({
         NEXT_HISTORY_CLEAR          = settings.get_int(PrefsFields.NEXT_HISTORY_CLEAR);
         CASE_SENSITIVE_SEARCH       = settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH);
         REGEX_SEARCH                = settings.get_boolean(PrefsFields.REGEX_SEARCH);
+        AUTO_PASTE                  = settings.get_boolean(PrefsFields.AUTO_PASTE);
     }
 
     async _onSettingsChange () {
@@ -1174,6 +1199,7 @@ const ClipboardIndicator = GObject.registerClass({
         this._bindShortcut(PrefsFields.BINDING_PREV_ENTRY, this._previousEntry);
         this._bindShortcut(PrefsFields.BINDING_NEXT_ENTRY, this._nextEntry);
         this._bindShortcut(PrefsFields.BINDING_TOGGLE_MENU, this._toggleMenu);
+        this._bindShortcut(PrefsFields.BINDING_TOGGLE_POPUP, this._toggleCursorPopup);
         this._bindShortcut(PrefsFields.BINDING_PRIVATE_MODE, this.togglePrivateMode);
     }
 
@@ -1333,6 +1359,189 @@ const ClipboardIndicator = GObject.registerClass({
         this.menu.toggle();
     }
 
+    _toggleCursorPopup () {
+        if (this._cursorPopup) {
+            this._closeCursorPopup();
+        } else {
+            this._openCursorPopup();
+        }
+    }
+
+    _openCursorPopup () {
+        if (this.clipItemsRadioGroup.length === 0) {
+            this._showNotification(_("Clipboard is empty"));
+            return;
+        }
+
+        if (PRIVATEMODE) {
+            this._showNotification(_("Private mode is enabled"));
+            return;
+        }
+
+        const [x, y] = global.get_pointer();
+        const monitor = Main.layoutManager.currentMonitor;
+        
+        this._cursorPopup = new St.BoxLayout({
+            style_class: 'waytoclip-cursor-popup',
+            vertical: true,
+            reactive: true,
+        });
+
+        const scrollView = new St.ScrollView({
+            style_class: 'waytoclip-popup-scroll',
+            overlay_scrollbars: true,
+            x_expand: true,
+        });
+        const listContainer = new St.BoxLayout({
+            vertical: true,
+        });
+        scrollView.add_child(listContainer);
+
+        const visibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
+        
+        visibleItems.slice(0, 9).forEach((mItem, index) => {
+            const itemBox = new St.BoxLayout({
+                style_class: 'waytoclip-popup-item',
+                reactive: true,
+                x_expand: true,
+            });
+            
+            const numberLabel = new St.Label({
+                text: `${index + 1}. `,
+                style_class: 'waytoclip-item-number',
+                y_align: Clutter.ActorAlign.CENTER,
+            });
+            
+            const textLabel = new St.Label({
+                text: this._truncate(mItem.entry.getStringValue(), MAX_ENTRY_LENGTH),
+                y_align: Clutter.ActorAlign.CENTER,
+                x_expand: true,
+            });
+            
+            itemBox.add_child(numberLabel);
+            itemBox.add_child(textLabel);
+            
+            itemBox.connect('button-press-event', () => {
+                this._selectMenuItem(mItem, true);
+                if (AUTO_PASTE) {
+                    this.#autoPasteAndClose(mItem);
+                }
+                this._closeCursorPopup();
+            });
+            
+            itemBox.connect('key-press-event', (actor, event) => {
+                const key = event.get_key_symbol();
+                if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
+                    const idx = key - Clutter.KEY_1;
+                    if (idx < visibleItems.length) {
+                        const target = visibleItems[idx];
+                        this._selectMenuItem(target, true);
+                        if (AUTO_PASTE) {
+                            this.#autoPasteAndClose(target);
+                        }
+                        this._closeCursorPopup();
+                    }
+                } else if (key === Clutter.KEY_Escape) {
+                    this._closeCursorPopup();
+                }
+            });
+            
+            listContainer.add_child(itemBox);
+        });
+
+        this._cursorPopup.add_child(scrollView);
+
+        global.stage.add_child(this._cursorPopup);
+
+        const [popupWidth, popupHeight] = this._cursorPopup.get_size();
+        let popupX = x;
+        let popupY = y - popupHeight - 10;
+
+        if (popupX + popupWidth > monitor.x + monitor.width) {
+            popupX = monitor.x + monitor.width - popupWidth - 10;
+        }
+        if (popupX < monitor.x) {
+            popupX = monitor.x + 10;
+        }
+        if (popupY < monitor.y) {
+            popupY = y + 20;
+        }
+
+        this._cursorPopup.set_position(popupX, popupY);
+
+        this._cursorPopupGrab = global.stage.grab(this._cursorPopup);
+        this._cursorPopup.grab_key_focus();
+
+        this._cursorPopup.connect('key-press-event', (actor, event) => {
+            const key = event.get_key_symbol();
+            if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
+                const idx = key - Clutter.KEY_1;
+                if (idx < visibleItems.length) {
+                    const target = visibleItems[idx];
+                    this._selectMenuItem(target, true);
+                    if (AUTO_PASTE) {
+                        this.#autoPasteAndClose(target);
+                    }
+                    this._closeCursorPopup();
+                }
+            } else if (key === Clutter.KEY_Escape) {
+                this._closeCursorPopup();
+            }
+        });
+
+        this._cursorPopupClickedId = global.stage.connect('button-press-event', () => {
+            this._closeCursorPopup();
+        });
+    }
+
+    _closeCursorPopup () {
+        if (this._cursorPopup) {
+            if (this._cursorPopupGrab) {
+                this._cursorPopupGrab.dismiss();
+                this._cursorPopupGrab = null;
+            }
+            if (this._cursorPopupClickedId) {
+                global.stage.disconnect(this._cursorPopupClickedId);
+                this._cursorPopupClickedId = null;
+            }
+            global.stage.remove_child(this._cursorPopup);
+            this._cursorPopup.destroy();
+            this._cursorPopup = null;
+        }
+    }
+
+    #autoPasteAndClose (menuItem) {
+        this.menu.close();
+        this._closeCursorPopup();
+        
+        const currentlySelected = this._getCurrentlySelectedItem();
+        this.preventIndicatorUpdate = true;
+        this.#updateClipboard(menuItem.entry);
+        
+        this._autoPasteTimeout = setTimeout(() => {
+            if (this.keyboard.purpose === Clutter.InputContentPurpose.TERMINAL) {
+                this.keyboard.press(Clutter.KEY_Control_L);
+                this.keyboard.press(Clutter.KEY_Shift_L);
+                this.keyboard.press(Clutter.KEY_Insert);
+                this.keyboard.release(Clutter.KEY_Insert);
+                this.keyboard.release(Clutter.KEY_Shift_L);
+                this.keyboard.release(Clutter.KEY_Control_L);
+            } else {
+                this.keyboard.press(Clutter.KEY_Shift_L);
+                this.keyboard.press(Clutter.KEY_Insert);
+                this.keyboard.release(Clutter.KEY_Insert);
+                this.keyboard.release(Clutter.KEY_Shift_L);
+            }
+
+            this._autoPasteResetTimeout = setTimeout(() => {
+                this.preventIndicatorUpdate = false;
+                if (currentlySelected) {
+                    this.#updateClipboard(currentlySelected.entry);
+                }
+            }, 50);
+        }, 50);
+    }
+
     #pasteItem (menuItem) {
         this.menu.close();
         const currentlySelected = this._getCurrentlySelectedItem();
@@ -1368,6 +1577,8 @@ const ClipboardIndicator = GObject.registerClass({
         if (this._pastingResetTimeout) clearTimeout(this._pastingResetTimeout);
         if (this._historyClearTimeoutId) clearTimeout(this._historyClearTimeoutId);
         if (this._timerIntervalId) clearInterval(this._timerIntervalId);
+        if (this._autoPasteTimeout) clearTimeout(this._autoPasteTimeout);
+        if (this._autoPasteResetTimeout) clearTimeout(this._autoPasteResetTimeout);
     }
 
     #clearClipboard () {

@@ -73,3 +73,44 @@
     height:1em;
     margin-right:.25em;
 }
+
+/* WayToClip cursor popup styles */
+.waytoclip-cursor-popup {
+    background-color: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 8px;
+    min-width: 300px;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.waytoclip-popup-scroll {
+    max-height: 350px;
+}
+
+.waytoclip-popup-item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    spacing: 8px;
+}
+
+.waytoclip-popup-item:hover,
+.waytoclip-popup-item:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.waytoclip-popup-item:active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.waytoclip-item-number {
+    color: #888;
+    font-weight: bold;
+    min-width: 24px;
+    font-size: 0.95em;
+}
+
+.waytoclip-popup-item StLabel {
+    color: #fff;
+}

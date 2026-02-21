@@ -1,6 +1,6 @@
 <schemalist gettext-domain="gnome-shell-extensions">
-    <schema id="org.gnome.shell.extensions.clipboard-indicator"
-        path="/org/gnome/shell/extensions/clipboard-indicator/">
+    <schema id="org.gnome.shell.extensions.waytoclip"
+        path="/org/gnome/shell/extensions/waytoclip/">
 
     <key name="paste-button" type="b">
         <default>true</default>
@@ -27,7 +27,7 @@
     </key>
 
     <key type="i" name="history-size">
-        <default>15</default>
+        <default>100</default>
         <summary>The number of items to save in history</summary>
         <description></description>
         <range min="1" max="10000"/>
@@ -52,6 +52,14 @@
     <key name="paste-on-select" type="b">
         <default>false</default>
         <summary>Paste on select</summary>
+    </key>
+
+    <key name="auto-paste" type="b">
+        <default>true</default>
+        <summary>Automatically paste after selecting an item</summary>
+        <description>
+            If true, selecting an item from the popup will automatically paste it at the cursor position
+        </description>
     </key>
 
     <key type="i" name="preview-size">
@@ -167,9 +175,16 @@
         </key>
         <key name="toggle-menu" type="as">
         <default><![CDATA[['<Control>F9']]]></default>
-            <summary>Toggle the menu</summary>
+            <summary>Toggle the panel menu</summary>
             <description>
-                Key to toggle the clipboard menu
+                Key to toggle the clipboard panel menu
+            </description>
+        </key>
+        <key name="toggle-popup" type="as">
+        <default><![CDATA[['<Alt>x']]]></default>
+            <summary>Toggle the cursor popup</summary>
+            <description>
+                Key to toggle the cursor-positioned clipboard popup
             </description>
         </key>
         <key name="private-mode-binding" type="as">
@@ -180,50 +195,50 @@
             </description>
         </key>
         <key name="cache-images" type="b">
-            <default>true</default>
-            <summary>Cache images</summary>
-            <description>
-                Allow caching images to disk
-            </description>
-        </key>
-        <key name="excluded-apps" type="as">
-            <default>[]</default>
-            <summary>List of excluded applications</summary>
-            <description>
-                A list of applications that are excluded from clipboard history.
-            </description>
-        </key>
-        <key name="clear-history-on-interval" type="b">
-            <default>false</default>
-            <summary>Enable clearing history on interval</summary>
-            <description>
-                If true, clipboard history will be cleared at regular intervals.
-            </description>
-        </key>
-        <key name="clear-history-interval" type="i">
-            <default>60</default>
-            <summary>Interval for clearing history in minutes</summary>
-            <description>
-                The interval in minutes at which the clipboard history will be cleared.
-            </description>
-            <range min="1"/>
-        </key>
-        <key name="next-history-clear" type="i">
-            <default>-1</default>
-            <summary>Next scheduled history clear time</summary>
-            <description>
-                The timestamp for the next scheduled history clear.
-            </description>
-        </key>
-        <key name="case-sensitive-search" type="b">
-            <default>false</default>
-            <summary>Case sensitive search</summary>
-            <description>Make search case sensitive</description>
-        </key>
-        <key name="regex-search" type="b">
-            <default>false</default>
-            <summary>Regex-based search</summary>
-            <description>Allow regex in search</description>
-        </key>
+        <default>true</default>
+        <summary>Cache images</summary>
+        <description>
+            Allow caching images to disk
+        </description>
+    </key>
+    <key name="excluded-apps" type="as">
+        <default>[]</default>
+        <summary>List of excluded applications</summary>
+        <description>
+            A list of applications that are excluded from clipboard history.
+        </description>
+    </key>
+    <key name="clear-history-on-interval" type="b">
+        <default>false</default>
+        <summary>Enable clearing history on interval</summary>
+        <description>
+            If true, clipboard history will be cleared at regular intervals.
+        </description>
+    </key>
+    <key name="clear-history-interval" type="i">
+        <default>60</default>
+        <summary>Interval for clearing history in minutes</summary>
+        <description>
+            The interval in minutes at which the clipboard history will be cleared.
+        </description>
+        <range min="1"/>
+    </key>
+    <key name="next-history-clear" type="i">
+        <default>-1</default>
+        <summary>Next scheduled history clear time</summary>
+        <description>
+            The timestamp for the next scheduled history clear.
+        </description>
+    </key>
+    <key name="case-sensitive-search" type="b">
+        <default>false</default>
+        <summary>Case sensitive search</summary>
+        <description>Make search case sensitive</description>
+    </key>
+    <key name="regex-search" type="b">
+        <default>false</default>
+        <summary>Regex-based search</summary>
+        <description>Allow regex in search</description>
+    </key>
     </schema>
 </schemalist>
