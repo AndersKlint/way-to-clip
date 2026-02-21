@@ -1409,6 +1409,21 @@ const ClipboardIndicator = GObject.registerClass({
         
         const totalPages = Math.ceil(itemsToShow.length / 9);
         let currentPage = 0;
+        let selectedIndex = -1;
+        let currentPageItems = [];
+        
+        const updateSelection = (newIndex) => {
+            currentPageItems.forEach((item, i) => {
+                if (i === newIndex) {
+                    item.add_style_pseudo_class('selected');
+                    item.add_style_pseudo_class('focus');
+                } else {
+                    item.remove_style_pseudo_class('selected');
+                    item.remove_style_pseudo_class('focus');
+                }
+            });
+            selectedIndex = newIndex;
+        };
         
         this._cursorPopup = new St.BoxLayout({
             style_class: 'waytoclip-cursor-popup',
@@ -1429,6 +1444,7 @@ const ClipboardIndicator = GObject.registerClass({
         
         const renderPage = (pageIndex) => {
             listContainer.destroy_all_children();
+            currentPageItems = [];
             const start = pageIndex * 9;
             const pageItems = itemsToShow.slice(start, start + 9);
             
@@ -1466,10 +1482,11 @@ const ClipboardIndicator = GObject.registerClass({
                 });
                 
                 listContainer.add_child(itemBox);
+                currentPageItems.push(itemBox);
             });
             
             if (totalPages > 1) {
-                pageIndicator.set_text(`Page ${pageIndex + 1} of ${totalPages}`);
+                pageIndicator.set_text(`${pageIndex + 1} / ${totalPages}`);
                 pageIndicator.visible = true;
             } else {
                 pageIndicator.visible = false;
@@ -1480,6 +1497,7 @@ const ClipboardIndicator = GObject.registerClass({
         this._cursorPopup.add_child(pageIndicator);
         
         renderPage(currentPage);
+        updateSelection(0);
 
         global.stage.add_child(this._cursorPopup);
 
@@ -1534,6 +1552,27 @@ const ClipboardIndicator = GObject.registerClass({
                 if (totalPages > 1 && currentPage > 0) {
                     currentPage--;
                     renderPage(currentPage);
+                }
+                return Clutter.EVENT_STOP;
+            } else if (key === Clutter.KEY_Up) {
+                const maxIndex = currentPageItems.length - 1;
+                const newIndex = selectedIndex <= 0 ? maxIndex : selectedIndex - 1;
+                updateSelection(newIndex);
+                return Clutter.EVENT_STOP;
+            } else if (key === Clutter.KEY_Down) {
+                const maxIndex = currentPageItems.length - 1;
+                const newIndex = selectedIndex >= maxIndex ? 0 : selectedIndex + 1;
+                updateSelection(newIndex);
+                return Clutter.EVENT_STOP;
+            } else if (key === Clutter.KEY_Return || key === Clutter.KEY_KP_Enter) {
+                if (selectedIndex >= 0 && selectedIndex < currentPageItems.length) {
+                    const start = currentPage * 9;
+                    const target = itemsToShow[start + selectedIndex];
+                    this._selectMenuItem(target, true);
+                    if (AUTO_PASTE) {
+                        this.#autoPasteAndClose(target);
+                    }
+                    this._closeCursorPopup();
                 }
                 return Clutter.EVENT_STOP;
             }
