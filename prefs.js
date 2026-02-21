@@ -123,6 +123,22 @@ class Settings {
             subtitle: _("Automatically paste after selecting an item from the popup")
         });
 
+        this.field_popup_position_mode = new Adw.ComboRow({
+            title: _("Popup position"),
+            subtitle: _("Where to show the clipboard popup"),
+            model: this.#createPopupPositionOptions()
+        });
+
+        this.field_popup_pages = new Adw.SpinRow({
+            title: _("Number of pages"),
+            subtitle: _("Each page shows 9 items (Tab to navigate pages)"),
+            adjustment: new Gtk.Adjustment({
+                lower: 1,
+                upper: 11,
+                step_increment: 1
+            })
+        });
+
         this.field_cache_images = new Adw.SwitchRow({
             title: _("Cache images"),
             active: true
@@ -192,6 +208,8 @@ class Settings {
 
         this.behavior.add(this.field_paste_on_select);
         this.behavior.add(this.field_auto_paste);
+        this.behavior.add(this.field_popup_position_mode);
+        this.behavior.add(this.field_popup_pages);
         this.behavior.add(this.field_cache_images);
         this.behavior.add(this.field_clear_on_boot);
         this.behavior.add(this.field_clear_history_on_interval);
@@ -236,6 +254,8 @@ class Settings {
         this.schema.bind(PrefsFields.CLEAR_ON_BOOT, this.field_clear_on_boot, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.PASTE_ON_SELECT, this.field_paste_on_select, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.AUTO_PASTE, this.field_auto_paste, 'active', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.POPUP_POSITION_MODE, this.field_popup_position_mode, 'selected', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.POPUP_PAGES, this.field_popup_pages, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_IMAGES, this.field_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);
@@ -252,6 +272,18 @@ class Settings {
             _("Clipboard Content"),
             _("Both"),
             _("Neither")
+        ];
+        let liststore = new Gtk.StringList();
+        for (let option of options) {
+            liststore.append(option)
+        }
+        return liststore;
+    }
+
+    #createPopupPositionOptions () {
+        let options = [
+            _("At mouse cursor"),
+            _("Center of focused window")
         ];
         let liststore = new Gtk.StringList();
         for (let option of options) {

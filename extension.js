@@ -48,6 +48,8 @@ let NEXT_HISTORY_CLEAR        = -1;
 let CASE_SENSITIVE_SEARCH     = false;
 let REGEX_SEARCH              = false;
 let AUTO_PASTE                = true;
+let POPUP_POSITION_MODE       = 0; // 0 = mouse cursor, 1 = center of focused window
+let POPUP_PAGES               = 3; // number of pages (each page has 9 items)
 
 export default class ClipboardIndicatorExtension extends Extension {
     enable () {
@@ -1160,6 +1162,8 @@ const ClipboardIndicator = GObject.registerClass({
         CASE_SENSITIVE_SEARCH       = settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH);
         REGEX_SEARCH                = settings.get_boolean(PrefsFields.REGEX_SEARCH);
         AUTO_PASTE                  = settings.get_boolean(PrefsFields.AUTO_PASTE);
+        POPUP_POSITION_MODE         = settings.get_int(PrefsFields.POPUP_POSITION_MODE);
+        POPUP_PAGES                 = settings.get_int(PrefsFields.POPUP_PAGES);
     }
 
     async _onSettingsChange () {
@@ -1378,8 +1382,33 @@ const ClipboardIndicator = GObject.registerClass({
             return;
         }
 
-        const [x, y] = global.get_pointer();
         const monitor = Main.layoutManager.currentMonitor;
+        let x, y;
+        
+        if (POPUP_POSITION_MODE === 0) {
+            [x, y] = global.get_pointer();
+        } else {
+            const focusedWindow = global.display.focus_window;
+            if (focusedWindow) {
+                const rect = focusedWindow.get_frame_rect();
+                x = rect.x + rect.width / 2;
+                y = rect.y + rect.height / 3;
+            } else {
+                [x, y] = global.get_pointer();
+            }
+        }
+        
+        const visibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
+        const maxItems = POPUP_PAGES * 9;
+        const itemsToShow = visibleItems.slice(0, maxItems);
+        
+        if (itemsToShow.length === 0) {
+            this._showNotification(_("Clipboard is empty"));
+            return;
+        }
+        
+        const totalPages = Math.ceil(itemsToShow.length / 9);
+        let currentPage = 0;
         
         this._cursorPopup = new St.BoxLayout({
             style_class: 'waytoclip-cursor-popup',
@@ -1387,69 +1416,70 @@ const ClipboardIndicator = GObject.registerClass({
             reactive: true,
         });
 
-        const scrollView = new St.ScrollView({
-            style_class: 'waytoclip-popup-scroll',
-            overlay_scrollbars: true,
-            x_expand: true,
-        });
         const listContainer = new St.BoxLayout({
+            style_class: 'waytoclip-popup-list',
             vertical: true,
         });
-        scrollView.add_child(listContainer);
-
-        const visibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
         
-        visibleItems.slice(0, 9).forEach((mItem, index) => {
-            const itemBox = new St.BoxLayout({
-                style_class: 'waytoclip-popup-item',
-                reactive: true,
-                x_expand: true,
-            });
+        const pageIndicator = new St.Label({
+            style_class: 'waytoclip-page-indicator',
+            x_align: Clutter.ActorAlign.CENTER,
+            x_expand: true,
+        });
+        
+        const renderPage = (pageIndex) => {
+            listContainer.destroy_all_children();
+            const start = pageIndex * 9;
+            const pageItems = itemsToShow.slice(start, start + 9);
             
-            const numberLabel = new St.Label({
-                text: `${index + 1}. `,
-                style_class: 'waytoclip-item-number',
-                y_align: Clutter.ActorAlign.CENTER,
-            });
-            
-            const textLabel = new St.Label({
-                text: this._truncate(mItem.entry.getStringValue(), MAX_ENTRY_LENGTH),
-                y_align: Clutter.ActorAlign.CENTER,
-                x_expand: true,
-            });
-            
-            itemBox.add_child(numberLabel);
-            itemBox.add_child(textLabel);
-            
-            itemBox.connect('button-press-event', () => {
-                this._selectMenuItem(mItem, true);
-                if (AUTO_PASTE) {
-                    this.#autoPasteAndClose(mItem);
-                }
-                this._closeCursorPopup();
-            });
-            
-            itemBox.connect('key-press-event', (actor, event) => {
-                const key = event.get_key_symbol();
-                if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
-                    const idx = key - Clutter.KEY_1;
-                    if (idx < visibleItems.length) {
-                        const target = visibleItems[idx];
-                        this._selectMenuItem(target, true);
-                        if (AUTO_PASTE) {
-                            this.#autoPasteAndClose(target);
-                        }
+            pageItems.forEach((mItem, index) => {
+                const itemBox = new St.BoxLayout({
+                    style_class: 'waytoclip-popup-item',
+                    reactive: true,
+                    x_expand: true,
+                });
+                
+                const numberLabel = new St.Label({
+                    text: `${index + 1}. `,
+                    style_class: 'waytoclip-item-number',
+                    y_align: Clutter.ActorAlign.CENTER,
+                });
+                
+                const textLabel = new St.Label({
+                    text: this._truncate(mItem.entry.getStringValue(), MAX_ENTRY_LENGTH),
+                    y_align: Clutter.ActorAlign.CENTER,
+                    x_expand: true,
+                });
+                
+                itemBox.add_child(numberLabel);
+                itemBox.add_child(textLabel);
+                
+                const itemIndex = start + index;
+                
+                itemBox.connect('button-press-event', () => {
+                    this._selectMenuItem(mItem, true);
+                    if (AUTO_PASTE) {
+                        this.#autoPasteAndClose(mItem);
+                    } else {
                         this._closeCursorPopup();
                     }
-                } else if (key === Clutter.KEY_Escape) {
-                    this._closeCursorPopup();
-                }
+                });
+                
+                listContainer.add_child(itemBox);
             });
             
-            listContainer.add_child(itemBox);
-        });
-
-        this._cursorPopup.add_child(scrollView);
+            if (totalPages > 1) {
+                pageIndicator.set_text(`Page ${pageIndex + 1} of ${totalPages}`);
+                pageIndicator.visible = true;
+            } else {
+                pageIndicator.visible = false;
+            }
+        };
+        
+        this._cursorPopup.add_child(listContainer);
+        this._cursorPopup.add_child(pageIndicator);
+        
+        renderPage(currentPage);
 
         global.stage.add_child(this._cursorPopup);
 
@@ -1469,15 +1499,23 @@ const ClipboardIndicator = GObject.registerClass({
 
         this._cursorPopup.set_position(popupX, popupY);
 
-        this._cursorPopupGrab = global.stage.grab(this._cursorPopup);
+        const backgroundActor = new St.Label({ visible: false });
+        backgroundActor.set_size(global.stage.width, global.stage.height);
+        backgroundActor.set_position(0, 0);
+        global.stage.add_child(backgroundActor);
+        this._cursorPopupBackground = backgroundActor;
+
         this._cursorPopup.grab_key_focus();
 
         this._cursorPopup.connect('key-press-event', (actor, event) => {
             const key = event.get_key_symbol();
+            const state = event.get_state();
+            
             if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
                 const idx = key - Clutter.KEY_1;
-                if (idx < visibleItems.length) {
-                    const target = visibleItems[idx];
+                const start = currentPage * 9;
+                if (start + idx < itemsToShow.length) {
+                    const target = itemsToShow[start + idx];
                     this._selectMenuItem(target, true);
                     if (AUTO_PASTE) {
                         this.#autoPasteAndClose(target);
@@ -1486,23 +1524,38 @@ const ClipboardIndicator = GObject.registerClass({
                 }
             } else if (key === Clutter.KEY_Escape) {
                 this._closeCursorPopup();
+            } else if (key === Clutter.KEY_Tab || key === Clutter.KEY_Right) {
+                if (totalPages > 1 && currentPage < totalPages - 1) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+                return Clutter.EVENT_STOP;
+            } else if ((key === Clutter.KEY_ISO_Left_Tab || key === Clutter.KEY_Left) && (state & Clutter.ModifierType.SHIFT_MASK || key === Clutter.KEY_Left)) {
+                if (totalPages > 1 && currentPage > 0) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+                return Clutter.EVENT_STOP;
             }
         });
 
-        this._cursorPopupClickedId = global.stage.connect('button-press-event', () => {
+        this._cursorPopupClickedId = this._cursorPopupBackground.connect('button-press-event', (actor, event) => {
             this._closeCursorPopup();
         });
     }
 
     _closeCursorPopup () {
         if (this._cursorPopup) {
-            if (this._cursorPopupGrab) {
-                this._cursorPopupGrab.dismiss();
-                this._cursorPopupGrab = null;
-            }
             if (this._cursorPopupClickedId) {
-                global.stage.disconnect(this._cursorPopupClickedId);
+                if (this._cursorPopupBackground) {
+                    this._cursorPopupBackground.disconnect(this._cursorPopupClickedId);
+                }
                 this._cursorPopupClickedId = null;
+            }
+            if (this._cursorPopupBackground) {
+                global.stage.remove_child(this._cursorPopupBackground);
+                this._cursorPopupBackground.destroy();
+                this._cursorPopupBackground = null;
             }
             global.stage.remove_child(this._cursorPopup);
             this._cursorPopup.destroy();
