@@ -1583,12 +1583,6 @@ const ClipboardIndicator = GObject.registerClass({
 
         this._cursorPopup.set_position(popupX, popupY);
 
-        const backgroundActor = new St.Label({ visible: false });
-        backgroundActor.set_size(global.stage.width, global.stage.height);
-        backgroundActor.set_position(0, 0);
-        global.stage.add_child(backgroundActor);
-        this._cursorPopupBackground = backgroundActor;
-
         this._cursorPopup.grab_key_focus();
 
         this._cursorPopup.connect('key-press-event', (actor, event) => {
@@ -1616,6 +1610,15 @@ const ClipboardIndicator = GObject.registerClass({
                 } else {
                     this._closeCursorPopup();
                 }
+            } else if (key === Clutter.KEY_BackSpace) {
+                if (isSearchMode && searchEntry.get_text() === '') {
+                    isSearchMode = false;
+                    searchEntry.visible = false;
+                    performSearch('');
+                } else if (!isSearchMode) {
+                    this._closeCursorPopup();
+                }
+                return Clutter.EVENT_STOP;
             } else if (key === Clutter.KEY_s) {
                 isSearchMode = !isSearchMode;
                 searchEntry.visible = isSearchMode;
@@ -1694,23 +1697,26 @@ const ClipboardIndicator = GObject.registerClass({
             }
         });
 
-        this._cursorPopupClickedId = this._cursorPopupBackground.connect('button-press-event', (actor, event) => {
-            this._closeCursorPopup();
+        this._cursorPopupClickedId = global.stage.connect('captured-event', (actor, event) => {
+            if (event.type() === Clutter.EventType.BUTTON_PRESS) {
+                const [clickX, clickY] = event.get_coords();
+                const [popupX, popupY] = this._cursorPopup.get_position();
+                const [popupWidth, popupHeight] = this._cursorPopup.get_size();
+                
+                if (clickX < popupX || clickX > popupX + popupWidth ||
+                    clickY < popupY || clickY > popupY + popupHeight) {
+                    this._closeCursorPopup();
+                }
+            }
+            return Clutter.EVENT_PROPAGATE;
         });
     }
 
     _closeCursorPopup () {
         if (this._cursorPopup) {
             if (this._cursorPopupClickedId) {
-                if (this._cursorPopupBackground) {
-                    this._cursorPopupBackground.disconnect(this._cursorPopupClickedId);
-                }
+                global.stage.disconnect(this._cursorPopupClickedId);
                 this._cursorPopupClickedId = null;
-            }
-            if (this._cursorPopupBackground) {
-                global.stage.remove_child(this._cursorPopupBackground);
-                this._cursorPopupBackground.destroy();
-                this._cursorPopupBackground = null;
             }
             global.stage.remove_child(this._cursorPopup);
             this._cursorPopup.destroy();
