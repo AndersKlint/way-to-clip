@@ -6,7 +6,7 @@ import Gio from 'gi://Gio';
 import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import { PrefsFields } from './constants.js';
 
-export default class ClipboardIndicatorPreferences extends ExtensionPreferences {
+export default class WayToClipPreferences extends ExtensionPreferences {
     fillPreferencesWindow (window) {
         window._settings = this.getSettings();
         const settingsUI = new Settings(window._settings);

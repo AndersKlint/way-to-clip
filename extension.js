@@ -15,6 +15,7 @@ import { Registry, ClipboardEntry } from './registry.js';
 import { DialogManager } from './confirmDialog.js';
 import { PrefsFields } from './constants.js';
 import { Keyboard } from './keyboard.js';
+import { CursorPopup, initPopupSettings } from './cursorPopup.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
@@ -51,28 +52,28 @@ let AUTO_PASTE                = true;
 let POPUP_POSITION_MODE       = 0; // 0 = mouse cursor, 1 = center of focused window
 let POPUP_PAGES               = 3; // number of pages (each page has 9 items)
 
-export default class ClipboardIndicatorExtension extends Extension {
+export default class WayToClipExtension extends Extension {
     enable () {
-        this.clipboardIndicator = new ClipboardIndicator({
+        this.waytoclip = new WayToClip({
             clipboard: St.Clipboard.get_default(),
             settings: this.getSettings(),
             openSettings: this.openPreferences,
             uuid: this.uuid
         });
 
-        Main.panel.addToStatusArea('clipboardIndicator', this.clipboardIndicator, 1);
+        Main.panel.addToStatusArea('waytoclip', this.waytoclip, 1);
     }
 
     disable () {
-        this.clipboardIndicator.destroy();
-        this.clipboardIndicator = null;
+        this.waytoclip.destroy();
+        this.waytoclip = null;
         EXCLUDED_APPS = [];
     }
 }
 
-const ClipboardIndicator = GObject.registerClass({
-    GTypeName: 'ClipboardIndicator'
-}, class ClipboardIndicator extends PanelMenu.Button {
+const WayToClip = GObject.registerClass({
+    GTypeName: 'WayToClip'
+}, class WayToClip extends PanelMenu.Button {
     #refreshInProgress = false;
 
     destroy () {
@@ -89,10 +90,12 @@ const ClipboardIndicator = GObject.registerClass({
     }
 
     _init (extension) {
-        super._init(0.0, "ClipboardIndicator");
+        super._init(0.0, "WayToClip");
         this.extension = extension;
         this.registry = new Registry(extension);
         this.keyboard = new Keyboard();
+        this.cursorPopup = new CursorPopup(this);
+        this._cursorPopupActive = false;
         this._settingsChangedId = null;
         this._selectionOwnerChangedId = null;
         this._historyLabel = null;
@@ -1164,6 +1167,8 @@ const ClipboardIndicator = GObject.registerClass({
         AUTO_PASTE                  = settings.get_boolean(PrefsFields.AUTO_PASTE);
         POPUP_POSITION_MODE         = settings.get_int(PrefsFields.POPUP_POSITION_MODE);
         POPUP_PAGES                 = settings.get_int(PrefsFields.POPUP_PAGES);
+        
+        initPopupSettings(settings);
     }
 
     async _onSettingsChange () {
@@ -1712,15 +1717,49 @@ const ClipboardIndicator = GObject.registerClass({
         });
     }
 
+    _toggleCursorPopup () {
+        if (this.cursorPopup && this._cursorPopupActive) {
+            this.cursorPopup.close();
+            this._cursorPopupActive = false;
+        } else {
+            this._openCursorPopup();
+        }
+    }
+
+    _openCursorPopup () {
+        if (this.clipItemsRadioGroup.length === 0) {
+            this._showNotification(_("Clipboard is empty"));
+            return;
+        }
+
+        if (PRIVATEMODE) {
+            this._showNotification(_("Private mode is enabled"));
+            return;
+        }
+
+        let x, y;
+        const focusedWindow = global.display.get_focus_window();
+        const monitor = global.display.get_current_monitor();
+        const monitorGeometry = global.display.get_monitor_geometry(monitor);
+
+        if (POPUP_POSITION_MODE === 1 && focusedWindow) {
+            const rect = focusedWindow.get_frame_rect();
+            x = rect.x + rect.width / 2;
+            y = rect.y + rect.height / 3;
+        } else {
+            [x, y] = global.get_pointer();
+        }
+
+        const visibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
+        
+        this.cursorPopup.open(x, y, visibleItems, monitorGeometry);
+        this._cursorPopupActive = true;
+    }
+
     _closeCursorPopup () {
-        if (this._cursorPopup) {
-            if (this._cursorPopupClickedId) {
-                global.stage.disconnect(this._cursorPopupClickedId);
-                this._cursorPopupClickedId = null;
-            }
-            global.stage.remove_child(this._cursorPopup);
-            this._cursorPopup.destroy();
-            this._cursorPopup = null;
+        if (this.cursorPopup) {
+            this.cursorPopup.close();
+            this._cursorPopupActive = false;
         }
     }
 
