@@ -1400,14 +1400,13 @@ const ClipboardIndicator = GObject.registerClass({
         
         const visibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
         const maxItems = POPUP_PAGES * 9;
-        const itemsToShow = visibleItems.slice(0, maxItems);
+        const itemsToShow = [...visibleItems.slice(0, maxItems)];
         
         if (itemsToShow.length === 0) {
             this._showNotification(_("Clipboard is empty"));
             return;
         }
         
-        const totalPages = Math.ceil(itemsToShow.length / 9);
         let currentPage = 0;
         let selectedIndex = -1;
         let currentPageItems = [];
@@ -1436,10 +1435,79 @@ const ClipboardIndicator = GObject.registerClass({
             vertical: true,
         });
         
+        const searchEntry = new St.Entry({
+            style_class: 'waytoclip-search-entry',
+            hint_text: _('Search...'),
+            visible: false,
+            x_expand: true,
+        });
+        
+        const searchHint = new St.Label({
+            text: '🔍 = s',
+            style_class: 'waytoclip-hint',
+            x_align: Clutter.ActorAlign.START,
+        });
+        
         const pageIndicator = new St.Label({
             style_class: 'waytoclip-page-indicator',
             x_align: Clutter.ActorAlign.CENTER,
             x_expand: true,
+        });
+        
+        const deleteHint = new St.Label({
+            text: '🗑 = d',
+            style_class: 'waytoclip-hint',
+            x_align: Clutter.ActorAlign.END,
+        });
+        
+        const footerBox = new St.BoxLayout({
+            x_expand: true,
+        });
+        footerBox.add_child(searchHint);
+        footerBox.add_child(pageIndicator);
+        footerBox.add_child(deleteHint);
+        
+        let isSearchMode = false;
+        let searchText = '';
+        
+        const performSearch = (query) => {
+            searchText = query;
+            if (!CASE_SENSITIVE_SEARCH) query = query.toLowerCase();
+            
+            let filteredItems;
+            if (query === '') {
+                filteredItems = visibleItems;
+            } else {
+                filteredItems = visibleItems.filter(mItem => {
+                    let text = mItem.clipContents || mItem.entry.getStringValue();
+                    if (!CASE_SENSITIVE_SEARCH) text = text.toLowerCase();
+                    
+                    if (REGEX_SEARCH) {
+                        try {
+                            const regex = new RegExp(query, CASE_SENSITIVE_SEARCH ? 'm' : 'mi');
+                            return regex.test(text);
+                        } catch (e) {
+                            return text.includes(query);
+                        }
+                    }
+                    return text.includes(query);
+                });
+            }
+            
+            itemsToShow.length = 0;
+            itemsToShow.push(...filteredItems.slice(0, maxItems));
+            
+            currentPage = 0;
+            const newTotalPages = Math.ceil(itemsToShow.length / 9) || 1;
+            pageIndicator.set_text(`${currentPage + 1} / ${newTotalPages}`);
+            pageIndicator.visible = itemsToShow.length > 0;
+            
+            renderPage(currentPage);
+            updateSelection(0);
+        };
+        
+        searchEntry.get_clutter_text().connect('text-changed', (actor, text) => {
+            performSearch(text);
         });
         
         const renderPage = (pageIndex) => {
@@ -1485,16 +1553,14 @@ const ClipboardIndicator = GObject.registerClass({
                 currentPageItems.push(itemBox);
             });
             
-            if (totalPages > 1) {
-                pageIndicator.set_text(`${pageIndex + 1} / ${totalPages}`);
-                pageIndicator.visible = true;
-            } else {
-                pageIndicator.visible = false;
-            }
+            const pageCount = Math.ceil(itemsToShow.length / 9);
+            pageIndicator.set_text(`${pageIndex + 1} / ${pageCount}`);
+            pageIndicator.visible = itemsToShow.length > 0;
         };
         
+        this._cursorPopup.add_child(searchEntry);
         this._cursorPopup.add_child(listContainer);
-        this._cursorPopup.add_child(pageIndicator);
+        this._cursorPopup.add_child(footerBox);
         
         renderPage(currentPage);
         updateSelection(0);
@@ -1528,6 +1594,7 @@ const ClipboardIndicator = GObject.registerClass({
         this._cursorPopup.connect('key-press-event', (actor, event) => {
             const key = event.get_key_symbol();
             const state = event.get_state();
+            const currentTotalPages = Math.ceil(itemsToShow.length / 9);
             
             if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
                 const idx = key - Clutter.KEY_1;
@@ -1541,17 +1608,66 @@ const ClipboardIndicator = GObject.registerClass({
                     this._closeCursorPopup();
                 }
             } else if (key === Clutter.KEY_Escape) {
-                this._closeCursorPopup();
-            } else if (key === Clutter.KEY_Tab || key === Clutter.KEY_Right) {
-                if (totalPages > 1 && currentPage < totalPages - 1) {
-                    currentPage++;
+                if (isSearchMode) {
+                    isSearchMode = false;
+                    searchEntry.visible = false;
+                    searchEntry.set_text('');
+                    performSearch('');
+                } else {
+                    this._closeCursorPopup();
+                }
+            } else if (key === Clutter.KEY_s) {
+                isSearchMode = !isSearchMode;
+                searchEntry.visible = isSearchMode;
+                if (isSearchMode) {
+                    global.stage.set_key_focus(searchEntry.get_clutter_text());
+                } else {
+                    searchEntry.set_text('');
+                    performSearch('');
+                    this._cursorPopup.grab_key_focus();
+                }
+                return Clutter.EVENT_STOP;
+            } else if (key === Clutter.KEY_d) {
+                if (selectedIndex >= 0 && selectedIndex < currentPageItems.length) {
+                    const start = currentPage * 9;
+                    const target = itemsToShow[start + selectedIndex];
+                    this._removeEntry(target, 'delete');
+                    
+                    const updatedVisibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
+                    const newMaxItems = POPUP_PAGES * 9;
+                    itemsToShow.length = 0;
+                    itemsToShow.push(...updatedVisibleItems.slice(0, newMaxItems));
+                    
+                    if (itemsToShow.length === 0) {
+                        this._closeCursorPopup();
+                        return Clutter.EVENT_STOP;
+                    }
+                    
+                    const newPageCount = Math.ceil(itemsToShow.length / 9);
+                    if (currentPage >= newPageCount) {
+                        currentPage = newPageCount - 1;
+                    }
+                    if (currentPage < 0) currentPage = 0;
+                    
+                    pageIndicator.set_text(`${currentPage + 1} / ${newPageCount}`);
+                    pageIndicator.visible = itemsToShow.length > 0;
+                    
                     renderPage(currentPage);
+                    updateSelection(selectedIndex < currentPageItems.length ? selectedIndex : currentPageItems.length - 1);
+                }
+                return Clutter.EVENT_STOP;
+            } else if (key === Clutter.KEY_Tab || key === Clutter.KEY_Right) {
+                if (currentTotalPages > 1) {
+                    currentPage = (currentPage + 1) % currentTotalPages;
+                    renderPage(currentPage);
+                    updateSelection(0);
                 }
                 return Clutter.EVENT_STOP;
             } else if ((key === Clutter.KEY_ISO_Left_Tab || key === Clutter.KEY_Left) && (state & Clutter.ModifierType.SHIFT_MASK || key === Clutter.KEY_Left)) {
-                if (totalPages > 1 && currentPage > 0) {
-                    currentPage--;
+                if (currentTotalPages > 1) {
+                    currentPage = (currentPage - 1 + currentTotalPages) % currentTotalPages;
                     renderPage(currentPage);
+                    updateSelection(0);
                 }
                 return Clutter.EVENT_STOP;
             } else if (key === Clutter.KEY_Up) {

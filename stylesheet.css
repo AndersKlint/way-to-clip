@@ -131,3 +131,22 @@
     margin-top: 4px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+.waytoclip-search-entry {
+    margin: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.waytoclip-search-entry StLabel.hint-text {
+    color: #666;
+}
+
+.waytoclip-hint {
+    color: #666;
+    font-size: 0.8em;
+    padding: 8px 12px 4px 12px;
+}
