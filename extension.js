@@ -95,7 +95,6 @@ const WayToClip = GObject.registerClass({
         this.registry = new Registry(extension);
         this.keyboard = new Keyboard();
         this.cursorPopup = new CursorPopup(this);
-        this._cursorPopupActive = false;
         this._settingsChangedId = null;
         this._selectionOwnerChangedId = null;
         this._historyLabel = null;
@@ -1369,9 +1368,8 @@ const WayToClip = GObject.registerClass({
     }
 
     _toggleCursorPopup () {
-        if (this.cursorPopup && this._cursorPopupActive) {
+        if (this.cursorPopup.isOpen()) {
             this.cursorPopup.close();
-            this._cursorPopupActive = false;
         } else {
             this._openCursorPopup();
         }
@@ -1404,13 +1402,11 @@ const WayToClip = GObject.registerClass({
         const visibleItems = this._getAllIMenuItems().filter(item => item.actor.visible);
         
         this.cursorPopup.open(x, y, visibleItems, monitorGeometry);
-        this._cursorPopupActive = true;
     }
 
     _closeCursorPopup () {
         if (this.cursorPopup) {
             this.cursorPopup.close();
-            this._cursorPopupActive = false;
         }
     }
 
@@ -1444,6 +1440,10 @@ const WayToClip = GObject.registerClass({
                 }
             }, 50);
         }, 50);
+    }
+
+    autoPasteAndClose(menuItem) {
+        this.#autoPasteAndClose(menuItem);
     }
 
     #pasteItem (menuItem) {

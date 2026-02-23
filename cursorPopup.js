@@ -12,22 +12,15 @@
 
 import Clutter from 'gi://Clutter';
 import St from 'gi://St';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import { PrefsFields } from './constants.js';
 
-/** @type {boolean} Case-sensitive search setting */
 let CASE_SENSITIVE_SEARCH = false;
-/** @type {boolean} Regex search setting */
 let REGEX_SEARCH = false;
-/** @type {boolean} Auto-paste after selection */
 let AUTO_PASTE = true;
-/** @type {number} Number of pages (9 items each) */
 let POPUP_PAGES = 3;
 
-/**
- * Initialize popup settings from main settings object
- * @param {Gio.Settings} settings - Main extension settings
- */
 export function initPopupSettings(settings) {
     CASE_SENSITIVE_SEARCH = settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH);
     REGEX_SEARCH = settings.get_boolean(PrefsFields.REGEX_SEARCH);
@@ -35,26 +28,22 @@ export function initPopupSettings(settings) {
     POPUP_PAGES = settings.get_int(PrefsFields.POPUP_PAGES);
 }
 
-/**
- * CursorPopup class - Manages the floating popup window
- */
 export class CursorPopup {
-    /**
-     * @param {Object} parent - Parent WayToClip instance
-     */
     constructor(parent) {
         this.parent = parent;
         this._cursorPopup = null;
-        this._cursorPopupClickedId = null;
+        this._eventId = null;
+        this._itemsToShow = [];
+        this._currentPage = 0;
+        this._selectedIndex = -1;
+        this._currentPageItems = [];
+        this._isSearchMode = false;
     }
 
-    /**
-     * Open the cursor popup at specified position
-     * @param {number} x - X position
-     * @param {number} y - Y position
-     * @param {Array} items - Items to display
-     * @param {Object} monitor - Monitor geometry
-     */
+    isOpen() {
+        return this._cursorPopup !== null;
+    }
+
     open(x, y, items, monitor) {
         if (items.length === 0) {
             this.parent._showNotification(_("Clipboard is empty"));
@@ -62,27 +51,25 @@ export class CursorPopup {
         }
 
         const maxItems = POPUP_PAGES * 9;
-        const itemsToShow = [...items.slice(0, maxItems)];
-
-        let currentPage = 0;
-        let selectedIndex = -1;
-        let currentPageItems = [];
-        let isSearchMode = false;
+        this._itemsToShow = [...items.slice(0, maxItems)];
+        this._currentPage = 0;
+        this._selectedIndex = 0;
+        this._currentPageItems = [];
+        this._isSearchMode = false;
+        this._originalItems = items;
 
         this._cursorPopup = new St.BoxLayout({
             style_class: 'waytoclip-cursor-popup',
             vertical: true,
             reactive: true,
-            can_focus: true,
         });
 
-        const listContainer = new St.BoxLayout({
+        this._listContainer = new St.BoxLayout({
             style_class: 'waytoclip-popup-list',
             vertical: true,
-            reactive: true,
         });
 
-        const searchEntry = new St.Entry({
+        this._searchEntry = new St.Entry({
             style_class: 'waytoclip-search-entry',
             hint_text: _('Search...'),
             visible: false,
@@ -95,7 +82,7 @@ export class CursorPopup {
             x_align: Clutter.ActorAlign.START,
         });
 
-        const pageIndicator = new St.Label({
+        this._pageIndicator = new St.Label({
             style_class: 'waytoclip-page-indicator',
             x_align: Clutter.ActorAlign.CENTER,
             x_expand: true,
@@ -109,125 +96,51 @@ export class CursorPopup {
 
         const footerBox = new St.BoxLayout({ x_expand: true });
         footerBox.add_child(searchHint);
-        footerBox.add_child(pageIndicator);
+        footerBox.add_child(this._pageIndicator);
         footerBox.add_child(deleteHint);
 
-        const updateSelection = (newIndex) => {
-            currentPageItems.forEach((item, i) => {
-                if (i === newIndex) {
-                    item.add_style_pseudo_class('selected');
-                    item.add_style_pseudo_class('focus');
-                } else {
-                    item.remove_style_pseudo_class('selected');
-                    item.remove_style_pseudo_class('focus');
-                }
-            });
-            selectedIndex = newIndex;
-        };
-
-        const performSearch = (query) => {
-            if (!CASE_SENSITIVE_SEARCH) query = query.toLowerCase();
-
-            let filteredItems;
-            if (query === '') {
-                filteredItems = items;
-            } else {
-                filteredItems = items.filter(mItem => {
-                    let text = mItem.clipContents || mItem.entry.getStringValue();
-                    if (!CASE_SENSITIVE_SEARCH) text = text.toLowerCase();
-
-                    if (REGEX_SEARCH) {
-                        try {
-                            const regex = new RegExp(query, CASE_SENSITIVE_SEARCH ? 'm' : 'mi');
-                            return regex.test(text);
-                        } catch (e) {
-                            return text.includes(query);
-                        }
-                    }
-                    return text.includes(query);
-                });
-            }
-
-            itemsToShow.length = 0;
-            itemsToShow.push(...filteredItems.slice(0, maxItems));
-
-            currentPage = 0;
-            const newTotalPages = Math.ceil(itemsToShow.length / 9) || 1;
-            pageIndicator.set_text(`${currentPage + 1} / ${newTotalPages}`);
-            pageIndicator.visible = itemsToShow.length > 0;
-
-            renderPage(currentPage);
-            updateSelection(0);
-        };
-
-        searchEntry.get_clutter_text().connect('text-changed', (actor) => {
-            performSearch(actor.get_text());
+        this._searchEntry.get_clutter_text().connect('text-changed', (actor) => {
+            this._performSearch(actor.get_text());
         });
 
-        searchEntry.get_clutter_text().connect('key-press-event', (actor, event) => {
-            if (event.get_key_symbol() === Clutter.KEY_Escape) {
-                isSearchMode = false;
-                searchEntry.visible = false;
-                searchEntry.set_text('');
-                performSearch('');
-                this._cursorPopup.grab_key_focus();
+        this._searchEntry.get_clutter_text().connect('key-press-event', (actor, event) => {
+            const key = event.get_key_symbol();
+
+            if (key === Clutter.KEY_Return || key === Clutter.KEY_KP_Enter) {
+                if (this._selectedIndex >= 0 && this._selectedIndex < this._currentPageItems.length) {
+                    const start = this._currentPage * 9;
+                    const target = this._itemsToShow[start + this._selectedIndex];
+                    this._selectItem(target);
+                }
                 return Clutter.EVENT_STOP;
             }
+
+            if (key === Clutter.KEY_Escape) {
+                this._isSearchMode = false;
+                this._searchEntry.visible = false;
+                this._searchEntry.set_text('');
+                this._performSearch('');
+                global.stage.set_key_focus(this._cursorPopup);
+                return Clutter.EVENT_STOP;
+            }
+
+            if (key === Clutter.KEY_Up || key === Clutter.KEY_Down) {
+                if (key === Clutter.KEY_Up) {
+                    this._updateSelection(this._selectedIndex <= 0 ? this._currentPageItems.length - 1 : this._selectedIndex - 1);
+                } else {
+                    this._updateSelection(this._selectedIndex >= this._currentPageItems.length - 1 ? 0 : this._selectedIndex + 1);
+                }
+                return Clutter.EVENT_STOP;
+            }
+
             return Clutter.EVENT_PROPAGATE;
         });
 
-        const renderPage = (pageIndex) => {
-            listContainer.destroy_all_children();
-            currentPageItems = [];
-            const start = pageIndex * 9;
-            const pageItems = itemsToShow.slice(start, start + 9);
-
-            pageItems.forEach((mItem, index) => {
-                const itemBox = new St.BoxLayout({
-                    style_class: 'waytoclip-popup-item',
-                    reactive: true,
-                    x_expand: true,
-                });
-
-                const numberLabel = new St.Label({
-                    text: `${index + 1}. `,
-                    style_class: 'waytoclip-item-number',
-                    y_align: Clutter.ActorAlign.CENTER,
-                });
-
-                const textLabel = new St.Label({
-                    text: this.parent._truncate(mItem.entry.getStringValue(), 50),
-                    y_align: Clutter.ActorAlign.CENTER,
-                    x_expand: true,
-                });
-
-                itemBox.add_child(numberLabel);
-                itemBox.add_child(textLabel);
-
-                itemBox.connect('button-press-event', () => {
-                    this.parent._selectMenuItem(mItem, true);
-                    if (AUTO_PASTE) {
-                        this.parent._autoPasteAndClose(mItem);
-                    } else {
-                        this.close();
-                    }
-                });
-
-                listContainer.add_child(itemBox);
-                currentPageItems.push(itemBox);
-            });
-
-            const pageCount = Math.ceil(itemsToShow.length / 9);
-            pageIndicator.set_text(`${pageIndex + 1} / ${pageCount}`);
-            pageIndicator.visible = itemsToShow.length > 0;
-        };
-
-        this._cursorPopup.add_child(searchEntry);
-        this._cursorPopup.add_child(listContainer);
+        this._cursorPopup.add_child(this._searchEntry);
+        this._cursorPopup.add_child(this._listContainer);
         this._cursorPopup.add_child(footerBox);
 
-        renderPage(currentPage);
-        updateSelection(0);
+        this._renderPage();
 
         global.stage.add_child(this._cursorPopup);
 
@@ -246,156 +159,294 @@ export class CursorPopup {
         }
 
         this._cursorPopup.set_position(popupX, popupY);
-        this._cursorPopup.grab_key_focus();
 
-        this._cursorPopup.connect('key-press-event', (actor, event) => {
-            const key = event.get_key_symbol();
-            const state = event.get_state();
-            const currentTotalPages = Math.ceil(itemsToShow.length / 9);
+        Main.pushModal(this._cursorPopup, { actionMode: 0 });
+        global.stage.set_key_focus(this._cursorPopup);
 
-            if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
-                const idx = key - Clutter.KEY_1;
-                const start = currentPage * 9;
-                if (start + idx < itemsToShow.length) {
-                    const target = itemsToShow[start + idx];
-                    this.parent._selectMenuItem(target, true);
-                    if (AUTO_PASTE) {
-                        this.parent._autoPasteAndClose(target);
-                    }
-                    this.close();
-                }
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_Escape) {
-                if (isSearchMode) {
-                    isSearchMode = false;
-                    searchEntry.visible = false;
-                    searchEntry.set_text('');
-                    performSearch('');
-                } else {
-                    this.close();
-                }
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_BackSpace) {
-                if (isSearchMode && searchEntry.get_text() === '') {
-                    isSearchMode = false;
-                    searchEntry.visible = false;
-                    performSearch('');
-                } else if (!isSearchMode) {
-                    this.close();
-                }
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_s) {
-                isSearchMode = !isSearchMode;
-                searchEntry.visible = isSearchMode;
-                if (isSearchMode) {
-                    global.stage.set_key_focus(searchEntry.get_clutter_text());
-                } else {
-                    searchEntry.set_text('');
-                    performSearch('');
-                    this._cursorPopup.grab_key_focus();
-                }
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_d) {
-                if (selectedIndex >= 0 && selectedIndex < currentPageItems.length) {
-                    const start = currentPage * 9;
-                    const target = itemsToShow[start + selectedIndex];
-                    this.parent._removeEntry(target, 'delete');
-
-                    const updatedItems = this.parent._getAllIMenuItems()
-                        .filter(item => item.actor.visible);
-                    const newMaxItems = POPUP_PAGES * 9;
-                    itemsToShow.length = 0;
-                    itemsToShow.push(...updatedItems.slice(0, newMaxItems));
-
-                    if (itemsToShow.length === 0) {
-                        this.close();
-                        return Clutter.EVENT_STOP;
-                    }
-
-                    const newPageCount = Math.ceil(itemsToShow.length / 9);
-                    if (currentPage >= newPageCount) {
-                        currentPage = newPageCount - 1;
-                    }
-                    if (currentPage < 0) currentPage = 0;
-
-                    pageIndicator.set_text(`${currentPage + 1} / ${newPageCount}`);
-                    pageIndicator.visible = itemsToShow.length > 0;
-
-                    renderPage(currentPage);
-                    const newSelectedIndex = selectedIndex < currentPageItems.length 
-                        ? selectedIndex 
-                        : currentPageItems.length - 1;
-                    updateSelection(newSelectedIndex);
-                }
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_Tab || key === Clutter.KEY_Right) {
-                if (currentTotalPages > 1) {
-                    currentPage = (currentPage + 1) % currentTotalPages;
-                    renderPage(currentPage);
-                    updateSelection(0);
-                }
-                return Clutter.EVENT_STOP;
-            } else if ((key === Clutter.KEY_ISO_Left_Tab || key === Clutter.KEY_Left) && 
-                       (state & Clutter.ModifierType.SHIFT_MASK || key === Clutter.KEY_Left)) {
-                if (currentTotalPages > 1) {
-                    currentPage = (currentPage - 1 + currentTotalPages) % currentTotalPages;
-                    renderPage(currentPage);
-                    updateSelection(0);
-                }
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_Up) {
-                const maxIndex = currentPageItems.length - 1;
-                const newIndex = selectedIndex <= 0 ? maxIndex : selectedIndex - 1;
-                updateSelection(newIndex);
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_Down) {
-                const maxIndex = currentPageItems.length - 1;
-                const newIndex = selectedIndex >= maxIndex ? 0 : selectedIndex + 1;
-                updateSelection(newIndex);
-                return Clutter.EVENT_STOP;
-            } else if (key === Clutter.KEY_Return || key === Clutter.KEY_KP_Enter) {
-                if (selectedIndex >= 0 && selectedIndex < currentPageItems.length) {
-                    const start = currentPage * 9;
-                    const target = itemsToShow[start + selectedIndex];
-                    this.parent._selectMenuItem(target, true);
-                    if (AUTO_PASTE) {
-                        this.parent._autoPasteAndClose(target);
-                    }
-                    this.close();
-                }
-                return Clutter.EVENT_STOP;
-            }
-        });
-
-        this._cursorPopupClickedId = global.stage.connect('captured-event', (actor, event) => {
-            if (event.type() === Clutter.EventType.BUTTON_PRESS) {
-                const [clickX, clickY] = event.get_coords();
-                const [popupX, popupY] = this._cursorPopup.get_position();
-                const [popupWidth, popupHeight] = this._cursorPopup.get_size();
-
-                if (clickX < popupX || clickX > popupX + popupWidth ||
-                    clickY < popupY || clickY > popupY + popupHeight) {
-                    this.close();
-                    return Clutter.EVENT_PROPAGATE;
-                }
-                return Clutter.EVENT_PROPAGATE;
-            }
-            return Clutter.EVENT_PROPAGATE;
+        this._eventId = global.stage.connect('captured-event', this._onCapturedEvent.bind(this));
+        this._cursorPopup.connect('key-press-event', this._onKeyPress.bind(this));
+        this._cursorPopup.connect('destroy', () => {
+            this._cleanup();
         });
     }
 
-    /**
-     * Close the popup and clean up
-     */
-    close() {
-        if (this._cursorPopup) {
-            if (this._cursorPopupClickedId) {
-                global.stage.disconnect(this._cursorPopupClickedId);
-                this._cursorPopupClickedId = null;
-            }
-            global.stage.remove_child(this._cursorPopup);
-            this._cursorPopup.destroy();
-            this._cursorPopup = null;
+    _cleanup() {
+        if (this._eventId) {
+            global.stage.disconnect(this._eventId);
+            this._eventId = null;
         }
+        if (this._cursorPopup) {
+            try {
+                Main.popModal(this._cursorPopup);
+            } catch (e) {}
+        }
+    }
+
+    _updateSelection(newIndex) {
+        this._currentPageItems.forEach((item, i) => {
+            if (i === newIndex) {
+                item.add_style_pseudo_class('selected');
+                item.add_style_pseudo_class('focus');
+            } else {
+                item.remove_style_pseudo_class('selected');
+                item.remove_style_pseudo_class('focus');
+            }
+        });
+        this._selectedIndex = newIndex;
+    }
+
+    _performSearch(query) {
+        if (!CASE_SENSITIVE_SEARCH) query = query.toLowerCase();
+
+        let filteredItems;
+        if (query === '') {
+            filteredItems = this._originalItems;
+        } else {
+            filteredItems = this._originalItems.filter(mItem => {
+                let text = mItem.clipContents || mItem.entry.getStringValue();
+                if (!CASE_SENSITIVE_SEARCH) text = text.toLowerCase();
+
+                if (REGEX_SEARCH) {
+                    try {
+                        const regex = new RegExp(query, CASE_SENSITIVE_SEARCH ? 'm' : 'mi');
+                        return regex.test(text);
+                    } catch (e) {
+                        return text.includes(query);
+                    }
+                }
+                return text.includes(query);
+            });
+        }
+
+        const maxItems = POPUP_PAGES * 9;
+        this._itemsToShow = filteredItems.slice(0, maxItems);
+        this._currentPage = 0;
+        this._selectedIndex = 0;
+
+        this._renderPage();
+    }
+
+    _renderPage() {
+        this._listContainer.destroy_all_children();
+        this._currentPageItems = [];
+        const start = this._currentPage * 9;
+        const pageItems = this._itemsToShow.slice(start, start + 9);
+
+        pageItems.forEach((mItem, index) => {
+            const itemBox = new St.BoxLayout({
+                style_class: 'waytoclip-popup-item',
+                reactive: true,
+                x_expand: true,
+                track_hover: true,
+            });
+
+            const numberLabel = new St.Label({
+                text: `${index + 1}. `,
+                style_class: 'waytoclip-item-number',
+                y_align: Clutter.ActorAlign.CENTER,
+            });
+
+            const textLabel = new St.Label({
+                text: this.parent._truncate(mItem.entry.getStringValue(), 50),
+                y_align: Clutter.ActorAlign.CENTER,
+                x_expand: true,
+            });
+
+            itemBox.add_child(numberLabel);
+            itemBox.add_child(textLabel);
+
+            itemBox._menuItem = mItem;
+
+            if (index === this._selectedIndex) {
+                itemBox.add_style_pseudo_class('selected');
+                itemBox.add_style_pseudo_class('focus');
+            }
+
+            this._listContainer.add_child(itemBox);
+            this._currentPageItems.push(itemBox);
+        });
+
+        const pageCount = Math.ceil(this._itemsToShow.length / 9) || 1;
+        this._pageIndicator.set_text(`${this._currentPage + 1} / ${pageCount}`);
+        this._pageIndicator.visible = this._itemsToShow.length > 0;
+    }
+
+    _onCapturedEvent(actor, event) {
+        const type = event.type();
+
+        if (type === Clutter.EventType.BUTTON_PRESS) {
+            const [clickX, clickY] = event.get_coords();
+            const [popupX, popupY] = this._cursorPopup.get_position();
+            const [popupWidth, popupHeight] = this._cursorPopup.get_size();
+
+            if (clickX < popupX || clickX > popupX + popupWidth ||
+                clickY < popupY || clickY > popupY + popupHeight) {
+                this.close();
+                return Clutter.EVENT_STOP;
+            }
+
+            for (let i = 0; i < this._currentPageItems.length; i++) {
+                const item = this._currentPageItems[i];
+                const [itemX, itemY] = item.get_transformed_position();
+                const [itemW, itemH] = item.get_size();
+
+                if (clickX >= itemX && clickX <= itemX + itemW &&
+                    clickY >= itemY && clickY <= itemY + itemH) {
+                    this._selectItem(item._menuItem);
+                    return Clutter.EVENT_STOP;
+                }
+            }
+
+            return Clutter.EVENT_STOP;
+        }
+
+        if (type === Clutter.EventType.KEY_PRESS) {
+            const key = event.get_key_symbol();
+            
+            if (this._isSearchMode) {
+                if (key === Clutter.KEY_Escape) {
+                    this._isSearchMode = false;
+                    this._searchEntry.visible = false;
+                    this._searchEntry.set_text('');
+                    this._performSearch('');
+                    global.stage.set_key_focus(this._cursorPopup);
+                    return Clutter.EVENT_STOP;
+                }
+                return Clutter.EVENT_PROPAGATE;
+            }
+        }
+
+        return Clutter.EVENT_PROPAGATE;
+    }
+
+    _onKeyPress(actor, event) {
+        const key = event.get_key_symbol();
+        const state = event.get_state();
+        const currentTotalPages = Math.ceil(this._itemsToShow.length / 9) || 1;
+
+        if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
+            const idx = key - Clutter.KEY_1;
+            const start = this._currentPage * 9;
+            if (start + idx < this._itemsToShow.length) {
+                const target = this._itemsToShow[start + idx];
+                this._selectItem(target);
+            }
+            return Clutter.EVENT_STOP;
+        }
+
+        switch (key) {
+            case Clutter.KEY_Escape:
+                this.close();
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_BackSpace:
+                if (!this._isSearchMode) {
+                    this.close();
+                    return Clutter.EVENT_STOP;
+                }
+                return Clutter.EVENT_PROPAGATE;
+
+            case Clutter.KEY_s:
+                this._isSearchMode = !this._isSearchMode;
+                this._searchEntry.visible = this._isSearchMode;
+                if (this._isSearchMode) {
+                    global.stage.set_key_focus(this._searchEntry.get_clutter_text());
+                } else {
+                    this._searchEntry.set_text('');
+                    this._performSearch('');
+                    global.stage.set_key_focus(this._cursorPopup);
+                }
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_d:
+                this._deleteSelectedItem();
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_Tab:
+            case Clutter.KEY_Right:
+                if (currentTotalPages > 1) {
+                    this._currentPage = (this._currentPage + 1) % currentTotalPages;
+                    this._selectedIndex = 0;
+                    this._renderPage();
+                }
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_ISO_Left_Tab:
+            case Clutter.KEY_Left:
+                if (currentTotalPages > 1) {
+                    this._currentPage = (this._currentPage - 1 + currentTotalPages) % currentTotalPages;
+                    this._selectedIndex = 0;
+                    this._renderPage();
+                }
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_Up:
+                this._updateSelection(this._selectedIndex <= 0 ? this._currentPageItems.length - 1 : this._selectedIndex - 1);
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_Down:
+                this._updateSelection(this._selectedIndex >= this._currentPageItems.length - 1 ? 0 : this._selectedIndex + 1);
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_Return:
+            case Clutter.KEY_KP_Enter:
+                if (this._selectedIndex >= 0 && this._selectedIndex < this._currentPageItems.length) {
+                    const start = this._currentPage * 9;
+                    const target = this._itemsToShow[start + this._selectedIndex];
+                    this._selectItem(target);
+                }
+                return Clutter.EVENT_STOP;
+        }
+
+        return Clutter.EVENT_PROPAGATE;
+    }
+
+    _selectItem(mItem) {
+        this.parent._selectMenuItem(mItem, true);
+        if (AUTO_PASTE) {
+            this.parent.autoPasteAndClose(mItem);
+        } else {
+            this.close();
+        }
+    }
+
+    _deleteSelectedItem() {
+        if (this._selectedIndex < 0 || this._selectedIndex >= this._currentPageItems.length) return;
+
+        const start = this._currentPage * 9;
+        const target = this._itemsToShow[start + this._selectedIndex];
+        this.parent._removeEntry(target, 'delete');
+
+        const updatedItems = this.parent._getAllIMenuItems().filter(item => item.actor.visible);
+        const maxItems = POPUP_PAGES * 9;
+        this._itemsToShow = updatedItems.slice(0, maxItems);
+        this._originalItems = updatedItems;
+
+        if (this._itemsToShow.length === 0) {
+            this.close();
+            return;
+        }
+
+        const newPageCount = Math.ceil(this._itemsToShow.length / 9) || 1;
+        if (this._currentPage >= newPageCount) {
+            this._currentPage = newPageCount - 1;
+        }
+
+        if (this._selectedIndex >= this._currentPageItems.length) {
+            this._selectedIndex = this._currentPageItems.length - 1;
+        }
+
+        this._renderPage();
+    }
+
+    close() {
+        if (!this._cursorPopup) return;
+
+        this._cleanup();
+
+        global.stage.remove_child(this._cursorPopup);
+        this._cursorPopup.destroy();
+        this._cursorPopup = null;
+        this._currentPageItems = [];
     }
 }
