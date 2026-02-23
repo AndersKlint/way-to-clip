@@ -73,11 +73,13 @@ export class CursorPopup {
             style_class: 'waytoclip-cursor-popup',
             vertical: true,
             reactive: true,
+            can_focus: true,
         });
 
         const listContainer = new St.BoxLayout({
             style_class: 'waytoclip-popup-list',
             vertical: true,
+            reactive: true,
         });
 
         const searchEntry = new St.Entry({
@@ -158,8 +160,20 @@ export class CursorPopup {
             updateSelection(0);
         };
 
-        searchEntry.get_clutter_text().connect('text-changed', (actor, text) => {
-            performSearch(text);
+        searchEntry.get_clutter_text().connect('text-changed', (actor) => {
+            performSearch(actor.get_text());
+        });
+
+        searchEntry.get_clutter_text().connect('key-press-event', (actor, event) => {
+            if (event.get_key_symbol() === Clutter.KEY_Escape) {
+                isSearchMode = false;
+                searchEntry.visible = false;
+                searchEntry.set_text('');
+                performSearch('');
+                this._cursorPopup.grab_key_focus();
+                return Clutter.EVENT_STOP;
+            }
+            return Clutter.EVENT_PROPAGATE;
         });
 
         const renderPage = (pageIndex) => {
@@ -250,6 +264,7 @@ export class CursorPopup {
                     }
                     this.close();
                 }
+                return Clutter.EVENT_STOP;
             } else if (key === Clutter.KEY_Escape) {
                 if (isSearchMode) {
                     isSearchMode = false;
@@ -259,6 +274,7 @@ export class CursorPopup {
                 } else {
                     this.close();
                 }
+                return Clutter.EVENT_STOP;
             } else if (key === Clutter.KEY_BackSpace) {
                 if (isSearchMode && searchEntry.get_text() === '') {
                     isSearchMode = false;
@@ -360,7 +376,9 @@ export class CursorPopup {
                 if (clickX < popupX || clickX > popupX + popupWidth ||
                     clickY < popupY || clickY > popupY + popupHeight) {
                     this.close();
+                    return Clutter.EVENT_PROPAGATE;
                 }
+                return Clutter.EVENT_PROPAGATE;
             }
             return Clutter.EVENT_PROPAGATE;
         });
