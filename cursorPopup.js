@@ -257,6 +257,11 @@ export class CursorPopup {
 
             itemBox._menuItem = mItem;
 
+            itemBox.connect('button-press-event', () => {
+                this._selectItem(mItem);
+                return Clutter.EVENT_STOP;
+            });
+
             if (index === this._selectedIndex) {
                 itemBox.add_style_pseudo_class('selected');
                 itemBox.add_style_pseudo_class('focus');
@@ -285,16 +290,14 @@ export class CursorPopup {
                 return Clutter.EVENT_STOP;
             }
 
-            for (let i = 0; i < this._currentPageItems.length; i++) {
-                const item = this._currentPageItems[i];
-                const [itemX, itemY] = item.get_transformed_position();
-                const [itemW, itemH] = item.get_size();
-
-                if (clickX >= itemX && clickX <= itemX + itemW &&
-                    clickY >= itemY && clickY <= itemY + itemH) {
-                    this._selectItem(item._menuItem);
+            const source = event.get_source();
+            let current = source;
+            while (current) {
+                if (current._menuItem) {
+                    this._selectItem(current._menuItem);
                     return Clutter.EVENT_STOP;
                 }
+                current = current.get_parent();
             }
 
             return Clutter.EVENT_STOP;
