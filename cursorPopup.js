@@ -31,8 +31,9 @@ export function initPopupSettings(settings) {
 export class CursorPopup {
     constructor(parent) {
         this.parent = parent;
+        this._modalContainer = null;
         this._cursorPopup = null;
-        this._eventId = null;
+        this._modalGrab = null;
         this._itemsToShow = [];
         this._currentPage = 0;
         this._selectedIndex = -1;
@@ -57,6 +58,14 @@ export class CursorPopup {
         this._currentPageItems = [];
         this._isSearchMode = false;
         this._originalItems = items;
+
+        this._modalContainer = new St.Widget({
+            reactive: true,
+            x: monitor.x,
+            y: monitor.y,
+            width: monitor.width,
+            height: monitor.height,
+        });
 
         this._cursorPopup = new St.BoxLayout({
             style_class: 'waytoclip-cursor-popup',
@@ -142,44 +151,40 @@ export class CursorPopup {
 
         this._renderPage();
 
-        global.stage.add_child(this._cursorPopup);
+        this._modalContainer.add_child(this._cursorPopup);
+        global.stage.add_child(this._modalContainer);
 
         const [popupWidth, popupHeight] = this._cursorPopup.get_size();
-        let popupX = x;
-        let popupY = y - popupHeight - 10;
+        let popupX = x - monitor.x;
+        let popupY = y - monitor.y - popupHeight - 10;
 
-        if (popupX + popupWidth > monitor.x + monitor.width) {
-            popupX = monitor.x + monitor.width - popupWidth - 10;
+        if (popupX + popupWidth > monitor.width) {
+            popupX = monitor.width - popupWidth - 10;
         }
-        if (popupX < monitor.x) {
-            popupX = monitor.x + 10;
+        if (popupX < 0) {
+            popupX = 10;
         }
-        if (popupY < monitor.y) {
-            popupY = y + 20;
+        if (popupY < 0) {
+            popupY = y - monitor.y + 20;
         }
 
         this._cursorPopup.set_position(popupX, popupY);
 
-        Main.pushModal(this._cursorPopup, { actionMode: 0 });
-        global.stage.set_key_focus(this._cursorPopup);
+        this._modalContainer.connect('button-press-event', (actor, event) => {
+            const source = event.get_source();
 
-        this._eventId = global.stage.connect('captured-event', this._onCapturedEvent.bind(this));
-        this._cursorPopup.connect('key-press-event', this._onKeyPress.bind(this));
-        this._cursorPopup.connect('destroy', () => {
-            this._cleanup();
+            if (!this._cursorPopup.contains(source)) {
+                this.close();
+                return Clutter.EVENT_STOP;
+            }
+
+            return Clutter.EVENT_PROPAGATE;
         });
-    }
 
-    _cleanup() {
-        if (this._eventId) {
-            global.stage.disconnect(this._eventId);
-            this._eventId = null;
-        }
-        if (this._cursorPopup) {
-            try {
-                Main.popModal(this._cursorPopup);
-            } catch (e) {}
-        }
+        this._cursorPopup.connect('key-press-event', this._onKeyPress.bind(this));
+
+        this._modalGrab = Main.pushModal(this._modalContainer);
+        global.stage.set_key_focus(this._cursorPopup);
     }
 
     _updateSelection(newIndex) {
@@ -274,52 +279,6 @@ export class CursorPopup {
         const pageCount = Math.ceil(this._itemsToShow.length / 9) || 1;
         this._pageIndicator.set_text(`${this._currentPage + 1} / ${pageCount}`);
         this._pageIndicator.visible = this._itemsToShow.length > 0;
-    }
-
-    _onCapturedEvent(actor, event) {
-        const type = event.type();
-
-        if (type === Clutter.EventType.BUTTON_PRESS) {
-            const [clickX, clickY] = event.get_coords();
-            const [popupX, popupY] = this._cursorPopup.get_position();
-            const [popupWidth, popupHeight] = this._cursorPopup.get_size();
-
-            if (clickX < popupX || clickX > popupX + popupWidth ||
-                clickY < popupY || clickY > popupY + popupHeight) {
-                this.close();
-                return Clutter.EVENT_STOP;
-            }
-
-            const source = event.get_source();
-            let current = source;
-            while (current) {
-                if (current._menuItem) {
-                    this._selectItem(current._menuItem);
-                    return Clutter.EVENT_STOP;
-                }
-                current = current.get_parent();
-            }
-
-            return Clutter.EVENT_STOP;
-        }
-
-        if (type === Clutter.EventType.KEY_PRESS) {
-            const key = event.get_key_symbol();
-            
-            if (this._isSearchMode) {
-                if (key === Clutter.KEY_Escape) {
-                    this._isSearchMode = false;
-                    this._searchEntry.visible = false;
-                    this._searchEntry.set_text('');
-                    this._performSearch('');
-                    global.stage.set_key_focus(this._cursorPopup);
-                    return Clutter.EVENT_STOP;
-                }
-                return Clutter.EVENT_PROPAGATE;
-            }
-        }
-
-        return Clutter.EVENT_PROPAGATE;
     }
 
     _onKeyPress(actor, event) {
@@ -445,10 +404,17 @@ export class CursorPopup {
     close() {
         if (!this._cursorPopup) return;
 
-        this._cleanup();
+        if (this._modalGrab) {
+            Main.popModal(this._modalGrab);
+            this._modalGrab = null;
+        }
 
-        global.stage.remove_child(this._cursorPopup);
-        this._cursorPopup.destroy();
+        if (this._modalContainer) {
+            global.stage.remove_child(this._modalContainer);
+            this._modalContainer.destroy();
+            this._modalContainer = null;
+        }
+
         this._cursorPopup = null;
         this._currentPageItems = [];
     }
