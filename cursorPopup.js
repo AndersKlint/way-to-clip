@@ -365,6 +365,7 @@ export class CursorPopup {
 
     _selectItem(mItem) {
         this.parent._selectMenuItem(mItem, true);
+        this.parent._moveItemFirst(mItem);
         if (AUTO_PASTE) {
             this.parent.autoPasteAndClose(mItem);
         } else {
