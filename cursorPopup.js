@@ -101,6 +101,16 @@ export class CursorPopup {
             x_expand: true,
         });
 
+        this._privateModeHint = new St.BoxLayout({
+            style_class: 'waytoclip-hint',
+            x_align: Clutter.ActorAlign.START,
+        });
+        this._privateIcon = new St.Icon({
+            icon_name: 'security-medium-symbolic',
+        });
+        this._privateModeHint.add_child(this._privateIcon);
+        this._privateModeHint.add_child(new St.Label({ text: ' = p' }));
+
         const deleteHint = new St.Label({
             text: '🗑 = d',
             style_class: 'waytoclip-hint',
@@ -109,6 +119,7 @@ export class CursorPopup {
 
         const footerBox = new St.BoxLayout({ x_expand: true });
         footerBox.add_child(searchHint);
+        footerBox.add_child(this._privateModeHint);
         footerBox.add_child(this._pageIndicator);
         footerBox.add_child(deleteHint);
 
@@ -187,8 +198,18 @@ export class CursorPopup {
 
         this._cursorPopup.connect('key-press-event', this._onKeyPress.bind(this));
 
+        this._updatePrivateModeState();
+
         this._modalGrab = Main.pushModal(this._modalContainer);
         global.stage.set_key_focus(this._cursorPopup);
+    }
+
+    _updatePrivateModeState() {
+        if (this.parent.isPrivateMode) {
+            this._privateModeHint.add_style_class_name('active');
+        } else {
+            this._privateModeHint.remove_style_class_name('active');
+        }
     }
 
     _updateSelection(newIndex) {
@@ -338,7 +359,14 @@ export class CursorPopup {
                 return Clutter.EVENT_STOP;
 
             case Clutter.KEY_d:
+                if (this._isSearchMode) return Clutter.EVENT_PROPAGATE;
                 this._deleteSelectedItem();
+                return Clutter.EVENT_STOP;
+
+            case Clutter.KEY_p:
+                if (this._isSearchMode) return Clutter.EVENT_PROPAGATE;
+                this.parent.togglePrivateMode();
+                this._updatePrivateModeState();
                 return Clutter.EVENT_STOP;
 
             case Clutter.KEY_Tab:

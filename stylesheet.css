@@ -80,8 +80,8 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 8px;
-    min-width: 300px;
-    max-width: 400px;
+    min-width: 400px;
+    max-width: 600px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
@@ -149,4 +149,12 @@
     color: #666;
     font-size: 0.8em;
     padding: 8px 12px 4px 12px;
+}
+
+.waytoclip-hint.active {
+    color: #34d399; /* Green color same as selected item */
+}
+
+.waytoclip-hint StIcon {
+    icon-size: 1.1em;
 }

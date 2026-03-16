@@ -1095,6 +1095,10 @@ const WayToClip = GObject.registerClass({
         this.privateModeMenuItem.toggle();
     }
 
+    get isPrivateMode () {
+        return PRIVATEMODE;
+    }
+
     _onPrivateModeSwitch () {
         let that = this;
         PRIVATEMODE = this.privateModeMenuItem.state;
@@ -1378,11 +1382,6 @@ const WayToClip = GObject.registerClass({
     _openCursorPopup () {
         if (this.clipItemsRadioGroup.length === 0) {
             this._showNotification(_("Clipboard is empty"));
-            return;
-        }
-
-        if (PRIVATEMODE) {
-            this._showNotification(_("Private mode is enabled"));
             return;
         }
 
