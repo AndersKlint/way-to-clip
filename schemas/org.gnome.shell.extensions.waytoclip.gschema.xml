@@ -73,11 +73,11 @@
 
     <key name="popup-pages" type="i">
         <default>3</default>
-        <summary>Number of pages in popup</summary>
+        <summary>Maximum number of pages in popup</summary>
         <description>
-            Each page shows 9 items. Default is 3 pages (27 items total).
+            Each page shows 10 items. Set to -1 for auto (dynamic based on history).
         </description>
-        <range min="1" max="11"/>
+        <range min="-1" max="100"/>
     </key>
 
     <key type="i" name="preview-size">

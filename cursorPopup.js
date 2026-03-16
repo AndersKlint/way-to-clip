@@ -2,7 +2,7 @@
  * CursorPopup - Handles the cursor-positioned popup for quick clipboard selection
  * 
  * Features:
- * - Paged display (9 items per page)
+ * - Paged display (10 items per page)
  * - Keyboard navigation (Up/Down, Tab/Shift+Tab for pages)
  * - Search functionality (press 's')
  * - Delete items (press 'd')
@@ -19,13 +19,14 @@ import { PrefsFields } from './constants.js';
 let CASE_SENSITIVE_SEARCH = false;
 let REGEX_SEARCH = false;
 let AUTO_PASTE = true;
-let POPUP_PAGES = 3;
+let MAX_POPUP_PAGES = 3;
+const ITEMS_PER_PAGE = 10;
 
 export function initPopupSettings(settings) {
     CASE_SENSITIVE_SEARCH = settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH);
     REGEX_SEARCH = settings.get_boolean(PrefsFields.REGEX_SEARCH);
     AUTO_PASTE = settings.get_boolean(PrefsFields.AUTO_PASTE);
-    POPUP_PAGES = settings.get_int(PrefsFields.POPUP_PAGES);
+    MAX_POPUP_PAGES = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
 }
 
 export class CursorPopup {
@@ -51,7 +52,10 @@ export class CursorPopup {
             return;
         }
 
-        const maxItems = POPUP_PAGES * 9;
+        let maxItems = MAX_POPUP_PAGES * ITEMS_PER_PAGE;
+        if (MAX_POPUP_PAGES === -1) {
+            maxItems = items.length;
+        }
         this._itemsToShow = [...items.slice(0, maxItems)];
         this._currentPage = 0;
         this._selectedIndex = 0;
@@ -117,7 +121,7 @@ export class CursorPopup {
 
             if (key === Clutter.KEY_Return || key === Clutter.KEY_KP_Enter) {
                 if (this._selectedIndex >= 0 && this._selectedIndex < this._currentPageItems.length) {
-                    const start = this._currentPage * 9;
+                    const start = this._currentPage * ITEMS_PER_PAGE;
                     const target = this._itemsToShow[start + this._selectedIndex];
                     this._selectItem(target);
                 }
@@ -223,7 +227,10 @@ export class CursorPopup {
             });
         }
 
-        const maxItems = POPUP_PAGES * 9;
+        let maxItems = MAX_POPUP_PAGES * ITEMS_PER_PAGE;
+        if (MAX_POPUP_PAGES === -1) {
+            maxItems = filteredItems.length;
+        }
         this._itemsToShow = filteredItems.slice(0, maxItems);
         this._currentPage = 0;
         this._selectedIndex = 0;
@@ -234,8 +241,8 @@ export class CursorPopup {
     _renderPage() {
         this._listContainer.destroy_all_children();
         this._currentPageItems = [];
-        const start = this._currentPage * 9;
-        const pageItems = this._itemsToShow.slice(start, start + 9);
+        const start = this._currentPage * ITEMS_PER_PAGE;
+        const pageItems = this._itemsToShow.slice(start, start + ITEMS_PER_PAGE);
 
         pageItems.forEach((mItem, index) => {
             const itemBox = new St.BoxLayout({
@@ -246,7 +253,7 @@ export class CursorPopup {
             });
 
             const numberLabel = new St.Label({
-                text: `${index + 1}. `,
+                text: `${(index + 1) % 10}. `,
                 style_class: 'waytoclip-item-number',
                 y_align: Clutter.ActorAlign.CENTER,
             });
@@ -276,7 +283,7 @@ export class CursorPopup {
             this._currentPageItems.push(itemBox);
         });
 
-        const pageCount = Math.ceil(this._itemsToShow.length / 9) || 1;
+        const pageCount = Math.ceil(this._itemsToShow.length / ITEMS_PER_PAGE) || 1;
         this._pageIndicator.set_text(`${this._currentPage + 1} / ${pageCount}`);
         this._pageIndicator.visible = this._itemsToShow.length > 0;
     }
@@ -284,11 +291,21 @@ export class CursorPopup {
     _onKeyPress(actor, event) {
         const key = event.get_key_symbol();
         const state = event.get_state();
-        const currentTotalPages = Math.ceil(this._itemsToShow.length / 9) || 1;
+        const currentTotalPages = Math.ceil(this._itemsToShow.length / ITEMS_PER_PAGE) || 1;
 
         if (key >= Clutter.KEY_1 && key <= Clutter.KEY_9) {
             const idx = key - Clutter.KEY_1;
-            const start = this._currentPage * 9;
+            const start = this._currentPage * ITEMS_PER_PAGE;
+            if (start + idx < this._itemsToShow.length) {
+                const target = this._itemsToShow[start + idx];
+                this._selectItem(target);
+            }
+            return Clutter.EVENT_STOP;
+        }
+
+        if (key === Clutter.KEY_0) {
+            const idx = 9;
+            const start = this._currentPage * ITEMS_PER_PAGE;
             if (start + idx < this._itemsToShow.length) {
                 const target = this._itemsToShow[start + idx];
                 this._selectItem(target);
@@ -353,7 +370,7 @@ export class CursorPopup {
             case Clutter.KEY_Return:
             case Clutter.KEY_KP_Enter:
                 if (this._selectedIndex >= 0 && this._selectedIndex < this._currentPageItems.length) {
-                    const start = this._currentPage * 9;
+                    const start = this._currentPage * ITEMS_PER_PAGE;
                     const target = this._itemsToShow[start + this._selectedIndex];
                     this._selectItem(target);
                 }
@@ -376,12 +393,15 @@ export class CursorPopup {
     _deleteSelectedItem() {
         if (this._selectedIndex < 0 || this._selectedIndex >= this._currentPageItems.length) return;
 
-        const start = this._currentPage * 9;
+        const start = this._currentPage * ITEMS_PER_PAGE;
         const target = this._itemsToShow[start + this._selectedIndex];
         this.parent._removeEntry(target, 'delete');
 
         const updatedItems = this.parent._getAllIMenuItems().filter(item => item.actor.visible);
-        const maxItems = POPUP_PAGES * 9;
+        let maxItems = MAX_POPUP_PAGES * ITEMS_PER_PAGE;
+        if (MAX_POPUP_PAGES === -1) {
+            maxItems = updatedItems.length;
+        }
         this._itemsToShow = updatedItems.slice(0, maxItems);
         this._originalItems = updatedItems;
 
@@ -390,7 +410,7 @@ export class CursorPopup {
             return;
         }
 
-        const newPageCount = Math.ceil(this._itemsToShow.length / 9) || 1;
+        const newPageCount = Math.ceil(this._itemsToShow.length / ITEMS_PER_PAGE) || 1;
         if (this._currentPage >= newPageCount) {
             this._currentPage = newPageCount - 1;
         }
