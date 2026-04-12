@@ -94,13 +94,17 @@ export class CursorPopup {
             this._modalContainer, this._popupLayout, x, y, monitor
         );
 
-        this._modalContainer.connect('button-press-event', (_actor, event) => {
-            const source = event.get_source();
-            if (!this._popupLayout.contains(source)) {
-                this.close();
-                return Clutter.EVENT_STOP;
-            }
-            return Clutter.EVENT_PROPAGATE;
+        // Stop click events at the popup boundary so they don't
+        // bubble up to the modal container's dismiss handler.
+        this._popupLayout.connect('button-press-event', () => {
+            return Clutter.EVENT_STOP;
+        });
+
+        // Any click that reaches the modal container was outside the
+        // popup layout (clicks inside are stopped above), so dismiss.
+        this._modalContainer.connect('button-press-event', () => {
+            this.close();
+            return Clutter.EVENT_STOP;
         });
 
         this._popupLayout.connect('key-press-event',
