@@ -123,6 +123,14 @@
     color: #fff;
 }
 
+.waytoclip-item-text-container {
+    vertical-align: middle;
+}
+
+.waytoclip-item-text {
+    max-height: 8em;
+}
+
 .waytoclip-page-indicator {
     color: #888;
     font-size: 0.85em;

@@ -11,6 +11,7 @@
  */
 
 import Clutter from 'gi://Clutter';
+import Pango from 'gi://Pango';
 import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
@@ -169,18 +170,35 @@ export class CursorPopup {
         this._modalContainer.add_child(this._cursorPopup);
         global.stage.add_child(this._modalContainer);
 
-        const [popupWidth, popupHeight] = this._cursorPopup.get_size();
+        let popupWidth, popupHeight;
+        if (this._cursorPopup.get_preferred_width) {
+            let [, natW] = this._cursorPopup.get_preferred_width(-1);
+            let [, natH] = this._cursorPopup.get_preferred_height(natW);
+            popupWidth = natW;
+            popupHeight = natH;
+        } else {
+            [popupWidth, popupHeight] = this._cursorPopup.get_size();
+        }
+
         let popupX = x - monitor.x;
         let popupY = y - monitor.y - popupHeight - 10;
 
         if (popupX + popupWidth > monitor.width) {
             popupX = monitor.width - popupWidth - 10;
         }
-        if (popupX < 0) {
+        if (popupX < 10) {
             popupX = 10;
         }
-        if (popupY < 0) {
+
+        if (popupY < 10) {
             popupY = y - monitor.y + 20;
+        }
+
+        if (popupY + popupHeight > monitor.height - 10) {
+            popupY = monitor.height - popupHeight - 10;
+            if (popupY < 10) {
+                popupY = 10;
+            }
         }
 
         this._cursorPopup.set_position(popupX, popupY);
@@ -271,22 +289,43 @@ export class CursorPopup {
                 reactive: true,
                 x_expand: true,
                 track_hover: true,
+                vertical: true,
+            });
+
+            const topRow = new St.BoxLayout({
+                x_expand: true,
+                vertical: false,
             });
 
             const numberLabel = new St.Label({
                 text: `${(index + 1) % 10}. `,
                 style_class: 'waytoclip-item-number',
-                y_align: Clutter.ActorAlign.CENTER,
+                y_align: Clutter.ActorAlign.START,
             });
 
-            const textLabel = new St.Label({
-                text: this.parent._truncate(mItem.entry.getStringValue(), 50),
-                y_align: Clutter.ActorAlign.CENTER,
+            const textContainer = new St.BoxLayout({
+                style_class: 'waytoclip-item-text-container',
+                vertical: true,
                 x_expand: true,
             });
 
-            itemBox.add_child(numberLabel);
-            itemBox.add_child(textLabel);
+            const clipText = mItem.entry.getStringValue();
+
+            const textLabel = new St.Label({
+                text: clipText,
+                style_class: 'waytoclip-item-text',
+                y_align: Clutter.ActorAlign.START,
+                x_expand: true,
+            });
+            textLabel.get_clutter_text().set_line_wrap(true);
+            textLabel.get_clutter_text().set_line_wrap_mode(Pango.WrapMode.WORD_CHAR);
+            textLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.END);
+
+            textContainer.add_child(textLabel);
+            topRow.add_child(numberLabel);
+            topRow.add_child(textContainer);
+
+            itemBox.add_child(topRow);
 
             itemBox._menuItem = mItem;
 

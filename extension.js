@@ -1169,7 +1169,7 @@ const WayToClip = GObject.registerClass({
         REGEX_SEARCH                = settings.get_boolean(PrefsFields.REGEX_SEARCH);
         AUTO_PASTE                  = settings.get_boolean(PrefsFields.AUTO_PASTE);
         POPUP_POSITION_MODE         = settings.get_int(PrefsFields.POPUP_POSITION_MODE);
-        POPUP_PAGES                 = settings.get_int(PrefsFields.POPUP_PAGES);
+        POPUP_PAGES                 = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
         
         initPopupSettings(settings);
     }
