@@ -15,7 +15,7 @@ import { Registry, ClipboardEntry } from './registry.js';
 import { DialogManager } from './confirmDialog.js';
 import { PrefsFields } from './constants.js';
 import { Keyboard } from './keyboard.js';
-import { CursorPopup, initPopupSettings } from './cursorPopup.js';
+import { CursorPopup } from './cursorPopup.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
@@ -1171,7 +1171,7 @@ const WayToClip = GObject.registerClass({
         POPUP_POSITION_MODE         = settings.get_int(PrefsFields.POPUP_POSITION_MODE);
         POPUP_PAGES                 = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
         
-        initPopupSettings(settings);
+        this.cursorPopup.updateSettings(settings);
     }
 
     async _onSettingsChange () {
