@@ -15,7 +15,7 @@ import { Registry, ClipboardEntry } from './registry.js';
 import { DialogManager } from './confirmDialog.js';
 import { PrefsFields } from './constants.js';
 import { Keyboard } from './keyboard.js';
-import { CursorPopup } from './cursorPopup.js';
+import { CursorPopup } from './cursor-popup/cursorPopup.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
