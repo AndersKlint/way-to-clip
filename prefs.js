@@ -11,12 +11,11 @@ export default class WayToClipPreferences extends ExtensionPreferences {
         window._settings = this.getSettings();
         const settingsUI = new Settings(window._settings);
         const page = new Adw.PreferencesPage();
-        page.add(settingsUI.ui);
+        page.add(settingsUI.popup);
         page.add(settingsUI.behavior);
         page.add(settingsUI.search);
         page.add(settingsUI.limits);
         page.add(settingsUI.exclusion);
-        page.add(settingsUI.topbar);
         page.add(settingsUI.notifications);
         page.add(settingsUI.shortcuts);
         window.add(page);
@@ -36,15 +35,6 @@ class Settings {
             })
         });
 
-        this.field_preview_size = new Adw.SpinRow({
-            title: _("Preview Size (characters)"),
-            adjustment: new Gtk.Adjustment({
-                lower: 10,
-                upper: 100,
-                step_increment: 1
-            })
-        });
-
         this.field_cache_size = new Adw.SpinRow({
             title: _("Max cache file size (MB)"),
             adjustment: new Gtk.Adjustment({
@@ -52,24 +42,6 @@ class Settings {
                 upper: 1024,
                 step_increment: 1
             })
-        });
-
-        this.field_topbar_preview_size = new Adw.SpinRow({
-            title: _("Number of characters in top bar"),
-            adjustment: new Gtk.Adjustment({
-                lower: 1,
-                upper: 100,
-                step_increment: 1
-            })
-        });
-
-        this.field_display_mode = new Adw.ComboRow({
-            title: _("What to show in top bar"),
-            model: this.#createDisplayModeOptions()
-        });
-
-        this.field_disable_down_arrow = new Adw.SwitchRow({
-            title: _("Remove down arrow in top bar")
         });
 
         this.field_cache_disable = new Adw.SwitchRow({
@@ -100,22 +72,8 @@ class Settings {
             title: _("Keep selected entry after Clear History")
         });
 
-        this.field_paste_button = new Adw.SwitchRow({
-            title: _("Show paste buttons"),
-            subtitle: _("Adds a paste button to each entry that lets you paste it directly")
-        });
-
-        this.field_pinned_on_bottom = new Adw.SwitchRow({
-            title: _("Place the pinned section on the bottom"),
-            subtitle: _("Requires restarting the extension")
-        });
-
         this.field_clear_on_boot = new Adw.SwitchRow({
             title: _("Clear clipboard history on system reboot")
-        });
-
-        this.field_paste_on_select = new Adw.SwitchRow({
-            title: _("Paste on select")
         });
 
         this.field_auto_paste = new Adw.SwitchRow({
@@ -190,26 +148,21 @@ class Settings {
             this.field_clear_history_interval.set_sensitive(widget.active);
         });
 
-        this.ui =  new Adw.PreferencesGroup({ title: _('UI') });
+        this.popup = new Adw.PreferencesGroup({ title: _('Popup') });
         this.behavior = new Adw.PreferencesGroup({title: _('Behavior')});
         this.exclusion = new Adw.PreferencesGroup({ title: _('Exclusion') });
         this.limits =  new Adw.PreferencesGroup({ title: _('Limits') });
-        this.topbar =  new Adw.PreferencesGroup({ title: _('Topbar') });
         this.notifications =  new Adw.PreferencesGroup({ title: _('Notifications') });
         this.shortcuts =  new Adw.PreferencesGroup({ title: _('Shortcuts') });
         this.search = new Adw.PreferencesGroup({title: _('Search')});
 
-        this.ui.add(this.field_preview_size);
-        this.ui.add(this.field_move_item_first);
-        this.ui.add(this.field_strip_text);
-        this.ui.add(this.field_keep_selected_on_clear);
-        this.ui.add(this.field_paste_button);
-        this.ui.add(this.field_pinned_on_bottom);
+        this.popup.add(this.field_auto_paste);
+        this.popup.add(this.field_popup_position_mode);
+        this.popup.add(this.field_popup_pages);
 
-        this.behavior.add(this.field_paste_on_select);
-        this.behavior.add(this.field_auto_paste);
-        this.behavior.add(this.field_popup_position_mode);
-        this.behavior.add(this.field_popup_pages);
+        this.behavior.add(this.field_move_item_first);
+        this.behavior.add(this.field_strip_text);
+        this.behavior.add(this.field_keep_selected_on_clear);
         this.behavior.add(this.field_cache_images);
         this.behavior.add(this.field_clear_on_boot);
         this.behavior.add(this.field_clear_history_on_interval);
@@ -222,10 +175,6 @@ class Settings {
         this.limits.add(this.field_cache_size);
         this.limits.add(this.field_cache_disable);
 
-        this.topbar.add(this.field_display_mode);
-        this.topbar.add(this.field_topbar_preview_size);
-        this.topbar.add(this.field_disable_down_arrow);
-
         this.notifications.add(this.field_clear_notification_toggle);
         this.notifications.add(this.field_cycle_notification_toggle)
         this.notifications.add(this.field_confirm_clear_toggle);
@@ -236,7 +185,6 @@ class Settings {
         this.#buildShorcuts(this.shortcuts);
 
         this.schema.bind(PrefsFields.HISTORY_SIZE, this.field_size, 'value', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.PREVIEW_SIZE, this.field_preview_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_FILE_SIZE, this.field_cache_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_ONLY_FAVORITE, this.field_cache_disable, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.NOTIFY_ON_COPY, this.field_clear_notification_toggle, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -244,15 +192,9 @@ class Settings {
         this.schema.bind(PrefsFields.CONFIRM_ON_CLEAR, this.field_confirm_clear_toggle, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.MOVE_ITEM_FIRST, this.field_move_item_first, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.KEEP_SELECTED_ON_CLEAR, this.field_keep_selected_on_clear, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.TOPBAR_DISPLAY_MODE_ID, this.field_display_mode, 'selected', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.DISABLE_DOWN_ARROW, this.field_disable_down_arrow, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.TOPBAR_PREVIEW_SIZE, this.field_topbar_preview_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.STRIP_TEXT, this.field_strip_text, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.PASTE_BUTTON, this.field_paste_button, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.PINNED_ON_BOTTOM, this.field_pinned_on_bottom, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.ENABLE_KEYBINDING, this.field_keybinding_activation, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_ON_BOOT, this.field_clear_on_boot, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.PASTE_ON_SELECT, this.field_paste_on_select, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.AUTO_PASTE, this.field_auto_paste, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.POPUP_POSITION_MODE, this.field_popup_position_mode, 'selected', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.MAX_POPUP_PAGES, this.field_popup_pages, 'value', Gio.SettingsBindFlags.DEFAULT);
@@ -264,20 +206,6 @@ class Settings {
 
         this.field_clear_history_interval.set_sensitive(this.field_clear_history_on_interval.active);
         this.#fetchExludedAppsList();
-    }
-
-    #createDisplayModeOptions () {
-        let options = [
-            _("Icon"),
-            _("Clipboard Content"),
-            _("Both"),
-            _("Neither")
-        ];
-        let liststore = new Gtk.StringList();
-        for (let option of options) {
-            liststore.append(option)
-        }
-        return liststore;
     }
 
     #createPopupPositionOptions () {
@@ -293,9 +221,9 @@ class Settings {
     }
 
     #shortcuts = {
+        [PrefsFields.BINDING_TOGGLE_POPUP]: _("Toggle the clipboard popup"),
         [PrefsFields.BINDING_PRIVATE_MODE]: _("Private mode"),
         [PrefsFields.BINDING_TOGGLE_MENU]: _("Toggle the panel menu"),
-        [PrefsFields.BINDING_TOGGLE_POPUP]: _("Toggle the cursor popup (Alt+X)"),
         [PrefsFields.BINDING_CLEAR_HISTORY]: _("Clear history"),
         [PrefsFields.BINDING_PREV_ENTRY]: _("Previous entry"),
         [PrefsFields.BINDING_NEXT_ENTRY]: _("Next entry")
