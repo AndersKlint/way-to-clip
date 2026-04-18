@@ -11,6 +11,7 @@
  */
 
 import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import { PrefsFields } from '../constants.js';
@@ -39,6 +40,10 @@ export class CursorPopup {
         this._searchEntry = null;
         this._pageIndicator = null;
         this._privateModeHint = null;
+        this._anchorX = 0;
+        this._anchorY = 0;
+        this._monitor = null;
+        this._repositionIdleId = 0;
 
         // Data state
         this._itemsToShow = [];
@@ -83,6 +88,9 @@ export class CursorPopup {
         this._selectedIndex = 0;
         this._currentPageItems = [];
         this._isSearchMode = false;
+        this._anchorX = x;
+        this._anchorY = y;
+        this._monitor = monitor;
 
         this._buildUI();
         this._renderPage();
@@ -135,6 +143,10 @@ export class CursorPopup {
         this._searchEntry = null;
         this._pageIndicator = null;
         this._privateModeHint = null;
+        this._anchorX = 0;
+        this._anchorY = 0;
+        this._monitor = null;
+        this._cancelPendingReposition();
         this._currentPageItems = [];
         this._itemsToShow = [];
         this._originalItems = [];
@@ -309,6 +321,8 @@ export class CursorPopup {
         const pageCount = this._getTotalPages();
         this._pageIndicator.set_text(`${this._currentPage + 1} / ${pageCount}`);
         this._pageIndicator.visible = this._itemsToShow.length > 0;
+
+        this._scheduleRepositionPopup();
     }
 
     _updateSelection(newIndex) {
@@ -364,5 +378,33 @@ export class CursorPopup {
 
     _getTotalPages() {
         return Math.ceil(this._itemsToShow.length / ITEMS_PER_PAGE) || 1;
+    }
+
+    _repositionPopup() {
+        if (!this._modalContainer || !this._popupLayout || !this._monitor) return;
+
+        this._uiBuilder.positionPopup(
+            this._modalContainer,
+            this._popupLayout,
+            this._anchorX,
+            this._anchorY,
+            this._monitor,
+        );
+    }
+
+    _scheduleRepositionPopup() {
+        this._cancelPendingReposition();
+        this._repositionIdleId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            this._repositionIdleId = 0;
+            this._repositionPopup();
+            return GLib.SOURCE_REMOVE;
+        });
+    }
+
+    _cancelPendingReposition() {
+        if (!this._repositionIdleId) return;
+
+        GLib.source_remove(this._repositionIdleId);
+        this._repositionIdleId = 0;
     }
 }
