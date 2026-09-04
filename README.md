@@ -51,7 +51,7 @@ gnome-extensions enable waytoclip@waytoclip
 
 ### Requirements
 
-- GNOME 46, 47, 48, or 49
+- GNOME 46, 47, 48, 49, 50, or 51
 
 ## Configuration
 

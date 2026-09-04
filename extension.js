@@ -382,7 +382,7 @@ const WayToClip = GObject.registerClass({
                     if (menuItem.entry.equals(result)) {
                         this._selectMenuItem(menuItem, false);
 
-                        if (!menuItem.entry.isFavorite() && MOVE_ITEM_FIRST) {
+                        if (!menuItem.entry.isFavorite()) {
                             this._moveItemFirst(menuItem);
                         }
 

@@ -1,5 +1,6 @@
-MODULES = *.js locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.rst schemas/
-INSTALLPATH=~/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/
+MODULES = *.js cursor-popup locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/
+INSTALLPATH=~/.local/share/gnome-shell/extensions/waytoclip@waytoclip/
+LEGACY_INSTALLPATH=~/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/
 
 all: compile-locales compile-settings
 
@@ -16,9 +17,10 @@ update-po-files:
 		msgmerge $(file) clipboard-indicator.pot -o $(file);)
 
 install: all
-	rm -rf $(INSTALLPATH)
+	rm -rf $(INSTALLPATH) $(LEGACY_INSTALLPATH)
 	mkdir -p $(INSTALLPATH)
-	cp -r $(MODULES) $(INSTALLPATH)/
+	cp *.js metadata.json stylesheet.css LICENSE.rst README.md $(INSTALLPATH)/
+	cp -r cursor-popup schemas locale $(INSTALLPATH)/
 
 nested-session:
 	dbus-run-session -- env MUTTER_DEBUG_NUM_DUMMY_MONITORS=1 \
