@@ -119,6 +119,10 @@ export class CursorPopup {
         this._linesPerItem = 3;
         this._popupLayout.set_height(-1);
         this._popupLayout.set_width(-1);
+        // Fit + anchor synchronously while still in open()'s callstack so the
+        // first painted frame already respects the lock (no downwards flash
+        // for above-mode). Idle only re-verifies post-layout size.
+        this._buildAndFitPage();
         this._scheduleRepositionPopup();
 
         // Stop click events at the popup boundary so they don't
@@ -180,8 +184,9 @@ export class CursorPopup {
         this._searchEntry.visible = this._isSearchMode;
         if (this._isSearchMode) {
             global.stage.set_key_focus(this._searchEntry.get_clutter_text());
-            // Search entry changes chrome height: re-anchor (cursor edge stays,
-            // rows may truncate further) instead of drifting away.
+            // Search entry changes chrome height: anchor synchronously before
+            // paint (cursor edge stays), then verify post-layout via idle.
+            this._repositionPopup();
             this._scheduleRepositionPopup();
         } else {
             this.exitSearch();
@@ -386,11 +391,29 @@ export class CursorPopup {
         this._popupLayout.set_height(-1);
         this._popupLayout.set_width(-1);
 
+        let natH = 0;
         for (const lines of [3, 2, 1]) {
             if (lines !== 3) this._buildPageItems(lines);
-            const { natH } = this._uiBuilder.measurePopup(
-                this._popupLayout, this._monitor, this._popupLock.x);
+            ({ natH } = this._uiBuilder.measurePopup(
+                this._popupLayout, this._monitor, this._popupLock.x));
             if (natH <= this._getAvailH()) break;
+        }
+
+        const availH = this._getAvailH();
+        if (natH > availH) {
+            // Even single-line rows overflow: hard-cap synchronously so the
+            // first paint already respects the lock (no oversize flash).
+            this._popupLayout.set_height(Math.max(0, availH));
+            this._uiBuilder.anchorPopup(
+                this._modalContainer, this._popupLayout, this._popupLock,
+                this._monitor, Math.max(0, availH));
+        } else {
+            // Anchor synchronously BEFORE paint: above-mode moves Y up-front
+            // so the bottom edge never detaches for a frame. Idle only verifies.
+            this._popupLayout.set_height(-1);
+            this._uiBuilder.anchorPopup(
+                this._modalContainer, this._popupLayout, this._popupLock,
+                this._monitor, natH);
         }
     }
 
@@ -475,9 +498,30 @@ export class CursorPopup {
         const availH = this._getAvailH();
 
         if (natH > availH && this._linesPerItem > 1) {
-            // Next page too tall: truncate rows (3->2->1) and re-verify.
-            // Box stays glued to the cursor; only row heights shrink.
-            this._buildPageItems(this._linesPerItem - 1);
+            // Step rows down synchronously (no paint between rebuilds) and
+            // anchor the final size NOW so the next painted frame already
+            // keeps the cursor edge glued. Idle only verifies post-layout.
+            let h = natH;
+            for (let l = this._linesPerItem - 1; l >= 1; l--) {
+                this._buildPageItems(l);
+                this._popupLayout.set_height(-1);
+                this._popupLayout.set_width(-1);
+                ({ natH: h } = this._uiBuilder.measurePopup(
+                    this._popupLayout, this._monitor, lock.x));
+                if (h <= this._getAvailH()) break;
+            }
+            const avail = this._getAvailH();
+            if (h > avail) {
+                this._popupLayout.set_height(Math.max(0, avail));
+                this._uiBuilder.anchorPopup(
+                    this._modalContainer, this._popupLayout, lock,
+                    this._monitor, Math.max(0, avail));
+                return;
+            }
+            this._popupLayout.set_height(-1);
+            this._uiBuilder.anchorPopup(
+                this._modalContainer, this._popupLayout, lock,
+                this._monitor, h);
             this._scheduleRepositionPopup();
             return;
         }
