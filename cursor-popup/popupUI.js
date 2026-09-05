@@ -119,8 +119,10 @@ export class PopupUIBuilder {
      * @param {Object} mItem - the menu item data
      * @param {number} index - 0-based index within the current page
      * @param {Function} onSelect - callback(mItem) when clicked
+     * @param {number} maxLines - max text lines for this row (3, 2 or 1).
+     *   Used to shrink rows so the locked popup box keeps fitting without moving.
      */
-    createItemWidget(mItem, index, onSelect) {
+    createItemWidget(mItem, index, onSelect, maxLines = 3) {
         const itemBox = new St.BoxLayout({
             style_class: 'waytoclip-popup-item',
             reactive: true,
@@ -155,6 +157,15 @@ export class PopupUIBuilder {
         textLabel.get_clutter_text().set_line_wrap(true);
         textLabel.get_clutter_text().set_line_wrap_mode(Pango.WrapMode.WORD_CHAR);
         textLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.END);
+        // Truncate long rows to fit the locked popup height: 3 lines is the
+        // stylesheet default (4.8em), 2 lines ~3.2em, 1 line ~1.6em.
+        // Inline style wins over the stylesheet so pages can shrink rows
+        // instead of moving/resizing the popup box away from the cursor.
+        if (maxLines === 2) {
+            textLabel.set_style('max-height: 3.2em;');
+        } else if (maxLines <= 1) {
+            textLabel.set_style('max-height: 1.6em;');
+        }
 
         textContainer.add_child(textLabel);
         topRow.add_child(numberLabel);
@@ -170,14 +181,24 @@ export class PopupUIBuilder {
     }
 
     /**
-     * Position the popup near the cursor, clamped within the monitor bounds.
+     * Initial placement near the cursor. Always prioritizes BELOW the cursor
+     * when the popup fits there; only pops upwards when there is not enough
+     * space below but there is enough above. Left edge starts at the cursor
+     * and is clamped once — callers lock the returned X and cursor-anchored
+     * edge and must never recompute placement on page changes.
+     *
      * @param {St.Widget} modalContainer
      * @param {St.BoxLayout} popup
      * @param {number} x - cursor X in global coordinates
      * @param {number} y - cursor Y in global coordinates
      * @param {Object} monitor - { x, y, width, height }
+     * @returns {{ x: number, y: number, mode: string, belowTopY: number, aboveBottomY: number }}
      */
     positionPopup(modalContainer, popup, x, y, monitor) {
+        const MARGIN = 10;
+        const GAP_BELOW = 20;
+        const GAP_ABOVE = 10;
+
         const [, natW] = popup.get_preferred_width(-1);
         const [, natH] = popup.get_preferred_height(natW);
 
@@ -185,23 +206,86 @@ export class PopupUIBuilder {
         modalContainer.set_position(monitor.x, monitor.y);
         modalContainer.set_size(monitor.width, monitor.height);
 
-        // Compute popup position relative to monitor
-        let popupX = x - monitor.x;
-        let popupY = y - monitor.y - natH - 10;
+        const relX = x - monitor.x;
+        const relY = y - monitor.y;
 
-        // Clamp horizontally
-        popupX = Math.max(10, Math.min(popupX, monitor.width - natW - 10));
+        // Lock left edge at cursor, clamped once to stay on-screen.
+        const popupX = Math.max(MARGIN, Math.min(relX, monitor.width - natW - MARGIN));
 
-        // Flip below cursor if no room above
-        if (popupY < 10) {
-            popupY = y - monitor.y + 20;
-        }
+        const spaceBelow = monitor.height - relY - GAP_BELOW - MARGIN;
+        const spaceAbove = relY - GAP_ABOVE - MARGIN;
 
-        // Clamp vertically
-        if (popupY + natH > monitor.height - 10) {
-            popupY = Math.max(10, monitor.height - natH - 10);
+        const belowTopY = relY + GAP_BELOW;
+        const aboveBottomY = relY - GAP_ABOVE;
+
+        let mode;
+        let popupY;
+        if (natH <= spaceBelow) {
+            // Prefer below whenever it fits.
+            mode = 'below';
+            popupY = belowTopY;
+        } else if (natH <= spaceAbove) {
+            mode = 'above';
+            popupY = aboveBottomY - natH;
+        } else {
+            // Neither side fits: prefer below, truncated to available space.
+            mode = 'below';
+            popupY = belowTopY;
         }
 
         popup.set_position(popupX, popupY);
+
+        return { x: popupX, y: popupY, mode, belowTopY, aboveBottomY };
+    }
+
+    /**
+     * Keep the popup glued to the cursor after content changes.
+     * Left edge is always locked; the cursor-anchored edge is locked too:
+     * below-mode keeps top at belowTopY (bottom grows/shrinks),
+     * above-mode keeps bottom at aboveBottomY (top grows/shrinks).
+     * Width may only grow rightwards and is capped to the monitor instead
+     * of moving X. Height is left natural; callers truncate rows or hard-cap
+     * when natural height exceeds available space.
+     */
+    anchorPopup(modalContainer, popup, lock, monitor, natH = null) {
+        const MARGIN = 10;
+
+        modalContainer.set_position(monitor.x, monitor.y);
+        modalContainer.set_size(monitor.width, monitor.height);
+
+        // Right side may grow, but never push X: cap width to monitor.
+        const [, natW] = popup.get_preferred_width(-1);
+        const availableW = Math.max(0, monitor.width - lock.x - MARGIN);
+        if (natW > availableW) {
+            popup.set_width(availableW);
+        } else {
+            popup.set_width(-1);
+        }
+
+        if (natH === null) {
+            const [, h] = popup.get_preferred_height(
+                Math.min(natW, availableW));
+            natH = h;
+        }
+
+        if (lock.mode === 'above') {
+            popup.set_position(lock.x, lock.aboveBottomY - natH);
+        } else {
+            popup.set_position(lock.x, lock.belowTopY);
+        }
+
+        return natH;
+    }
+
+    /**
+     * Natural popup size for the current children, honoring any width cap.
+     */
+    measurePopup(popup, monitor, lockedX) {
+        const MARGIN = 10;
+        const [, natW] = popup.get_preferred_width(-1);
+        const availableW = Math.max(0, monitor.width - lockedX - MARGIN);
+        const effW = Math.min(natW, availableW);
+        const [, natH] = popup.get_preferred_height(effW);
+        return { natW, natH, availableW };
     }
 }

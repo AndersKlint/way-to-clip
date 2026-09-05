@@ -43,6 +43,12 @@ export class CursorPopup {
         this._anchorX = 0;
         this._anchorY = 0;
         this._monitor = null;
+        // Locked placement: { x, mode: 'below'|'above', belowTopY, aboveBottomY }.
+        // Left edge and cursor-anchored edge never move after open(); only the
+        // opposite edge (bottom in below-mode, top in above-mode) and the
+        // right side may change. Width/height may shrink/grow freely.
+        this._popupLock = null;
+        this._linesPerItem = 3;
         this._repositionIdleId = 0;
 
         // Data state
@@ -98,9 +104,22 @@ export class CursorPopup {
         this._modalContainer.add_child(this._popupLayout);
         global.stage.add_child(this._modalContainer);
 
-        this._uiBuilder.positionPopup(
+        const pos = this._uiBuilder.positionPopup(
             this._modalContainer, this._popupLayout, x, y, monitor
         );
+        // Lock left edge + cursor-anchored edge. Page/search changes keep
+        // this anchor: below-mode grows/shrinks the bottom, above-mode
+        // grows/shrinks the top. Right side may grow within the monitor.
+        this._popupLock = {
+            x: pos.x,
+            mode: pos.mode,
+            belowTopY: pos.belowTopY,
+            aboveBottomY: pos.aboveBottomY,
+        };
+        this._linesPerItem = 3;
+        this._popupLayout.set_height(-1);
+        this._popupLayout.set_width(-1);
+        this._scheduleRepositionPopup();
 
         // Stop click events at the popup boundary so they don't
         // bubble up to the modal container's dismiss handler.
@@ -146,6 +165,8 @@ export class CursorPopup {
         this._anchorX = 0;
         this._anchorY = 0;
         this._monitor = null;
+        this._popupLock = null;
+        this._linesPerItem = 3;
         this._cancelPendingReposition();
         this._currentPageItems = [];
         this._itemsToShow = [];
@@ -159,6 +180,9 @@ export class CursorPopup {
         this._searchEntry.visible = this._isSearchMode;
         if (this._isSearchMode) {
             global.stage.set_key_focus(this._searchEntry.get_clutter_text());
+            // Search entry changes chrome height: re-anchor (cursor edge stays,
+            // rows may truncate further) instead of drifting away.
+            this._scheduleRepositionPopup();
         } else {
             this.exitSearch();
         }
@@ -299,6 +323,15 @@ export class CursorPopup {
     // --- Private: rendering ---
 
     _renderPage() {
+        // Fresh page (Tab/search/delete): be optimistic, try full 3-line rows
+        // first, then shrink rows until the locked anchor fits. The anchor
+        // (top in below-mode, bottom in above-mode) never moves.
+        this._linesPerItem = 3;
+        this._buildAndFitPage();
+        this._scheduleRepositionPopup();
+    }
+
+    _buildPageItems(lines) {
         this._listContainer.destroy_all_children();
         this._currentPageItems = [];
 
@@ -307,7 +340,7 @@ export class CursorPopup {
 
         pageItems.forEach((mItem, index) => {
             const itemBox = this._uiBuilder.createItemWidget(
-                mItem, index, (item) => this._selectItem(item)
+                mItem, index, (item) => this._selectItem(item), lines
             );
 
             if (index === this._selectedIndex) {
@@ -322,7 +355,43 @@ export class CursorPopup {
         this._pageIndicator.set_text(`${this._currentPage + 1} / ${pageCount}`);
         this._pageIndicator.visible = this._itemsToShow.length > 0;
 
-        this._scheduleRepositionPopup();
+        this._linesPerItem = lines;
+    }
+
+    _isOnStage() {
+        return !!(this._modalContainer && this._modalContainer.get_parent());
+    }
+
+    _getAvailH() {
+        if (!this._popupLock || !this._monitor) return Infinity;
+        if (this._popupLock.mode === 'above') {
+            return Math.max(0, this._popupLock.aboveBottomY - 10);
+        }
+        return Math.max(0,
+            this._monitor.height - this._popupLock.belowTopY - 10);
+    }
+
+    /**
+     * Synchronously try 3/2/1-line rows and keep the fullest variant that
+     * fits the locked available height. Width/height may change, but the
+     * cursor-anchored edge stays. Off-stage (initial open) measurement is
+     * unreliable, so just build full rows and let the idle pass fit.
+     */
+    _buildAndFitPage() {
+        this._buildPageItems(3);
+
+        if (!this._isOnStage() || !this._popupLock || !this._monitor) return;
+
+        // Clear any previous hard cap so we measure true natural size.
+        this._popupLayout.set_height(-1);
+        this._popupLayout.set_width(-1);
+
+        for (const lines of [3, 2, 1]) {
+            if (lines !== 3) this._buildPageItems(lines);
+            const { natH } = this._uiBuilder.measurePopup(
+                this._popupLayout, this._monitor, this._popupLock.x);
+            if (natH <= this._getAvailH()) break;
+        }
     }
 
     _updateSelection(newIndex) {
@@ -383,13 +452,50 @@ export class CursorPopup {
     _repositionPopup() {
         if (!this._modalContainer || !this._popupLayout || !this._monitor) return;
 
-        this._uiBuilder.positionPopup(
-            this._modalContainer,
-            this._popupLayout,
-            this._anchorX,
-            this._anchorY,
-            this._monitor,
-        );
+        // No lock yet (should not happen after open): fall back to initial
+        // below-first placement.
+        if (!this._popupLock) {
+            this._uiBuilder.positionPopup(
+                this._modalContainer,
+                this._popupLayout,
+                this._anchorX,
+                this._anchorY,
+                this._monitor,
+            );
+            return;
+        }
+
+        const lock = this._popupLock;
+
+        // Measure true natural size (drop any previous hard cap first).
+        this._popupLayout.set_height(-1);
+        this._popupLayout.set_width(-1);
+        const { natH } = this._uiBuilder.measurePopup(
+            this._popupLayout, this._monitor, lock.x);
+        const availH = this._getAvailH();
+
+        if (natH > availH && this._linesPerItem > 1) {
+            // Next page too tall: truncate rows (3->2->1) and re-verify.
+            // Box stays glued to the cursor; only row heights shrink.
+            this._buildPageItems(this._linesPerItem - 1);
+            this._scheduleRepositionPopup();
+            return;
+        }
+
+        if (natH > availH) {
+            // Even single-line rows overflow: hard-cap the box to available
+            // space, still keeping the cursor-anchored edge fixed.
+            this._popupLayout.set_height(Math.max(0, availH));
+            this._uiBuilder.anchorPopup(
+                this._modalContainer, this._popupLayout, lock,
+                this._monitor, Math.max(0, availH));
+            return;
+        }
+
+        this._popupLayout.set_height(-1);
+        this._uiBuilder.anchorPopup(
+            this._modalContainer, this._popupLayout, lock,
+            this._monitor, natH);
     }
 
     _scheduleRepositionPopup() {
