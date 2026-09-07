@@ -3,31 +3,32 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-07 17:34+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2017-05-04 17:27+0300\n"
+"Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
+"Language-Team: \n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.1\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: extension.js:162 prefs.js:199
 msgid "Private mode"
-msgstr ""
+msgstr "Ιδιωτική λειτουργία"
 
 #: extension.js:175 prefs.js:200
 msgid "Clear history"
-msgstr ""
+msgstr "Εκκάθαρση ιστορικού"
 
 #: extension.js:216
 msgid "Settings"
-msgstr ""
+msgstr "Ρυθμίσεις"
 
 #: extension.js:297
 msgid "Clear all?"
@@ -51,19 +52,21 @@ msgstr ""
 
 #: prefs.js:29
 msgid "History Size"
-msgstr ""
+msgstr "Μέγεθος ιστορικού"
 
 #: prefs.js:38
+#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr ""
+msgstr "Μέγιστο μέγεθος αρχείων κρυφής μνήμης (kb)"
 
 #: prefs.js:47
 msgid "Cache only pinned items"
 msgstr ""
 
 #: prefs.js:51
+#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr ""
+msgstr "Εμφάνιση ειδοποίησης με την αντιγραφή"
 
 #: prefs.js:55
 msgid "Move item to the top after selection"
@@ -74,8 +77,9 @@ msgid "Keep selected entry after Clear History"
 msgstr ""
 
 #: prefs.js:63
+#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr ""
+msgstr "Κενό ιστορικό"
 
 #: prefs.js:67
 msgid "Auto-paste on selection"
@@ -122,8 +126,9 @@ msgid "Regular expression matching in search"
 msgstr ""
 
 #: prefs.js:114
+#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr ""
+msgstr "Κενό ιστορικό"
 
 #: prefs.js:118
 msgid "History clear interval (in minutes)"
@@ -162,12 +167,14 @@ msgid "Center of focused window"
 msgstr ""
 
 #: prefs.js:198
+#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr ""
+msgstr "Αντεγραμμένο στο πρόχειρο"
 
 #: prefs.js:205
+#, fuzzy
 msgid "Enable shortcuts"
-msgstr ""
+msgstr "Συντομεύσεις πληκτρολογίου"
 
 #: prefs/excludedApps.js:79
 msgid "Window class name, e.g. \"KeePassXC\""
@@ -186,9 +193,39 @@ msgid "Disabled"
 msgstr ""
 
 #: prefs/shortcutRow.js:51
+#, fuzzy
 msgid "Enter shortcut"
-msgstr ""
+msgstr "Συντομεύσεις πληκτρολογίου"
 
 #: cursor-popup/popupUI.js:54
 msgid "Search..."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Clipboard is empty"
+#~ msgstr "Κενό ιστορικό"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "Κενό ιστορικό"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Μέγεθος προεπισκόπησης (χαρακτήρες)"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Εμφάνιση ειδοποίησης με την αντιγραφή"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "Εμφάνιση ειδοποίησης με την αντιγραφή"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Εμφάνιση/Απόκρυψη μενού"
+
+#~ msgid "Previous entry"
+#~ msgstr "Προηγούμενη καταχώρηση"
+
+#~ msgid "Next entry"
+#~ msgstr "Επόμενη καταχώρηση"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "Διάστημα επαναφόρτωσης (ms)"

@@ -3,79 +3,84 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-07 17:34+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2021-07-07 17:43+0200\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"Language-Team: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: extension.js:162 prefs.js:199
 msgid "Private mode"
-msgstr ""
+msgstr "Privémodus"
 
 #: extension.js:175 prefs.js:200
 msgid "Clear history"
-msgstr ""
+msgstr "Geschiedenis wissen"
 
 #: extension.js:216
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #: extension.js:297
 msgid "Clear all?"
-msgstr ""
+msgstr "Alles wissen?"
 
 #: extension.js:298
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "Weet u zeker dat u alle klemborditems wilt wissen?"
 
 #: extension.js:299
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Dit kan niet ongedaan worden gemaakt."
 
 #: extension.js:300
 msgid "Clear"
-msgstr ""
+msgstr "Wissen"
 
 #: extension.js:301
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 #: prefs.js:29
 msgid "History Size"
-msgstr ""
+msgstr "Geschiedenisomvang"
 
 #: prefs.js:38
+#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr ""
+msgstr "Max. grootte van cachebestand (in kb)"
 
 #: prefs.js:47
+#, fuzzy
 msgid "Cache only pinned items"
-msgstr ""
+msgstr "Alleen favorieten bewaren in cache"
 
 #: prefs.js:51
+#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr ""
+msgstr "Melding tonen na kopiëren"
 
 #: prefs.js:55
 msgid "Move item to the top after selection"
-msgstr ""
+msgstr "Item bovenaan de lijst zetten na aanklikken"
 
 #: prefs.js:59
 msgid "Keep selected entry after Clear History"
 msgstr ""
 
 #: prefs.js:63
+#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr ""
+msgstr "De klembordgeschiedenis is gewist"
 
 #: prefs.js:67
 msgid "Auto-paste on selection"
@@ -122,8 +127,9 @@ msgid "Regular expression matching in search"
 msgstr ""
 
 #: prefs.js:114
+#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr ""
+msgstr "De klembordgeschiedenis is gewist"
 
 #: prefs.js:118
 msgid "History clear interval (in minutes)"
@@ -162,12 +168,14 @@ msgid "Center of focused window"
 msgstr ""
 
 #: prefs.js:198
+#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr ""
+msgstr "Gekopieerd naar het klembord"
 
 #: prefs.js:205
+#, fuzzy
 msgid "Enable shortcuts"
-msgstr ""
+msgstr "Sneltoetsen"
 
 #: prefs/excludedApps.js:79
 msgid "Window class name, e.g. \"KeePassXC\""
@@ -186,9 +194,66 @@ msgid "Disabled"
 msgstr ""
 
 #: prefs/shortcutRow.js:51
+#, fuzzy
 msgid "Enter shortcut"
-msgstr ""
+msgstr "Sneltoetsen"
 
 #: cursor-popup/popupUI.js:54
 msgid "Search..."
 msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "Gekopieerde tekst wordt hier getoond"
+
+#~ msgid "Type here to search..."
+#~ msgstr "Typ om te zoeken…"
+
+#, fuzzy
+#~ msgid "Clipboard is empty"
+#~ msgstr "Klembordinhoud"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "De klembordgeschiedenis is gewist"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Voorvertoningsomvang (aantal tekens)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "Aantal tekens op bovenbalk"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "Tonen op bovenbalk:"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "Geen uitklappijl tonen op bovenbalk"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Melding tonen na kopiëren"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "Melding tonen na kopiëren"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "Witruimte rondom tekst wissen"
+
+#~ msgid "Icon"
+#~ msgstr "Pictogram"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "Klembordinhoud"
+
+#~ msgid "Both"
+#~ msgstr "Beide"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Menu tonen/verbergen"
+
+#~ msgid "Previous entry"
+#~ msgstr "Vorig item"
+
+#~ msgid "Next entry"
+#~ msgstr "Volgend item"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "Ververstussenpoos (in ms)"

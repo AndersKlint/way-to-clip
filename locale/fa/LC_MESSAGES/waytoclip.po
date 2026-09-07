@@ -1,0 +1,273 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# آوید <avds+git@disroot.org>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 60\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 17:34+0200\n"
+"PO-Revision-Date: 2024-04-07 17:57+0330\n"
+"Last-Translator: Avid <avds+git@disroot.org>\n"
+"Language-Team: Farsi <avds+git@disroot.org>\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: extension.js:162 prefs.js:199
+msgid "Private mode"
+msgstr "حالت خصوصی"
+
+#: extension.js:175 prefs.js:200
+msgid "Clear history"
+msgstr "پاک‌سازی تاریخچه"
+
+#: extension.js:216
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: extension.js:297
+msgid "Clear all?"
+msgstr "همه پاک شوند؟"
+
+#: extension.js:298
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "آیا از حذف همهٔ موارد تخته‌گیره مطمئنید؟"
+
+#: extension.js:299
+msgid "This operation cannot be undone."
+msgstr "این عملیات نمی‌تواند بازگردانی شود."
+
+#: extension.js:300
+msgid "Clear"
+msgstr "پاک‌سازی"
+
+#: extension.js:301
+msgid "Cancel"
+msgstr "لغو"
+
+#: prefs.js:29
+msgid "History Size"
+msgstr "اندازهٔ‌ تاریخچه"
+
+#: prefs.js:38
+msgid "Max cache file size (MB)"
+msgstr "بیشینهٔ اندازهٔ پروندهٔ انبارش (م‌ب)"
+
+#: prefs.js:47
+msgid "Cache only pinned items"
+msgstr "فقط انبارش موارد سنجاق‌شده"
+
+#: prefs.js:51
+msgid "Show confirmation on Clear History"
+msgstr "نمایش تائیدیه هنگام پاک‌سازی تاریخچه"
+
+#: prefs.js:55
+msgid "Move item to the top after selection"
+msgstr "جابه‌جایی مورد به بالا پس از گزینش"
+
+#: prefs.js:59
+msgid "Keep selected entry after Clear History"
+msgstr "نگه داشتن ورودی برگزیده پس از پاک‌سازی تاریخچه"
+
+#: prefs.js:63
+#, fuzzy
+msgid "Clear clipboard history on system reboot"
+msgstr "تاریخچهٔ تخته‌گیره پاک شد"
+
+#: prefs.js:67
+msgid "Auto-paste on selection"
+msgstr ""
+
+#: prefs.js:68
+msgid "Automatically paste after selecting an item from the popup"
+msgstr ""
+
+#: prefs.js:72
+msgid "Popup position"
+msgstr ""
+
+#: prefs.js:73
+msgid "Where to show the clipboard popup"
+msgstr ""
+
+#: prefs.js:78
+msgid "Number of pages"
+msgstr ""
+
+#: prefs.js:79
+msgid "Each page shows 10 items (Tab to navigate pages)"
+msgstr ""
+
+#: prefs.js:88
+msgid "Cache images"
+msgstr ""
+
+#: prefs.js:93
+msgid "Excluded Apps"
+msgstr ""
+
+#: prefs.js:94
+msgid "Content copied will not be saved while these apps are in focus"
+msgstr ""
+
+#: prefs.js:106
+msgid "Case-sensitive search"
+msgstr ""
+
+#: prefs.js:110
+msgid "Regular expression matching in search"
+msgstr ""
+
+#: prefs.js:114
+#, fuzzy
+msgid "Clear clipboard history on interval"
+msgstr "تاریخچهٔ تخته‌گیره پاک شد"
+
+#: prefs.js:118
+msgid "History clear interval (in minutes)"
+msgstr ""
+
+#: prefs.js:130
+msgid "Popup"
+msgstr ""
+
+#: prefs.js:131
+msgid "Behavior"
+msgstr ""
+
+#: prefs.js:132
+msgid "Exclusion"
+msgstr ""
+
+#: prefs.js:133
+msgid "Limits"
+msgstr "محدودیت‌ها"
+
+#: prefs.js:134
+msgid "Shortcuts"
+msgstr "میان‌برها"
+
+#: prefs.js:135
+msgid "Search"
+msgstr ""
+
+#: prefs.js:192
+msgid "At mouse cursor"
+msgstr ""
+
+#: prefs.js:193
+msgid "Center of focused window"
+msgstr ""
+
+#: prefs.js:198
+#, fuzzy
+msgid "Toggle the clipboard popup"
+msgstr "به تخته‌گیره رونوشت شد"
+
+#: prefs.js:205
+msgid "Enable shortcuts"
+msgstr "به کار اندازی میان‌برها"
+
+#: prefs/excludedApps.js:79
+msgid "Window class name, e.g. \"KeePassXC\""
+msgstr ""
+
+#: prefs/excludedApps.js:90
+msgid "Choose from installed applications"
+msgstr ""
+
+#: prefs/excludedApps.js:102
+msgid "Search applications..."
+msgstr ""
+
+#: prefs/shortcutRow.js:18
+msgid "Disabled"
+msgstr "از کار افتاده"
+
+#: prefs/shortcutRow.js:51
+msgid "Enter shortcut"
+msgstr "ورود میان‌بر"
+
+#: cursor-popup/popupUI.js:54
+msgid "Search..."
+msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "متن این‌جا خواهد بود"
+
+#~ msgid "Type here to search..."
+#~ msgstr "برای جست‌وجو این‌جا بنویسید..."
+
+#~ msgid "Clipboard is empty"
+#~ msgstr "تخته‌گیره خالیست"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "تاریخچهٔ تخته‌گیره پاک شد"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "اندازهٔ پیش‌نمایش (نویسه)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "شمار نویسه‌ها در نوار بالایی"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "چه در نوار بالایی نمایش داده شود"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "برداشتن پیکان رو به پایین در نوار بالایی"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "نمایش آگاهی هنگام رونوشت"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "نمایش آگاهی هنگام رونوشت"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "برداشتن فاصلهٔ دور متن"
+
+#~ msgid "Show paste buttons"
+#~ msgstr "نمایش دکمهٔ جای‌گذاری"
+
+#~ msgid "Adds a paste button to each entry that lets you paste it directly"
+#~ msgstr "افزودن یک دکمه به هر ورودی برای جای‌گذاری مستقیم"
+
+#~ msgid "Place the pinned section on the bottom"
+#~ msgstr "جای دادن بخش سنجاق‌شده در پایین"
+
+#~ msgid "Requires restarting the extension"
+#~ msgstr "نیازمند راه‌اندازی دوبارهٔ افزونه"
+
+#~ msgid "UI"
+#~ msgstr "رابط کاربری"
+
+#~ msgid "Topbar"
+#~ msgstr "نوار بالایی"
+
+#~ msgid "Notifications"
+#~ msgstr "آگاهی‌ها"
+
+#~ msgid "Icon"
+#~ msgstr "نقشک"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "محتویات تخته‌گیره"
+
+#~ msgid "Both"
+#~ msgstr "هر دو"
+
+#~ msgid "Neither"
+#~ msgstr "هیچ‌کدام"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "تغییر وضعیت فهرست"
+
+#~ msgid "Previous entry"
+#~ msgstr "ورودی پیشین"
+
+#~ msgid "Next entry"
+#~ msgstr "ورودی پسین"

@@ -3,79 +3,83 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-07 17:34+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2021-11-20 14:03+0100\n"
+"Last-Translator: Quentin PAGÈS\n"
+"Language-Team: \n"
+"Language: oc\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
 
 #: extension.js:162 prefs.js:199
 msgid "Private mode"
-msgstr ""
+msgstr "Mòde privat"
 
 #: extension.js:175 prefs.js:200
 msgid "Clear history"
-msgstr ""
+msgstr "Escafar l’istoric"
 
 #: extension.js:216
 msgid "Settings"
-msgstr ""
+msgstr "Preferéncias"
 
 #: extension.js:297
 msgid "Clear all?"
-msgstr ""
+msgstr "Tot escafar ?"
 
 #: extension.js:298
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "Volètz vertadièrament suprimir totes los elements del quichapapièr ?"
 
 #: extension.js:299
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Aquò pòt pas èsser anullat."
 
 #: extension.js:300
 msgid "Clear"
-msgstr ""
+msgstr "Escafar"
 
 #: extension.js:301
 msgid "Cancel"
-msgstr ""
+msgstr "Anullar"
 
 #: prefs.js:29
 msgid "History Size"
-msgstr ""
+msgstr "Talha de l'istoric"
 
 #: prefs.js:38
+#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr ""
+msgstr "Talha maximala del fichièr de cache (ko)"
 
 #: prefs.js:47
+#, fuzzy
 msgid "Cache only pinned items"
-msgstr ""
+msgstr "Metre sonque los favorits en cache"
 
 #: prefs.js:51
+#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr ""
+msgstr "Afichar una notificacion en copiant"
 
 #: prefs.js:55
 msgid "Move item to the top after selection"
-msgstr ""
+msgstr "Desplaçar l’element ennaut aprèp seleccion"
 
 #: prefs.js:59
 msgid "Keep selected entry after Clear History"
 msgstr ""
 
 #: prefs.js:63
+#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr ""
+msgstr "Istoric del quichapapièrs escafat"
 
 #: prefs.js:67
 msgid "Auto-paste on selection"
@@ -122,8 +126,9 @@ msgid "Regular expression matching in search"
 msgstr ""
 
 #: prefs.js:114
+#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr ""
+msgstr "Istoric del quichapapièrs escafat"
 
 #: prefs.js:118
 msgid "History clear interval (in minutes)"
@@ -162,12 +167,14 @@ msgid "Center of focused window"
 msgstr ""
 
 #: prefs.js:198
+#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr ""
+msgstr "Copiat dins lo quichapapièrs"
 
 #: prefs.js:205
+#, fuzzy
 msgid "Enable shortcuts"
-msgstr ""
+msgstr "Acorchis de clavièr"
 
 #: prefs/excludedApps.js:79
 msgid "Window class name, e.g. \"KeePassXC\""
@@ -186,9 +193,66 @@ msgid "Disabled"
 msgstr ""
 
 #: prefs/shortcutRow.js:51
+#, fuzzy
 msgid "Enter shortcut"
-msgstr ""
+msgstr "Acorchis de clavièr"
 
 #: cursor-popup/popupUI.js:54
 msgid "Search..."
 msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "Lo tèxt serà aicí"
+
+#~ msgid "Type here to search..."
+#~ msgstr "Picatz aquí per recercar..."
+
+#, fuzzy
+#~ msgid "Clipboard is empty"
+#~ msgstr "Contengut del quichapapièrs"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "Istoric del quichapapièrs escafat"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Talha de la previsualizacion (caractèrs)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "Nombre de caractèrs a la barra d’ennaut"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "Qué veire a la barra d’ennaut"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "Suprimir la sageta bassa de la barra d’ennaut"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Afichar una notificacion en copiant"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "Afichar una notificacion en copiant"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "Suprimir los espacis blancs a l’entorn del tèxt"
+
+#~ msgid "Icon"
+#~ msgstr "Icòna"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "Contengut del quichapapièrs"
+
+#~ msgid "Both"
+#~ msgstr "Los dos"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Alternar menú"
+
+#~ msgid "Previous entry"
+#~ msgstr "Entrada precedenta"
+
+#~ msgid "Next entry"
+#~ msgstr "Entrada seguenta"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "Interval de refresquiment (ms)"

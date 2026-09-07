@@ -1,81 +1,83 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Czech translation for gnome-shell-extension-clipboard-indicator.
+# Copyright (C) 2014-2017, Yotam Bar-On
+# This file is distributed under the same license as the gnome-shell-extension-clipboard-indicator package.
+# Daniel Rusek <mail@asciiwolf.com>, 2017.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-07 17:34+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2022-03-21 20:40+0100\n"
+"Last-Translator: Radek Šťastný <dedkus@gmail.com>\n"
+"Language-Team: \n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: extension.js:162 prefs.js:199
 msgid "Private mode"
-msgstr ""
+msgstr "Stop (proti úniku citlivých údajů)"
 
 #: extension.js:175 prefs.js:200
 msgid "Clear history"
-msgstr ""
+msgstr "Vyčistit historii"
 
 #: extension.js:216
 msgid "Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #: extension.js:297
 msgid "Clear all?"
-msgstr ""
+msgstr "Vyčistit vše?"
 
 #: extension.js:298
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "Opravdu chcete smazat všechny položky schránky?"
 
 #: extension.js:299
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Tato operace nejde vrátit."
 
 #: extension.js:300
 msgid "Clear"
-msgstr ""
+msgstr "Vyčistit"
 
 #: extension.js:301
 msgid "Cancel"
-msgstr ""
+msgstr "Storno"
 
 #: prefs.js:29
 msgid "History Size"
-msgstr ""
+msgstr "Hloubka historie"
 
 #: prefs.js:38
+#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr ""
+msgstr "Velikost mezipaměti nejvýše (KB)"
 
 #: prefs.js:47
+#, fuzzy
 msgid "Cache only pinned items"
-msgstr ""
+msgstr "Ukládat do mezipaměti pouze oblíbené"
 
 #: prefs.js:51
 msgid "Show confirmation on Clear History"
-msgstr ""
+msgstr "Zobrazit oznámení při mazání historie"
 
 #: prefs.js:55
 msgid "Move item to the top after selection"
-msgstr ""
+msgstr "Po výběru posunout položku na začátek seznamu"
 
 #: prefs.js:59
 msgid "Keep selected entry after Clear History"
 msgstr ""
 
 #: prefs.js:63
+#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr ""
+msgstr "Historie schránky vyčištěna"
 
 #: prefs.js:67
 msgid "Auto-paste on selection"
@@ -122,8 +124,9 @@ msgid "Regular expression matching in search"
 msgstr ""
 
 #: prefs.js:114
+#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr ""
+msgstr "Historie schránky vyčištěna"
 
 #: prefs.js:118
 msgid "History clear interval (in minutes)"
@@ -162,12 +165,14 @@ msgid "Center of focused window"
 msgstr ""
 
 #: prefs.js:198
+#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr ""
+msgstr "Zkopírováno do schránky"
 
 #: prefs.js:205
+#, fuzzy
 msgid "Enable shortcuts"
-msgstr ""
+msgstr "Klávesové zkratky"
 
 #: prefs/excludedApps.js:79
 msgid "Window class name, e.g. \"KeePassXC\""
@@ -186,9 +191,72 @@ msgid "Disabled"
 msgstr ""
 
 #: prefs/shortcutRow.js:51
+#, fuzzy
 msgid "Enter shortcut"
-msgstr ""
+msgstr "Klávesové zkratky"
 
 #: cursor-popup/popupUI.js:54
 msgid "Search..."
 msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "Zde bude text"
+
+#~ msgid "Type here to search..."
+#~ msgstr "Vyhledávejte psaním…"
+
+#, fuzzy
+#~ msgid "Clipboard is empty"
+#~ msgstr "Obsah schránky"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "Historie schránky vyčištěna"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Délka náhledu (znaky)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "Počet znaků v horní liště"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "Co zobrazovat v horní liště"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "Nezobrazovat šipku dolů v horní liště"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Při zkopírování zobrazit oznámení"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "Při zkopírování zobrazit oznámení"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "Odebrat prázdné znaky kolem textu"
+
+#~ msgid "Icon"
+#~ msgstr "Ikona"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "Obsah schránky"
+
+#~ msgid "Both"
+#~ msgstr "Obojí"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Přepnout nabídku"
+
+#~ msgid "Previous entry"
+#~ msgstr "Předchozí položka"
+
+#~ msgid "Next entry"
+#~ msgstr "Následující položka"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "Interval obnovování (ms)"
+
+#~ msgid "Enable Deletion"
+#~ msgstr "Zapnout mazání"
+
+#~ msgid "Disable cache file"
+#~ msgstr "Nepoužívat mezipaměť (soubor)"

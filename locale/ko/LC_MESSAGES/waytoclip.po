@@ -6,60 +6,61 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-07 17:34+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2024-11-19 14:49+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: extension.js:162 prefs.js:199
 msgid "Private mode"
-msgstr ""
+msgstr "프라이빗 모드"
 
 #: extension.js:175 prefs.js:200
 msgid "Clear history"
-msgstr ""
+msgstr "기록 지우기"
 
 #: extension.js:216
 msgid "Settings"
-msgstr ""
+msgstr "설정"
 
 #: extension.js:297
 msgid "Clear all?"
-msgstr ""
+msgstr "모두 지우시겠습니까?"
 
 #: extension.js:298
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "모든 클립보드 항목을 지우시겠습니까?"
 
 #: extension.js:299
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "이 동작은 되돌릴 수 없습니다."
 
 #: extension.js:300
 msgid "Clear"
-msgstr ""
+msgstr "지우기"
 
 #: extension.js:301
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: prefs.js:29
 msgid "History Size"
-msgstr ""
+msgstr "기록 크기"
 
 #: prefs.js:38
 msgid "Max cache file size (MB)"
-msgstr ""
+msgstr "최대 캐시 파일 크기 (MB)"
 
 #: prefs.js:47
 msgid "Cache only pinned items"
-msgstr ""
+msgstr "고정된 항목만 캐시하기"
 
 #: prefs.js:51
 msgid "Show confirmation on Clear History"
@@ -74,8 +75,9 @@ msgid "Keep selected entry after Clear History"
 msgstr ""
 
 #: prefs.js:63
+#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr ""
+msgstr "클립보드 기록을 지움"
 
 #: prefs.js:67
 msgid "Auto-paste on selection"
@@ -122,8 +124,9 @@ msgid "Regular expression matching in search"
 msgstr ""
 
 #: prefs.js:114
+#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr ""
+msgstr "클립보드 기록을 지움"
 
 #: prefs.js:118
 msgid "History clear interval (in minutes)"
@@ -162,8 +165,9 @@ msgid "Center of focused window"
 msgstr ""
 
 #: prefs.js:198
+#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr ""
+msgstr "클립보드에 복사됨"
 
 #: prefs.js:205
 msgid "Enable shortcuts"
@@ -192,3 +196,36 @@ msgstr ""
 #: cursor-popup/popupUI.js:54
 msgid "Search..."
 msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "텍스트가 여기에 표시됩니다"
+
+#~ msgid "Type here to search..."
+#~ msgstr "검색하려면 입력..."
+
+#~ msgid "Clipboard is empty"
+#~ msgstr "클립보드가 비었습니다"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "클립보드 기록을 지움"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "미리보기 크기 (글자 수)"
+
+#~ msgid "Requires restarting the extension"
+#~ msgstr "확장 재시작이 필요합니다"
+
+#~ msgid "UI"
+#~ msgstr "UI"
+
+#~ msgid "Topbar"
+#~ msgstr "상단바"
+
+#~ msgid "Notifications"
+#~ msgstr "알림"
+
+#~ msgid "Icon"
+#~ msgstr "아이콘"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "클립보드 내용"

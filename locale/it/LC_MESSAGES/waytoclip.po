@@ -1,0 +1,273 @@
+# Italian translations for PACKAGE package.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Il Craccatore 2011, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 17:34+0200\n"
+"PO-Revision-Date: 2025-05-23 11:43+0300\n"
+"Last-Translator: Il Craccatore 2011\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: extension.js:162 prefs.js:199
+msgid "Private mode"
+msgstr "Modalità privata"
+
+#: extension.js:175 prefs.js:200
+msgid "Clear history"
+msgstr "Cancella la cronologia"
+
+#: extension.js:216
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: extension.js:297
+msgid "Clear all?"
+msgstr "Cancellare tutto?"
+
+#: extension.js:298
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "Sei sicuro di voler eliminare tutti gli elementi negli appunti?"
+
+#: extension.js:299
+msgid "This operation cannot be undone."
+msgstr "Questa operazione non può essere annullata."
+
+#: extension.js:300
+msgid "Clear"
+msgstr "Cancella"
+
+#: extension.js:301
+msgid "Cancel"
+msgstr "Annulla"
+
+#: prefs.js:29
+msgid "History Size"
+msgstr "Dimensioni della cronologia"
+
+#: prefs.js:38
+msgid "Max cache file size (MB)"
+msgstr "Dimensione massima della cache (MB)"
+
+#: prefs.js:47
+msgid "Cache only pinned items"
+msgstr "Memorizza solo gli elementi fissati"
+
+#: prefs.js:51
+msgid "Show confirmation on Clear History"
+msgstr "Mostra conferma per cancellare la cronologia"
+
+#: prefs.js:55
+msgid "Move item to the top after selection"
+msgstr "Sposta l'elemento in cima dopo la selezione"
+
+#: prefs.js:59
+msgid "Keep selected entry after Clear History"
+msgstr "Mantieni l'elemento selezionato dopo aver cancellato la cronologia"
+
+#: prefs.js:63
+msgid "Clear clipboard history on system reboot"
+msgstr "Cancella la cronologia al riavvio del sistema"
+
+#: prefs.js:67
+#, fuzzy
+msgid "Auto-paste on selection"
+msgstr "Incolla alla selezione"
+
+#: prefs.js:68
+msgid "Automatically paste after selecting an item from the popup"
+msgstr ""
+
+#: prefs.js:72
+msgid "Popup position"
+msgstr ""
+
+#: prefs.js:73
+msgid "Where to show the clipboard popup"
+msgstr ""
+
+#: prefs.js:78
+msgid "Number of pages"
+msgstr ""
+
+#: prefs.js:79
+msgid "Each page shows 10 items (Tab to navigate pages)"
+msgstr ""
+
+#: prefs.js:88
+msgid "Cache images"
+msgstr "Copia le immagini"
+
+#: prefs.js:93
+msgid "Excluded Apps"
+msgstr "App escluse"
+
+#: prefs.js:94
+msgid "Content copied will not be saved while these apps are in focus"
+msgstr ""
+"Il contenuto copiato non verrà salvato mentre queste app sono in primo piano"
+
+#: prefs.js:106
+msgid "Case-sensitive search"
+msgstr ""
+
+#: prefs.js:110
+msgid "Regular expression matching in search"
+msgstr ""
+
+#: prefs.js:114
+#, fuzzy
+msgid "Clear clipboard history on interval"
+msgstr "Cancella la cronologia al riavvio del sistema"
+
+#: prefs.js:118
+msgid "History clear interval (in minutes)"
+msgstr ""
+
+#: prefs.js:130
+msgid "Popup"
+msgstr ""
+
+#: prefs.js:131
+msgid "Behavior"
+msgstr "Comportamento"
+
+#: prefs.js:132
+msgid "Exclusion"
+msgstr "Esclusione"
+
+#: prefs.js:133
+msgid "Limits"
+msgstr "Limiti"
+
+#: prefs.js:134
+msgid "Shortcuts"
+msgstr "Scorciatoie"
+
+#: prefs.js:135
+msgid "Search"
+msgstr ""
+
+#: prefs.js:192
+msgid "At mouse cursor"
+msgstr ""
+
+#: prefs.js:193
+msgid "Center of focused window"
+msgstr ""
+
+#: prefs.js:198
+#, fuzzy
+msgid "Toggle the clipboard popup"
+msgstr "Copiato negli appunti"
+
+#: prefs.js:205
+msgid "Enable shortcuts"
+msgstr "Abilita scorciatoie"
+
+#: prefs/excludedApps.js:79
+msgid "Window class name, e.g. \"KeePassXC\""
+msgstr "Nome classe della finestra, ad esempio \"KeePassXC\""
+
+#: prefs/excludedApps.js:90
+msgid "Choose from installed applications"
+msgstr ""
+
+#: prefs/excludedApps.js:102
+msgid "Search applications..."
+msgstr ""
+
+#: prefs/shortcutRow.js:18
+msgid "Disabled"
+msgstr "Disabilitato"
+
+#: prefs/shortcutRow.js:51
+msgid "Enter shortcut"
+msgstr "Inserisci scorciatoia"
+
+#: cursor-popup/popupUI.js:54
+msgid "Search..."
+msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "Il testo sarà qui"
+
+#~ msgid "Type here to search..."
+#~ msgstr "Digita qui per cercare..."
+
+#~ msgid "Clipboard is empty"
+#~ msgstr "Appunti vuoti"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "Cronologia cancellata"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Dimensione anteprima (caratteri)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "Numero di caratteri nella barra superiore"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "Cosa mostrare nella barra superiore"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "Rimuove la freccia verso il basso nella barra superiore"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Mostra notifica quando si copia"
+
+#~ msgid "Show notification on cycle"
+#~ msgstr "Mostra notifica per voce già copiata"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "Rimuovi spazi bianchi attorno al testo"
+
+#~ msgid "Show paste buttons"
+#~ msgstr "Mostra i pulsanti di incolla"
+
+#~ msgid "Adds a paste button to each entry that lets you paste it directly"
+#~ msgstr "Aggiunge a ogni voce un pulsante Incolla per copiarla direttamente"
+
+#~ msgid "Place the pinned section on the bottom"
+#~ msgstr "Posiziona la sezione fissata in fondo"
+
+#~ msgid "Requires restarting the extension"
+#~ msgstr "Richiede il riavvio dell'estensione"
+
+#~ msgid "UI"
+#~ msgstr "Interfaccia"
+
+#~ msgid "Topbar"
+#~ msgstr "Barra superiore"
+
+#~ msgid "Notifications"
+#~ msgstr "Notifiche"
+
+#~ msgid "Icon"
+#~ msgstr "Icona"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "Contenuto appunti"
+
+#~ msgid "Both"
+#~ msgstr "Entrambi"
+
+#~ msgid "Neither"
+#~ msgstr "Nessuno"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Mostra/nascondi il menu"
+
+#~ msgid "Previous entry"
+#~ msgstr "Voce precedente"
+
+#~ msgid "Next entry"
+#~ msgstr "Voce successiva"

@@ -1,0 +1,263 @@
+# Catalan translation for gnome-shell-extension-clipboard-indicator.
+# Copyright (C) 2018 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-shell-extension-clipboard-indicator package.
+# Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 17:34+0200\n"
+"PO-Revision-Date: 2018-03-10 10:10-0600\n"
+"Last-Translator: Ahmed Ayman <ahmedayman055g@gmail.com>\n"
+"Language-Team: \n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: extension.js:162 prefs.js:199
+msgid "Private mode"
+msgstr "الوضع السري"
+
+#: extension.js:175 prefs.js:200
+msgid "Clear history"
+msgstr "محو السجل"
+
+#: extension.js:216
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: extension.js:297
+msgid "Clear all?"
+msgstr "حذف الكل؟"
+
+#: extension.js:298
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "هل أنت متأكد أنك تريد حذف جميع عناصر الحافطة؟"
+
+#: extension.js:299
+msgid "This operation cannot be undone."
+msgstr ".هذه العملية لا يمكن التراجع عنها"
+
+#: extension.js:300
+msgid "Clear"
+msgstr "إزالة"
+
+#: extension.js:301
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: prefs.js:29
+msgid "History Size"
+msgstr "عدد العناصر في السجل"
+
+#: prefs.js:38
+#, fuzzy
+msgid "Max cache file size (MB)"
+msgstr "أقصى حجم لملف ذاكرة التخزين المؤقت بالكيلوبايت"
+
+#: prefs.js:47
+#, fuzzy
+msgid "Cache only pinned items"
+msgstr "خزن فقط المفضلة"
+
+#: prefs.js:51
+#, fuzzy
+msgid "Show confirmation on Clear History"
+msgstr "أظهر إشعار عند النسخ"
+
+#: prefs.js:55
+msgid "Move item to the top after selection"
+msgstr "انقل العنصر إلى الأعلى بعد إختياره"
+
+#: prefs.js:59
+msgid "Keep selected entry after Clear History"
+msgstr ""
+
+#: prefs.js:63
+#, fuzzy
+msgid "Clear clipboard history on system reboot"
+msgstr "تم إزالة سجل الحافظة"
+
+#: prefs.js:67
+msgid "Auto-paste on selection"
+msgstr ""
+
+#: prefs.js:68
+msgid "Automatically paste after selecting an item from the popup"
+msgstr ""
+
+#: prefs.js:72
+msgid "Popup position"
+msgstr ""
+
+#: prefs.js:73
+msgid "Where to show the clipboard popup"
+msgstr ""
+
+#: prefs.js:78
+msgid "Number of pages"
+msgstr ""
+
+#: prefs.js:79
+msgid "Each page shows 10 items (Tab to navigate pages)"
+msgstr ""
+
+#: prefs.js:88
+msgid "Cache images"
+msgstr ""
+
+#: prefs.js:93
+msgid "Excluded Apps"
+msgstr ""
+
+#: prefs.js:94
+msgid "Content copied will not be saved while these apps are in focus"
+msgstr ""
+
+#: prefs.js:106
+msgid "Case-sensitive search"
+msgstr ""
+
+#: prefs.js:110
+msgid "Regular expression matching in search"
+msgstr ""
+
+#: prefs.js:114
+#, fuzzy
+msgid "Clear clipboard history on interval"
+msgstr "تم إزالة سجل الحافظة"
+
+#: prefs.js:118
+msgid "History clear interval (in minutes)"
+msgstr ""
+
+#: prefs.js:130
+msgid "Popup"
+msgstr ""
+
+#: prefs.js:131
+msgid "Behavior"
+msgstr ""
+
+#: prefs.js:132
+msgid "Exclusion"
+msgstr ""
+
+#: prefs.js:133
+msgid "Limits"
+msgstr ""
+
+#: prefs.js:134
+msgid "Shortcuts"
+msgstr ""
+
+#: prefs.js:135
+msgid "Search"
+msgstr ""
+
+#: prefs.js:192
+msgid "At mouse cursor"
+msgstr ""
+
+#: prefs.js:193
+msgid "Center of focused window"
+msgstr ""
+
+#: prefs.js:198
+#, fuzzy
+msgid "Toggle the clipboard popup"
+msgstr "تم النسخ في الحافظة"
+
+#: prefs.js:205
+#, fuzzy
+msgid "Enable shortcuts"
+msgstr "إختصارات لوحة المفاتيح"
+
+#: prefs/excludedApps.js:79
+msgid "Window class name, e.g. \"KeePassXC\""
+msgstr ""
+
+#: prefs/excludedApps.js:90
+msgid "Choose from installed applications"
+msgstr ""
+
+#: prefs/excludedApps.js:102
+msgid "Search applications..."
+msgstr ""
+
+#: prefs/shortcutRow.js:18
+msgid "Disabled"
+msgstr ""
+
+#: prefs/shortcutRow.js:51
+#, fuzzy
+msgid "Enter shortcut"
+msgstr "إختصارات لوحة المفاتيح"
+
+#: cursor-popup/popupUI.js:54
+msgid "Search..."
+msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "النص سيكون هنا"
+
+#~ msgid "Type here to search..."
+#~ msgstr "...اكتب هنا للبحث"
+
+#, fuzzy
+#~ msgid "Clipboard is empty"
+#~ msgstr "محتوى الحافظة"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "تم إزالة سجل الحافظة"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "عدد الأحرف في المراجعة"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "عدد الأحرف في الشريط العلوي"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "ما سيظهر في الشريط العلوي"
+
+#, fuzzy
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "إزالة السهم السفلي في الشريط العلوي"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "أظهر إشعار عند النسخ"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "أظهر إشعار عند النسخ"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "إزالة المسافات الفارغة حول النص"
+
+#~ msgid "Icon"
+#~ msgstr "أيقونة"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "محتوى الحافظة"
+
+#~ msgid "Both"
+#~ msgstr "كلاهما"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "أظهر/أخفي القائمة"
+
+#~ msgid "Previous entry"
+#~ msgstr "الإدخال السابق"
+
+#~ msgid "Next entry"
+#~ msgstr "الإدخال التالي"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "فترة التحديث بالمللي ثانية"
+
+#~ msgid "Disable cache file"
+#~ msgstr "إلغاء ملف ذاكرة التخزين المؤقت"

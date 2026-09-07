@@ -1,81 +1,83 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Basque translation for gnome-shell-extension-clipboard-indicator.
+# This file is distributed under the same license as the Dash to Dock package.
+# Ibai Oihanguren Sala <ibai@oihanguren.com>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-07 17:34+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-10-05 23:34+0200\n"
+"Last-Translator: Ibai Oihanguren Sala <ibai@oihanguren.com>\n"
+"Language-Team: \n"
+"Language: eu\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: extension.js:162 prefs.js:199
 msgid "Private mode"
-msgstr ""
+msgstr "Modu pribatua"
 
 #: extension.js:175 prefs.js:200
 msgid "Clear history"
-msgstr ""
+msgstr "Garbitu historia"
 
 #: extension.js:216
 msgid "Settings"
-msgstr ""
+msgstr "Ezarpenak"
 
 #: extension.js:297
 msgid "Clear all?"
-msgstr ""
+msgstr "Guztia garbitu?"
 
 #: extension.js:298
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "Ziur arbeleko elementu guztiak kendu nahi dituzula?"
 
 #: extension.js:299
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Ezin da eragiketa hau desegin."
 
 #: extension.js:300
 msgid "Clear"
-msgstr ""
+msgstr "Garbitu"
 
 #: extension.js:301
 msgid "Cancel"
-msgstr ""
+msgstr "Utzi"
 
 #: prefs.js:29
 msgid "History Size"
-msgstr ""
+msgstr "Historiaren tamaina"
 
 #: prefs.js:38
+#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr ""
+msgstr "Cache fitxategiaren gehienezko tamaina (kb)"
 
 #: prefs.js:47
+#, fuzzy
 msgid "Cache only pinned items"
-msgstr ""
+msgstr "Cacheratu gogokoak soilik"
 
 #: prefs.js:51
+#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr ""
+msgstr "Erakutsi jakinarazpena kopiatzean"
 
 #: prefs.js:55
 msgid "Move item to the top after selection"
-msgstr ""
+msgstr "Eraman elementua goraino hautatu ostean"
 
 #: prefs.js:59
 msgid "Keep selected entry after Clear History"
 msgstr ""
 
 #: prefs.js:63
+#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr ""
+msgstr "Arbelaren historia garbituta"
 
 #: prefs.js:67
 msgid "Auto-paste on selection"
@@ -122,8 +124,9 @@ msgid "Regular expression matching in search"
 msgstr ""
 
 #: prefs.js:114
+#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr ""
+msgstr "Arbelaren historia garbituta"
 
 #: prefs.js:118
 msgid "History clear interval (in minutes)"
@@ -162,12 +165,14 @@ msgid "Center of focused window"
 msgstr ""
 
 #: prefs.js:198
+#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr ""
+msgstr "Arbelera kopiatuta"
 
 #: prefs.js:205
+#, fuzzy
 msgid "Enable shortcuts"
-msgstr ""
+msgstr "Laster-teklak"
 
 #: prefs/excludedApps.js:79
 msgid "Window class name, e.g. \"KeePassXC\""
@@ -186,9 +191,69 @@ msgid "Disabled"
 msgstr ""
 
 #: prefs/shortcutRow.js:51
+#, fuzzy
 msgid "Enter shortcut"
-msgstr ""
+msgstr "Laster-teklak"
 
 #: cursor-popup/popupUI.js:54
 msgid "Search..."
 msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "Testua hemen azalduko da"
+
+#~ msgid "Type here to search..."
+#~ msgstr "Idatzi hemen bilatzeko..."
+
+#, fuzzy
+#~ msgid "Clipboard is empty"
+#~ msgstr "Arbelaren edukia"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "Arbelaren historia garbituta"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Aurrebistaren tamaina (karaktereak)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "Goiko barrako karaktere kopurua"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "Zer erakutsi goiko barran"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "Kendu beheranzko gezia goiko barran"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Erakutsi jakinarazpena kopiatzean"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "Erakutsi jakinarazpena kopiatzean"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "Kendu testuaren inguruko hutsuneak"
+
+#~ msgid "Icon"
+#~ msgstr "Ikonoa"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "Arbelaren edukia"
+
+#~ msgid "Both"
+#~ msgstr "Biak"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Erakutsi/ezkutatu menua"
+
+#~ msgid "Previous entry"
+#~ msgstr "Aurreko sarrera"
+
+#~ msgid "Next entry"
+#~ msgstr "Hurrengo sarrera"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "Berritze-maiztasuna (ms)"
+
+#~ msgid "Enable Deletion"
+#~ msgstr "Gaitu ezabaketa"

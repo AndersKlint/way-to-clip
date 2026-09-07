@@ -1,81 +1,86 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Hungarian translation for gnome-shell-extension-clipboard-indicator.
+# Copyright (C) 2014-2015, Yotam Bar-On
+# This file is distributed under the same license as the gnome-shell-extension-clipboard-indicator package.
+# uno20001 <regisztralo111@gmail.com>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-07 17:34+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-10-31 16:25+0100\n"
+"Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
+"Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: extension.js:162 prefs.js:199
 msgid "Private mode"
-msgstr ""
+msgstr "Privát mód"
 
 #: extension.js:175 prefs.js:200
 msgid "Clear history"
-msgstr ""
+msgstr "Előzmények törlése"
 
 #: extension.js:216
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: extension.js:297
 msgid "Clear all?"
-msgstr ""
+msgstr "Összes törlése?"
 
 #: extension.js:298
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "Biztos, hogy törli az összes vágólapelemet?"
 
 #: extension.js:299
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Ez a művelet nem vonható vissza."
 
 #: extension.js:300
 msgid "Clear"
-msgstr ""
+msgstr "Törlés"
 
 #: extension.js:301
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: prefs.js:29
 msgid "History Size"
-msgstr ""
+msgstr "Előzmények száma"
 
 #: prefs.js:38
+#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr ""
+msgstr "Gyorsítótár mérete (KiB)"
 
 #: prefs.js:47
+#, fuzzy
 msgid "Cache only pinned items"
-msgstr ""
+msgstr "Csak a kedvencek gyorsítótárazása"
 
 #: prefs.js:51
+#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr ""
+msgstr "Értesítés vágólapra másoláskor"
 
 #: prefs.js:55
 msgid "Move item to the top after selection"
-msgstr ""
+msgstr "Első helyre mozgatás kiválasztás után"
 
 #: prefs.js:59
 msgid "Keep selected entry after Clear History"
 msgstr ""
 
 #: prefs.js:63
+#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr ""
+msgstr "Vágólap előzmények törölve"
 
 #: prefs.js:67
 msgid "Auto-paste on selection"
@@ -122,8 +127,9 @@ msgid "Regular expression matching in search"
 msgstr ""
 
 #: prefs.js:114
+#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr ""
+msgstr "Vágólap előzmények törölve"
 
 #: prefs.js:118
 msgid "History clear interval (in minutes)"
@@ -162,12 +168,14 @@ msgid "Center of focused window"
 msgstr ""
 
 #: prefs.js:198
+#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr ""
+msgstr "Vágólapra másolva"
 
 #: prefs.js:205
+#, fuzzy
 msgid "Enable shortcuts"
-msgstr ""
+msgstr "Gyorsbillentyűk"
 
 #: prefs/excludedApps.js:79
 msgid "Window class name, e.g. \"KeePassXC\""
@@ -186,9 +194,69 @@ msgid "Disabled"
 msgstr ""
 
 #: prefs/shortcutRow.js:51
+#, fuzzy
 msgid "Enter shortcut"
-msgstr ""
+msgstr "Gyorsbillentyűk"
 
 #: cursor-popup/popupUI.js:54
 msgid "Search..."
 msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "A szöveg itt fog megjelenni"
+
+#~ msgid "Type here to search..."
+#~ msgstr "Írjon ide a kereséshez…"
+
+#, fuzzy
+#~ msgid "Clipboard is empty"
+#~ msgstr "Vágólap tartalma"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "Vágólap előzmények törölve"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Előnézet mérete (karakter)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "Karakterek száma a felső sávban"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "Mi legyen látható a felső sávban"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "A lefelé mutató nyíl eltávolítása a felső sávból"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Értesítés vágólapra másoláskor"
+
+#, fuzzy
+#~ msgid "Show notification on cycle"
+#~ msgstr "Értesítés vágólapra másoláskor"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "Szóközök eltávolítása a szöveg körül"
+
+#~ msgid "Icon"
+#~ msgstr "Ikon"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "Vágólap tartalma"
+
+#~ msgid "Both"
+#~ msgstr "Mindkettő"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Menü megnyitása/bezárása"
+
+#~ msgid "Previous entry"
+#~ msgstr "Előző"
+
+#~ msgid "Next entry"
+#~ msgstr "Következő"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "Frissítési időköz (ms)"
+
+#~ msgid "Enable Deletion"
+#~ msgstr "Törlés engedélyezése"

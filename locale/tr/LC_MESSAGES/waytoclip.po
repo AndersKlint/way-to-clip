@@ -1,0 +1,280 @@
+# Turkish translation for gnome-shell-extension-clipboard-indicator.
+# Copyright (C) 2017-2018, neynefes
+# This file is distributed under the same license as the gnome-shell-extension-clipboard-indicator package.
+# Hüseyin Karacabey <neynefes@ubuntu-tr.net>, 2017.
+# Osman Coskun <osman.coskun@pardus.org.tr>, 2025.
+# bywkgexmkiltxh <ascdasvcfasx@outlook.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unnamed project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-07 17:34+0200\n"
+"PO-Revision-Date: 2025-09-21 16:43+0300\n"
+"Last-Translator: bywkgexmkiltxh <ascdasvcfasx@outlook.com>\n"
+"Language-Team: Turkish <dev@pardus.org.tr>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 48.0\n"
+
+#: extension.js:162 prefs.js:199
+msgid "Private mode"
+msgstr "Gizli kip"
+
+#: extension.js:175 prefs.js:200
+msgid "Clear history"
+msgstr "Geçmişi temizle"
+
+#: extension.js:216
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: extension.js:297
+msgid "Clear all?"
+msgstr "Hepsi temizlensin mi?"
+
+#: extension.js:298
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "Tüm pano öğelerini silmek istediğinizden emin misiniz?"
+
+#: extension.js:299
+msgid "This operation cannot be undone."
+msgstr "Bu işlem geri alınamaz."
+
+#: extension.js:300
+msgid "Clear"
+msgstr "Temizle"
+
+#: extension.js:301
+msgid "Cancel"
+msgstr "İptal"
+
+#: prefs.js:29
+msgid "History Size"
+msgstr "Geçmiş boyutu"
+
+#: prefs.js:38
+msgid "Max cache file size (MB)"
+msgstr "En yüksek önbellek boyutu (MB)"
+
+#: prefs.js:47
+msgid "Cache only pinned items"
+msgstr "Yalnızca iliştirilen öğeleri önbellekte tut"
+
+#: prefs.js:51
+msgid "Show confirmation on Clear History"
+msgstr "Geçmişi temizlerken onay iste"
+
+#: prefs.js:55
+msgid "Move item to the top after selection"
+msgstr "Seçilen öğeyi en üste taşı"
+
+#: prefs.js:59
+msgid "Keep selected entry after Clear History"
+msgstr "Seçili girdileri geçmişi temizlerken sakla"
+
+#: prefs.js:63
+msgid "Clear clipboard history on system reboot"
+msgstr "Pano geçmişini sistem yeniden başlatıldığında temizle"
+
+#: prefs.js:67
+#, fuzzy
+msgid "Auto-paste on selection"
+msgstr "Seçerken yapıştır"
+
+#: prefs.js:68
+msgid "Automatically paste after selecting an item from the popup"
+msgstr ""
+
+#: prefs.js:72
+msgid "Popup position"
+msgstr ""
+
+#: prefs.js:73
+msgid "Where to show the clipboard popup"
+msgstr ""
+
+#: prefs.js:78
+msgid "Number of pages"
+msgstr ""
+
+#: prefs.js:79
+msgid "Each page shows 10 items (Tab to navigate pages)"
+msgstr ""
+
+#: prefs.js:88
+msgid "Cache images"
+msgstr "Resimleri önbellekte tut"
+
+#: prefs.js:93
+msgid "Excluded Apps"
+msgstr "Dışlanan Uygulamalar"
+
+#: prefs.js:94
+msgid "Content copied will not be saved while these apps are in focus"
+msgstr "Bu uygulamalar odaklanmışsa kopyalanan içerikler kaydedilmeyecek"
+
+#: prefs.js:106
+msgid "Case-sensitive search"
+msgstr ""
+
+#: prefs.js:110
+msgid "Regular expression matching in search"
+msgstr ""
+
+#: prefs.js:114
+#, fuzzy
+msgid "Clear clipboard history on interval"
+msgstr "Pano geçmişini sistem yeniden başlatıldığında temizle"
+
+#: prefs.js:118
+msgid "History clear interval (in minutes)"
+msgstr ""
+
+#: prefs.js:130
+msgid "Popup"
+msgstr ""
+
+#: prefs.js:131
+msgid "Behavior"
+msgstr "Davranış"
+
+#: prefs.js:132
+msgid "Exclusion"
+msgstr "Dışlama"
+
+#: prefs.js:133
+msgid "Limits"
+msgstr "Sınırlamalar"
+
+#: prefs.js:134
+msgid "Shortcuts"
+msgstr "Kısayollar"
+
+#: prefs.js:135
+msgid "Search"
+msgstr ""
+
+#: prefs.js:192
+msgid "At mouse cursor"
+msgstr ""
+
+#: prefs.js:193
+msgid "Center of focused window"
+msgstr ""
+
+#: prefs.js:198
+#, fuzzy
+msgid "Toggle the clipboard popup"
+msgstr "Panoya kopyalandı"
+
+#: prefs.js:205
+msgid "Enable shortcuts"
+msgstr "Kısayolları etkinleştir"
+
+#: prefs/excludedApps.js:79
+msgid "Window class name, e.g. \"KeePassXC\""
+msgstr "Pencere sınıf adı, örn. \"KeePassXC\""
+
+#: prefs/excludedApps.js:90
+msgid "Choose from installed applications"
+msgstr ""
+
+#: prefs/excludedApps.js:102
+msgid "Search applications..."
+msgstr ""
+
+#: prefs/shortcutRow.js:18
+msgid "Disabled"
+msgstr "Devre Dışı"
+
+#: prefs/shortcutRow.js:51
+msgid "Enter shortcut"
+msgstr "Kısayol gir"
+
+#: cursor-popup/popupUI.js:54
+msgid "Search..."
+msgstr ""
+
+#~ msgid "Text will be here"
+#~ msgstr "Metin burada olacak"
+
+#~ msgid "Type here to search..."
+#~ msgstr "Aramak için buraya yaz..."
+
+#~ msgid "Clipboard is empty"
+#~ msgstr "Pano boş"
+
+#~ msgid "Clipboard history cleared"
+#~ msgstr "Pano geçmişi temizlendi"
+
+#~ msgid "Preview Size (characters)"
+#~ msgstr "Ön izleme boyutu (karakter)"
+
+#~ msgid "Number of characters in top bar"
+#~ msgstr "Üst çubukta görüntülenecek karakter sayısı"
+
+#~ msgid "What to show in top bar"
+#~ msgstr "Üst çubukta görüntülenecek öğe"
+
+#~ msgid "Remove down arrow in top bar"
+#~ msgstr "Üst çubuktaki oku kaldır"
+
+#~ msgid "Show notification on copy"
+#~ msgstr "Kopyalandığında bildirim göster"
+
+#~ msgid "Show notification on cycle"
+#~ msgstr "Bildirimleri döngüyle göster"
+
+#~ msgid "Remove whitespace around text"
+#~ msgstr "Metnin çevresindeki boşlukları sil"
+
+#~ msgid "Show paste buttons"
+#~ msgstr "Yapıştırma düğmelerini göster"
+
+#~ msgid "Adds a paste button to each entry that lets you paste it directly"
+#~ msgstr ""
+#~ "Her bir girdiye doğrudan yapıştırmanızı sağlayan bir yapıştırma düğmesi "
+#~ "ekler"
+
+#~ msgid "Place the pinned section on the bottom"
+#~ msgstr "İliştirilmiş bölmeyi aşağıda göster"
+
+#~ msgid "Requires restarting the extension"
+#~ msgstr "Eklentinin yeniden başlatılmasını gerektirir"
+
+#~ msgid "UI"
+#~ msgstr "Arayüz"
+
+#~ msgid "Topbar"
+#~ msgstr "Üst Çubuk"
+
+#~ msgid "Notifications"
+#~ msgstr "Bildirimler"
+
+#~ msgid "Icon"
+#~ msgstr "Simge"
+
+#~ msgid "Clipboard Content"
+#~ msgstr "Pano İçeriği"
+
+#~ msgid "Both"
+#~ msgstr "İkisi Birden"
+
+#~ msgid "Neither"
+#~ msgstr "Hiçbiri"
+
+#~ msgid "Toggle the menu"
+#~ msgstr "Menüyü değiştir"
+
+#~ msgid "Previous entry"
+#~ msgstr "Önceki girdi"
+
+#~ msgid "Next entry"
+#~ msgstr "Sonraki girdi"
+
+#~ msgid "Refresh Interval (ms)"
+#~ msgstr "Yenileme sıklığı (ms)"
