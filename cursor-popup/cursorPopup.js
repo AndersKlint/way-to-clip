@@ -376,44 +376,60 @@ export class CursorPopup {
     }
 
     /**
+     * Try row densities from `startLines` down to 1 and keep the fullest
+     * variant that fits the locked available height. Returns the final
+     * natural height (possibly still overflowing when even 1-line rows
+     * don't fit — callers hard-cap in that case).
+     */
+    _fitRowsToLock(startLines) {
+        let h = 0;
+        for (let lines = startLines; lines >= 1; lines--) {
+            this._buildPageItems(lines);
+            this._popupLayout.set_height(-1);
+            this._popupLayout.set_width(-1);
+            ({ natH: h } = this._uiBuilder.measurePopup(
+                this._popupLayout, this._monitor, this._popupLock.x));
+            if (h <= this._getAvailH())
+                break;
+        }
+        return h;
+    }
+
+    _anchorToLock(height) {
+        const availH = this._getAvailH();
+        if (height > availH) {
+            this._popupLayout.set_height(Math.max(0, availH));
+            this._uiBuilder.anchorPopup(
+                this._modalContainer, this._popupLayout, this._popupLock,
+                this._monitor, Math.max(0, availH));
+        } else {
+            this._popupLayout.set_height(-1);
+            this._uiBuilder.anchorPopup(
+                this._modalContainer, this._popupLayout, this._popupLock,
+                this._monitor, height);
+        }
+    }
+
+    /**
      * Synchronously try 3/2/1-line rows and keep the fullest variant that
      * fits the locked available height. Width/height may change, but the
      * cursor-anchored edge stays. Off-stage (initial open) measurement is
      * unreliable, so just build full rows and let the idle pass fit.
      */
     _buildAndFitPage() {
-        this._buildPageItems(3);
-
-        if (!this._isOnStage() || !this._popupLock || !this._monitor) return;
+        if (!this._isOnStage() || !this._popupLock || !this._monitor) {
+            this._buildPageItems(3);
+            return;
+        }
 
         // Clear any previous hard cap so we measure true natural size.
         this._popupLayout.set_height(-1);
         this._popupLayout.set_width(-1);
 
-        let natH = 0;
-        for (const lines of [3, 2, 1]) {
-            if (lines !== 3) this._buildPageItems(lines);
-            ({ natH } = this._uiBuilder.measurePopup(
-                this._popupLayout, this._monitor, this._popupLock.x));
-            if (natH <= this._getAvailH()) break;
-        }
-
-        const availH = this._getAvailH();
-        if (natH > availH) {
-            // Even single-line rows overflow: hard-cap synchronously so the
-            // first paint already respects the lock (no oversize flash).
-            this._popupLayout.set_height(Math.max(0, availH));
-            this._uiBuilder.anchorPopup(
-                this._modalContainer, this._popupLayout, this._popupLock,
-                this._monitor, Math.max(0, availH));
-        } else {
-            // Anchor synchronously BEFORE paint: above-mode moves Y up-front
-            // so the bottom edge never detaches for a frame. Idle only verifies.
-            this._popupLayout.set_height(-1);
-            this._uiBuilder.anchorPopup(
-                this._modalContainer, this._popupLayout, this._popupLock,
-                this._monitor, natH);
-        }
+        const natH = this._fitRowsToLock(3);
+        // Anchor synchronously BEFORE paint: above-mode moves Y up-front
+        // so the bottom edge never detaches for a frame. Idle only verifies.
+        this._anchorToLock(natH);
     }
 
     _updateSelection(newIndex) {
@@ -502,45 +518,13 @@ export class CursorPopup {
             // Step rows down synchronously (no paint between rebuilds) and
             // anchor the final size NOW so the next painted frame already
             // keeps the cursor edge glued. Idle only verifies post-layout.
-            let h = natH;
-            for (let l = this._linesPerItem - 1; l >= 1; l--) {
-                this._buildPageItems(l);
-                this._popupLayout.set_height(-1);
-                this._popupLayout.set_width(-1);
-                ({ natH: h } = this._uiBuilder.measurePopup(
-                    this._popupLayout, this._monitor, lock.x));
-                if (h <= this._getAvailH()) break;
-            }
-            const avail = this._getAvailH();
-            if (h > avail) {
-                this._popupLayout.set_height(Math.max(0, avail));
-                this._uiBuilder.anchorPopup(
-                    this._modalContainer, this._popupLayout, lock,
-                    this._monitor, Math.max(0, avail));
-                return;
-            }
-            this._popupLayout.set_height(-1);
-            this._uiBuilder.anchorPopup(
-                this._modalContainer, this._popupLayout, lock,
-                this._monitor, h);
+            const h = this._fitRowsToLock(this._linesPerItem - 1);
+            this._anchorToLock(h);
             this._scheduleRepositionPopup();
             return;
         }
 
-        if (natH > availH) {
-            // Even single-line rows overflow: hard-cap the box to available
-            // space, still keeping the cursor-anchored edge fixed.
-            this._popupLayout.set_height(Math.max(0, availH));
-            this._uiBuilder.anchorPopup(
-                this._modalContainer, this._popupLayout, lock,
-                this._monitor, Math.max(0, availH));
-            return;
-        }
-
-        this._popupLayout.set_height(-1);
-        this._uiBuilder.anchorPopup(
-            this._modalContainer, this._popupLayout, lock,
-            this._monitor, natH);
+        this._anchorToLock(natH);
     }
 
     _scheduleRepositionPopup() {

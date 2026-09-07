@@ -21,3 +21,27 @@ export const PrefsFields = {
     CASE_SENSITIVE_SEARCH           : 'case-sensitive-search',
     REGEX_SEARCH                    : 'regex-search',
 };
+
+/** Number of clipboard rows shown per popup page. */
+export const ITEMS_PER_PAGE = 10;
+
+/** Clipboard mimetypes probed in priority order (text first, then images). */
+export const CLIPBOARD_MIMETYPES = [
+    'text/plain;charset=utf-8',
+    'UTF8_STRING',
+    'text/plain',
+    'STRING',
+    'image/gif',
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'image/webp',
+    'image/svg+xml',
+    'text/html',
+];
+
+/** Popup placement modes (mirrors popup-position-mode schema). */
+export const PopupPositionMode = {
+    CURSOR: 0,
+    WINDOW_CENTER: 1,
+};

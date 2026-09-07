@@ -66,7 +66,7 @@ gnome-extensions prefs waytoclip@waytoclip
 |---------|---------|-------------|
 | Auto-paste on selection | On | Automatically paste after selecting an item |
 | History size | 100 | Maximum number of items to keep |
-| Move item to top after selection | Off | Reorder history on selection |
+| Move item to top after selection | On | Reorder history on selection (re-copied duplicates always bubble up) |
 | Popup position | At mouse cursor | Cursor or center of focused window |
 | Number of pages | 3 | 10 items per page |
 

@@ -4,69 +4,87 @@ import Clutter from 'gi://Clutter';
 import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
 export class DialogManager {
-    #openDialog;
+    #openDialog = null;
 
-    open (title, message, sub_message, ok_label, cancel_label, callback) {
-        if (this.#openDialog) return;
-        this.#openDialog = new ConfirmDialog(title, message + "\n" + sub_message, ok_label, cancel_label, callback);
-        this.#openDialog.onFinish = () => this.#openDialog = null;
+    open({ title, message, subMessage, okLabel, cancelLabel, onConfirm } = {}) {
+        // Back-compat: open(title, message, sub_message, ok, cancel, cb)
+        if (typeof title === 'string') {
+            const [t, m, sm, ok, cancel, cb] = arguments;
+            return this.open({ title: t, message: m, subMessage: sm, okLabel: ok, cancelLabel: cancel, onConfirm: cb });
+        }
+        if (this.#openDialog)
+            return;
+        this.#openDialog = new ConfirmDialog({
+            title,
+            message,
+            subMessage,
+            okLabel,
+            cancelLabel,
+            onConfirm,
+            onFinish: () => {
+                this.#openDialog = null;
+            },
+        });
         this.#openDialog.open();
     }
 
-    destroy () {
-        if (this.#openDialog) this.#openDialog.destroy();
-        this.#openDialog = null;
+    destroy() {
+        if (this.#openDialog) {
+            try {
+                this.#openDialog.close();
+            } catch (_e) { /* already closed */ }
+            try {
+                this.#openDialog.destroy();
+            } catch (_e) { /* already destroyed */ }
+            this.#openDialog = null;
+        }
     }
 }
 
 const ConfirmDialog = GObject.registerClass(
-  class ConfirmDialog extends ModalDialog.ModalDialog {
+    class ConfirmDialog extends ModalDialog.ModalDialog {
+        _init({ title, message, subMessage, okLabel, cancelLabel, onConfirm, onFinish }) {
+            super._init();
+            this._onFinish = onFinish ?? (() => {});
+            this._onConfirm = onConfirm ?? (() => {});
 
-    _init(title, desc, ok_label, cancel_label, callback) {
-      super._init();
+            const mainBox = new St.BoxLayout({ vertical: false });
+            this.contentLayout.add_child(mainBox);
 
-      let main_box = new St.BoxLayout({
-        vertical: false
-      });
-      this.contentLayout.add_child(main_box);
+            const messageBox = new St.BoxLayout({ vertical: true });
+            mainBox.add_child(messageBox);
 
-      let message_box = new St.BoxLayout({
-        vertical: true
-      });
-      main_box.add_child(message_box);
+            messageBox.add_child(new St.Label({
+                style: 'font-weight: bold',
+                x_align: Clutter.ActorAlign.CENTER,
+                text: title,
+            }));
 
-      let subject_label = new St.Label({
-        style: 'font-weight: bold',
-        x_align: Clutter.ActorAlign.CENTER,
-        text: title
-      });
-      message_box.add_child(subject_label);
+            const description = subMessage ? `${message}\n${subMessage}` : message;
+            messageBox.add_child(new St.Label({
+                style: 'padding-top: 12px',
+                x_align: Clutter.ActorAlign.CENTER,
+                text: description,
+            }));
 
-      let desc_label = new St.Label({
-        style: 'padding-top: 12px',
-        x_align: Clutter.ActorAlign.CENTER,
-        text: desc
-      });
-      message_box.add_child(desc_label);
-
-      this.setButtons([
-        {
-          label: cancel_label,
-          action: () => {
-            this.close();
-            this.onFinish();
-          },
-          key: Clutter.Escape
-        },
-        {
-          label: ok_label,
-          action: () => {
-            this.close();
-            this.onFinish();
-            callback();
-          }
+            this.setButtons([
+                {
+                    label: cancelLabel,
+                    action: () => {
+                        this.close();
+                        this._onFinish();
+                    },
+                    key: Clutter.Escape,
+                },
+                {
+                    label: okLabel,
+                    action: () => {
+                        this.close();
+                        this._onFinish();
+                        this._onConfirm();
+                    },
+                },
+            ]);
         }
-      ]);
     }
-  }
 );

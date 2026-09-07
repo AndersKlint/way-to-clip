@@ -6,6 +6,8 @@ import Clutter from 'gi://Clutter';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
 
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
 export class PopupUIBuilder {
     /**
      * Create the full-screen modal overlay widget.

@@ -17,23 +17,40 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 ## Architecture
 
 ```
-├── extension.js      - Clipboard monitoring, minimal panel menu, cursor-popup wiring
+├── extension.js      - Thin entry (enable/disable) + WayToClip indicator wiring
+├── src/
+│   ├── settingsManager.js      - Typed Gio.Settings wrapper (replaces globals)
+│   ├── historyStore.js         - Pure history/selection/trim model (unit-tested)
+│   ├── clipboardEntry.js       - Clipboard item model (SHA256 filenames)
+│   ├── clipboardMenuItem.js    - PopupMenuItem subclass (no monkey-patching)
+│   ├── clipboardManager.js     - Clipboard monitoring, read/write, inhibit token
+│   ├── shortcutManager.js      - Global keybinding lifecycle
+│   ├── historyClearScheduler.js - Interval-clear timer (single dispose)
+│   ├── autoPaster.js           - Paste keypresses + clipboard restore
+│   └── logger.js               - Prefixed log helpers
 ├── cursor-popup/
 │   ├── cursorPopup.js    - Popup lifecycle, paging, selection
 │   ├── popupUI.js        - Widget construction and cursor-anchored positioning
 │   ├── popupKeyHandler.js - Main/search key handling
 │   └── popupSearch.js    - Filtering (case-sensitive/regex optional)
-├── prefs.js          - Settings UI (GTK4/Adw)
-├── constants.js      - Settings key definitions
-├── registry.js       - Clipboard data persistence (JSON cache + image files)
+├── prefs.js            - Settings page assembly (GTK4/Adw)
+├── prefs/
+│   ├── excludedApps.js - Excluded-apps ExpanderRow manager
+│   └── shortcutRow.js  - Capturable shortcut button (no controller leak)
+├── constants.js      - Settings keys + ITEMS_PER_PAGE + mimetypes
+├── registry.js       - Coalesced atomic persistence (JSON cache + image files)
 ├── keyboard.js       - Virtual keyboard for auto-paste
-└── confirmDialog.js  - Clear-history confirmation dialog
+├── confirmDialog.js  - Clear-history confirmation dialog
+└── tests/runTests.js - Headless unit tests (`make check` / `gjs -m`)
 ```
 
 ## Key Classes
-- `WayToClip` (extension.js): Clipboard monitoring, minimal panel menu (private toggle, clear, settings)
+- `WayToClip` (extension.js): Indicator menus, wires managers together
+- `HistoryStore` (src/): Pure history list, selection, trim/clear rules
+- `ClipboardManager` (src/): Clipboard events, dedup callbacks, inhibit
+- `Registry` (registry.js): Serialized atomic writes, hardened read
+- `HistoryClearScheduler` (src/): Countdown timer with leak-free dispose
 - `CursorPopup` (cursor-popup/): Floating popup with search, navigation, selection
-- `Registry` (registry.js): File-based clipboard history storage
 
 ## Keyboard Shortcuts
 
@@ -68,7 +85,7 @@ In-popup:
 | `cache-size` | int | 5 | Cache file size limit (MB) |
 | `cache-only-favorites` | boolean | false | Only persist pinned items (dormant, future) |
 | `confirm-clear` | boolean | true | Confirm before clearing history |
-| `move-item-first` | boolean | false | Move selected item to top |
+| `move-item-first` | boolean | true | Move selected item to top (re-copied duplicates always bubble up) |
 | `enable-keybindings` | boolean | true | Enable keyboard shortcuts |
 | `keep-selected-on-clear` | boolean | false | Keep selection when clearing |
 | `cache-images` | boolean | true | Cache image content |
