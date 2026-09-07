@@ -27,23 +27,27 @@
     padding: 8px 12px;
     border-radius: 6px;
     spacing: 8px;
+    border: 1px solid transparent;
 }
 
 .waytoclip-popup-item:hover,
 .waytoclip-popup-item:focus {
     background-color: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .waytoclip-popup-item.selected,
 .waytoclip-popup-item.selected:hover,
 .waytoclip-popup-item.selected:focus {
     background-color: rgba(52, 211, 153, 0.4);
-    border: 1px solid rgba(52, 211, 153, 0.6);
+    background-color: st-transparentize(-st-accent-color, 0.6);
+    border-color: rgba(52, 211, 153, 0.6);
+    border-color: st-transparentize(-st-accent-color, 0.4);
 }
 
 .waytoclip-popup-item:active {
     background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .waytoclip-item-number {
@@ -94,7 +98,8 @@
 }
 
 .waytoclip-hint.active {
-    color: #34d399; /* Green color same as selected item */
+    color: #34d399; /* Fallback for GNOME < 47 without -st-accent-color */
+    color: -st-accent-color;
 }
 
 .waytoclip-hint StIcon {

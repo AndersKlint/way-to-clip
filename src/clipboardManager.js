@@ -125,9 +125,11 @@ export class ClipboardManager {
                         }
                         // HACK: GNOME 2nd+ copy mangles mimetypes, see
                         // https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/8233
-                        let effectiveType = type;
-                        if (type === 'UTF8_STRING')
-                            effectiveType = 'text/plain;charset=utf-8';
+                        // Collapse the plain-text family (STRING vs text/plain
+                        // vs UTF8_STRING) to one canonical target so re-copies
+                        // dedupe and paste works. image/* and text/html pass
+                        // through untouched.
+                        let effectiveType = ClipboardEntry.canonicalizeMimetype(type);
                         try {
                             const result = new ClipboardEntry(
                                 effectiveType, bytes.get_data(), false);
@@ -160,7 +162,10 @@ export class ClipboardManager {
     }
 
     writeEntry(entry) {
-        this.#clipboard.set_content(CLIPBOARD_TYPE, entry.mimetype(), entry.asBytes());
+        const mimetype = typeof entry.normalizedMimetype === 'function'
+            ? entry.normalizedMimetype()
+            : entry.mimetype();
+        this.#clipboard.set_content(CLIPBOARD_TYPE, mimetype, entry.asBytes());
     }
 
     clear() {

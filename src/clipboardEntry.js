@@ -27,6 +27,28 @@ export class ClipboardEntry {
     }
 
     /**
+     * Canonical target offered when pasting plain text.
+     * Only the plain-text family (text/plain variants, STRING,
+     * UTF8_STRING) collapses here; image/* and text/html (real markup)
+     * are never normalized so pictures and formatting survive.
+     */
+    static canonicalPlainTextMimetype = 'text/plain;charset=utf-8';
+
+    static isPlainTextMimetype(mimetype) {
+        return mimetype === 'text/plain' ||
+            mimetype.startsWith('text/plain;') ||
+            mimetype === 'STRING' ||
+            mimetype === 'UTF8_STRING' ||
+            mimetype === ClipboardEntry.canonicalPlainTextMimetype;
+    }
+
+    static canonicalizeMimetype(mimetype) {
+        if (ClipboardEntry.isPlainTextMimetype(mimetype))
+            return ClipboardEntry.canonicalPlainTextMimetype;
+        return mimetype;
+    }
+
+    /**
      * Rebuild an entry from its JSON registry representation.
      * Never throws: returns null for missing/corrupt data so callers
      * can filter it out instead of hanging.
@@ -73,7 +95,11 @@ export class ClipboardEntry {
     }
 
     constructor(mimetype, bytes, favorite) {
-        this.#mimetype = mimetype;
+        // Collapse the plain-text family (STRING vs text/plain vs
+        // UTF8_STRING from GNOME's 2nd-copy mimetype mangling) to one
+        // canonical target so duplicates dedupe and paste works.
+        // image/* and text/html pass through untouched.
+        this.#mimetype = ClipboardEntry.canonicalizeMimetype(mimetype);
         // Store a plain Uint8Array copy so callers can't mutate us.
         this.#bytes = bytes instanceof Uint8Array ? bytes.slice() : bytes;
         this.#favorite = !!favorite;
@@ -97,6 +123,15 @@ export class ClipboardEntry {
 
     mimetype() {
         return this.#mimetype;
+    }
+
+    /**
+     * Target to offer when writing this entry back to the clipboard.
+     * Plain text always offers the canonical target; everything else
+     * (images, text/html, ...) keeps its stored mimetype.
+     */
+    normalizedMimetype() {
+        return ClipboardEntry.canonicalizeMimetype(this.#mimetype);
     }
 
     isFavorite() {
@@ -132,7 +167,10 @@ export class ClipboardEntry {
     equals(otherEntry) {
         if (!otherEntry)
             return false;
-        if (this.#mimetype !== otherEntry.mimetype())
+        const otherMimetype = typeof otherEntry.normalizedMimetype === 'function'
+            ? otherEntry.normalizedMimetype()
+            : otherEntry.mimetype();
+        if (this.normalizedMimetype() !== ClipboardEntry.canonicalizeMimetype(otherMimetype))
             return false;
         try {
             return this.asBytes().equal(otherEntry.asBytes());
