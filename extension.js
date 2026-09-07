@@ -1,4 +1,5 @@
 import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 
@@ -157,6 +158,25 @@ const WayToClip = GObject.registerClass({
 
         this.favoritesSection = new PopupMenu.PopupMenuSection();
         this.historySection = new PopupMenu.PopupMenuSection();
+
+        this.showPopupMenuItem = new PopupMenu.PopupMenuItem(_('Show clipboard popup'));
+        this.showPopupMenuItem.insert_child_at_index(
+            new St.Icon({
+                icon_name: 'edit-paste-symbolic',
+                style_class: 'waytoclip-menu-icon',
+                y_align: Clutter.ActorAlign.CENTER,
+            }),
+            0,
+        );
+        this.menu.addMenuItem(this.showPopupMenuItem);
+        this.showPopupMenuItem.connect('activate', () => {
+            // Defer so the indicator menu can close before the
+            // cursor popup takes its own modal grab.
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                this._openCursorPopup();
+                return GLib.SOURCE_REMOVE;
+            });
+        });
 
         this.privateModeMenuItem = new PopupMenu.PopupSwitchMenuItem(
             _('Private mode'), false, { reactive: true });

@@ -30,6 +30,7 @@ export class CursorPopup {
 
         // Settings
         this._autoPaste = true;
+        this._limitPopupPages = false;
         this._maxPopupPages = 3;
 
         // UI references
@@ -75,6 +76,7 @@ export class CursorPopup {
             settings.get_boolean(PrefsFields.REGEX_SEARCH),
         );
         this._autoPaste = settings.get_boolean(PrefsFields.AUTO_PASTE);
+        this._limitPopupPages = settings.get_boolean(PrefsFields.LIMIT_POPUP_PAGES);
         this._maxPopupPages = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
     }
 
@@ -481,7 +483,7 @@ export class CursorPopup {
      * Compute the maximum number of items to show based on page settings.
      */
     _getMaxItems(totalAvailable) {
-        if (this._maxPopupPages === -1) return totalAvailable;
+        if (!this._limitPopupPages) return totalAvailable;
         return this._maxPopupPages * ITEMS_PER_PAGE;
     }
 

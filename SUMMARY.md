@@ -93,7 +93,8 @@ In-popup:
 | `clear-on-boot` | boolean | false | Clear history on login |
 | `auto-paste` | boolean | true | Auto-paste after selection in popup |
 | `popup-position-mode` | int | 0 | Popup position (0=cursor, 1=window center) |
-| `popup-pages` | int | 3 | Number of pages in popup (10 items each) |
+| `popup-pages` | int | 3 | Max pages in popup when limited (10 items each) |
+| `limit-popup-pages` | boolean | false | Cap popup to popup-pages; when false show full history |
 | `case-sensitive-search` | boolean | false | Case-sensitive search |
 | `regex-search` | boolean | false | Enable regex in search |
 | `clear-history-on-interval` | boolean | false | Auto-clear on interval |

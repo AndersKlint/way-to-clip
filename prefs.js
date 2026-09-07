@@ -74,6 +74,11 @@ class Settings {
             model: this.#createPopupPositionOptions(),
         });
 
+        this.field_limit_popup_pages = new Adw.SwitchRow({
+            title: _('Limit number of pages'),
+            subtitle: _('When off, the popup shows the full clipboard history'),
+        });
+
         this.field_popup_pages = new Adw.SpinRow({
             title: _('Number of pages'),
             subtitle: _('Each page shows 10 items (Tab to navigate pages)'),
@@ -127,6 +132,10 @@ class Settings {
             this.field_clear_history_interval.set_sensitive(widget.active);
         });
 
+        this.field_limit_popup_pages.connect('notify::active', widget => {
+            this.field_popup_pages.set_sensitive(widget.active);
+        });
+
         this.popup = new Adw.PreferencesGroup({ title: _('Popup') });
         this.behavior = new Adw.PreferencesGroup({ title: _('Behavior') });
         this.exclusion = new Adw.PreferencesGroup({ title: _('Exclusion') });
@@ -136,6 +145,7 @@ class Settings {
 
         this.popup.add(this.field_auto_paste);
         this.popup.add(this.field_popup_position_mode);
+        this.popup.add(this.field_limit_popup_pages);
         this.popup.add(this.field_popup_pages);
 
         this.behavior.add(this.field_move_item_first);
@@ -170,6 +180,7 @@ class Settings {
         this.schema.bind(PrefsFields.CLEAR_ON_BOOT, this.field_clear_on_boot, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.AUTO_PASTE, this.field_auto_paste, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.POPUP_POSITION_MODE, this.field_popup_position_mode, 'selected', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.LIMIT_POPUP_PAGES, this.field_limit_popup_pages, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.MAX_POPUP_PAGES, this.field_popup_pages, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_IMAGES, this.field_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -178,6 +189,7 @@ class Settings {
         this.schema.bind(PrefsFields.REGEX_SEARCH, this.regex_search, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         this.field_clear_history_interval.set_sensitive(this.field_clear_history_on_interval.active);
+        this.field_popup_pages.set_sensitive(this.field_limit_popup_pages.active);
 
         this.excludedApps = new ExcludedAppsManager(
             this.schema,

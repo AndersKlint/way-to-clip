@@ -39,6 +39,7 @@ export class SettingsManager {
             nextHistoryClear: s.get_int(PrefsFields.NEXT_HISTORY_CLEAR),
             popupPositionMode: s.get_int(PrefsFields.POPUP_POSITION_MODE),
             maxPopupPages: s.get_int(PrefsFields.MAX_POPUP_PAGES),
+            limitPopupPages: s.get_boolean(PrefsFields.LIMIT_POPUP_PAGES),
             autoPaste: s.get_boolean(PrefsFields.AUTO_PASTE),
             caseSensitiveSearch: s.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH),
             regexSearch: s.get_boolean(PrefsFields.REGEX_SEARCH),
