@@ -16,7 +16,6 @@ export default class WayToClipPreferences extends ExtensionPreferences {
         page.add(settingsUI.search);
         page.add(settingsUI.limits);
         page.add(settingsUI.exclusion);
-        page.add(settingsUI.notifications);
         page.add(settingsUI.shortcuts);
         window.add(page);
     }
@@ -48,20 +47,8 @@ class Settings {
             title: _("Cache only pinned items")
         });
 
-        this.field_clear_notification_toggle = new Adw.SwitchRow({
-            title: _("Show notification on copy")
-        });
-
-        this.field_cycle_notification_toggle = new Adw.SwitchRow({
-            title: _("Show notification on cycle")
-        });
-
         this.field_confirm_clear_toggle = new Adw.SwitchRow({
             title: _("Show confirmation on Clear History")
-        });
-
-        this.field_strip_text = new Adw.SwitchRow({
-            title: _("Remove whitespace around text")
         });
 
         this.field_move_item_first = new Adw.SwitchRow({
@@ -89,7 +76,7 @@ class Settings {
 
         this.field_popup_pages = new Adw.SpinRow({
             title: _("Number of pages"),
-            subtitle: _("Each page shows 9 items (Tab to navigate pages)"),
+            subtitle: _("Each page shows 10 items (Tab to navigate pages)"),
             adjustment: new Gtk.Adjustment({
                 lower: 1,
                 upper: 11,
@@ -152,7 +139,6 @@ class Settings {
         this.behavior = new Adw.PreferencesGroup({title: _('Behavior')});
         this.exclusion = new Adw.PreferencesGroup({ title: _('Exclusion') });
         this.limits =  new Adw.PreferencesGroup({ title: _('Limits') });
-        this.notifications =  new Adw.PreferencesGroup({ title: _('Notifications') });
         this.shortcuts =  new Adw.PreferencesGroup({ title: _('Shortcuts') });
         this.search = new Adw.PreferencesGroup({title: _('Search')});
 
@@ -161,12 +147,12 @@ class Settings {
         this.popup.add(this.field_popup_pages);
 
         this.behavior.add(this.field_move_item_first);
-        this.behavior.add(this.field_strip_text);
         this.behavior.add(this.field_keep_selected_on_clear);
         this.behavior.add(this.field_cache_images);
         this.behavior.add(this.field_clear_on_boot);
         this.behavior.add(this.field_clear_history_on_interval);
         this.behavior.add(this.field_clear_history_interval);
+        this.behavior.add(this.field_confirm_clear_toggle);
 
         this.exclusion.add(this.field_exclusion_row);
         this.exclusion.add(this.field_exclusion_row_add_button);
@@ -174,10 +160,6 @@ class Settings {
         this.limits.add(this.field_size);
         this.limits.add(this.field_cache_size);
         this.limits.add(this.field_cache_disable);
-
-        this.notifications.add(this.field_clear_notification_toggle);
-        this.notifications.add(this.field_cycle_notification_toggle)
-        this.notifications.add(this.field_confirm_clear_toggle);
 
         this.search.add(this.case_sensitive_search);
         this.search.add(this.regex_search);
@@ -187,12 +169,9 @@ class Settings {
         this.schema.bind(PrefsFields.HISTORY_SIZE, this.field_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_FILE_SIZE, this.field_cache_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_ONLY_FAVORITE, this.field_cache_disable, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.NOTIFY_ON_COPY, this.field_clear_notification_toggle, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.NOTIFY_ON_CYCLE, this.field_cycle_notification_toggle, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CONFIRM_ON_CLEAR, this.field_confirm_clear_toggle, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.MOVE_ITEM_FIRST, this.field_move_item_first, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.KEEP_SELECTED_ON_CLEAR, this.field_keep_selected_on_clear, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.STRIP_TEXT, this.field_strip_text, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.ENABLE_KEYBINDING, this.field_keybinding_activation, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_ON_BOOT, this.field_clear_on_boot, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.AUTO_PASTE, this.field_auto_paste, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -223,10 +202,7 @@ class Settings {
     #shortcuts = {
         [PrefsFields.BINDING_TOGGLE_POPUP]: _("Toggle the clipboard popup"),
         [PrefsFields.BINDING_PRIVATE_MODE]: _("Private mode"),
-        [PrefsFields.BINDING_TOGGLE_MENU]: _("Toggle the panel menu"),
         [PrefsFields.BINDING_CLEAR_HISTORY]: _("Clear history"),
-        [PrefsFields.BINDING_PREV_ENTRY]: _("Previous entry"),
-        [PrefsFields.BINDING_NEXT_ENTRY]: _("Next entry")
     };
 
     #buildShorcuts (group) {

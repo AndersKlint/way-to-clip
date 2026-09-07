@@ -4,7 +4,6 @@ import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
@@ -20,29 +19,20 @@ const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
 const INDICATOR_ICON = 'edit-paste-symbolic';
 
-let DELAYED_SELECTION_TIMEOUT = 750;
 let MAX_REGISTRY_LENGTH       = 15;
 let CACHE_ONLY_FAVORITE       = false;
-let DELETE_ENABLED            = true;
 let MOVE_ITEM_FIRST           = false;
 let ENABLE_KEYBINDING         = true;
 let PRIVATEMODE               = false;
-let NOTIFY_ON_COPY            = true;
-let NOTIFY_ON_CYCLE           = true;
 let CONFIRM_ON_CLEAR          = true;
 let CLEAR_ON_BOOT             = false;
-let STRIP_TEXT                = false;
 let KEEP_SELECTED_ON_CLEAR    = false;
 let CACHE_IMAGES              = true;
 let EXCLUDED_APPS             = [];
 let CLEAR_HISTORY_ON_INTERVAL = false;
 let CLEAR_HISTORY_INTERVAL    = 60;
 let NEXT_HISTORY_CLEAR        = -1;
-let CASE_SENSITIVE_SEARCH     = false;
-let REGEX_SEARCH              = false;
-let AUTO_PASTE                = true;
 let POPUP_POSITION_MODE       = 0; // 0 = mouse cursor, 1 = center of focused window
-let POPUP_PAGES               = 3; // number of pages (each page has 9 items)
 
 export default class WayToClipExtension extends Extension {
     enable () {
@@ -72,7 +62,6 @@ const WayToClip = GObject.registerClass({
         this._disconnectSettings();
         this._unbindShortcuts();
         this._disconnectSelectionListener();
-        this._clearDelayedSelectionTimeout();
         this.#clearTimeouts();
         this._closeCursorPopup();
         this.dialogManager.destroy();
@@ -94,14 +83,14 @@ const WayToClip = GObject.registerClass({
         this.clipItemsRadioGroup = [];
 
         let hbox = new St.BoxLayout({
-            style_class: 'panel-status-menu-box clipboard-indicator-hbox'
+            style_class: 'panel-status-menu-box waytoclip-hbox'
         });
 
         this.hbox = hbox;
 
         this.icon = new St.Icon({
             icon_name: INDICATOR_ICON,
-            style_class: 'system-status-icon clipboard-indicator-icon'
+            style_class: 'system-status-icon waytoclip-icon'
         });
 
         hbox.add_child(this.icon);
@@ -136,7 +125,7 @@ const WayToClip = GObject.registerClass({
         that.privateModeMenuItem.insert_child_at_index(
             new St.Icon({
                 icon_name: 'security-medium-symbolic',
-                style_class: 'clipboard-menu-icon',
+                style_class: 'waytoclip-menu-icon',
                 y_align: Clutter.ActorAlign.CENTER
             }),
             0
@@ -148,7 +137,7 @@ const WayToClip = GObject.registerClass({
         this.clearMenuItem.insert_child_at_index(
             new St.Icon({
                 icon_name: 'user-trash-symbolic',
-                style_class: 'clipboard-menu-icon',
+                style_class: 'waytoclip-menu-icon',
                 y_align: Clutter.ActorAlign.CENTER
             }),
             0
@@ -194,7 +183,7 @@ const WayToClip = GObject.registerClass({
         this.settingsMenuItem.insert_child_at_index(
             new St.Icon({
                 icon_name: 'preferences-system-symbolic',
-                style_class: 'clipboard-menu-icon',
+                style_class: 'waytoclip-menu-icon',
                 y_align: Clutter.ActorAlign.CENTER
             }),
             0
@@ -251,20 +240,13 @@ const WayToClip = GObject.registerClass({
       );
     }
 
-    _clearHistory (invokedAutomatically = false) {
+    _clearHistory () {
         // Don't remove pinned items
         this.historySection._getMenuItems().forEach(mItem => {
             if (KEEP_SELECTED_ON_CLEAR === false || !mItem.currentlySelected) {
                 this._removeEntry(mItem, 'delete');
             }
         });
-
-        if (!invokedAutomatically) {
-            this._showNotification(_("Clipboard history cleared"));
-        }
-        else {
-            this._showNotification(_("Clipboard history cleared automatically"));
-        }
     }
 
     _removeAll () {
@@ -382,7 +364,7 @@ const WayToClip = GObject.registerClass({
                     if (menuItem.entry.equals(result)) {
                         this._selectMenuItem(menuItem, false);
 
-                        if (!menuItem.entry.isFavorite()) {
+                        if (MOVE_ITEM_FIRST && !menuItem.entry.isFavorite()) {
                             this._moveItemFirst(menuItem);
                         }
 
@@ -393,15 +375,10 @@ const WayToClip = GObject.registerClass({
                 this.#addToCache(result);
                 this._addEntry(result, true, false);
                 this._removeOldestEntries();
-                if (NOTIFY_ON_COPY) {
-                    this._showNotification(_("Copied to clipboard"), notif => {
-                        notif.addAction(_('Cancel'), this._cancelNotification);
-                    });
-                }
             }
         }
         catch (e) {
-            console.error('Clipboard Indicator: Failed to refresh indicator');
+            console.error('WayToClip: Failed to refresh indicator');
             console.error(e);
         }
         finally {
@@ -413,11 +390,6 @@ const WayToClip = GObject.registerClass({
         this._removeEntry(item);
         this._addEntry(item.entry, item.currentlySelected, false);
         this._updateCache();
-    }
-
-    _findItem (text) {
-        return this.clipItemsRadioGroup.filter(
-            item => item.clipContents === text)[0];
     }
 
     _getCurrentlySelectedItem () {
@@ -586,74 +558,16 @@ const WayToClip = GObject.registerClass({
         this.extension.openSettings();
     }
 
-    _initNotifSource () {
-        if (!this._notifSource) {
-            this._notifSource = new MessageTray.Source({
-                title: 'Clipboard Indicator',
-                'icon-name': INDICATOR_ICON
-            });
-
-            this._notifSource.connect('destroy', () => {
-                this._notifSource = null;
-            });
-
-            Main.messageTray.add(this._notifSource);
-        }
-    }
-
-    _cancelNotification () {
-        if (this.clipItemsRadioGroup.length >= 2) {
-            let clipSecond = this.clipItemsRadioGroup.length - 2;
-            let previousClip = this.clipItemsRadioGroup[clipSecond];
-            this.#updateClipboard(previousClip.entry);
-            previousClip.setOrnament(PopupMenu.Ornament.DOT);
-            previousClip.currentlySelected = true;
-        } else {
-            this.#clearClipboard();
-        }
-        let clipFirst = this.clipItemsRadioGroup.length - 1;
-        this._removeEntry(this.clipItemsRadioGroup[clipFirst]);
-    }
-
-    _showNotification (message, transformFn) {
-        const dndOn = () =>
-            !Main.panel.statusArea.dateMenu._indicator._settings.get_boolean(
-                'show-banners',
-            );
-        if (PRIVATEMODE || dndOn()) {
-            return;
-        }
-
-        let notification = null;
-
-        this._initNotifSource();
-
-        if (this._notifSource.count === 0) {
-            notification = new MessageTray.Notification({
-                source: this._notifSource,
-                body: message,
-                'is-transient': true
-            });
-        }
-        else {
-            notification = this._notifSource.notifications[0];
-            notification.body = message;
-            notification.clearActions();
-        }
-
-        if (typeof transformFn === 'function') {
-            transformFn(notification);
-        }
-
-        this._notifSource.addNotification(notification);
-    }
-
     togglePrivateMode () {
         this.privateModeMenuItem.toggle();
     }
 
     get isPrivateMode () {
         return PRIVATEMODE;
+    }
+
+    get moveItemFirst () {
+        return MOVE_ITEM_FIRST;
     }
 
     _onPrivateModeSwitch () {
@@ -689,26 +603,18 @@ const WayToClip = GObject.registerClass({
         const { settings } = this.extension;
         MAX_REGISTRY_LENGTH         = settings.get_int(PrefsFields.HISTORY_SIZE);
         CACHE_ONLY_FAVORITE         = settings.get_boolean(PrefsFields.CACHE_ONLY_FAVORITE);
-        DELETE_ENABLED              = settings.get_boolean(PrefsFields.DELETE);
         MOVE_ITEM_FIRST             = settings.get_boolean(PrefsFields.MOVE_ITEM_FIRST);
-        NOTIFY_ON_COPY              = settings.get_boolean(PrefsFields.NOTIFY_ON_COPY);
-        NOTIFY_ON_CYCLE             = settings.get_boolean(PrefsFields.NOTIFY_ON_CYCLE);
         CONFIRM_ON_CLEAR            = settings.get_boolean(PrefsFields.CONFIRM_ON_CLEAR);
         ENABLE_KEYBINDING           = settings.get_boolean(PrefsFields.ENABLE_KEYBINDING);
         CLEAR_ON_BOOT               = settings.get_boolean(PrefsFields.CLEAR_ON_BOOT);
-        STRIP_TEXT                  = settings.get_boolean(PrefsFields.STRIP_TEXT);
         KEEP_SELECTED_ON_CLEAR      = settings.get_boolean(PrefsFields.KEEP_SELECTED_ON_CLEAR);
         CACHE_IMAGES                = settings.get_boolean(PrefsFields.CACHE_IMAGES);
         EXCLUDED_APPS               = settings.get_strv(PrefsFields.EXCLUDED_APPS);
         CLEAR_HISTORY_ON_INTERVAL   = settings.get_boolean(PrefsFields.CLEAR_HISTORY_ON_INTERVAL);
         CLEAR_HISTORY_INTERVAL      = settings.get_int(PrefsFields.CLEAR_HISTORY_INTERVAL);
         NEXT_HISTORY_CLEAR          = settings.get_int(PrefsFields.NEXT_HISTORY_CLEAR);
-        CASE_SENSITIVE_SEARCH       = settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH);
-        REGEX_SEARCH                = settings.get_boolean(PrefsFields.REGEX_SEARCH);
-        AUTO_PASTE                  = settings.get_boolean(PrefsFields.AUTO_PASTE);
         POPUP_POSITION_MODE         = settings.get_int(PrefsFields.POPUP_POSITION_MODE);
-        POPUP_PAGES                 = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
-        
+
         this.cursorPopup.updateSettings(settings);
     }
 
@@ -728,7 +634,7 @@ const WayToClip = GObject.registerClass({
             else
                 that._unbindShortcuts();
         } catch (e) {
-            console.error('Clipboard Indicator: Failed to update registry');
+            console.error('WayToClip: Failed to update registry');
             console.error(e);
         }
     }
@@ -736,9 +642,6 @@ const WayToClip = GObject.registerClass({
     _bindShortcuts () {
         this._unbindShortcuts();
         this._bindShortcut(PrefsFields.BINDING_CLEAR_HISTORY, this._removeAll);
-        this._bindShortcut(PrefsFields.BINDING_PREV_ENTRY, this._previousEntry);
-        this._bindShortcut(PrefsFields.BINDING_NEXT_ENTRY, this._nextEntry);
-        this._bindShortcut(PrefsFields.BINDING_TOGGLE_MENU, this._toggleMenu);
         this._bindShortcut(PrefsFields.BINDING_TOGGLE_POPUP, this._toggleCursorPopup);
         this._bindShortcut(PrefsFields.BINDING_PRIVATE_MODE, this.togglePrivateMode);
     }
@@ -796,80 +699,6 @@ const WayToClip = GObject.registerClass({
         this.selection.disconnect(this._selectionOwnerChangedId);
     }
 
-    _clearDelayedSelectionTimeout () {
-        if (this._delayedSelectionTimeoutId) {
-            clearInterval(this._delayedSelectionTimeoutId);
-        }
-    }
-
-    _selectEntryWithDelay (entry) {
-        let that = this;
-        that._selectMenuItem(entry, false);
-
-        that._delayedSelectionTimeoutId = setTimeout(function () {
-            that._selectMenuItem(entry);  //select the item
-            that._delayedSelectionTimeoutId = null;
-        }, DELAYED_SELECTION_TIMEOUT);
-    }
-
-    _previousEntry () {
-        if (PRIVATEMODE) return;
-        let that = this;
-
-        that._clearDelayedSelectionTimeout();
-
-        this._getAllIMenuItems().some(function (mItem, i, menuItems){
-            if (mItem.currentlySelected) {
-                i--;                                 //get the previous index
-                if (i < 0) i = menuItems.length - 1; //cycle if out of bound
-                let index = i + 1;                   //index to be displayed
-                
-                if(NOTIFY_ON_CYCLE) {
-                    that._showNotification(index + ' / ' + menuItems.length + ': ' + menuItems[i].entry.getStringValue());
-                }
-                if (MOVE_ITEM_FIRST) {
-                    that._selectEntryWithDelay(menuItems[i]);
-                }
-                else {
-                    that._selectMenuItem(menuItems[i]);
-                }
-                return true;
-            }
-            return false;
-        });
-    }
-
-    _nextEntry () {
-        if (PRIVATEMODE) return;
-        let that = this;
-
-        that._clearDelayedSelectionTimeout();
-
-        this._getAllIMenuItems().some(function (mItem, i, menuItems){
-            if (mItem.currentlySelected) {
-                i++;                                 //get the next index
-                if (i === menuItems.length) i = 0;   //cycle if out of bound
-                let index = i + 1;                     //index to be displayed
-
-                if(NOTIFY_ON_CYCLE) {
-                    that._showNotification(index + ' / ' + menuItems.length + ': ' + menuItems[i].entry.getStringValue());
-                }
-                if (MOVE_ITEM_FIRST) {
-                    that._selectEntryWithDelay(menuItems[i]);
-                }
-                else {
-                    that._selectMenuItem(menuItems[i]);
-                }
-                return true;
-            }
-            return false;
-        });
-    }
-
-    _toggleMenu () {
-        this.menu.toggle();
-    }
-
     _toggleCursorPopup () {
         if (this.cursorPopup.isOpen()) {
             this.cursorPopup.close();
@@ -880,7 +709,6 @@ const WayToClip = GObject.registerClass({
 
     _openCursorPopup () {
         if (this.clipItemsRadioGroup.length === 0) {
-            this._showNotification(_("Clipboard is empty"));
             return;
         }
 

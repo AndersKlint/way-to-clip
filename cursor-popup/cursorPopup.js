@@ -84,7 +84,6 @@ export class CursorPopup {
 
     open(x, y, items, monitor) {
         if (items.length === 0) {
-            this._parent._showNotification(_("Clipboard is empty"));
             return;
         }
 
@@ -432,7 +431,9 @@ export class CursorPopup {
 
     _selectItem(mItem) {
         this._parent._selectMenuItem(mItem, true);
-        this._parent._moveItemFirst(mItem);
+        if (this._parent.moveItemFirst) {
+            this._parent._moveItemFirst(mItem);
+        }
         if (this._autoPaste) {
             this._parent.autoPasteAndClose(mItem);
         } else {

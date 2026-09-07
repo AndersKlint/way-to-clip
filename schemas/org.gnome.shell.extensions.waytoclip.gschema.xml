@@ -2,14 +2,6 @@
     <schema id="org.gnome.shell.extensions.waytoclip"
         path="/org/gnome/shell/extensions/waytoclip/">
 
-    <key name="enable-deletion" type="b">
-        <default>true</default>
-        <summary>Enable the deletion of clipboard items from your history</summary>
-        <description>
-            If true, displays 'delete' buttons on each item, and a 'Clear History' option
-        </description>
-    </key>
-
     <key type="i" name="history-size">
         <default>100</default>
         <summary>The number of items to save in history</summary>
@@ -68,22 +60,6 @@
         </description>
     </key>
 
-    <key name="notify-on-copy" type="b">
-        <default>false</default>
-        <summary>Show notification on copy to clipboard</summary>
-        <description>
-            If true, a notification is shown when content is copied to clipboard.
-        </description>
-    </key>
-
-    <key name="notify-on-cycle" type="b">
-        <default>true</default>
-        <summary>Show notification when cycling through the entries with hotkeys</summary>
-        <description>
-            If true, a notification is shown when cycling through the clipboard entries using hotkeys.
-        </description>
-    </key>
-
     <key name="confirm-clear" type="b">
         <default>true</default>
         <summary>Show confirmation dialog on Clear History</summary>
@@ -92,13 +68,6 @@
         </description>
     </key>
 
-    <key name="strip-text" type="b">
-        <default>false</default>
-        <summary>Remove whitespace around text</summary>
-        <description>
-            If true, white spaces around text will be removed.
-        </description>
-    </key>
     <key name="move-item-first" type="b">
         <default>false</default>
         <summary>Move items to the top of the list when selected.</summary>
@@ -118,33 +87,13 @@
         <default>true</default>
         <summary>Enable the keyboard shortcuts</summary>
         <description>
-            If true, user can delete and cycle through the history with keyboard shortcuts
+            If true, user can toggle the popup, clear history and toggle private mode with keyboard shortcuts
         </description>
     </key>
     <key name="clear-history" type="as">
         <default><![CDATA[['<Control>F10']]]></default>
             <summary>Key to clear the history</summary>
             <description>
-            </description>
-        </key>
-        <key name="prev-entry" type="as">
-        <default><![CDATA[['<Control>F11']]]></default>
-            <summary>Key to cycle to the previous entry in the clipboard</summary>
-            <description>
-            </description>
-        </key>
-        <key name="next-entry" type="as">
-        <default><![CDATA[['<Control>F12']]]></default>
-            <summary>Next entry</summary>
-            <description>
-                Key to cycle to the next entry in the clipboard
-            </description>
-        </key>
-        <key name="toggle-menu" type="as">
-        <default><![CDATA[['<Control>F9']]]></default>
-            <summary>Toggle the panel menu</summary>
-            <description>
-                Key to toggle the clipboard panel menu
             </description>
         </key>
         <key name="toggle-popup" type="as">

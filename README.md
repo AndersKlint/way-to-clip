@@ -8,31 +8,31 @@ A clipboard manager for GNOME with cursor-positioned popup and quick selection.
 - **Quick Selection** - Press keys `1-9` to instantly select and paste items
 - **Auto-Paste** - Selected items are automatically pasted at cursor
 - **Text & Images** - Supports both text and image clipboard content
-- **Pinned Items** - Pin frequently used items to keep them at the top
-- **Private Mode** - Disable clipboard history recording when needed
-- **Panel Indicator** - Optional panel icon with dropdown menu
-- **Search** - Search through clipboard history
-- **Configurable Shortcuts** - All keyboard shortcuts are customizable
+- **Private Mode** - Disable clipboard history recording when needed (`p` in popup)
+- **Panel Indicator** - Minimal panel menu (private-mode toggle, clear history, settings)
+- **Search** - Filter clipboard history with `s` (case-sensitive/regex optional)
+- **Configurable Shortcuts** - Popup, clear history and private mode shortcuts are customizable
+- **No notifications** - Fully silent operation
 
 ## Keyboard Shortcuts
 
 | Shortcut | Action |
 |----------|--------|
 | `Alt+X` | Open/close cursor popup |
-| `1-9` | Select item by number (in popup) |
-| `Ctrl+F9` | Toggle panel menu |
 | `Ctrl+F10` | Clear history |
-| `Ctrl+F11` | Previous entry |
-| `Ctrl+F12` | Next entry |
 | `Ctrl+F8` | Toggle private mode |
 
-### In-Menu Controls
+### In-Popup Controls
 
-- Arrow keys - Navigate items
-- `v` - Paste selected item
-- `p` - Pin/unpin item
-- `Delete` - Delete item
-- `Escape` - Close popup
+- `0-9` - Select item by number
+- `Up/Down` - Navigate items (wraps around)
+- `Tab` / `Right` - Next page, `Shift+Tab` / `Left` - Previous page
+- `Enter` - Paste selected item
+- `s` - Toggle search mode
+- `d` - Delete selected item
+- `p` - Toggle private mode
+- `Escape` - Close search or popup
+- `Backspace` - Close popup (when not searching)
 
 ## Installation
 
@@ -66,8 +66,9 @@ gnome-extensions prefs waytoclip@waytoclip
 |---------|---------|-------------|
 | Auto-paste on selection | On | Automatically paste after selecting an item |
 | History size | 100 | Maximum number of items to keep |
-| Preview size | 30 | Characters to show for each item |
-| Panel indicator | Icon only | What to show in the top bar |
+| Move item to top after selection | Off | Reorder history on selection |
+| Popup position | At mouse cursor | Cursor or center of focused window |
+| Number of pages | 3 | 10 items per page |
 
 ## How It Works
 

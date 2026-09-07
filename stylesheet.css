@@ -1,18 +1,8 @@
-.clipboard-indicator-hbox.private-mode {
+.waytoclip-hbox.private-mode {
     color: rgba(255,255,255,0.3);
 }
 
-.ci-notification-label {
-    font-weight: bold;
-    color: #ffffff;
-    background-color: rgba(10,10,10,0.7);
-    border-radius: 6px;
-    font-size:2em;
-    padding:.5em;
-    width:400px;
-}
-
-.clipboard-menu-icon {
+.waytoclip-menu-icon {
     width:1em;
     height:1em;
     margin-right:.5em;

@@ -101,7 +101,7 @@ export class Registry {
                                     .filter(entry => entry !== null);
 
                                 let registryNoFavorite = clipboardEntries
-                                    .filter(entry => entry.isFavorite());
+                                    .filter(entry => !entry.isFavorite());
 
                                 while (registryNoFavorite.length > max_size) {
                                     let oldestNoFavorite = registryNoFavorite.shift();
@@ -109,7 +109,7 @@ export class Registry {
                                     clipboardEntries.splice(itemIdx,1);
 
                                     registryNoFavorite = clipboardEntries.filter(
-                                        entry => entry.isFavorite()
+                                        entry => !entry.isFavorite()
                                     );
                                 }
 
@@ -119,7 +119,7 @@ export class Registry {
                             });
                         }
                         else {
-                            console.error('Clipboard Indicator: failed to open registry file');
+                            console.error('WayToClip: failed to open registry file');
                         }
                     });
                 });
@@ -255,7 +255,7 @@ export class ClipboardEntry {
                     }
                     else {
                         reject(
-                            new Error('Clipboard Indicator: could not read image file from cache')
+                            new Error('WayToClip: could not read image file from cache')
                         );
                     }
                 }));

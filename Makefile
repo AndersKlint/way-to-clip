@@ -1,6 +1,5 @@
-MODULES = *.js cursor-popup locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/
+MODULES = *.js cursor-popup/*.js locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/
 INSTALLPATH=~/.local/share/gnome-shell/extensions/waytoclip@waytoclip/
-LEGACY_INSTALLPATH=~/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/
 
 all: compile-locales compile-settings
 
@@ -12,12 +11,12 @@ compile-locales:
 		msgfmt $(file) -o $(subst .po,.mo,$(file));)
 
 update-po-files:
-	xgettext -L Python --from-code=UTF-8 -k_ -kN_ -o clipboard-indicator.pot *.js
+	xgettext -L Python --from-code=UTF-8 -k_ -kN_ -o waytoclip.pot *.js cursor-popup/*.js
 	$(foreach file, $(wildcard locale/*/LC_MESSAGES/*.po), \
-		msgmerge $(file) clipboard-indicator.pot -o $(file);)
+		msgmerge $(file) waytoclip.pot -o $(file);)
 
 install: all
-	rm -rf $(INSTALLPATH) $(LEGACY_INSTALLPATH)
+	rm -rf $(INSTALLPATH)
 	mkdir -p $(INSTALLPATH)
 	cp *.js metadata.json stylesheet.css LICENSE.rst README.md $(INSTALLPATH)/
 	cp -r cursor-popup schemas locale $(INSTALLPATH)/
