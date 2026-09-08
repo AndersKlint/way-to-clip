@@ -175,5 +175,13 @@
         <summary>Regex-based search</summary>
         <description>Allow regex in search</description>
     </key>
+    <key name="image-preview-size" type="i">
+        <default>96</default>
+        <summary>Image thumbnail size in the popup</summary>
+        <description>
+            Pixel size of image previews shown in the cursor popup.
+        </description>
+        <range min="32" max="512"/>
+    </key>
     </schema>
 </schemalist>

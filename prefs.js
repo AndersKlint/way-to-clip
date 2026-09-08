@@ -89,6 +89,16 @@ class Settings {
             }),
         });
 
+        this.field_image_preview_size = new Adw.SpinRow({
+            title: _('Image thumbnail size (px)'),
+            subtitle: _('Preview size for images in the popup'),
+            adjustment: new Gtk.Adjustment({
+                lower: 32,
+                upper: 512,
+                step_increment: 8,
+            }),
+        });
+
         this.field_cache_images = new Adw.SwitchRow({
             title: _('Cache images'),
             active: true,
@@ -159,6 +169,7 @@ class Settings {
         this.popup.add(this.field_popup_position_mode);
         this.popup.add(this.field_limit_popup_pages);
         this.popup.add(this.field_popup_pages);
+        this.popup.add(this.field_image_preview_size);
 
         this.behavior.add(this.field_auto_paste);
         this.behavior.add(this.field_terminal_row);
@@ -196,6 +207,7 @@ class Settings {
         this.schema.bind(PrefsFields.POPUP_POSITION_MODE, this.field_popup_position_mode, 'selected', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.LIMIT_POPUP_PAGES, this.field_limit_popup_pages, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.MAX_POPUP_PAGES, this.field_popup_pages, 'value', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.IMAGE_PREVIEW_SIZE, this.field_image_preview_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_IMAGES, this.field_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);

@@ -80,6 +80,10 @@ export class CursorPopup {
         this._autoPaste = settings.get_boolean(PrefsFields.AUTO_PASTE);
         this._limitPopupPages = settings.get_boolean(PrefsFields.LIMIT_POPUP_PAGES);
         this._maxPopupPages = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
+        try {
+            this._uiBuilder.setImagePreviewSize(
+                settings.get_int(PrefsFields.IMAGE_PREVIEW_SIZE));
+        } catch (_e) { /* old schema without the key: keep default */ }
     }
 
     isOpen() {

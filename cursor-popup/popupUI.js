@@ -3,12 +3,31 @@
  */
 
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
 
 import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
 
+/** Default thumbnail size for image entries in the cursor popup. */
+export const IMAGE_PREVIEW_SIZE = 96;
+
 export class PopupUIBuilder {
+    constructor() {
+        this._imagePreviewSize = IMAGE_PREVIEW_SIZE;
+    }
+
+    /**
+     * Update the thumbnail size for image previews.
+     * Clamped to the same 32-512 range as the GSettings schema so
+     * out-of-range values (or stale prefs) can't collapse the layout.
+     */
+    setImagePreviewSize(size) {
+        if (typeof size !== 'number' || !Number.isFinite(size))
+            return;
+        this._imagePreviewSize = Math.min(512, Math.max(32, Math.round(size)));
+    }
     /**
      * Create the full-screen modal overlay widget.
      */
@@ -130,6 +149,45 @@ export class PopupUIBuilder {
     }
 
     /**
+     * Build a small thumbnail actor for an image entry, or null when the
+     * entry is not an image / has no decodable bytes. Uses a BytesIcon so
+     * no cache-file roundtrip is needed (works even before/independently
+     * of the on-disk image cache).
+     */
+    createImagePreview(entry) {
+        try {
+            if (!entry || typeof entry.isImage !== 'function' || !entry.isImage())
+                return null;
+            let bytes = null;
+            if (typeof entry.asBytes === 'function') {
+                bytes = entry.asBytes();
+            } else if (typeof entry.rawBytes === 'function') {
+                const raw = entry.rawBytes();
+                if (raw instanceof Uint8Array)
+                    bytes = GLib.Bytes.new(raw);
+                else
+                    bytes = raw;
+            }
+            if (!bytes)
+                return null;
+            // rawBytes() fallback may still be a Uint8Array.
+            if (bytes instanceof Uint8Array)
+                bytes = GLib.Bytes.new(bytes);
+            if (typeof bytes.get_size === 'function' && bytes.get_size() === 0)
+                return null;
+            const gicon = Gio.BytesIcon.new(bytes);
+            return new St.Icon({
+                gicon,
+                icon_size: this._imagePreviewSize ?? IMAGE_PREVIEW_SIZE,
+                style_class: 'waytoclip-item-image',
+                x_align: Clutter.ActorAlign.START,
+            });
+        } catch (_e) {
+            return null;
+        }
+    }
+
+    /**
      * Create a single clipboard item widget.
      * @param {Object} mItem - the menu item data
      * @param {number} index - 0-based index within the current page
@@ -163,26 +221,31 @@ export class PopupUIBuilder {
             x_expand: true,
         });
 
-        const textLabel = new St.Label({
-            text: mItem.entry.getStringValue(),
-            style_class: 'waytoclip-item-text',
-            y_align: Clutter.ActorAlign.START,
-            x_expand: true,
-        });
-        textLabel.get_clutter_text().set_line_wrap(true);
-        textLabel.get_clutter_text().set_line_wrap_mode(Pango.WrapMode.WORD_CHAR);
-        textLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.END);
-        // Truncate long rows to fit the locked popup height: 3 lines is the
-        // stylesheet default (4.8em), 2 lines ~3.2em, 1 line ~1.6em.
-        // Inline style wins over the stylesheet so pages can shrink rows
-        // instead of moving/resizing the popup box away from the cursor.
-        if (maxLines === 2) {
-            textLabel.set_style('max-height: 3.2em;');
-        } else if (maxLines <= 1) {
-            textLabel.set_style('max-height: 1.6em;');
-        }
+        const imagePreview = this.createImagePreview(mItem.entry);
+        if (imagePreview) {
+            textContainer.add_child(imagePreview);
+        } else {
+            const textLabel = new St.Label({
+                text: mItem.entry.getStringValue(),
+                style_class: 'waytoclip-item-text',
+                y_align: Clutter.ActorAlign.START,
+                x_expand: true,
+            });
+            textLabel.get_clutter_text().set_line_wrap(true);
+            textLabel.get_clutter_text().set_line_wrap_mode(Pango.WrapMode.WORD_CHAR);
+            textLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.END);
+            // Truncate long rows to fit the locked popup height: 3 lines is the
+            // stylesheet default (4.8em), 2 lines ~3.2em, 1 line ~1.6em.
+            // Inline style wins over the stylesheet so pages can shrink rows
+            // instead of moving/resizing the popup box away from the cursor.
+            if (maxLines === 2) {
+                textLabel.set_style('max-height: 3.2em;');
+            } else if (maxLines <= 1) {
+                textLabel.set_style('max-height: 1.6em;');
+            }
 
-        textContainer.add_child(textLabel);
+            textContainer.add_child(textLabel);
+        }
         topRow.add_child(numberLabel);
         topRow.add_child(textContainer);
         itemBox.add_child(topRow);

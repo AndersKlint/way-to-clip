@@ -69,6 +69,13 @@
     max-height: 4.8em;
 }
 
+.waytoclip-item-image {
+    /* Size is set dynamically via St.Icon icon_size
+       (image-preview-size setting); keep only decoration here. */
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
 .waytoclip-empty-label {
     color: #888;
     font-style: italic;

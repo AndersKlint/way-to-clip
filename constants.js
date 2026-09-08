@@ -22,6 +22,7 @@ export const PrefsFields = {
     NEXT_HISTORY_CLEAR              : 'next-history-clear',
     CASE_SENSITIVE_SEARCH           : 'case-sensitive-search',
     REGEX_SEARCH                    : 'regex-search',
+    IMAGE_PREVIEW_SIZE              : 'image-preview-size',
 };
 
 /** Number of clipboard rows shown per popup page. */

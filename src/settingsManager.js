@@ -24,6 +24,10 @@ export class SettingsManager {
     /** Plain snapshot of every key WayToClip cares about. */
     snapshot() {
         const s = this.#settings;
+        let imagePreviewSize = 96;
+        try {
+            imagePreviewSize = s.get_int(PrefsFields.IMAGE_PREVIEW_SIZE);
+        } catch (_e) { /* old schema without the key: keep default */ }
         return {
             maxRegistryLength: s.get_int(PrefsFields.HISTORY_SIZE),
             cacheOnlyFavorite: s.get_boolean(PrefsFields.CACHE_ONLY_FAVORITE),
@@ -44,6 +48,7 @@ export class SettingsManager {
             autoPaste: s.get_boolean(PrefsFields.AUTO_PASTE),
             caseSensitiveSearch: s.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH),
             regexSearch: s.get_boolean(PrefsFields.REGEX_SEARCH),
+            imagePreviewSize,
         };
     }
 
