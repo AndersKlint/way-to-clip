@@ -138,8 +138,8 @@
         <summary>Terminal applications for special paste</summary>
         <description>
             Window classes or app ids treated as terminals for auto-paste.
-            Terminals need Ctrl+Shift+V because Shift+Insert pastes the
-            PRIMARY selection there instead of the chosen entry. Add your
+            Terminals need Ctrl+Shift+V because plain Ctrl+V isn't bound to
+            clipboard paste there. Add your
             terminal here if auto-paste inserts the wrong text in it.
         </description>
     </key>

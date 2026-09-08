@@ -479,8 +479,8 @@ const WayToClip = GObject.registerClass({
         // Snapshot the paste target while the target app still has
         // focus: opening the popup takes a modal grab and resets the
         // live content-purpose to NORMAL, which would make AutoPaster
-        // misdetect terminals (Shift+Insert pastes PRIMARY there
-        // instead of the chosen clipboard entry).
+        // misdetect terminals (plain Ctrl+V isn't bound to clipboard
+        // paste there, so the chosen entry would not paste).
         const focusedWindow = global.display.get_focus_window();
         this._keyboard.savePurpose();
         this._pasteTarget = snapshotPasteTarget(

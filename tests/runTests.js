@@ -123,8 +123,8 @@ function fakeItem(text) {
 
     // The reported bug: popup opened in a terminal (snapshot TERMINAL),
     // modal grab reset the live purpose to NORMAL by paste time.
-    // Must still take the terminal keystroke, otherwise Shift+Insert
-    // pastes PRIMARY (last selected text) instead of the chosen entry.
+    // Must still take the terminal keystroke, otherwise a plain Ctrl+V
+    // misses the terminal's clipboard paste binding.
     assert(decidePasteMode(T(TERMINAL), NORMAL, TERMINAL) === PasteMode.TERMINAL,
         'paste uses terminal keys when live purpose went stale');
     assert(decidePasteMode(T(TERMINAL), undefined, TERMINAL) === PasteMode.TERMINAL,
@@ -144,7 +144,8 @@ function fakeItem(text) {
 
     // Window-class fallback: input method reports no purpose at all
     // (both undefined), e.g. Ptyxis on non-IBus setups. Without the
-    // snapshot flag the terminal would get Shift+Insert (PRIMARY).
+    // snapshot flag the terminal would get plain Ctrl+V instead of
+    // Ctrl+Shift+V.
     assert(decidePasteMode(T(undefined, true), undefined, TERMINAL) === PasteMode.TERMINAL,
         'paste uses terminal keys from window snapshot without purpose');
     assert(decidePasteMode(T(undefined, false), undefined, TERMINAL) === PasteMode.TEXT,

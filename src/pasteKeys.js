@@ -29,7 +29,8 @@ export function snapshotPasteTarget(purpose, windowIsTerminal) {
 }
 
 /**
- * Decide which paste keystroke to synthesize.
+ * Decide which paste keystroke to synthesize (TERMINAL -> Ctrl+Shift+V,
+ * TEXT -> Ctrl+V).
  *
  * Either observation of a terminal input wins: the snapshot purpose
  * covers the main flow, where opening the modal popup steals
@@ -38,8 +39,9 @@ export function snapshotPasteTarget(purpose, windowIsTerminal) {
  * focus only returns to the terminal afterwards. Both observations can
  * miss a terminal (false NORMAL during focus transitions) but neither
  * reports TERMINAL spuriously, so a union cannot misroute a plain text
- * field to the terminal keystroke while a missed terminal would paste
- * the PRIMARY selection instead of the chosen entry.
+ * field to the terminal keystroke while a missed terminal would get a
+ * plain Ctrl+V (which VTE terminals don't bind to clipboard paste)
+ * instead of the chosen entry.
  *
  * The window snapshot covers systems where the input method never
  * reports a purpose at all (e.g. non-IBus setups).

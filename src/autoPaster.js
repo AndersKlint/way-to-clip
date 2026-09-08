@@ -32,11 +32,15 @@ export class AutoPaster {
         const releaseInhibit = this.#clipboardManager.inhibit();
         this.#clipboardManager.writeEntry(entry);
 
-        this._after(50, () => {
+        // Images carry larger payloads through the Wayland clipboard;
+        // give ownership time to propagate before synthesizing paste,
+        // otherwise the target app pastes stale content (or nothing).
+        const pasteDelay = entry?.isImage?.() ? 250 : 50;
+        this._after(pasteDelay, () => {
             // The live content-purpose can't be trusted on its own: the
             // popup's modal grab resets it to NORMAL, so a terminal
-            // would get Shift+Insert (PRIMARY selection) instead of the
-            // chosen entry. The snapshot decides alongside it.
+            // would get Ctrl+V instead of Ctrl+Shift+V and the paste
+            // would fail. The snapshot decides alongside it.
             const mode = decidePasteMode(
                 target,
                 this.#keyboard.purpose,
@@ -51,7 +55,12 @@ export class AutoPaster {
                 this._pressRelease(
                     Clutter.KEY_Control_L, Clutter.KEY_Shift_L, Clutter.KEY_v);
             } else {
-                this._pressRelease(Clutter.KEY_Shift_L, Clutter.KEY_Insert);
+                // Ctrl+V is the universal paste binding (text and
+                // images). Shift+Insert only reaches Gtk text widgets
+                // (GtkEntry/GtkTextView bind it to paste-clipboard), so
+                // image editors such as Pinta ignore it and autopaste
+                // of images silently did nothing.
+                this._pressRelease(Clutter.KEY_Control_L, Clutter.KEY_v);
             }
             this._after(50, () => {
                 try {
