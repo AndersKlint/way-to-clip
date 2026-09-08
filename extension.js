@@ -316,13 +316,21 @@ const WayToClip = GObject.registerClass({
     }
 
     _confirmRemoveAll() {
-        this._dialogManager.open({
-            title: _('Clear all?'),
-            message: _('Are you sure you want to delete all clipboard items?'),
-            subMessage: _('This operation cannot be undone.'),
-            okLabel: _('Clear'),
-            cancelLabel: _('Cancel'),
-            onConfirm: () => this._clearHistory(),
+        // Defer so the indicator menu can close (releasing its grab)
+        // before the confirm dialog takes its own modal grab. Opening
+        // synchronously from the menu's 'activate' handler prevents the
+        // dialog from appearing.
+        this.menu.close();
+        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            this._dialogManager.open({
+                title: _('Clear all?'),
+                message: _('Are you sure you want to delete all clipboard items?'),
+                subMessage: _('This operation cannot be undone.'),
+                okLabel: _('Clear'),
+                cancelLabel: _('Cancel'),
+                onConfirm: () => this._clearHistory(),
+            });
+            return GLib.SOURCE_REMOVE;
         });
     }
 
@@ -465,8 +473,8 @@ const WayToClip = GObject.registerClass({
     }
 
     _openCursorPopup() {
-        if (this.clipItemsRadioGroup.length === 0)
-            return;
+        // NOTE: no early return on empty history — the cursor popup stays
+        // responsible for showing its "Clipboard history is empty" placeholder.
 
         // Snapshot the paste target while the target app still has
         // focus: opening the popup takes a modal grab and resets the
@@ -608,7 +616,10 @@ const WayToClip = GObject.registerClass({
     _disconnectSettings() {
         if (this._settingsChangedId) {
             try {
-                this._settingsManager.gio.disconnect(this._settingsChangedId);
+                if (typeof this._settingsChangedId === 'function')
+                    this._settingsChangedId();
+                else
+                    this._settingsManager.gio.disconnect(this._settingsChangedId);
             } catch (_e) { /* ignore */ }
             this._settingsChangedId = 0;
         }

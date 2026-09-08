@@ -6,12 +6,16 @@ import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 export class DialogManager {
     #openDialog = null;
 
-    open({ title, message, subMessage, okLabel, cancelLabel, onConfirm } = {}) {
-        // Back-compat: open(title, message, sub_message, ok, cancel, cb)
-        if (typeof title === 'string') {
-            const [t, m, sm, ok, cancel, cb] = arguments;
-            return this.open({ title: t, message: m, subMessage: sm, okLabel: ok, cancelLabel: cancel, onConfirm: cb });
+    open(firstArg = {}, ...rest) {
+        // Back-compat: open(title, message, subMessage, okLabel, cancelLabel, cb)
+        let opts;
+        if (typeof firstArg === 'string') {
+            const [message, subMessage, okLabel, cancelLabel, onConfirm] = rest;
+            opts = { title: firstArg, message, subMessage, okLabel, cancelLabel, onConfirm };
+        } else {
+            opts = firstArg ?? {};
         }
+        const { title, message, subMessage, okLabel, cancelLabel, onConfirm } = opts;
         if (this.#openDialog)
             return;
         this.#openDialog = new ConfirmDialog({
@@ -25,6 +29,14 @@ export class DialogManager {
                 this.#openDialog = null;
             },
         });
+        // If the dialog is closed/destroyed without going through a button
+        // (e.g. Escape via ModalDialog itself), still release the guard so
+        // the next Clear History attempt can open a fresh dialog.
+        try {
+            this.#openDialog.connect('destroy', () => {
+                this.#openDialog = null;
+            });
+        } catch (_e) { /* connect is best-effort */ }
         this.#openDialog.open();
     }
 
@@ -57,19 +69,19 @@ const ConfirmDialog = GObject.registerClass(
             messageBox.add_child(new St.Label({
                 style: 'font-weight: bold',
                 x_align: Clutter.ActorAlign.CENTER,
-                text: title,
+                text: typeof title === 'string' ? title : String(title ?? ''),
             }));
 
             const description = subMessage ? `${message}\n${subMessage}` : message;
             messageBox.add_child(new St.Label({
                 style: 'padding-top: 12px',
                 x_align: Clutter.ActorAlign.CENTER,
-                text: description,
+                text: typeof description === 'string' ? description : String(description ?? ''),
             }));
 
             this.setButtons([
                 {
-                    label: cancelLabel,
+                    label: typeof cancelLabel === 'string' ? cancelLabel : String(cancelLabel ?? 'Cancel'),
                     action: () => {
                         this.close();
                         this._onFinish();
@@ -77,7 +89,7 @@ const ConfirmDialog = GObject.registerClass(
                     key: Clutter.Escape,
                 },
                 {
-                    label: okLabel,
+                    label: typeof okLabel === 'string' ? okLabel : String(okLabel ?? 'OK'),
                     action: () => {
                         this.close();
                         this._onFinish();

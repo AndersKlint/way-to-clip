@@ -14,6 +14,8 @@ import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
 import { PrefsFields } from '../constants.js';
 import { PopupUIBuilder } from './popupUI.js';
 import { PopupSearch } from './popupSearch.js';
@@ -85,14 +87,10 @@ export class CursorPopup {
     }
 
     open(x, y, items, monitor) {
-        if (items.length === 0) {
-            return;
-        }
-
         this._originalItems = items;
         this._itemsToShow = [...items.slice(0, this._getMaxItems(items.length))];
         this._currentPage = 0;
-        this._selectedIndex = 0;
+        this._selectedIndex = this._itemsToShow.length > 0 ? 0 : -1;
         this._currentPageItems = [];
         this._isSearchMode = false;
         this._anchorX = x;
@@ -278,7 +276,9 @@ export class CursorPopup {
         }
 
         if (this._itemsToShow.length === 0) {
-            this.close();
+            this._currentPage = 0;
+            this._selectedIndex = -1;
+            this._renderPage();
             return;
         }
 
@@ -343,6 +343,14 @@ export class CursorPopup {
 
         const start = this._currentPage * ITEMS_PER_PAGE;
         const pageItems = this._itemsToShow.slice(start, start + ITEMS_PER_PAGE);
+
+        if (pageItems.length === 0) {
+            const emptyText = this._originalItems.length === 0
+                ? _('Clipboard history is empty')
+                : _('No matching clipboard items');
+            this._listContainer.add_child(
+                this._uiBuilder.createEmptyLabel(emptyText));
+        }
 
         pageItems.forEach((mItem, index) => {
             const itemBox = this._uiBuilder.createItemWidget(
@@ -465,7 +473,7 @@ export class CursorPopup {
         const filteredItems = this._search.filter(this._originalItems, query);
         this._itemsToShow = filteredItems.slice(0, this._getMaxItems(filteredItems.length));
         this._currentPage = 0;
-        this._selectedIndex = 0;
+        this._selectedIndex = this._itemsToShow.length > 0 ? 0 : -1;
         this._renderPage();
     }
 

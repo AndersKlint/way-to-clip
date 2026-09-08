@@ -117,6 +117,19 @@ export class PopupUIBuilder {
     }
 
     /**
+     * Create the placeholder label shown in place of the entry list when
+     * there is nothing to display (empty history or no search matches).
+     */
+    createEmptyLabel(text) {
+        return new St.Label({
+            style_class: 'waytoclip-empty-label',
+            x_align: Clutter.ActorAlign.CENTER,
+            x_expand: true,
+            text,
+        });
+    }
+
+    /**
      * Create a single clipboard item widget.
      * @param {Object} mItem - the menu item data
      * @param {number} index - 0-based index within the current page
