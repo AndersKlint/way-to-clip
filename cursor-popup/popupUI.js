@@ -54,12 +54,34 @@ export class PopupUIBuilder {
 
     /**
      * Create the scrollable list container for clipboard items.
+     * This is the inner box holding the rows; it must be placed inside
+     * the St.ScrollView returned by createListScrollView() so the list
+     * can scroll when the popup doesn't fit on screen.
      */
     createListContainer() {
         return new St.BoxLayout({
             style_class: 'waytoclip-popup-list',
             vertical: true,
         });
+    }
+
+    /**
+     * Create the scroll wrapper for the item list.
+     * Scrolling stays disabled (policy NEVER) until CursorPopup caps the
+     * list height on overflow; that keeps the popup naturally sized when
+     * everything fits and only scrolls when it doesn't.
+     * @param {St.BoxLayout} listBox - inner container from createListContainer()
+     */
+    createListScrollView(listBox) {
+        const scrollView = new St.ScrollView({
+            style_class: 'waytoclip-popup-list-scroll',
+            hscrollbar_policy: St.PolicyType.NEVER,
+            vscrollbar_policy: St.PolicyType.NEVER,
+            overlay_scrollbars: true,
+            x_expand: true,
+        });
+        scrollView.set_child(listBox);
+        return scrollView;
     }
 
     /**
@@ -259,11 +281,13 @@ export class PopupUIBuilder {
     }
 
     /**
-     * Initial placement near the cursor. Always prioritizes BELOW the cursor
-     * when the popup fits there; only pops upwards when there is not enough
-     * space below but there is enough above. Left edge starts at the cursor
-     * and is clamped once — callers lock the returned X and cursor-anchored
-     * edge and must never recompute placement on page changes.
+     * Initial placement near the cursor. Prioritizes BELOW the cursor when
+     * the popup fits there; only pops upwards when there is not enough
+     * space below but there is enough above. When neither side fits, uses
+     * the side with the most available space so the scrollable list gets
+     * maximum height. Left edge starts at the cursor and is clamped once
+     * — callers lock the returned X and cursor-anchored edge and must
+     * never recompute placement on page changes.
      *
      * @param {St.Widget} modalContainer
      * @param {St.BoxLayout} popup
@@ -306,9 +330,17 @@ export class PopupUIBuilder {
             mode = 'above';
             popupY = aboveBottomY - natH;
         } else {
-            // Neither side fits: prefer below, truncated to available space.
-            mode = 'below';
-            popupY = belowTopY;
+            // Neither side fits: use the side with the most available
+            // space so the (scrollable) list gets maximum height. Ties
+            // keep the preferred below-mode. Callers cap the list to the
+            // locked side's available space, so nothing paints off-screen.
+            if (spaceAbove > spaceBelow) {
+                mode = 'above';
+                popupY = aboveBottomY - natH;
+            } else {
+                mode = 'below';
+                popupY = belowTopY;
+            }
         }
 
         popup.set_position(popupX, popupY);

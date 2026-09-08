@@ -12,6 +12,7 @@
 
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
+import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
@@ -40,6 +41,7 @@ export class CursorPopup {
         this._popupLayout = null;
         this._modalGrab = null;
         this._listContainer = null;
+        this._listScrollView = null;
         this._searchEntry = null;
         this._pageIndicator = null;
         this._privateModeHint = null;
@@ -166,6 +168,7 @@ export class CursorPopup {
 
         this._popupLayout = null;
         this._listContainer = null;
+        this._listScrollView = null;
         this._searchEntry = null;
         this._pageIndicator = null;
         this._privateModeHint = null;
@@ -315,6 +318,7 @@ export class CursorPopup {
         this._modalContainer = this._uiBuilder.createModalContainer();
         this._popupLayout = this._uiBuilder.createPopupLayout();
         this._listContainer = this._uiBuilder.createListContainer();
+        this._listScrollView = this._uiBuilder.createListScrollView(this._listContainer);
 
         this._searchEntry = this._uiBuilder.createSearchEntry(
             (query) => this._applySearch(query),
@@ -326,7 +330,7 @@ export class CursorPopup {
         this._pageIndicator = pageIndicator;
 
         this._popupLayout.add_child(this._searchEntry);
-        this._popupLayout.add_child(this._listContainer);
+        this._popupLayout.add_child(this._listScrollView);
         this._popupLayout.add_child(footerBox);
     }
 
@@ -374,6 +378,7 @@ export class CursorPopup {
         this._pageIndicator.visible = this._itemsToShow.length > 0;
 
         this._linesPerItem = lines;
+        this._resetListScrollTop();
     }
 
     _isOnStage() {
@@ -393,12 +398,15 @@ export class CursorPopup {
      * Try row densities from `startLines` down to 1 and keep the fullest
      * variant that fits the locked available height. Returns the final
      * natural height (possibly still overflowing when even 1-line rows
-     * don't fit — callers hard-cap in that case).
+     * don't fit — callers enable list scrolling in that case).
      */
     _fitRowsToLock(startLines) {
         let h = 0;
         for (let lines = startLines; lines >= 1; lines--) {
             this._buildPageItems(lines);
+            // Drop any scroll cap so we measure the true natural size;
+            // scrolling is only enabled once nothing fits naturally.
+            this._disableListScroll();
             this._popupLayout.set_height(-1);
             this._popupLayout.set_width(-1);
             ({ natH: h } = this._uiBuilder.measurePopup(
@@ -409,19 +417,122 @@ export class CursorPopup {
         return h;
     }
 
+    _setListScrollPolicy(mode) {
+        if (!this._listScrollView)
+            return;
+        try {
+            if (typeof this._listScrollView.set_policy === 'function') {
+                this._listScrollView.set_policy(
+                    St.PolicyType.NEVER, mode);
+            } else {
+                this._listScrollView.vscrollbar_policy = mode;
+                this._listScrollView.hscrollbar_policy = St.PolicyType.NEVER;
+            }
+        } catch (_e) { /* headless tests / mocks: ignore */ }
+    }
+
+    /** Natural list size: no cap, no scrollbar. */
+    _disableListScroll() {
+        if (!this._listScrollView)
+            return;
+        this._setListScrollPolicy(St.PolicyType.NEVER);
+        try {
+            this._listScrollView.set_height(-1);
+        } catch (_e) { /* ignore */ }
+    }
+
+    /**
+     * Cap the list to `listHeight` and enable the scrollbar. The outer
+     * popup keeps its natural height (now exactly the available height)
+     * so search + footer stay visible while only the rows scroll.
+     */
+    _enableListScroll(listHeight) {
+        if (!this._listScrollView)
+            return;
+        this._setListScrollPolicy(St.PolicyType.AUTOMATIC);
+        try {
+            this._listScrollView.set_height(Math.max(0, listHeight));
+        } catch (_e) { /* ignore */ }
+    }
+
+    _resetListScrollTop() {
+        try {
+            this._listScrollView?.get_vadjustment()?.set_value(0);
+        } catch (_e) { /* adjustment not ready yet: ignore */ }
+    }
+
+    _ensureSelectedVisible() {
+        try {
+            const scrollView = this._listScrollView;
+            const item = this._currentPageItems[this._selectedIndex];
+            if (!scrollView || !item)
+                return;
+            const adjustment = scrollView.get_vadjustment?.();
+            if (!adjustment)
+                return;
+            // No scrolling active: the whole list is visible already.
+            if (adjustment.get_page_size?.() >= adjustment.get_upper?.())
+                return;
+            let top = null;
+            let bottom = null;
+            if (typeof item.get_position === 'function' && typeof item.get_height === 'function') {
+                const [, y] = item.get_position();
+                const h = item.get_height();
+                if (Number.isFinite(y) && Number.isFinite(h)) {
+                    top = y;
+                    bottom = y + h;
+                }
+            }
+            if (top === null && typeof item.get_allocation_box === 'function') {
+                const box = item.get_allocation_box();
+                if (box && Number.isFinite(box.y1) && Number.isFinite(box.y2)) {
+                    top = box.y1;
+                    bottom = box.y2;
+                }
+            }
+            if (top === null || bottom === null)
+                return;
+            adjustment.clamp_page(top, bottom);
+        } catch (_e) { /* best-effort: selection highlight is enough */ }
+    }
+
     _anchorToLock(height) {
         const availH = this._getAvailH();
-        if (height > availH) {
-            this._popupLayout.set_height(Math.max(0, availH));
-            this._uiBuilder.anchorPopup(
-                this._modalContainer, this._popupLayout, this._popupLock,
-                this._monitor, Math.max(0, availH));
-        } else {
+        if (height <= availH) {
+            // Everything fits: natural size, no scrolling.
+            this._disableListScroll();
             this._popupLayout.set_height(-1);
             this._uiBuilder.anchorPopup(
                 this._modalContainer, this._popupLayout, this._popupLock,
                 this._monitor, height);
+            return;
         }
+        // Nothing fits naturally (not even 1-line rows): keep the
+        // cursor-anchored edge locked and scroll the rows instead of
+        // painting past the monitor edge. Chrome (search + footer)
+        // stays visible; only the list height is capped.
+        try {
+            const { availableW } = this._uiBuilder.measurePopup(
+                this._popupLayout, this._monitor, this._popupLock.x);
+            const [, listNatH] = this._listContainer.get_preferred_height(availableW);
+            const chromeH = Math.max(0, height - listNatH);
+            const maxListH = Math.max(0, availH - chromeH);
+            this._enableListScroll(maxListH);
+            this._resetListScrollTop();
+        } catch (_e) {
+            // If measuring the split fails, fall back to a hard outer cap
+            // so the popup never paints outside the monitor.
+            this._disableListScroll();
+            this._popupLayout.set_height(Math.max(0, availH));
+            this._uiBuilder.anchorPopup(
+                this._modalContainer, this._popupLayout, this._popupLock,
+                this._monitor, Math.max(0, availH));
+            return;
+        }
+        this._popupLayout.set_height(-1);
+        this._uiBuilder.anchorPopup(
+            this._modalContainer, this._popupLayout, this._popupLock,
+            this._monitor, Math.max(0, availH));
     }
 
     /**
@@ -437,6 +548,7 @@ export class CursorPopup {
         }
 
         // Clear any previous hard cap so we measure true natural size.
+        this._disableListScroll();
         this._popupLayout.set_height(-1);
         this._popupLayout.set_width(-1);
 
@@ -455,6 +567,7 @@ export class CursorPopup {
             }
         });
         this._selectedIndex = newIndex;
+        this._ensureSelectedVisible();
     }
 
     // --- Private: selection ---
@@ -521,7 +634,9 @@ export class CursorPopup {
 
         const lock = this._popupLock;
 
-        // Measure true natural size (drop any previous hard cap first).
+        // Measure true natural size (drop any previous scroll/height cap
+        // first, otherwise a capped list would fake a fitting size).
+        this._disableListScroll();
         this._popupLayout.set_height(-1);
         this._popupLayout.set_width(-1);
         const { natH } = this._uiBuilder.measurePopup(

@@ -23,6 +23,12 @@
     spacing: 2px;
 }
 
+/* Scroll wrapper: invisible when the list fits (policy NEVER),
+   scrollbar only appears once CursorPopup caps the list height. */
+.waytoclip-popup-list-scroll {
+    padding: 0;
+}
+
 .waytoclip-popup-item {
     padding: 8px 12px;
     border-radius: 6px;
