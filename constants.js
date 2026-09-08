@@ -16,6 +16,7 @@ export const PrefsFields = {
     LIMIT_POPUP_PAGES               : 'limit-popup-pages',
     CACHE_IMAGES                    : 'cache-images',
     EXCLUDED_APPS                   : 'excluded-apps',
+    TERMINAL_APPS                   : 'terminal-apps',
     CLEAR_HISTORY_ON_INTERVAL       : 'clear-history-on-interval',
     CLEAR_HISTORY_INTERVAL          : 'clear-history-interval',
     NEXT_HISTORY_CLEAR              : 'next-history-clear',

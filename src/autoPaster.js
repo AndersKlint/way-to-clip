@@ -10,6 +10,8 @@
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 
+import { decidePasteMode, PasteMode } from './pasteKeys.js';
+
 export class AutoPaster {
     #clipboardManager;
     #keyboard;
@@ -23,15 +25,31 @@ export class AutoPaster {
     /**
      * Set the clipboard to entry, synthesize paste, then restore the
      * previously selected entry. onDone runs after restore.
+     * target is the PasteTarget snapshotted at popup-open time (null
+     * when pasting without a prior open).
      */
-    paste(entry, previouslySelectedEntry, onDone) {
+    paste(entry, previouslySelectedEntry, onDone, target = null) {
         const releaseInhibit = this.#clipboardManager.inhibit();
         this.#clipboardManager.writeEntry(entry);
 
         this._after(50, () => {
-            if (this.#keyboard.purpose === Clutter.InputContentPurpose.TERMINAL) {
+            // The live content-purpose can't be trusted on its own: the
+            // popup's modal grab resets it to NORMAL, so a terminal
+            // would get Shift+Insert (PRIMARY selection) instead of the
+            // chosen entry. The snapshot decides alongside it.
+            const mode = decidePasteMode(
+                target,
+                this.#keyboard.purpose,
+                Clutter.InputContentPurpose.TERMINAL,
+            );
+            if (mode === PasteMode.TERMINAL) {
+                // Ctrl+Shift+V is the standard paste binding in
+                // Ptyxis, GNOME Terminal/Console, Konsole, Alacritty,
+                // Kitty, Ghostty and VS Code terminals. (Ctrl+Shift+Insert
+                // is unbound by default and Shift+Insert pastes PRIMARY
+                // in VTE terminals instead of the clipboard.)
                 this._pressRelease(
-                    Clutter.KEY_Control_L, Clutter.KEY_Shift_L, Clutter.KEY_Insert);
+                    Clutter.KEY_Control_L, Clutter.KEY_Shift_L, Clutter.KEY_v);
             } else {
                 this._pressRelease(Clutter.KEY_Shift_L, Clutter.KEY_Insert);
             }

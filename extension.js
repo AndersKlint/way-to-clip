@@ -1,6 +1,7 @@
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
+import Shell from 'gi://Shell';
 import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
@@ -20,6 +21,7 @@ import { ClipboardManager } from './src/clipboardManager.js';
 import { ShortcutManager } from './src/shortcutManager.js';
 import { HistoryClearScheduler } from './src/historyClearScheduler.js';
 import { AutoPaster } from './src/autoPaster.js';
+import { isTerminalWindow, snapshotPasteTarget } from './src/pasteKeys.js';
 import { error } from './src/logger.js';
 
 const INDICATOR_ICON = 'edit-paste-symbolic';
@@ -86,6 +88,7 @@ const WayToClip = GObject.registerClass({
 
         this._settingsChangedId = 0;
         this.clipItemsRadioGroup = [];
+        this._pasteTarget = null;
 
         const hbox = new St.BoxLayout({
             style_class: 'panel-status-menu-box waytoclip-hbox',
@@ -465,8 +468,18 @@ const WayToClip = GObject.registerClass({
         if (this.clipItemsRadioGroup.length === 0)
             return;
 
-        let x, y;
+        // Snapshot the paste target while the target app still has
+        // focus: opening the popup takes a modal grab and resets the
+        // live content-purpose to NORMAL, which would make AutoPaster
+        // misdetect terminals (Shift+Insert pastes PRIMARY there
+        // instead of the chosen clipboard entry).
         const focusedWindow = global.display.get_focus_window();
+        this._keyboard.savePurpose();
+        this._pasteTarget = snapshotPasteTarget(
+            this._keyboard.savedPurpose,
+            this._isTerminalWindow(focusedWindow));
+
+        let x, y;
         const monitor = global.display.get_current_monitor();
         const monitorGeometry = global.display.get_monitor_geometry(monitor);
 
@@ -485,6 +498,29 @@ const WayToClip = GObject.registerClass({
         this._cursorPopup?.close();
     }
 
+    /**
+     * Snapshot whether the focused window is a terminal emulator.
+     * Used as a fallback when the input method reports no
+     * content-purpose (purpose stays undefined on some setups), in
+     * which case purpose-based detection can never fire.
+     */
+    _isTerminalWindow(focusedWindow) {
+        try {
+            if (!focusedWindow)
+                return false;
+            const wmClass = focusedWindow.get_wm_class?.() ?? null;
+            let appId = null;
+            try {
+                appId = Shell.WindowTracker.get_default()
+                    ?.get_window_app(focusedWindow)?.get_id?.() ?? null;
+            } catch (_e) { /* app lookup is best-effort */ }
+            return isTerminalWindow(wmClass, appId,
+                this._snap.terminalApps ?? []);
+        } catch (_e) {
+            return false;
+        }
+    }
+
     autoPasteAndClose(menuItem) {
         // cursorPopup may pass a widget that _moveItemFirst just destroyed
         // (entry object survives); resolve to the live widget first.
@@ -499,7 +535,8 @@ const WayToClip = GObject.registerClass({
         // Selecting also sets the clipboard; AutoPaster restores afterwards.
         this._selectMenuItem(live, true);
         if (this._snap.autoPaste) {
-            this._autoPaster.paste(entry, previouslySelected, null);
+            this._autoPaster.paste(entry, previouslySelected, null,
+                this._pasteTarget);
         }
     }
 

@@ -27,6 +27,7 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 │   ├── shortcutManager.js      - Global keybinding lifecycle
 │   ├── historyClearScheduler.js - Interval-clear timer (single dispose)
 │   ├── autoPaster.js           - Paste keypresses + clipboard restore
+│   │   ├── pasteKeys.js            - Pure paste-target decision (unit-tested)
 │   └── logger.js               - Prefixed log helpers
 ├── cursor-popup/
 │   ├── cursorPopup.js    - Popup lifecycle, paging, selection
@@ -35,7 +36,7 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 │   └── popupSearch.js    - Filtering (case-sensitive/regex optional)
 ├── prefs.js            - Settings page assembly (GTK4/Adw)
 ├── prefs/
-│   ├── excludedApps.js - Excluded-apps ExpanderRow manager
+│   ├── stringListManager.js - Generic strv ExpanderRow manager (excluded/terminal apps)
 │   └── shortcutRow.js  - Capturable shortcut button (no controller leak)
 ├── constants.js      - Settings keys + ITEMS_PER_PAGE + mimetypes
 ├── registry.js       - Coalesced atomic persistence (JSON cache + image files)
@@ -90,6 +91,7 @@ In-popup:
 | `keep-selected-on-clear` | boolean | false | Keep selection when clearing |
 | `cache-images` | boolean | true | Cache image content |
 | `excluded-apps` | string[] | [] | Apps to exclude from monitoring |
+| `terminal-apps` | string[] | pre-filled terminal list | Window classes/app ids treated as terminals for auto-paste |
 | `clear-on-boot` | boolean | false | Clear history on login |
 | `auto-paste` | boolean | true | Auto-paste after selection in popup |
 | `popup-position-mode` | int | 0 | Popup position (0=cursor, 1=window center) |

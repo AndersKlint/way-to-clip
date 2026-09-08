@@ -34,6 +34,7 @@ export class SettingsManager {
             keepSelectedOnClear: s.get_boolean(PrefsFields.KEEP_SELECTED_ON_CLEAR),
             cacheImages: s.get_boolean(PrefsFields.CACHE_IMAGES),
             excludedApps: s.get_strv(PrefsFields.EXCLUDED_APPS),
+            terminalApps: s.get_strv(PrefsFields.TERMINAL_APPS),
             clearHistoryOnInterval: s.get_boolean(PrefsFields.CLEAR_HISTORY_ON_INTERVAL),
             clearHistoryInterval: s.get_int(PrefsFields.CLEAR_HISTORY_INTERVAL),
             nextHistoryClear: s.get_int(PrefsFields.NEXT_HISTORY_CLEAR),

@@ -4,7 +4,7 @@ import Gio from 'gi://Gio';
 import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import { PrefsFields } from './constants.js';
 import { createShortcutButton } from './prefs/shortcutRow.js';
-import { ExcludedAppsManager } from './prefs/excludedApps.js';
+import { StringListManager } from './prefs/stringListManager.js';
 
 export default class WayToClipPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
@@ -107,6 +107,19 @@ class Settings {
         });
         this.field_exclusion_row.add_suffix(this.field_exclusion_row_add_button);
 
+        this.field_terminal_row = new Adw.ExpanderRow({
+            title: _('Terminal Apps'),
+            subtitle: _('Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting inserts the wrong text'),
+        });
+
+        this.field_terminal_row_add_button = new Gtk.Button({
+            iconName: 'list-add-symbolic',
+            cssClasses: ['flat'],
+            valign: Gtk.Align.CENTER,
+            halign: Gtk.Align.CENTER,
+        });
+        this.field_terminal_row.add_suffix(this.field_terminal_row_add_button);
+
         this.case_sensitive_search = new Adw.SwitchRow({
             title: _('Case-sensitive search'),
         });
@@ -143,11 +156,12 @@ class Settings {
         this.shortcuts = new Adw.PreferencesGroup({ title: _('Shortcuts') });
         this.search = new Adw.PreferencesGroup({ title: _('Search') });
 
-        this.popup.add(this.field_auto_paste);
         this.popup.add(this.field_popup_position_mode);
         this.popup.add(this.field_limit_popup_pages);
         this.popup.add(this.field_popup_pages);
 
+        this.behavior.add(this.field_auto_paste);
+        this.behavior.add(this.field_terminal_row);
         this.behavior.add(this.field_move_item_first);
         this.behavior.add(this.field_keep_selected_on_clear);
         this.behavior.add(this.field_cache_images);
@@ -191,12 +205,24 @@ class Settings {
         this.field_clear_history_interval.set_sensitive(this.field_clear_history_on_interval.active);
         this.field_popup_pages.set_sensitive(this.field_limit_popup_pages.active);
 
-        this.excludedApps = new ExcludedAppsManager(
+        this.excludedApps = new StringListManager(
             this.schema,
             this.field_exclusion_row,
             this.field_exclusion_row_add_button,
+            PrefsFields.EXCLUDED_APPS,
+            _('Window class name, e.g. "KeePassXC"'),
         );
         this.excludedApps.load();
+
+        this.terminalApps = new StringListManager(
+            this.schema,
+            this.field_terminal_row,
+            this.field_terminal_row_add_button,
+            PrefsFields.TERMINAL_APPS,
+            _('Window class or app id, e.g. "org.gnome.Ptyxis"'),
+            { autoExpand: false },
+        );
+        this.terminalApps.load();
     }
 
     #createPopupPositionOptions() {

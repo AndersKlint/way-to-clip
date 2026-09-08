@@ -1,9 +1,9 @@
 /**
- * excludedApps - ExpanderRow manager for the "Excluded Apps" preference.
+ * stringListManager - ExpanderRow manager for a strv preference.
  *
- * Extracted from prefs.js. Owns the row counter, the add-button
- * sensitivity, and the app-picker popover so Settings stays declarative.
- * Uses PrefsFields.EXCLUDED_APPS instead of a hardcoded key.
+ * Owns the row counter, the add-button sensitivity, and the app-picker
+ * popover so Settings stays declarative. Instantiated once per list
+ * setting (excluded apps, terminal apps, ...).
  */
 
 import Adw from 'gi://Adw';
@@ -11,26 +11,31 @@ import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import { PrefsFields } from '../constants.js';
-
-export class ExcludedAppsManager {
+export class StringListManager {
     #schema;
+    #field;
+    #inputPlaceholder;
     #expanderRow;
     #addButton;
+    #autoExpand;
     #counter = 0;
 
-    constructor(schema, expanderRow, addButton) {
+    constructor(schema, expanderRow, addButton, field, inputPlaceholder,
+        { autoExpand = true } = {}) {
         this.#schema = schema;
         this.#expanderRow = expanderRow;
         this.#addButton = addButton;
+        this.#field = field;
+        this.#inputPlaceholder = inputPlaceholder;
+        this.#autoExpand = autoExpand;
         this.#addButton.connect('clicked', () => this.openInputRow());
     }
 
     load() {
-        const excludedApps = this.#schema.get_strv(PrefsFields.EXCLUDED_APPS);
-        for (const app of excludedApps)
+        const apps = this.#readList();
+        for (const app of apps)
             this.#expanderRow.add_row(this.#createAppRow(app));
-        this.#setCounter(excludedApps.length);
+        this.#setCounter(apps.length);
     }
 
     openInputRow() {
@@ -44,15 +49,18 @@ export class ExcludedAppsManager {
         this.#counter = value;
         const hasApps = this.#counter > 0;
         this.#expanderRow.set_enable_expansion(hasApps);
-        this.#expanderRow.set_expanded(hasApps);
+        // autoExpand=false (e.g. the pre-filled terminal list) stays
+        // collapsed on load; adding via the + button still expands
+        // through openInputRow() so the input row is visible.
+        this.#expanderRow.set_expanded(hasApps && this.#autoExpand);
     }
 
     #readList() {
-        return this.#schema.get_strv(PrefsFields.EXCLUDED_APPS);
+        return this.#schema.get_strv(this.#field);
     }
 
     #writeList(list) {
-        this.#schema.set_strv(PrefsFields.EXCLUDED_APPS, list);
+        this.#schema.set_strv(this.#field, list);
     }
 
     #createAppRow(appClassName) {
@@ -76,7 +84,7 @@ export class ExcludedAppsManager {
         const entryRow = new Adw.ActionRow({ hexpand: false });
 
         const entry = new Gtk.Entry({
-            placeholderText: _('Window class name, e.g. "KeePassXC"'),
+            placeholderText: this.#inputPlaceholder,
             halign: Gtk.Align.FILL,
             valign: Gtk.Align.CENTER,
             hexpand: true,

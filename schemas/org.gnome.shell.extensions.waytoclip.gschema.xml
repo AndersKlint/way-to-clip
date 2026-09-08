@@ -133,6 +133,16 @@
             A list of applications that are excluded from clipboard history.
         </description>
     </key>
+    <key name="terminal-apps" type="as">
+        <default><![CDATA[['org.gnome.ptyxis', 'ptyxis', 'org.gnome.terminal', 'gnome-terminal', 'gnome-terminal-server', 'org.gnome.console', 'gnome-console', 'kgx', 'org.kde.konsole', 'konsole', 'alacritty', 'kitty', 'kitty-diff', 'org.wezfurlong.wezterm', 'wezterm', 'wezterm-gui', 'com.mitchellh.ghostty', 'ghostty', 'foot', 'footclient', 'foot-server', 'com.gexperts.tilix', 'tilix', 'terminator', 'xterm', 'uxterm', 'x-terminal-emulator', 'urxvt', 'rxvt', 'rxvt-unicode', 'xfce4-terminal', 'lxterminal', 'mate-terminal', 'com.raggesilver.blackbox', 'blackbox', 'dev.warp.warp', 'warp', 'tabby', 'org.tabby', 'qterminal', 'org.lxqt.qterminal', 'sakura', 'st', 'st-256color', 'com.deepin.terminal', 'deepin-terminal', 'io.elementary.terminal', 'pantheon-terminal', 'com.system76.cosmicterm', 'cosmic-term', 'contour', 'rio', 'hyper']]]></default>
+        <summary>Terminal applications for special paste</summary>
+        <description>
+            Window classes or app ids treated as terminals for auto-paste.
+            Terminals need Ctrl+Shift+V because Shift+Insert pastes the
+            PRIMARY selection there instead of the chosen entry. Add your
+            terminal here if auto-paste inserts the wrong text in it.
+        </description>
+    </key>
     <key name="clear-history-on-interval" type="b">
         <default>false</default>
         <summary>Enable clearing history on interval</summary>

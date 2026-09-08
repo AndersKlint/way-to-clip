@@ -4,6 +4,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 export class Keyboard {
     #device;
     #contentPurpose;
+    #savedPurpose = null;
 
     constructor () {
         let seat = Clutter.get_default_backend().get_default_seat();
@@ -29,6 +30,25 @@ export class Keyboard {
 
     get purpose () {
         return this.#contentPurpose;
+    }
+
+    /**
+     * Snapshot the current input purpose. Call while the target app
+     * still has focus (before the cursor popup takes its modal grab):
+     * opening the popup steals input-method focus and resets the live
+     * content-purpose to NORMAL, so reading purpose at paste time
+     * misdetects terminals as plain text fields.
+     */
+    savePurpose () {
+        this.#savedPurpose = this.#contentPurpose;
+    }
+
+    /**
+     * Purpose saved by savePurpose(), or null when never saved.
+     * AutoPaster consults this alongside the live purpose.
+     */
+    get savedPurpose () {
+        return this.#savedPurpose;
     }
 
     press (key) {
