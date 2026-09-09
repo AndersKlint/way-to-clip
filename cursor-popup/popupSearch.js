@@ -14,8 +14,24 @@ export class PopupSearch {
      * @param {boolean} regexEnabled
      */
     updateSettings(caseSensitive, regexEnabled) {
-        this._caseSensitive = caseSensitive;
-        this._regexEnabled = regexEnabled;
+        this._caseSensitive = !!caseSensitive;
+        this._regexEnabled = !!regexEnabled;
+    }
+
+    get caseSensitive() {
+        return this._caseSensitive;
+    }
+
+    get regexEnabled() {
+        return this._regexEnabled;
+    }
+
+    setCaseSensitive(value) {
+        this._caseSensitive = !!value;
+    }
+
+    setRegexEnabled(value) {
+        this._regexEnabled = !!value;
     }
 
     /**

@@ -13,9 +13,13 @@ import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.j
 /** Default thumbnail size for image entries in the cursor popup. */
 export const IMAGE_PREVIEW_SIZE = 96;
 
+/** Hover delay (ms) before a search-toggle tooltip appears. */
+const SEARCH_TOOLTIP_DELAY_MS = 500;
+
 export class PopupUIBuilder {
     constructor() {
         this._imagePreviewSize = IMAGE_PREVIEW_SIZE;
+        this._pendingSearchTooltips = new Set();
     }
 
     /**
@@ -109,6 +113,245 @@ export class PopupUIBuilder {
     }
 
     /**
+     * Create a small toggle button for the search bar ("Aa" / ".*").
+     * @param {string} label - button text
+     * @param {string} tooltip - tooltip text
+     * @returns {St.Button}
+     */
+    createSearchToggleButton(label) {
+        const button = new St.Button({
+            style_class: 'waytoclip-search-toggle',
+            toggle_mode: true,
+            reactive: true,
+            can_focus: true,
+            track_hover: true,
+            child: new St.Label({ text: label }),
+            x_align: Clutter.ActorAlign.END,
+            y_align: Clutter.ActorAlign.CENTER,
+            x_expand: false,
+            y_expand: false,
+        });
+        return button;
+    }
+
+    /**
+     * Create the shared floating hover tooltip (search toggles, footer
+     * hints). It is hidden by default; callers add it to the fullscreen
+     * modal container (so it floats above the popup without disturbing
+     * the layout) and wire actors via attachSearchTooltip().
+     * @returns {St.Label}
+     */
+    createSearchTooltip() {
+        return new St.Label({
+            style_class: 'waytoclip-search-tooltip',
+            visible: false,
+        });
+    }
+
+    /**
+     * Cancel all pending (delayed) search-toggle tooltip timeouts.
+     */
+    cancelPendingSearchTooltips() {
+        try {
+            for (const id of this._pendingSearchTooltips) {
+                try {
+                    GLib.source_remove(id);
+                } catch (_e) { /* already fired/removed */ }
+            }
+        } catch (_e) { /* ignore */ }
+        this._pendingSearchTooltips = new Set();
+    }
+
+    /**
+     * Show `tooltip` with `text` anchored above `button` (below it when
+     * there is no room above), clamped inside `container`. Restacks the
+     * tooltip above its siblings first so it always paints on top of
+     * the popup.
+     */
+    _positionSearchTooltip(tooltip, button, container, text) {
+        tooltip.set_text(text);
+        try {
+            container.set_child_above_sibling(tooltip, null);
+        } catch (_e) { /* keep current stacking */ }
+        // Show first so preferred-size reflects the new text, then
+        // position synchronously — no painted frame in between.
+        tooltip.visible = true;
+
+        const [conX, conY] = container.get_transformed_position();
+        const [conW] = container.get_size();
+        const [btnX, btnY] = button.get_transformed_position();
+        const btnW = button.get_width();
+        const btnH = button.get_height();
+
+        const [, natW] = tooltip.get_preferred_width(-1);
+        const [, natH] = tooltip.get_preferred_height(natW);
+
+        const relX = btnX - conX;
+        const relY = btnY - conY;
+
+        let x = relX + btnW / 2 - natW / 2;
+        x = Math.max(4, Math.min(x, Math.max(4, conW - natW - 4)));
+
+        let y = relY - natH - 8;
+        if (y < 4)
+            y = relY + btnH + 8;
+
+        tooltip.set_position(x, y);
+    }
+
+    /**
+     * Wire a custom hover tooltip on any reactive actor (search
+     * toggles, footer hints): native St tooltips do not render here,
+     * so the shared floating label is shown after a short hover delay
+     * and hidden on leave.
+     */
+    attachSearchTooltip(button, text, tooltip, container) {
+        button.connect('enter-event', () => {
+            try {
+                const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
+                    SEARCH_TOOLTIP_DELAY_MS, () => {
+                        this._pendingSearchTooltips.delete(id);
+                        try {
+                            this._positionSearchTooltip(tooltip, button, container, text);
+                        } catch (_e) { /* destroyed meanwhile: ignore */ }
+                        return GLib.SOURCE_REMOVE;
+                    });
+                this._pendingSearchTooltips.add(id);
+            } catch (_e) { /* headless tests / mocks: ignore */ }
+        });
+        const dismiss = () => {
+            this.cancelPendingSearchTooltips();
+            this.hideSearchTooltip(tooltip);
+        };
+        button.connect('leave-event', dismiss);
+        // Clicking dismisses any pending/visible tooltip; the toggle
+        // itself is handled by the separately bound press/clicked
+        // handlers (this one deliberately does not stop propagation).
+        try {
+            button.connect('button-press-event', dismiss);
+        } catch (_e) { /* headless tests / mocks: ignore */ }
+    }
+
+    /**
+     * Hide the shared search-toggle tooltip, if visible.
+     */
+    hideSearchTooltip(tooltip) {
+        try {
+            if (tooltip)
+                tooltip.visible = false;
+        } catch (_e) { /* ignore */ }
+    }
+
+    /**
+     * Bind a toggle callback to a search button.
+     * Item rows in this popup select via 'button-press-event', which is
+     * the proven-delivering signal under the modal grab; plain 'clicked'
+     * alone has been observed to never arrive. Both are wired so at least
+     * one fires, with a short dedup window so a press+clicked pair only
+     * toggles once.
+     */
+    _bindSearchToggle(button, onToggle) {
+        let lastFire = 0;
+        const fire = () => {
+            const now = Date.now();
+            if (now - lastFire < 300)
+                return;
+            lastFire = now;
+            onToggle();
+        };
+        button.connect('clicked', fire);
+        try {
+            button.connect('button-press-event', () => {
+                fire();
+                return Clutter.EVENT_STOP;
+            });
+        } catch (_e) { /* headless tests / mocks: ignore */ }
+    }
+
+    /**
+     * Sync a search toggle button's visual state.
+     * @param {St.Button} button
+     * @param {boolean} active
+     */
+    setSearchToggleState(button, active) {
+        if (!button)
+            return;
+        try {
+            if (typeof button.set_checked === 'function')
+                button.set_checked(!!active);
+            else
+                button.checked = !!active;
+        } catch (_e) { /* headless tests / mocks: ignore */ }
+        try {
+            if (active)
+                button.add_style_class_name('active');
+            else
+                button.remove_style_class_name('active');
+        } catch (_e) { /* ignore */ }
+    }
+
+    /**
+     * Create the search field: a single field-styled bar holding the text
+     * entry plus two icon-style toggles ("Aa" case-sensitive, ".*"
+     * regex) embedded at the right, inside the field. The whole bar is
+     * hidden until search mode is enabled, mirroring the old
+     * entry-only behavior.
+     * @param {Function} onTextChanged - callback(queryText)
+     * @param {Function} onKeyPress - callback(event) => Clutter.EVENT_*
+     * @param {Function} onCaseToggle - callback()
+     * @param {Function} onRegexToggle - callback()
+     * @param {St.Widget} container - fullscreen modal container hosting
+     *   the popup; the floating hover tooltip is positioned relative to
+     *   it (callers must add the returned tooltip to it).
+     * @returns {{ searchBar: St.BoxLayout, entry: St.Entry, caseButton: St.Button, regexButton: St.Button, tooltip: St.Label }}
+     */
+    createSearchBar(onTextChanged, onKeyPress, onCaseToggle, onRegexToggle, container) {
+        const searchBar = new St.BoxLayout({
+            style_class: 'waytoclip-search-bar',
+            vertical: false,
+            visible: false,
+            x_expand: true,
+        });
+
+        const entry = this.createSearchEntry(onTextChanged, onKeyPress);
+        entry.visible = true;
+        entry.x_expand = true;
+
+        const caseButton = this.createSearchToggleButton('Aa');
+        const regexButton = this.createSearchToggleButton('.*');
+
+        if (typeof onCaseToggle === 'function')
+            this._bindSearchToggle(caseButton, onCaseToggle);
+        if (typeof onRegexToggle === 'function')
+            this._bindSearchToggle(regexButton, onRegexToggle);
+
+        // Custom hover tooltips ("Match Case (Alt+C)", ...). Native St
+        // tooltips do not render here, so a shared floating label is
+        // shown above the hovered toggle instead.
+        const tooltip = this.createSearchTooltip();
+        if (container) {
+            this.attachSearchTooltip(caseButton,
+                _('Match Case (Alt+C)'), tooltip, container);
+            this.attachSearchTooltip(regexButton,
+                _('Use Regular Expression (Alt+R)'), tooltip, container);
+        }
+
+        searchBar.add_child(entry);
+        searchBar.add_child(caseButton);
+        searchBar.add_child(regexButton);
+
+        // Highlight the field while typing (the container draws the
+        // field chrome; the nested entry itself is transparent).
+        try {
+            const text = entry.get_clutter_text();
+            text.connect('key-focus-in', () => searchBar.add_style_class_name('focus'));
+            text.connect('key-focus-out', () => searchBar.remove_style_class_name('focus'));
+        } catch (_e) { /* headless tests / mocks: ignore */ }
+
+        return { searchBar, entry, caseButton, regexButton, tooltip };
+    }
+
+    /**
      * Create the page indicator label.
      */
     createPageIndicator() {
@@ -121,18 +364,31 @@ export class PopupUIBuilder {
 
     /**
      * Build the footer bar with hints and the page indicator.
+     * Hints are reactive so the shared floating hover tooltip can be
+     * attached (see attachSearchTooltip).
+     * @param {St.Widget} container - fullscreen modal container the
+     *   shared tooltip is positioned relative to (omit to skip tooltips).
+     * @param {St.Label} tooltip - shared floating tooltip label.
      * @returns {{ footerBox: St.BoxLayout, privateModeHint: St.BoxLayout, pageIndicator: St.Label }}
      */
-    createFooter() {
-        const searchHint = new St.Label({
-            text: '🔍 = s',
+    createFooter(container, tooltip) {
+        const searchHint = new St.BoxLayout({
             style_class: 'waytoclip-hint',
             x_align: Clutter.ActorAlign.START,
+            reactive: true,
+            track_hover: true,
         });
+        const searchIcon = new St.Icon({
+            icon_name: 'system-search-symbolic',
+        });
+        searchHint.add_child(searchIcon);
+        searchHint.add_child(new St.Label({ text: ' = s' }));
 
         const privateModeHint = new St.BoxLayout({
             style_class: 'waytoclip-hint',
             x_align: Clutter.ActorAlign.START,
+            reactive: true,
+            track_hover: true,
         });
         const privateIcon = new St.Icon({
             icon_name: 'security-medium-symbolic',
@@ -144,7 +400,18 @@ export class PopupUIBuilder {
             text: '🗑 = d',
             style_class: 'waytoclip-hint',
             x_align: Clutter.ActorAlign.END,
+            reactive: true,
+            track_hover: true,
         });
+
+        if (container && tooltip) {
+            this.attachSearchTooltip(searchHint,
+                _('Toggle search (s)'), tooltip, container);
+            this.attachSearchTooltip(privateModeHint,
+                _('Toggle private mode (p)'), tooltip, container);
+            this.attachSearchTooltip(deleteHint,
+                _('Delete selected entry (d)'), tooltip, container);
+        }
 
         const pageIndicator = this.createPageIndicator();
 

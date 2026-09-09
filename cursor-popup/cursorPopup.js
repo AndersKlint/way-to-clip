@@ -35,6 +35,7 @@ export class CursorPopup {
         this._autoPaste = true;
         this._limitPopupPages = false;
         this._maxPopupPages = 3;
+        this._settings = null;
 
         // UI references
         this._modalContainer = null;
@@ -42,7 +43,11 @@ export class CursorPopup {
         this._modalGrab = null;
         this._listContainer = null;
         this._listScrollView = null;
+        this._searchBar = null;
         this._searchEntry = null;
+        this._caseButton = null;
+        this._regexButton = null;
+        this._searchTooltip = null;
         this._pageIndicator = null;
         this._privateModeHint = null;
         this._anchorX = 0;
@@ -73,12 +78,19 @@ export class CursorPopup {
 
     /**
      * Update popup settings from GSettings. Call this whenever settings change.
+     * Also persists the Gio.Settings handle so search toggle clicks can
+     * write their state back (preserved on next open).
      */
     updateSettings(settings) {
-        this._search.updateSettings(
-            settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH),
-            settings.get_boolean(PrefsFields.REGEX_SEARCH),
-        );
+        this._settings = settings;
+        let caseSensitive = this._search.caseSensitive;
+        let regexEnabled = this._search.regexEnabled;
+        try {
+            caseSensitive = settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH);
+            regexEnabled = settings.get_boolean(PrefsFields.REGEX_SEARCH);
+        } catch (_e) { /* headless tests / mocks: keep in-memory state */ }
+        this._search.updateSettings(caseSensitive, regexEnabled);
+        this._syncSearchToggles();
         this._autoPaste = settings.get_boolean(PrefsFields.AUTO_PASTE);
         this._limitPopupPages = settings.get_boolean(PrefsFields.LIMIT_POPUP_PAGES);
         this._maxPopupPages = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
@@ -107,6 +119,8 @@ export class CursorPopup {
         this._renderPage();
 
         this._modalContainer.add_child(this._popupLayout);
+        // Added last so the hover tooltip paints above the popup.
+        this._modalContainer.add_child(this._searchTooltip);
         global.stage.add_child(this._modalContainer);
 
         const pos = this._uiBuilder.positionPopup(
@@ -155,6 +169,10 @@ export class CursorPopup {
     close() {
         if (!this._popupLayout) return;
 
+        try {
+            this._uiBuilder.cancelPendingSearchTooltips?.();
+        } catch (_e) { /* ignore */ }
+
         if (this._modalGrab) {
             Main.popModal(this._modalGrab);
             this._modalGrab = null;
@@ -169,7 +187,11 @@ export class CursorPopup {
         this._popupLayout = null;
         this._listContainer = null;
         this._listScrollView = null;
+        this._searchBar = null;
         this._searchEntry = null;
+        this._caseButton = null;
+        this._regexButton = null;
+        this._searchTooltip = null;
         this._pageIndicator = null;
         this._privateModeHint = null;
         this._anchorX = 0;
@@ -187,8 +209,12 @@ export class CursorPopup {
 
     toggleSearch() {
         this._isSearchMode = !this._isSearchMode;
-        this._searchEntry.visible = this._isSearchMode;
+        if (this._searchBar)
+            this._searchBar.visible = this._isSearchMode;
+        else if (this._searchEntry)
+            this._searchEntry.visible = this._isSearchMode;
         if (this._isSearchMode) {
+            this._syncSearchToggles();
             global.stage.set_key_focus(this._searchEntry.get_clutter_text());
             // Search entry changes chrome height: anchor synchronously before
             // paint (cursor edge stays), then verify post-layout via idle.
@@ -199,12 +225,70 @@ export class CursorPopup {
         }
     }
 
+    _hideSearchTooltip() {
+        try {
+            this._uiBuilder.cancelPendingSearchTooltips?.();
+            this._uiBuilder.hideSearchTooltip?.(this._searchTooltip);
+        } catch (_e) { /* UI not built yet: ignore */ }
+    }
+
     exitSearch() {
         this._isSearchMode = false;
-        this._searchEntry.visible = false;
-        this._searchEntry.set_text('');
+        this._hideSearchTooltip();
+        if (this._searchBar) {
+            this._searchBar.visible = false;
+            // Entry stays visible inside the bar; the bar itself controls
+            // visibility so toggles reappear together on next open.
+            if (this._searchEntry)
+                this._searchEntry.set_text('');
+        } else if (this._searchEntry) {
+            this._searchEntry.visible = false;
+            this._searchEntry.set_text('');
+        }
         this._applySearch('');
         global.stage.set_key_focus(this._popupLayout);
+    }
+
+    toggleCaseSensitive() {
+        const next = !this._search.caseSensitive;
+        this._search.setCaseSensitive(next);
+        this._persistSearchOption(PrefsFields.CASE_SENSITIVE_SEARCH, next);
+        this._syncSearchToggles();
+        this._refocusSearchEntry();
+        if (this._isSearchMode)
+            this._applySearch(this._searchEntry?.get_text() ?? '');
+    }
+
+    toggleRegex() {
+        const next = !this._search.regexEnabled;
+        this._search.setRegexEnabled(next);
+        this._persistSearchOption(PrefsFields.REGEX_SEARCH, next);
+        this._syncSearchToggles();
+        this._refocusSearchEntry();
+        if (this._isSearchMode)
+            this._applySearch(this._searchEntry?.get_text() ?? '');
+    }
+
+    _persistSearchOption(key, value) {
+        try {
+            this._settings?.set_boolean(key, !!value);
+        } catch (_e) { /* headless tests / mocks: in-memory only */ }
+    }
+
+    _syncSearchToggles() {
+        try {
+            this._uiBuilder.setSearchToggleState?.(
+                this._caseButton, this._search.caseSensitive);
+            this._uiBuilder.setSearchToggleState?.(
+                this._regexButton, this._search.regexEnabled);
+        } catch (_e) { /* UI not built yet: ignore */ }
+    }
+
+    _refocusSearchEntry() {
+        try {
+            if (this._isSearchMode && this._searchEntry)
+                global.stage.set_key_focus(this._searchEntry.get_clutter_text());
+        } catch (_e) { /* headless tests: ignore */ }
     }
 
     // --- Selection ---
@@ -320,16 +404,29 @@ export class CursorPopup {
         this._listContainer = this._uiBuilder.createListContainer();
         this._listScrollView = this._uiBuilder.createListScrollView(this._listContainer);
 
-        this._searchEntry = this._uiBuilder.createSearchEntry(
+        const { searchBar, entry, caseButton, regexButton, tooltip } = this._uiBuilder.createSearchBar(
             (query) => this._applySearch(query),
             (event) => this._keyHandler.handleSearchKeyPress(event),
+            () => this.toggleCaseSensitive(),
+            () => this.toggleRegex(),
+            this._modalContainer,
         );
+        this._searchBar = searchBar;
+        this._searchEntry = entry;
+        this._caseButton = caseButton;
+        this._regexButton = regexButton;
+        this._searchTooltip = tooltip;
+        // NOTE: the tooltip is added to the modal container in open(),
+        // AFTER the popup layout, so it stacks (and paints) on top.
+        // It floats without disturbing the popup layout.
+        this._syncSearchToggles();
 
-        const { footerBox, privateModeHint, pageIndicator } = this._uiBuilder.createFooter();
+        const { footerBox, privateModeHint, pageIndicator } = this._uiBuilder.createFooter(
+            this._modalContainer, tooltip);
         this._privateModeHint = privateModeHint;
         this._pageIndicator = pageIndicator;
 
-        this._popupLayout.add_child(this._searchEntry);
+        this._popupLayout.add_child(this._searchBar);
         this._popupLayout.add_child(this._listScrollView);
         this._popupLayout.add_child(footerBox);
     }

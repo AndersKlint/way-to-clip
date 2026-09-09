@@ -13,7 +13,6 @@ export default class WayToClipPreferences extends ExtensionPreferences {
         const page = new Adw.PreferencesPage();
         page.add(settingsUI.popup);
         page.add(settingsUI.behavior);
-        page.add(settingsUI.search);
         page.add(settingsUI.limits);
         page.add(settingsUI.exclusion);
         page.add(settingsUI.shortcuts);
@@ -41,10 +40,6 @@ class Settings {
                 upper: 1024,
                 step_increment: 1,
             }),
-        });
-
-        this.field_cache_disable = new Adw.SwitchRow({
-            title: _('Cache only pinned items'),
         });
 
         this.field_confirm_clear_toggle = new Adw.SwitchRow({
@@ -130,14 +125,6 @@ class Settings {
         });
         this.field_terminal_row.add_suffix(this.field_terminal_row_add_button);
 
-        this.case_sensitive_search = new Adw.SwitchRow({
-            title: _('Case-sensitive search'),
-        });
-
-        this.regex_search = new Adw.SwitchRow({
-            title: _('Regular expression matching in search'),
-        });
-
         this.field_clear_history_on_interval = new Adw.SwitchRow({
             title: _('Clear clipboard history on interval'),
         });
@@ -164,7 +151,6 @@ class Settings {
         this.exclusion = new Adw.PreferencesGroup({ title: _('Exclusion') });
         this.limits = new Adw.PreferencesGroup({ title: _('Limits') });
         this.shortcuts = new Adw.PreferencesGroup({ title: _('Shortcuts') });
-        this.search = new Adw.PreferencesGroup({ title: _('Search') });
 
         this.popup.add(this.field_popup_position_mode);
         this.popup.add(this.field_limit_popup_pages);
@@ -188,16 +174,11 @@ class Settings {
 
         this.limits.add(this.field_size);
         this.limits.add(this.field_cache_size);
-        this.limits.add(this.field_cache_disable);
-
-        this.search.add(this.case_sensitive_search);
-        this.search.add(this.regex_search);
 
         this.#buildShorcuts(this.shortcuts);
 
         this.schema.bind(PrefsFields.HISTORY_SIZE, this.field_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_FILE_SIZE, this.field_cache_size, 'value', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.CACHE_ONLY_FAVORITE, this.field_cache_disable, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CONFIRM_ON_CLEAR, this.field_confirm_clear_toggle, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.MOVE_ITEM_FIRST, this.field_move_item_first, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.KEEP_SELECTED_ON_CLEAR, this.field_keep_selected_on_clear, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -211,8 +192,6 @@ class Settings {
         this.schema.bind(PrefsFields.CACHE_IMAGES, this.field_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.CASE_SENSITIVE_SEARCH, this.case_sensitive_search, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.REGEX_SEARCH, this.regex_search, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         this.field_clear_history_interval.set_sensitive(this.field_clear_history_on_interval.active);
         this.field_popup_pages.set_sensitive(this.field_limit_popup_pages.active);

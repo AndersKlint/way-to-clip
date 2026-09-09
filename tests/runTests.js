@@ -109,6 +109,23 @@ function fakeItem(text) {
     assert(search.filter(items, '([').length === 0, 'search invalid regex falls back');
 }
 
+{
+    // Accessors used by the popup's Aa/.* toggle buttons.
+    const search = new PopupSearch();
+    assert(search.caseSensitive === false && search.regexEnabled === false,
+        'search toggles default off');
+    search.setCaseSensitive(true);
+    search.setRegexEnabled(true);
+    assert(search.caseSensitive === true && search.regexEnabled === true,
+        'search toggle setters flip on');
+    search.updateSettings(false, false);
+    assert(search.caseSensitive === false && search.regexEnabled === false,
+        'search updateSettings resets toggles');
+    const items = [fakeItem('Hello'), fakeItem('hello')];
+    search.setCaseSensitive(true);
+    assert(search.filter(items, 'hello').length === 1, 'search toggle setter affects filter');
+}
+
 // --- pasteKeys ---
 
 {
