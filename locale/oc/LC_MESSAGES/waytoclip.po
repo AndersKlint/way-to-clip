@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: \n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.0\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Afichar la fenèstra surgissenta del quichapapièrs"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Mòde privat"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Escafar l’istoric"
 
@@ -84,7 +84,8 @@ msgstr "Pegat automatic a la seleccion"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr "Pegar automaticament aprèp aver seleccionat un element de la fenèstra "
+msgstr ""
+"Pegar automaticament aprèp aver seleccionat un element de la fenèstra "
 "surgissenta"
 
 #: prefs.js:85
@@ -101,7 +102,8 @@ msgstr "Limitar lo nombre de paginas"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr "Quand es desactivat, la fenèstra surgissenta aficha tot l'istoric del "
+msgstr ""
+"Quand es desactivat, la fenèstra surgissenta aficha tot l'istoric del "
 "quichapapièrs"
 
 #: prefs.js:96
@@ -130,7 +132,8 @@ msgstr "Aplicacions exclausas"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr "Lo contengut copiat serà pas salvat mentre aquestas aplicacions son al fòcus"
+msgstr ""
+"Lo contengut copiat serà pas salvat mentre aquestas aplicacions son al fòcus"
 
 #: prefs.js:134
 msgid "Terminal Apps"
@@ -140,7 +143,8 @@ msgstr "Aplicacions de terminal"
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr "Lo pegat automatic utiliza Ctrl+Shift+V dins los terminals. Apondètz vòstre "
+msgstr ""
+"Lo pegat automatic utiliza Ctrl+Shift+V dins los terminals. Apondètz vòstre "
 "terminal se lo pegat inserís un tèxte incorrècte"
 
 #: prefs.js:147
@@ -179,99 +183,104 @@ msgstr "Exclusion"
 msgid "Limits"
 msgstr "Limitas"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Acorchis de clavièr globals"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Acorchis de clavièr de la fenèstra surgissenta"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Nom de classa de fenèstra, p. ex. «KeePassXC»"
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Classa de fenèstra o id d'aplicacion, p. ex. «org.gnome.Ptyxis»"
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "Sistèma"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "Al cursor de la mirga"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "Al centre de la fenèstra focalizada"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Afichar/amagar la fenèstra surgissenta del quichapapièrs"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Recercar dins la fenèstra surgissenta"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Suprimir l'entrada seleccionada"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Activar/desactivar lo mòde privat"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Pagina seguenta"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Pagina precedenta"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Desplaçar la seleccion cap amont"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Desplaçar la seleccion cap aval"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Confirmar la seleccion"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Tampar la fenèstra surgissenta"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Sensible a la cassa (en recercant)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Utilizar una expression regulara (en recercant)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Activar los acorchis de clavièr"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Afichar las icònas de rapèl dels acorchis"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr "Afichar las icònas de rapèl dels acorchis al bas de la fenèstra surgissenta"
+msgstr ""
+"Afichar las icònas de rapèl dels acorchis al bas de la fenèstra surgissenta"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Reïnicializar los acorchis per defaut"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Reïnicializar"
 
@@ -283,7 +292,7 @@ msgstr "Apondre un acorchi"
 msgid "Remove shortcut"
 msgstr "Levar un acorchi"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Desactivat"
 
@@ -299,36 +308,36 @@ msgstr "Causir demest las aplicacions installadas"
 msgid "Search applications..."
 msgstr "Recercar d'aplicacions…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Sensible a la cassa (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Utilizar una expression regulara (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Afichar/amagar la recèrca (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Activar/desactivar lo mòde privat (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Suprimir l'entrada seleccionada (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "L'istoric del quichapapièrs es void"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Cap d'element correspondent dins lo quichapapièrs"
 
@@ -336,22 +345,22 @@ msgstr "Cap d'element correspondent dins lo quichapapièrs"
 msgid "Search..."
 msgstr "Recercar…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Sensible a la cassa (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Utilizar una expression regulara (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Afichar/amagar la recèrca (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Activar/desactivar lo mòde privat (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Suprimir l'entrada seleccionada (d)"

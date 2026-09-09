@@ -17,6 +17,9 @@ export class Keyboard {
 
     destroy () {
         Main.inputMethod.disconnectObject(this);
+        // run_dispose() is required here: the virtual input device created
+        // via create_virtual_device() holds a server-side Wayland resource
+        // that is otherwise never released when the extension is disabled.
         this.#device.run_dispose();
     }
 

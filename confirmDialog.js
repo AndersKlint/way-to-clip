@@ -32,22 +32,16 @@ export class DialogManager {
         // If the dialog is closed/destroyed without going through a button
         // (e.g. Escape via ModalDialog itself), still release the guard so
         // the next Clear History attempt can open a fresh dialog.
-        try {
-            this.#openDialog.connect('destroy', () => {
-                this.#openDialog = null;
-            });
-        } catch (_e) { /* connect is best-effort */ }
+        this.#openDialog.connect('destroy', () => {
+            this.#openDialog = null;
+        });
         this.#openDialog.open();
     }
 
     destroy() {
         if (this.#openDialog) {
-            try {
-                this.#openDialog.close();
-            } catch (_e) { /* already closed */ }
-            try {
-                this.#openDialog.destroy();
-            } catch (_e) { /* already destroyed */ }
+            this.#openDialog.close();
+            this.#openDialog.destroy();
             this.#openDialog = null;
         }
     }

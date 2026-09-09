@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:11+0200\n"
 "Last-Translator: Norman Henges <normanhenges@gmail.com>\n"
 "Language-Team: Deutsch <openweather@jenslody.de>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Zwischenablage-Popup anzeigen"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Privater Modus"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Verlauf löschen"
 
@@ -128,7 +128,8 @@ msgstr "Ausgeschlossene Apps"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr "Kopierte Inhalte werden nicht gespeichert, solange diese Apps im Fokus sind"
+msgstr ""
+"Kopierte Inhalte werden nicht gespeichert, solange diese Apps im Fokus sind"
 
 #: prefs.js:134
 msgid "Terminal Apps"
@@ -138,7 +139,8 @@ msgstr "Terminal-Apps"
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr "Automatisches Einfügen verwendet Strg+Umschalt+V in Terminals. Fügen Sie Ihr "
+msgstr ""
+"Automatisches Einfügen verwendet Strg+Umschalt+V in Terminals. Fügen Sie Ihr "
 "Terminal hinzu, falls beim Einfügen falscher Text eingefügt wird"
 
 #: prefs.js:147
@@ -155,7 +157,8 @@ msgstr "Sprache"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Erfordert erneutes Öffnen der Einstellungen und Neustart der Erweiterung"
+msgstr ""
+"Erfordert erneutes Öffnen der Einstellungen und Neustart der Erweiterung"
 
 #: prefs.js:173
 msgid "General"
@@ -177,99 +180,103 @@ msgstr "Ausschluss"
 msgid "Limits"
 msgstr "Grenzwerte"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Globale Tastenkombinationen"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Popup-Tastenkombinationen"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Fensterklassenname, z. B. „KeePassXC“"
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Fensterklasse oder App-ID, z. B. „org.gnome.Ptyxis“"
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "System"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "Am Mauszeiger"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "In der Mitte des fokussierten Fensters"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Zwischenablage-Popup ein-/ausblenden"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Im Popup suchen"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Ausgewählten Eintrag löschen"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Privaten Modus umschalten"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Nächste Seite"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Vorherige Seite"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Auswahl nach oben bewegen"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Auswahl nach unten bewegen"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Auswahl bestätigen"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Popup schließen"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Groß-/Kleinschreibung beachten (bei der Suche)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Regulären Ausdruck verwenden (bei der Suche)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Tastenkombinationen aktivieren"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Tastenkombinations-Hinweissymbole anzeigen"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Tastenkombinations-Hinweissymbole am unteren Rand des Popups anzeigen"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Tastenkombinationen zurücksetzen"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -281,7 +288,7 @@ msgstr "Tastenkombination hinzufügen"
 msgid "Remove shortcut"
 msgstr "Tastenkombination entfernen"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Deaktiviert"
 
@@ -297,36 +304,36 @@ msgstr "Aus installierten Anwendungen wählen"
 msgid "Search applications..."
 msgstr "Anwendungen suchen…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Groß-/Kleinschreibung (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Regulären Ausdruck (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Suche ein-/ausblenden (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Privaten Modus umschalten (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Ausgewählten Eintrag löschen (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "Zwischenablage-Verlauf ist leer"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Keine passenden Zwischenablage-Einträge"
 
@@ -334,22 +341,22 @@ msgstr "Keine passenden Zwischenablage-Einträge"
 msgid "Search..."
 msgstr "Suchen…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Groß-/Kleinschreibung (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Regulären Ausdruck (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Suche ein-/ausblenden (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Privaten Modus umschalten (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Ausgewählten Eintrag löschen (d)"

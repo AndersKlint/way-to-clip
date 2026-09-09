@@ -27,8 +27,7 @@ function extensionFor(mimetype) {
 
 export class Registry {
     constructor({ settings, uuid }) {
-        // Accept either Gio.Settings or SettingsManager (which exposes .gio).
-        this.settings = settings?.gio ?? settings;
+        this.settings = settings;
         this.uuid = uuid;
         this.REGISTRY_FILE = 'registry.txt';
         this.REGISTRY_DIR = GLib.get_user_cache_dir() + '/' + this.uuid;
@@ -312,8 +311,10 @@ export class Registry {
             await file.delete_async(GLib.PRIORITY_DEFAULT, null);
         } catch (e) {
             // Missing file after a move/clear race is not an error.
-            if (!e.matches?.(Gio.IOErrorEnum, Gio.IOErrorEnum.NOT_FOUND))
-                console.error('WayToClip: failed to delete cached image', e);
+            if (e instanceof GLib.Error &&
+                e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.NOT_FOUND))
+                return;
+            console.error('WayToClip: failed to delete cached image', e);
         }
     }
 

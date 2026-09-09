@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Diego R Lima <contact@diegoribeiro.net>\n"
 "Language-Team: \n"
@@ -21,15 +21,15 @@ msgstr ""
 "X-Poedit-SearchPath-0: prefs.js\n"
 "X-Poedit-SearchPath-1: extension.js\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Mostrar janela da área de transferência"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Modo privado"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Apagar histórico"
 
@@ -104,7 +104,8 @@ msgstr "Limitar número de páginas"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr "Quando desativado, a janela mostra todo o histórico da área de transferência"
+msgstr ""
+"Quando desativado, a janela mostra todo o histórico da área de transferência"
 
 #: prefs.js:96
 msgid "Number of pages"
@@ -132,7 +133,8 @@ msgstr "Aplicativos excluídos"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr "O conteúdo copiado não será salvo enquanto estes aplicativos estiverem em "
+msgstr ""
+"O conteúdo copiado não será salvo enquanto estes aplicativos estiverem em "
 "foco"
 
 #: prefs.js:134
@@ -143,7 +145,8 @@ msgstr "Aplicativos de terminal"
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr "A colagem automática usa Ctrl+Shift+V em terminais. Adicione seu terminal se "
+msgstr ""
+"A colagem automática usa Ctrl+Shift+V em terminais. Adicione seu terminal se "
 "colar inserir o texto errado"
 
 #: prefs.js:147
@@ -182,99 +185,103 @@ msgstr "Exclusão"
 msgid "Limits"
 msgstr "Limites"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Atalhos de teclado globais"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Atalhos de teclado da janela"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Nome da classe da janela, ex. «KeePassXC»"
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Classe da janela ou id do aplicativo, ex. «org.gnome.Ptyxis»"
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "Sistema"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "No cursor do mouse"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "No centro da janela em foco"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Mostrar/ocultar a janela da área de transferência"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Pesquisar na janela"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Excluir entrada selecionada"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Alternar modo privado"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Próxima página"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Página anterior"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Mover seleção para cima"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Mover seleção para baixo"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Confirmar seleção"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Fechar janela"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Diferenciar maiúsculas (ao pesquisar)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Usar expressão regular (ao pesquisar)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Ativar atalhos do teclado"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Mostrar ícones de lembrete de atalhos"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Mostrar os ícones de lembrete de atalhos na parte inferior da janela"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Redefinir atalhos para o padrão"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Redefinir"
 
@@ -286,7 +293,7 @@ msgstr "Adicionar atalho"
 msgid "Remove shortcut"
 msgstr "Remover atalho"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Desativado"
 
@@ -302,36 +309,36 @@ msgstr "Escolher dos aplicativos instalados"
 msgid "Search applications..."
 msgstr "Pesquisar aplicativos…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Diferenciar maiúsculas (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Usar expressão regular (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Mostrar/ocultar pesquisa (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Alternar modo privado (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Excluir entrada selecionada (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "O histórico da área de transferência está vazio"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Nenhum item correspondente na área de transferência"
 
@@ -339,22 +346,22 @@ msgstr "Nenhum item correspondente na área de transferência"
 msgid "Search..."
 msgstr "Pesquisar…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Diferenciar maiúsculas (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Usar expressão regular (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Mostrar/ocultar pesquisa (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Alternar modo privado (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Excluir entrada selecionada (d)"

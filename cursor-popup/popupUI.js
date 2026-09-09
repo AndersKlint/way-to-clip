@@ -30,7 +30,7 @@ export class PopupUIBuilder {
      * out-of-range values (or stale prefs) can't collapse the layout.
      */
     setImagePreviewSize(size) {
-        if (typeof size !== 'number' || !Number.isFinite(size))
+        if (!Number.isFinite(size))
             return;
         this._imagePreviewSize = Math.min(512, Math.max(32, Math.round(size)));
     }
@@ -154,13 +154,10 @@ export class PopupUIBuilder {
      * Cancel all pending (delayed) search-toggle tooltip timeouts.
      */
     cancelPendingSearchTooltips() {
-        try {
-            for (const id of this._pendingSearchTooltips) {
-                try {
-                    GLib.source_remove(id);
-                } catch (_e) { /* already fired/removed */ }
-            }
-        } catch (_e) { /* ignore */ }
+        // Fired timeouts remove themselves from the set, so every id
+        // here is still pending and safe to remove.
+        for (const id of this._pendingSearchTooltips)
+            GLib.source_remove(id);
         this._pendingSearchTooltips = new Set();
     }
 
@@ -172,9 +169,7 @@ export class PopupUIBuilder {
      */
     _positionSearchTooltip(tooltip, button, container, text) {
         tooltip.set_text(text);
-        try {
-            container.set_child_above_sibling(tooltip, null);
-        } catch (_e) { /* keep current stacking */ }
+        container.set_child_above_sibling(tooltip, null);
         // Show first so preferred-size reflects the new text, then
         // position synchronously — no painted frame in between.
         tooltip.visible = true;
@@ -213,18 +208,14 @@ export class PopupUIBuilder {
         // current value at show time.
         button._hoverTooltipText = text;
         button.connect('enter-event', () => {
-            try {
-                const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
-                    SEARCH_TOOLTIP_DELAY_MS, () => {
-                        this._pendingSearchTooltips.delete(id);
-                        try {
-                            this._positionSearchTooltip(tooltip, button, container,
-                                button._hoverTooltipText ?? text);
-                        } catch (_e) { /* destroyed meanwhile: ignore */ }
-                        return GLib.SOURCE_REMOVE;
-                    });
-                this._pendingSearchTooltips.add(id);
-            } catch (_e) { /* headless tests / mocks: ignore */ }
+            const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
+                SEARCH_TOOLTIP_DELAY_MS, () => {
+                    this._pendingSearchTooltips.delete(id);
+                    this._positionSearchTooltip(tooltip, button, container,
+                        button._hoverTooltipText ?? text);
+                    return GLib.SOURCE_REMOVE;
+                });
+            this._pendingSearchTooltips.add(id);
         });
         const dismiss = () => {
             this.cancelPendingSearchTooltips();
@@ -234,19 +225,15 @@ export class PopupUIBuilder {
         // Clicking dismisses any pending/visible tooltip; the toggle
         // itself is handled by the separately bound press/clicked
         // handlers (this one deliberately does not stop propagation).
-        try {
-            button.connect('button-press-event', dismiss);
-        } catch (_e) { /* headless tests / mocks: ignore */ }
+        button.connect('button-press-event', dismiss);
     }
 
     /**
      * Hide the shared search-toggle tooltip, if visible.
      */
     hideSearchTooltip(tooltip) {
-        try {
-            if (tooltip)
-                tooltip.visible = false;
-        } catch (_e) { /* ignore */ }
+        if (tooltip)
+            tooltip.visible = false;
     }
 
     /**
@@ -267,12 +254,10 @@ export class PopupUIBuilder {
             onToggle();
         };
         button.connect('clicked', fire);
-        try {
-            button.connect('button-press-event', () => {
-                fire();
-                return Clutter.EVENT_STOP;
-            });
-        } catch (_e) { /* headless tests / mocks: ignore */ }
+        button.connect('button-press-event', () => {
+            fire();
+            return Clutter.EVENT_STOP;
+        });
     }
 
     /**
@@ -283,18 +268,11 @@ export class PopupUIBuilder {
     setSearchToggleState(button, active) {
         if (!button)
             return;
-        try {
-            if (typeof button.set_checked === 'function')
-                button.set_checked(!!active);
-            else
-                button.checked = !!active;
-        } catch (_e) { /* headless tests / mocks: ignore */ }
-        try {
-            if (active)
-                button.add_style_class_name('active');
-            else
-                button.remove_style_class_name('active');
-        } catch (_e) { /* ignore */ }
+        button.checked = !!active;
+        if (active)
+            button.add_style_class_name('active');
+        else
+            button.remove_style_class_name('active');
     }
 
     /**
@@ -327,10 +305,8 @@ export class PopupUIBuilder {
         const caseButton = this.createSearchToggleButton('Aa');
         const regexButton = this.createSearchToggleButton('.*');
 
-        if (typeof onCaseToggle === 'function')
-            this._bindSearchToggle(caseButton, onCaseToggle);
-        if (typeof onRegexToggle === 'function')
-            this._bindSearchToggle(regexButton, onRegexToggle);
+        this._bindSearchToggle(caseButton, onCaseToggle);
+        this._bindSearchToggle(regexButton, onRegexToggle);
 
         // Custom hover tooltips ("Match Case (Alt+C)", ...). Native St
         // tooltips do not render here, so a shared floating label is
@@ -349,11 +325,9 @@ export class PopupUIBuilder {
 
         // Highlight the field while typing (the container draws the
         // field chrome; the nested entry itself is transparent).
-        try {
-            const text = entry.get_clutter_text();
-            text.connect('key-focus-in', () => searchBar.add_style_class_name('focus'));
-            text.connect('key-focus-out', () => searchBar.remove_style_class_name('focus'));
-        } catch (_e) { /* headless tests / mocks: ignore */ }
+        const text = entry.get_clutter_text();
+        text.connect('key-focus-in', () => searchBar.add_style_class_name('focus'));
+        text.connect('key-focus-out', () => searchBar.remove_style_class_name('focus'));
 
         return { searchBar, entry, caseButton, regexButton, tooltip };
     }
@@ -376,7 +350,10 @@ export class PopupUIBuilder {
      * @param {St.Widget} container - fullscreen modal container the
      *   shared tooltip is positioned relative to (omit to skip tooltips).
      * @param {St.Label} tooltip - shared floating tooltip label.
-     * @returns {{ footerBox: St.BoxLayout, privateModeHint: St.BoxLayout, pageIndicator: St.Label }}
+     * @returns {{ footerBox: St.BoxLayout, searchHint: St.BoxLayout,
+      *   searchHintLabel: St.Label, privateModeHint: St.BoxLayout,
+      *   privateModeHintLabel: St.Label, deleteHint: St.BoxLayout,
+      *   deleteHintLabel: St.Label, pageIndicator: St.Label }}
      */
     createFooter(container, tooltip) {
         const searchHint = new St.BoxLayout({
@@ -405,13 +382,18 @@ export class PopupUIBuilder {
         privateModeHint.add_child(privateIcon);
         privateModeHint.add_child(privateModeHintLabel);
 
-        const deleteHint = new St.Label({
-            text: '🗑 = d',
+        const deleteHint = new St.BoxLayout({
             style_class: 'waytoclip-hint',
             x_align: Clutter.ActorAlign.END,
             reactive: true,
             track_hover: true,
         });
+        const deleteIcon = new St.Icon({
+            icon_name: 'user-trash-symbolic',
+        });
+        const deleteHintLabel = new St.Label({ text: ' = d' });
+        deleteHint.add_child(deleteIcon);
+        deleteHint.add_child(deleteHintLabel);
 
         if (container && tooltip) {
             this.attachSearchTooltip(searchHint,
@@ -432,7 +414,7 @@ export class PopupUIBuilder {
 
         return {
             footerBox, searchHint, searchHintLabel, privateModeHint,
-            privateModeHintLabel, deleteHint, pageIndicator,
+            privateModeHintLabel, deleteHint, deleteHintLabel, pageIndicator,
         };
     }
 
@@ -456,30 +438,17 @@ export class PopupUIBuilder {
      * of the on-disk image cache).
      */
     createImagePreview(entry) {
+        // Best-effort thumbnail: undecodable bytes yield no preview.
         try {
-            if (!entry || typeof entry.isImage !== 'function' || !entry.isImage())
+            if (!entry || !entry.isImage())
                 return null;
-            let bytes = null;
-            if (typeof entry.asBytes === 'function') {
-                bytes = entry.asBytes();
-            } else if (typeof entry.rawBytes === 'function') {
-                const raw = entry.rawBytes();
-                if (raw instanceof Uint8Array)
-                    bytes = GLib.Bytes.new(raw);
-                else
-                    bytes = raw;
-            }
-            if (!bytes)
-                return null;
-            // rawBytes() fallback may still be a Uint8Array.
-            if (bytes instanceof Uint8Array)
-                bytes = GLib.Bytes.new(bytes);
-            if (typeof bytes.get_size === 'function' && bytes.get_size() === 0)
+            const bytes = entry.asBytes();
+            if (bytes.get_size() === 0)
                 return null;
             const gicon = Gio.BytesIcon.new(bytes);
             return new St.Icon({
                 gicon,
-                icon_size: this._imagePreviewSize ?? IMAGE_PREVIEW_SIZE,
+                icon_size: this._imagePreviewSize,
                 style_class: 'waytoclip-item-image',
                 x_align: Clutter.ActorAlign.START,
             });

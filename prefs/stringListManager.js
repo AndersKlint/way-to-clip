@@ -169,7 +169,7 @@ export class StringListManager {
             entry.grab_focus();
         });
         listBox.connect('row-activated', (_list, row) => {
-            if (row?.appInfo) {
+            if (row && row.appInfo) {
                 entry.set_text(row.appInfo.get_id().replace(/\.desktop$/, ''));
                 popover.popdown();
             }
@@ -192,7 +192,7 @@ export class StringListManager {
             this.#expanderRow.remove(entryRow);
             this.#addButton.set_sensitive(true);
             if (commit) {
-                const text = entry.get_text()?.trim() ?? '';
+                const text = entry.get_text().trim();
                 if (text !== '') {
                     this.#expanderRow.add_row(this.#createAppRow(text));
                     this.#writeList([...this.#readList(), text]);
@@ -209,7 +209,8 @@ export class StringListManager {
         cancelButton.connect('clicked', () => finishInput(false));
 
         // Hide the ActionRow's default title children; we use prefix/suffix.
-        let child = entryRow.child?.get_first_child?.() ?? null;
+        // entryRow.child may be null before the row is realized.
+        let child = entryRow.child?.get_first_child() ?? null;
         while (child) {
             child.visible = false;
             child = child.get_next_sibling();

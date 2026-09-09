@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.7\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Näytä leikepöydän ponnahdusikkuna"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Yksityistila"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Tyhjennä historia"
 
@@ -129,7 +129,8 @@ msgstr "Poissuljetut sovellukset"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr "Kopioitua sisältöä ei tallenneta, kun nämä sovellukset ovat aktiivisina"
+msgstr ""
+"Kopioitua sisältöä ei tallenneta, kun nämä sovellukset ovat aktiivisina"
 
 #: prefs.js:134
 msgid "Terminal Apps"
@@ -139,7 +140,8 @@ msgstr "Päätesovellukset"
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr "Automaattiliittäminen käyttää Ctrl+Shift+V päätteissä. Lisää päätteesi, jos "
+msgstr ""
+"Automaattiliittäminen käyttää Ctrl+Shift+V päätteissä. Lisää päätteesi, jos "
 "liittäminen lisää väärää tekstiä"
 
 #: prefs.js:147
@@ -156,7 +158,8 @@ msgstr "Kieli"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Vaatii asetusten uudelleenavaamisen ja laajennuksen uudelleenkäynnistyksen"
+msgstr ""
+"Vaatii asetusten uudelleenavaamisen ja laajennuksen uudelleenkäynnistyksen"
 
 #: prefs.js:173
 msgid "General"
@@ -178,99 +181,103 @@ msgstr "Poissulkeminen"
 msgid "Limits"
 msgstr "Rajat"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Globaalit pikanäppäimet"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Ponnahdusikkunan pikanäppäimet"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Ikkunan luokan nimi, esim. «KeePassXC»"
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Ikkunan luokka tai sovelluksen id, esim. «org.gnome.Ptyxis»"
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "Järjestelmä"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "Hiiren osoittimen kohdalla"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "Aktiivisen ikkunan keskellä"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Näytä/piilota leikepöydän ponnahdusikkuna"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Hae ponnahdusikkunasta"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Poista valittu kohde"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Vaihda yksityistilaa"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Seuraava sivu"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Edellinen sivu"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Siirrä valintaa ylöspäin"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Siirrä valintaa alaspäin"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Vahvista valinta"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Sulje ponnahdusikkuna"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Erota isot ja pienet kirjaimet (haettaessa)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Käytä säännöllistä lauseketta (haettaessa)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Ota pikanäppäimet käyttöön"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Näytä pikanäppäinmuistutusten kuvakkeet"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Näytä pikanäppäinmuistutusten kuvakkeet ponnahdusikkunan alareunassa"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Palauta pikanäppäimet oletuksiin"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Palauta"
 
@@ -282,7 +289,7 @@ msgstr "Lisää pikanäppäin"
 msgid "Remove shortcut"
 msgstr "Poista pikanäppäin"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Pois käytöstä"
 
@@ -298,36 +305,36 @@ msgstr "Valitse asennetuista sovelluksista"
 msgid "Search applications..."
 msgstr "Hae sovelluksia…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Erota isot ja pienet kirjaimet (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Säännöllinen lauseke (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Näytä/piilota haku (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Vaihda yksityistilaa (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Poista valittu kohde (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "Leikepöydän historia on tyhjä"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Ei vastaavia leikepöydän kohteita"
 
@@ -335,22 +342,22 @@ msgstr "Ei vastaavia leikepöydän kohteita"
 msgid "Search..."
 msgstr "Hae…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Erota isot ja pienet kirjaimet (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Säännöllinen lauseke (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Näytä/piilota haku (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Vaihda yksityistilaa (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Poista valittu kohde (d)"

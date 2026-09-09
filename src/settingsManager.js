@@ -99,11 +99,8 @@ export class SettingsManager {
     }
 
     destroy() {
-        for (const id of this.#changedIds) {
-            try {
-                this.#settings.disconnect(id);
-            } catch (_e) { /* already gone */ }
-        }
+        for (const id of this.#changedIds)
+            this.#settings.disconnect(id);
         this.#changedIds = [];
         this.#settings = null;
     }

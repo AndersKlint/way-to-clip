@@ -1,16 +1,15 @@
 /**
- * AutoPaster - clipboard set + synthetic paste keypresses.
+ * AutoPaster - clipboard set + synthetic paste keypresses (shell process).
  *
- * Extracted from WayToClip.#autoPasteAndClose. Uses ClipboardManager's
- * inhibit() token so the temporary clipboard set + restore doesn't
- * pollute history (the old `preventIndicatorUpdate` flag was never read).
- * All timeouts are GLib sources owned here and cancelled on destroy().
+ * Uses ClipboardManager's inhibit() token so the temporary clipboard
+ * set + restore doesn't pollute history. All timeouts are GLib sources
+ * owned here and cancelled on destroy().
  */
 
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 
-import { decidePasteMode, PasteMode } from './pasteKeys.js';
+import { decidePasteMode, PasteMode } from './src/pasteKeys.js';
 
 export class AutoPaster {
     #clipboardManager;
@@ -35,7 +34,7 @@ export class AutoPaster {
         // Images carry larger payloads through the Wayland clipboard;
         // give ownership time to propagate before synthesizing paste,
         // otherwise the target app pastes stale content (or nothing).
-        const pasteDelay = entry?.isImage?.() ? 250 : 50;
+        const pasteDelay = entry.isImage() ? 250 : 50;
         this._after(pasteDelay, () => {
             // The live content-purpose can't be trusted on its own: the
             // popup's modal grab resets it to NORMAL, so a terminal
@@ -76,11 +75,8 @@ export class AutoPaster {
     }
 
     destroy() {
-        for (const id of this.#timeoutIds) {
-            try {
-                GLib.source_remove(id);
-            } catch (_e) { /* ignore */ }
-        }
+        for (const id of this.#timeoutIds)
+            GLib.source_remove(id);
         this.#timeoutIds = [];
         this.#clipboardManager = null;
         this.#keyboard = null;

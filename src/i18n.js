@@ -91,11 +91,10 @@ export function normalizeLanguage(code) {
     return SYSTEM_LANGUAGE;
 }
 
-/** Read the stored override from Gio.Settings (tolerates old schemas/mocks). */
+/** Read the stored override from Gio.Settings (null settings yield system). */
 export function getStoredLanguage(settings) {
     try {
-        const v = settings?.get_string?.(PrefsFields.LANGUAGE);
-        return normalizeLanguage(v);
+        return normalizeLanguage(settings.get_string(PrefsFields.LANGUAGE));
     } catch (_e) {
         return SYSTEM_LANGUAGE;
     }
@@ -104,6 +103,11 @@ export function getStoredLanguage(settings) {
 /** Sync the module-global override from Gio.Settings. */
 export function syncOverrideFromSettings(settings) {
     setLanguageOverride(getStoredLanguage(settings));
+}
+
+/** Release the stored override (call on disable). */
+export function resetLanguageOverride() {
+    override = SYSTEM_LANGUAGE;
 }
 
 /**

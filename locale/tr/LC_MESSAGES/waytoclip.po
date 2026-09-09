@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 12:45+0200\n"
 "Last-Translator: bywkgexmkiltxh <ascdasvcfasx@outlook.com>\n"
 "Language-Team: Turkish <dev@pardus.org.tr>\n"
@@ -20,15 +20,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Gtranslator 48.0\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Pano penceresini göster"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Gizli kip"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Geçmişi temizle"
 
@@ -86,8 +86,7 @@ msgstr "Seçerken yapıştır"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
-"Açılır pencereden bir öğe seçtikten sonra otomatik olarak yapıştır"
+msgstr "Açılır pencereden bir öğe seçtikten sonra otomatik olarak yapıştır"
 
 #: prefs.js:85
 msgid "Popup position"
@@ -160,8 +159,7 @@ msgstr "Dil"
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
 msgstr ""
-"Ayarların yeniden açılmasını ve eklentinin yeniden başlatılmasını "
-"gerektirir"
+"Ayarların yeniden açılmasını ve eklentinin yeniden başlatılmasını gerektirir"
 
 #: prefs.js:173
 msgid "General"
@@ -183,100 +181,103 @@ msgstr "Dışlama"
 msgid "Limits"
 msgstr "Sınırlamalar"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Genel kısayollar"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Açılır pencere kısayolları"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Pencere sınıf adı, örn. \"KeePassXC\""
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Pencere sınıfı veya uygulama kimliği, örn. \"org.gnome.Ptyxis\""
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "Sistem"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "Fare imlecinde"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "Odaklanılan pencerenin ortasında"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Pano penceresini aç/kapat"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Açılır pencerede ara"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Seçili girdiyi sil"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Gizli kipi aç/kapat"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Sonraki sayfa"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Önceki sayfa"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Seçimi yukarı taşı"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Seçimi aşağı taşı"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Seçimi onayla"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Açılır pencereyi kapat"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Büyük/küçük harf eşleştir (ararken)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Düzenli ifade kullan (ararken)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Kısayolları etkinleştir"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Kısayol hatırlatma simgelerini göster"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
-"Kısayol hatırlatma simgelerini açılır pencerenin altında göster"
+msgstr "Kısayol hatırlatma simgelerini açılır pencerenin altında göster"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Kısayolları varsayılanlara sıfırla"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Sıfırla"
 
@@ -288,7 +289,7 @@ msgstr "Kısayol ekle"
 msgid "Remove shortcut"
 msgstr "Kısayolu kaldır"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Devre dışı"
 
@@ -304,36 +305,36 @@ msgstr "Kurulu uygulamalardan seç"
 msgid "Search applications..."
 msgstr "Uygulama ara…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Büyük/küçük harf eşleştir (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Düzenli ifade kullan (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Aramayı aç/kapat (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Gizli kipi aç/kapat (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Seçili girdiyi sil (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "Pano geçmişi boş"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Eşleşen pano öğesi yok"
 
@@ -341,22 +342,22 @@ msgstr "Eşleşen pano öğesi yok"
 msgid "Search..."
 msgstr "Ara…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Büyük/küçük harf eşleştir (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Düzenli ifade kullan (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Aramayı aç/kapat (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Gizli kipi aç/kapat (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Seçili girdiyi sil (d)"

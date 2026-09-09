@@ -86,6 +86,7 @@ export class CursorPopup {
         this._privateModeHint = null;
         this._privateModeHintLabel = null;
         this._deleteHint = null;
+        this._deleteHintLabel = null;
         this._anchorX = 0;
         this._anchorY = 0;
         this._monitor = null;
@@ -119,34 +120,26 @@ export class CursorPopup {
      */
     updateSettings(settings) {
         this._settings = settings;
-        let caseSensitive = this._search.caseSensitive;
-        let regexEnabled = this._search.regexEnabled;
-        try {
-            caseSensitive = settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH);
-            regexEnabled = settings.get_boolean(PrefsFields.REGEX_SEARCH);
-        } catch (_e) { /* headless tests / mocks: keep in-memory state */ }
-        this._search.updateSettings(caseSensitive, regexEnabled);
-        try {
-            for (const [action, key] of Object.entries(LOCAL_SHORTCUT_KEYS)) {
-                const list = settings.get_strv(key);
-                this._localShortcutStrings[action] = Array.isArray(list)
-                    ? [...list]
-                    : [...DEFAULT_LOCAL_SHORTCUTS[action]];
-                this._localBindings[action] =
-                    parseAcceleratorList(this._localShortcutStrings[action]);
-            }
-            this._showShortcutHints =
-                settings.get_boolean(PrefsFields.SHOW_SHORTCUT_HINTS);
-        } catch (_e) { /* headless tests / mocks / old schema: keep defaults */ }
+        this._search.updateSettings(
+            settings.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH),
+            settings.get_boolean(PrefsFields.REGEX_SEARCH));
+        for (const [action, key] of Object.entries(LOCAL_SHORTCUT_KEYS)) {
+            const list = settings.get_strv(key);
+            this._localShortcutStrings[action] = Array.isArray(list)
+                ? [...list]
+                : [...DEFAULT_LOCAL_SHORTCUTS[action]];
+            this._localBindings[action] =
+                parseAcceleratorList(this._localShortcutStrings[action]);
+        }
+        this._showShortcutHints =
+            settings.get_boolean(PrefsFields.SHOW_SHORTCUT_HINTS);
         this._syncSearchToggles();
         this._syncShortcutHints();
         this._autoPaste = settings.get_boolean(PrefsFields.AUTO_PASTE);
         this._limitPopupPages = settings.get_boolean(PrefsFields.LIMIT_POPUP_PAGES);
         this._maxPopupPages = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
-        try {
-            this._uiBuilder.setImagePreviewSize(
-                settings.get_int(PrefsFields.IMAGE_PREVIEW_SIZE));
-        } catch (_e) { /* old schema without the key: keep default */ }
+        this._uiBuilder.setImagePreviewSize(
+            settings.get_int(PrefsFields.IMAGE_PREVIEW_SIZE));
     }
 
     isOpen() {
@@ -218,10 +211,7 @@ export class CursorPopup {
     close() {
         if (!this._popupLayout) return;
 
-        try {
-            this._uiBuilder.cancelPendingSearchTooltips?.();
-        } catch (_e) { /* ignore */ }
-
+        this._uiBuilder.cancelPendingSearchTooltips();
         if (this._modalGrab) {
             Main.popModal(this._modalGrab);
             this._modalGrab = null;
@@ -247,6 +237,7 @@ export class CursorPopup {
         this._privateModeHint = null;
         this._privateModeHintLabel = null;
         this._deleteHint = null;
+        this._deleteHintLabel = null;
         this._anchorX = 0;
         this._anchorY = 0;
         this._monitor = null;
@@ -279,10 +270,8 @@ export class CursorPopup {
     }
 
     _hideSearchTooltip() {
-        try {
-            this._uiBuilder.cancelPendingSearchTooltips?.();
-            this._uiBuilder.hideSearchTooltip?.(this._searchTooltip);
-        } catch (_e) { /* UI not built yet: ignore */ }
+        this._uiBuilder.cancelPendingSearchTooltips();
+        this._uiBuilder.hideSearchTooltip(this._searchTooltip);
     }
 
     exitSearch() {
@@ -309,7 +298,7 @@ export class CursorPopup {
         this._syncSearchToggles();
         this._refocusSearchEntry();
         if (this._isSearchMode)
-            this._applySearch(this._searchEntry?.get_text() ?? '');
+            this._applySearch(this._searchEntry.get_text());
     }
 
     toggleRegex() {
@@ -319,30 +308,28 @@ export class CursorPopup {
         this._syncSearchToggles();
         this._refocusSearchEntry();
         if (this._isSearchMode)
-            this._applySearch(this._searchEntry?.get_text() ?? '');
+            this._applySearch(this._searchEntry.get_text());
     }
 
     _persistSearchOption(key, value) {
-        try {
-            this._settings?.set_boolean(key, !!value);
-        } catch (_e) { /* headless tests / mocks: in-memory only */ }
+        if (!this._settings)
+            return;
+        this._settings.set_boolean(key, !!value);
     }
 
     _syncSearchToggles() {
-        try {
-            this._uiBuilder.setSearchToggleState?.(
+        if (this._caseButton) {
+            this._uiBuilder.setSearchToggleState(
                 this._caseButton, this._search.caseSensitive);
-            this._uiBuilder.setSearchToggleState?.(
+            this._caseButton._hoverTooltipText = _('Match Case (%s)').format(
+                this._formatLocalShortcut('caseSensitive'));
+        }
+        if (this._regexButton) {
+            this._uiBuilder.setSearchToggleState(
                 this._regexButton, this._search.regexEnabled);
-            if (this._caseButton) {
-                this._caseButton._hoverTooltipText = _('Match Case (%s)').format(
-                    this._formatLocalShortcut('caseSensitive'));
-            }
-            if (this._regexButton) {
-                this._regexButton._hoverTooltipText = _('Use Regular Expression (%s)').format(
-                    this._formatLocalShortcut('regex'));
-            }
-        } catch (_e) { /* UI not built yet: ignore */ }
+            this._regexButton._hoverTooltipText = _('Use Regular Expression (%s)').format(
+                this._formatLocalShortcut('regex'));
+        }
     }
 
     /**
@@ -350,11 +337,7 @@ export class CursorPopup {
      * action (see LocalActions in localShortcuts.js).
      */
     isLocalShortcut(action, event) {
-        try {
-            return matchesShortcut(event, this._localBindings[action]);
-        } catch (_e) {
-            return false;
-        }
+        return matchesShortcut(event, this._localBindings[action]);
     }
 
     /**
@@ -374,14 +357,14 @@ export class CursorPopup {
      * "Show shortcut reminder icons" setting is off.
      */
     _syncShortcutHints() {
-        try {
-            this._applyShortcutHint(this._searchHint, this._searchHintLabel,
-                'search', ' = %s', _('Toggle search (%s)'));
-            this._applyShortcutHint(this._privateModeHint, this._privateModeHintLabel,
-                'privateMode', ' = %s', _('Toggle private mode (%s)'));
-            this._applyShortcutHint(this._deleteHint, this._deleteHint,
-                'deleteEntry', '🗑 = %s', _('Delete selected entry (%s)'));
-        } catch (_e) { /* UI not built yet: ignore */ }
+        // _applyShortcutHint null-guards each actor pair, so calling
+        // before the UI is built is a safe no-op.
+        this._applyShortcutHint(this._searchHint, this._searchHintLabel,
+            'search', ' = %s', _('Toggle search (%s)'));
+        this._applyShortcutHint(this._privateModeHint, this._privateModeHintLabel,
+            'privateMode', ' = %s', _('Toggle private mode (%s)'));
+        this._applyShortcutHint(this._deleteHint, this._deleteHintLabel,
+            'deleteEntry', ' = %s', _('Delete selected entry (%s)'));
     }
 
     _applyShortcutHint(hintActor, labelActor, action, labelFormat, tooltipFormat) {
@@ -397,10 +380,8 @@ export class CursorPopup {
     }
 
     _refocusSearchEntry() {
-        try {
-            if (this._isSearchMode && this._searchEntry)
-                global.stage.set_key_focus(this._searchEntry.get_clutter_text());
-        } catch (_e) { /* headless tests: ignore */ }
+        if (this._isSearchMode && this._searchEntry)
+            global.stage.set_key_focus(this._searchEntry.get_clutter_text());
     }
 
     // --- Selection ---
@@ -535,13 +516,14 @@ export class CursorPopup {
 
         const {
             footerBox, searchHint, searchHintLabel, privateModeHint,
-            privateModeHintLabel, deleteHint, pageIndicator,
+            privateModeHintLabel, deleteHint, deleteHintLabel, pageIndicator,
         } = this._uiBuilder.createFooter(this._modalContainer, tooltip);
         this._searchHint = searchHint;
         this._searchHintLabel = searchHintLabel;
         this._privateModeHint = privateModeHint;
         this._privateModeHintLabel = privateModeHintLabel;
         this._deleteHint = deleteHint;
+        this._deleteHintLabel = deleteHintLabel;
         this._pageIndicator = pageIndicator;
         this._syncShortcutHints();
 
@@ -636,15 +618,16 @@ export class CursorPopup {
     _setListScrollPolicy(mode) {
         if (!this._listScrollView)
             return;
-        try {
-            if (typeof this._listScrollView.set_policy === 'function') {
-                this._listScrollView.set_policy(
-                    St.PolicyType.NEVER, mode);
-            } else {
-                this._listScrollView.vscrollbar_policy = mode;
-                this._listScrollView.hscrollbar_policy = St.PolicyType.NEVER;
-            }
-        } catch (_e) { /* headless tests / mocks: ignore */ }
+        // Feature detection for the supported range (GNOME 46-51):
+        // St.ScrollView gained set_policy() in GNOME 47; older shells
+        // expose the vscrollbar_policy/hscrollbar_policy properties.
+        if (typeof this._listScrollView.set_policy === 'function') {
+            this._listScrollView.set_policy(
+                St.PolicyType.NEVER, mode);
+        } else {
+            this._listScrollView.vscrollbar_policy = mode;
+            this._listScrollView.hscrollbar_policy = St.PolicyType.NEVER;
+        }
     }
 
     /** Natural list size: no cap, no scrollbar. */
@@ -652,9 +635,7 @@ export class CursorPopup {
         if (!this._listScrollView)
             return;
         this._setListScrollPolicy(St.PolicyType.NEVER);
-        try {
-            this._listScrollView.set_height(-1);
-        } catch (_e) { /* ignore */ }
+        this._listScrollView.set_height(-1);
     }
 
     /**
@@ -666,40 +647,38 @@ export class CursorPopup {
         if (!this._listScrollView)
             return;
         this._setListScrollPolicy(St.PolicyType.AUTOMATIC);
-        try {
-            this._listScrollView.set_height(Math.max(0, listHeight));
-        } catch (_e) { /* ignore */ }
+        this._listScrollView.set_height(Math.max(0, listHeight));
     }
 
     _resetListScrollTop() {
-        try {
-            this._listScrollView?.get_vadjustment()?.set_value(0);
-        } catch (_e) { /* adjustment not ready yet: ignore */ }
+        if (!this._listScrollView)
+            return;
+        this._listScrollView.get_vadjustment().set_value(0);
     }
 
     _ensureSelectedVisible() {
+        // Best-effort scroll: measuring live actors can fail mid-teardown,
+        // in which case the selection highlight alone is enough.
         try {
             const scrollView = this._listScrollView;
             const item = this._currentPageItems[this._selectedIndex];
             if (!scrollView || !item)
                 return;
-            const adjustment = scrollView.get_vadjustment?.();
+            const adjustment = scrollView.get_vadjustment();
             if (!adjustment)
                 return;
             // No scrolling active: the whole list is visible already.
-            if (adjustment.get_page_size?.() >= adjustment.get_upper?.())
+            if (adjustment.get_page_size() >= adjustment.get_upper())
                 return;
             let top = null;
             let bottom = null;
-            if (typeof item.get_position === 'function' && typeof item.get_height === 'function') {
-                const [, y] = item.get_position();
-                const h = item.get_height();
-                if (Number.isFinite(y) && Number.isFinite(h)) {
-                    top = y;
-                    bottom = y + h;
-                }
+            const [, y] = item.get_position();
+            const h = item.get_height();
+            if (Number.isFinite(y) && Number.isFinite(h)) {
+                top = y;
+                bottom = y + h;
             }
-            if (top === null && typeof item.get_allocation_box === 'function') {
+            if (top === null) {
                 const box = item.get_allocation_box();
                 if (box && Number.isFinite(box.y1) && Number.isFinite(box.y2)) {
                     top = box.y1;

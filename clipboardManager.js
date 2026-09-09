@@ -1,20 +1,17 @@
 /**
- * ClipboardManager - clipboard monitoring + read/write.
+ * ClipboardManager - clipboard monitoring + read/write (shell process).
  *
- * Extracted from WayToClip._setupListener/_refreshIndicator/
- * #getClipboardContent/#updateClipboard/#clearClipboard.
- * Emits new clipboard entries via onNewEntry callback; the Indicator
- * owns history/menus. An inhibit counter implements the auto-paste
- * suppression that the old `preventIndicatorUpdate` flag never wired up.
+ * Emits new entries via onNewEntry; the panel button owns history/menus.
+ * An inhibit counter suppresses history writes during auto-paste restore.
  */
 
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import { CLIPBOARD_MIMETYPES } from '../constants.js';
-import { ClipboardEntry } from './clipboardEntry.js';
-import { error } from './logger.js';
+import { CLIPBOARD_MIMETYPES } from './constants.js';
+import { ClipboardEntry } from './src/clipboardEntry.js';
+import { error } from './src/logger.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
@@ -76,11 +73,8 @@ export class ClipboardManager {
     }
 
     stop() {
-        if (this.#selectionOwnerChangedId && this.#selection) {
-            try {
-                this.#selection.disconnect(this.#selectionOwnerChangedId);
-            } catch (_e) { /* already gone */ }
-        }
+        if (this.#selectionOwnerChangedId && this.#selection)
+            this.#selection.disconnect(this.#selectionOwnerChangedId);
         this.#selectionOwnerChangedId = 0;
         this.#selection = null;
     }
@@ -92,7 +86,7 @@ export class ClipboardManager {
             return;
 
         const focusedWindow = Shell.Global.get().display.focusWindow;
-        const wmClass = focusedWindow?.get_wm_class?.() ?? null;
+        const wmClass = focusedWindow?.get_wm_class() ?? null;
         if (wmClass && this.#isExcludedApp(wmClass))
             return;
 
@@ -162,10 +156,7 @@ export class ClipboardManager {
     }
 
     writeEntry(entry) {
-        const mimetype = typeof entry.normalizedMimetype === 'function'
-            ? entry.normalizedMimetype()
-            : entry.mimetype();
-        this.#clipboard.set_content(CLIPBOARD_TYPE, mimetype, entry.asBytes());
+        this.#clipboard.set_content(CLIPBOARD_TYPE, entry.normalizedMimetype(), entry.asBytes());
     }
 
     clear() {

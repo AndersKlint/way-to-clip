@@ -106,10 +106,11 @@
             </description>
         </key>
         <key name="toggle-popup" type="as">
-        <default><![CDATA[['<Alt>x']]]></default>
+        <default>[]</default>
             <summary>Toggle the cursor popup</summary>
             <description>
-                Key to toggle the cursor-positioned clipboard popup
+                Key to toggle the cursor-positioned clipboard popup.
+                Empty by default; set a shortcut in the extension Settings.
             </description>
         </key>
         <key name="private-mode-binding" type="as">

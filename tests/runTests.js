@@ -49,7 +49,7 @@ function fakeEntry(value, favorite = false) {
         mimetype() { return 'text/plain;charset=utf-8'; },
         isText() { return true; },
         isImage() { return false; },
-        equals(other) { return other && other.getStringValue?.() === this._value; },
+        equals(other) { return other && other.getStringValue() === this._value; },
     };
 }
 

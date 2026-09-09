@@ -18,14 +18,19 @@ const _ = msgid => translate(msgid, nativeGettext);
 
 export default class WayToClipPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
-        window._settings = this.getSettings();
-        syncOverrideFromSettings(window._settings);
+        const settings = this.getSettings();
+        syncOverrideFromSettings(settings);
         // Keep the override live: popups/prefs opened after a change
         // already use the new language; built rows need a reopen.
-        window._settings.connect(`changed::${PrefsFields.LANGUAGE}`, () => {
-            syncOverrideFromSettings(window._settings);
+        const languageChangedId = settings.connect(`changed::${PrefsFields.LANGUAGE}`, () => {
+            syncOverrideFromSettings(settings);
         });
-        const settingsUI = new Settings(window._settings);
+        // The settings object outlives the window; drop the handler on
+        // close so it can't pin the whole widget tree afterwards.
+        window.connect('destroy', () => {
+            settings.disconnect(languageChangedId);
+        });
+        const settingsUI = new Settings(settings);
         const page = new Adw.PreferencesPage();
         page.add(settingsUI.general);
         page.add(settingsUI.popup);
@@ -175,7 +180,12 @@ class Settings {
         this.behavior = new Adw.PreferencesGroup({ title: _('Behavior') });
         this.exclusion = new Adw.PreferencesGroup({ title: _('Exclusion') });
         this.limits = new Adw.PreferencesGroup({ title: _('Limits') });
-        this.globalShortcuts = new Adw.PreferencesGroup({ title: _('Global shortcuts') });
+        this.globalShortcuts = new Adw.PreferencesGroup({
+            title: _('Global shortcuts'),
+            // No global shortcuts are bound by default (clipboard data is
+            // only touched once the user assigns and presses a shortcut).
+            description: _('Disabled by default; assign a shortcut below to enable each action'),
+        });
         this.localShortcuts = new Adw.PreferencesGroup({ title: _('Popup shortcuts') });
 
         this.general.add(this.field_language);

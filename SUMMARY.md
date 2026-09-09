@@ -103,15 +103,15 @@ In-popup:
 | `clear-history-interval` | int | 60 | Clear interval (minutes) |
 | `next-history-clear` | int | -1 | Next scheduled clear timestamp |
 | `language` | string | `system` | Interface language override (`system` = GNOME language; restart required) |
-| `toggle-popup` | strv | `Alt+X` | Toggle popup |
-| `clear-history` | strv | `Ctrl+F10` | Clear history |
-| `private-mode-binding` | strv | `Ctrl+F8` | Toggle private mode |
+| `toggle-popup` | strv | `[]` | Toggle popup (no default; user assigns in Settings) |
+| `clear-history` | strv | `[]` | Clear history |
+| `private-mode-binding` | strv | `[]` | Toggle private mode |
 
 ## Development
 
 Reload extension:
 ```bash
-gnome-extensions disable waytoclip@waytoclip && gnome-extensions enable waytoclip@waytoclip
+gnome-extensions disable waytoclip@andersklint.github.io && gnome-extensions enable waytoclip@andersklint.github.io
 ```
 
 ## Dependencies

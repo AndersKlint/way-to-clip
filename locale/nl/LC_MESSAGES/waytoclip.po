@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:13+0200\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: \n"
@@ -18,15 +18,15 @@ msgstr ""
 "X-Generator: Poedit 2.2.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Klembordpop-up tonen"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Privémodus"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Geschiedenis wissen"
 
@@ -128,7 +128,8 @@ msgstr "Uitgesloten apps"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr "Gekopieerde inhoud wordt niet opgeslagen zolang deze apps de focus hebben"
+msgstr ""
+"Gekopieerde inhoud wordt niet opgeslagen zolang deze apps de focus hebben"
 
 #: prefs.js:134
 msgid "Terminal Apps"
@@ -138,7 +139,8 @@ msgstr "Terminal-apps"
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr "Automatisch plakken gebruikt Ctrl+Shift+V in terminals. Voeg je terminal toe "
+msgstr ""
+"Automatisch plakken gebruikt Ctrl+Shift+V in terminals. Voeg je terminal toe "
 "als plakken de verkeerde tekst invoegt"
 
 #: prefs.js:147
@@ -155,8 +157,8 @@ msgstr "Taal"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Vereist het opnieuw openen van Instellingen en het herstarten van de "
-"extensie"
+msgstr ""
+"Vereist het opnieuw openen van Instellingen en het herstarten van de extensie"
 
 #: prefs.js:173
 msgid "General"
@@ -178,99 +180,103 @@ msgstr "Uitsluiting"
 msgid "Limits"
 msgstr "Limieten"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Globale sneltoetsen"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Pop-upsneltoetsen"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Vensterklassenaam, bijv. „KeePassXC“"
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Vensterklasse of app-id, bijv. „org.gnome.Ptyxis“"
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "Systeem"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "Bij muiscursor"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "In het midden van het actieve venster"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Klembordpop-up tonen/verbergen"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Zoeken in pop-up"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Geselecteerd item verwijderen"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Privémodus in-/uitschakelen"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Volgende pagina"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Vorige pagina"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Selectie omhoog verplaatsen"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Selectie omlaag verplaatsen"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Selectie bevestigen"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Pop-up sluiten"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Hoofdlettergevoelig (bij zoeken)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Reguliere expressie gebruiken (bij zoeken)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Sneltoetsen inschakelen"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Pictogrammen voor sneltoetsherinnering tonen"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Pictogrammen voor sneltoetsherinnering onderaan de pop-up tonen"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Sneltoetsen naar standaard terugzetten"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Resetten"
 
@@ -282,7 +288,7 @@ msgstr "Sneltoets toevoegen"
 msgid "Remove shortcut"
 msgstr "Sneltoets verwijderen"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Uitgeschakeld"
 
@@ -298,36 +304,36 @@ msgstr "Kiezen uit geïnstalleerde applicaties"
 msgid "Search applications..."
 msgstr "Applicaties zoeken…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Hoofdlettergevoelig (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Reguliere expressie (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Zoeken tonen/verbergen (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Privémodus in-/uitschakelen (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Geselecteerd item verwijderen (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "Klembordgeschiedenis is leeg"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Geen overeenkomende klemborditems"
 
@@ -335,22 +341,22 @@ msgstr "Geen overeenkomende klemborditems"
 msgid "Search..."
 msgstr "Zoeken…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Hoofdlettergevoelig (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Reguliere expressie (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Zoeken tonen/verbergen (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Privémodus in-/uitschakelen (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Geselecteerd item verwijderen (d)"

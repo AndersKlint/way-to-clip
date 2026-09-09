@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "클립보드 팝업 표시"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "프라이빗 모드"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "기록 지우기"
 
@@ -138,7 +138,9 @@ msgstr "터미널 앱"
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr "자동 붙여넣기는 터미널에서 Ctrl+Shift+V를 사용합니다. 붙여넣기 시 잘못된 텍스트가 입력되면 사용 중인 터미널을 추가하세요"
+msgstr ""
+"자동 붙여넣기는 터미널에서 Ctrl+Shift+V를 사용합니다. 붙여넣기 시 잘못된 텍스"
+"트가 입력되면 사용 중인 터미널을 추가하세요"
 
 #: prefs.js:147
 msgid "Clear clipboard history on interval"
@@ -176,99 +178,103 @@ msgstr "제외"
 msgid "Limits"
 msgstr "제한"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "전역 단축키"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "팝업 단축키"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "창 클래스 이름(예: “KeePassXC”)"
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "창 클래스 또는 앱 ID(예: “org.gnome.Ptyxis”)"
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "시스템"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "마우스 커서 위치"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "포커스된 창 중앙"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "클립보드 팝업 표시 전환"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "팝업에서 검색"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "선택한 항목 삭제"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "프라이빗 모드 전환"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "다음 페이지"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "이전 페이지"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "선택을 위로 이동"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "선택을 아래로 이동"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "선택 확인"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "팝업 닫기"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "대소문자 구분(검색 시)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "정규식 사용(검색 시)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "단축키 활성화"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "단축키 알림 아이콘 표시"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "팝업 하단에 단축키 알림 아이콘 표시"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "단축키를 기본값으로 초기화"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "초기화"
 
@@ -280,7 +286,7 @@ msgstr "단축키 추가"
 msgid "Remove shortcut"
 msgstr "단축키 제거"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "비활성화됨"
 
@@ -296,36 +302,36 @@ msgstr "설치된 앱에서 선택"
 msgid "Search applications..."
 msgstr "앱 검색…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "대소문자 구분(%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "정규식 사용(%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "검색 표시 전환(%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "프라이빗 모드 전환(%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "선택한 항목 삭제(%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "클립보드 기록이 비어 있습니다"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "일치하는 클립보드 항목이 없습니다"
 
@@ -333,22 +339,22 @@ msgstr "일치하는 클립보드 항목이 없습니다"
 msgid "Search..."
 msgstr "검색…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "대소문자 구분(Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "정규식 사용(Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "검색 표시 전환(s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "프라이빗 모드 전환(p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "선택한 항목 삭제(d)"

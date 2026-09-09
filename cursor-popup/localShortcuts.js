@@ -149,12 +149,7 @@ function isAsciiLetter(keyval) {
 export function matchesBinding(event, binding) {
     if (!binding)
         return false;
-    let sym = null;
-    try {
-        sym = event.get_key_symbol();
-    } catch (_e) {
-        return false;
-    }
+    const sym = event.get_key_symbol();
     if (sym !== binding.keyval) {
         const caseVariant = isAsciiLetter(sym) && isAsciiLetter(binding.keyval) &&
             (sym | 0x20) === (binding.keyval | 0x20) &&
@@ -162,10 +157,7 @@ export function matchesBinding(event, binding) {
         if (!caseVariant)
             return false;
     }
-    let state = 0;
-    try {
-        state = event.get_state();
-    } catch (_e) { /* events without state: assume no modifiers */ }
+    const state = event.get_state();
     return (state & binding.mods) === binding.mods;
 }
 

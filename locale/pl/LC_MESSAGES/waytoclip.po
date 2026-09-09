@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 12:45+0200\n"
 "Last-Translator: Adam Lewicki <a.lewick95@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -22,15 +22,15 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 3.7\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Pokaż okienko schowka"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Tryb prywatny"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Wyczyść historię"
 
@@ -88,8 +88,7 @@ msgstr "Wklejaj automatycznie po wybraniu"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
-"Automatycznie wklejaj po wybraniu elementu z okienka"
+msgstr "Automatycznie wklejaj po wybraniu elementu z okienka"
 
 #: prefs.js:85
 msgid "Popup position"
@@ -105,8 +104,7 @@ msgstr "Ogranicz liczbę stron"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
-"Gdy wyłączone, okienko pokazuje całą historię schowka"
+msgstr "Gdy wyłączone, okienko pokazuje całą historię schowka"
 
 #: prefs.js:96
 msgid "Number of pages"
@@ -187,99 +185,103 @@ msgstr "Wykluczanie"
 msgid "Limits"
 msgstr "Limity"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Globalne skróty klawiszowe"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Skróty klawiszowe okienka"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Nazwa klasy okna, np. \"KeePassXC\""
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Klasa okna lub identyfikator aplikacji, np. \"org.gnome.Ptyxis\""
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "System"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "Przy kursorze myszy"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "Na środku aktywnego okna"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Przełącz okienko schowka"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Szukaj w okienku"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Usuń wybrany element"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Przełącz tryb prywatny"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Następna strona"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Poprzednia strona"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Przenieś zaznaczenie w górę"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Przenieś zaznaczenie w dół"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Potwierdź zaznaczenie"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Zamknij okienko"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Uwzględnij wielkość liter (podczas wyszukiwania)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Użyj wyrażenia regularnego (podczas wyszukiwania)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Włącz skróty klawiszowe"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Pokazuj ikony przypominające skróty"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Pokazuj ikony przypominające skróty na dole okienka"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Przywróć domyślne skróty"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Przywróć"
 
@@ -291,7 +293,7 @@ msgstr "Dodaj skrót"
 msgid "Remove shortcut"
 msgstr "Usuń skrót"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Wyłączony"
 
@@ -307,36 +309,36 @@ msgstr "Wybierz spośród zainstalowanych aplikacji"
 msgid "Search applications..."
 msgstr "Szukaj aplikacji…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Uwzględnij wielkość liter (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Użyj wyrażenia regularnego (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Przełącz wyszukiwanie (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Przełącz tryb prywatny (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Usuń wybrany element (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "Historia schowka jest pusta"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Brak pasujących elementów schowka"
 
@@ -344,22 +346,22 @@ msgstr "Brak pasujących elementów schowka"
 msgid "Search..."
 msgstr "Szukaj…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Uwzględnij wielkość liter (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Użyj wyrażenia regularnego (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Przełącz wyszukiwanie (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Przełącz tryb prywatny (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Usuń wybrany element (d)"

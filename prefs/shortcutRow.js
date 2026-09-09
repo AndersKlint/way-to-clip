@@ -25,13 +25,14 @@ export function createShortcutEditor(schema, pref) {
         valign: Gtk.Align.CENTER,
     });
 
-    const chips = new Gtk.FlowBox({
+    // Plain Box, not FlowBox: a row holds at most a few chips, and
+    // FlowBox's wrapping layout fights the ActionRow suffix allocation
+    // (GtkFlowBoxChild "measured for width of 0" warning spam).
+    const chips = new Gtk.Box({
         orientation: Gtk.Orientation.HORIZONTAL,
-        selection_mode: Gtk.SelectionMode.NONE,
+        spacing: 6,
         halign: Gtk.Align.END,
         valign: Gtk.Align.CENTER,
-        column_spacing: 6,
-        row_spacing: 6,
     });
     box.append(chips);
 
@@ -45,6 +46,7 @@ export function createShortcutEditor(schema, pref) {
 
     let captureController = null;
     let captureChip = null;
+    let debounceTimeoutId = 0;
 
     const getAccels = () => {
         const list = schema.get_strv(pref);
@@ -104,10 +106,13 @@ export function createShortcutEditor(schema, pref) {
     };
 
     const stopCapture = () => {
+        // Idempotent via the nulling: each controller is removed once.
+        if (debounceTimeoutId) {
+            clearTimeout(debounceTimeoutId);
+            debounceTimeoutId = 0;
+        }
         if (captureController) {
-            try {
-                addButton.remove_controller(captureController);
-            } catch (_e) { /* already removed */ }
+            addButton.remove_controller(captureController);
             captureController = null;
         }
         captureChip = null;
@@ -143,7 +148,6 @@ export function createShortcutEditor(schema, pref) {
         captureController = eventController;
         addButton.add_controller(eventController);
 
-        let debounceTimeoutId = 0;
         eventController.connect('key-pressed',
             (_ec, keyval, keycode, mask) => {
                 if (debounceTimeoutId) {
@@ -178,8 +182,21 @@ export function createShortcutEditor(schema, pref) {
         box.show();
     });
 
-    // Re-render on external changes (e.g. dconf edits).
-    schema.connect(`changed::${pref}`, render);
+    // Re-render on external changes (e.g. dconf edits). The schema
+    // object outlives the row, so disconnect on destroy to avoid
+    // pinning the widgets (and the debounce closure) afterwards.
+    const externalChangedId = schema.connect(`changed::${pref}`, render);
+
+    // Drop a pending debounced write if the prefs window closes
+    // mid-capture so it can't touch destroyed widgets. (Factory
+    // function, not a widget subclass, so observe destroy here.)
+    box.connect('destroy', () => {
+        schema.disconnect(externalChangedId);
+        if (debounceTimeoutId) {
+            clearTimeout(debounceTimeoutId);
+            debounceTimeoutId = 0;
+        }
+    });
 
     render();
 

@@ -39,17 +39,12 @@ export class ShortcutManager {
     }
 
     unbindAll() {
-        for (const name of this.#boundNames) {
-            try {
-                Main.wm.removeKeybinding(name);
-            } catch (_e) { /* never bound or already removed */ }
-        }
+        for (const name of this.#boundNames)
+            Main.wm.removeKeybinding(name);
         this.#boundNames = [];
     }
 
     #bindOne(name, callback) {
-        if (typeof callback !== 'function')
-            return;
         const ModeType = Object.prototype.hasOwnProperty.call(Shell, 'ActionMode')
             ? Shell.ActionMode
             : Shell.KeyBindingMode;

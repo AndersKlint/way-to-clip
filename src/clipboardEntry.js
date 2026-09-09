@@ -165,17 +165,10 @@ export class ClipboardEntry {
     }
 
     equals(otherEntry) {
-        if (!otherEntry)
+        if (!(otherEntry instanceof ClipboardEntry))
             return false;
-        const otherMimetype = typeof otherEntry.normalizedMimetype === 'function'
-            ? otherEntry.normalizedMimetype()
-            : otherEntry.mimetype();
-        if (this.normalizedMimetype() !== ClipboardEntry.canonicalizeMimetype(otherMimetype))
+        if (this.normalizedMimetype() !== otherEntry.normalizedMimetype())
             return false;
-        try {
-            return this.asBytes().equal(otherEntry.asBytes());
-        } catch (_e) {
-            return this.getStringValue() === otherEntry.getStringValue();
-        }
+        return this.asBytes().equal(otherEntry.asBytes());
     }
 }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 12:42+0200\n"
+"POT-Creation-Date: 2026-09-09 16:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
@@ -18,15 +18,15 @@ msgstr ""
 "X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: extension.js:168
+#: extension.js:171
 msgid "Show clipboard popup"
 msgstr "Εμφάνιση αναδυόμενου παραθύρου προχείρου"
 
-#: extension.js:188 prefs.js:298
+#: extension.js:188 prefs.js:303
 msgid "Private mode"
 msgstr "Ιδιωτική λειτουργία"
 
-#: extension.js:201 prefs.js:299
+#: extension.js:201 prefs.js:304
 msgid "Clear history"
 msgstr "Εκκάθαρση ιστορικού"
 
@@ -84,7 +84,8 @@ msgstr "Αυτόματη επικόλληση κατά την επιλογή"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr "Αυτόματη επικόλληση μετά την επιλογή στοιχείου από το αναδυόμενο παράθυρο"
+msgstr ""
+"Αυτόματη επικόλληση μετά την επιλογή στοιχείου από το αναδυόμενο παράθυρο"
 
 #: prefs.js:85
 msgid "Popup position"
@@ -100,7 +101,8 @@ msgstr "Περιορισμός αριθμού σελίδων"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr "Όταν είναι απενεργοποιημένο, το αναδυόμενο παράθυρο εμφανίζει όλο το "
+msgstr ""
+"Όταν είναι απενεργοποιημένο, το αναδυόμενο παράθυρο εμφανίζει όλο το "
 "ιστορικό του προχείρου"
 
 #: prefs.js:96
@@ -129,7 +131,8 @@ msgstr "Εξαιρούμενες εφαρμογές"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr "Το αντιγραμμένο περιεχόμενο δεν θα αποθηκεύεται όσο αυτές οι εφαρμογές είναι "
+msgstr ""
+"Το αντιγραμμένο περιεχόμενο δεν θα αποθηκεύεται όσο αυτές οι εφαρμογές είναι "
 "εστιασμένες"
 
 #: prefs.js:134
@@ -140,7 +143,8 @@ msgstr "Εφαρμογές τερματικού"
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr "Η αυτόματη επικόλληση χρησιμοποιεί Ctrl+Shift+V σε τερματικά. Προσθέστε το "
+msgstr ""
+"Η αυτόματη επικόλληση χρησιμοποιεί Ctrl+Shift+V σε τερματικά. Προσθέστε το "
 "τερματικό σας αν η επικόλληση εισάγει λάθος κείμενο"
 
 #: prefs.js:147
@@ -157,7 +161,8 @@ msgstr "Γλώσσα"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Απαιτείται εκ νέου άνοιγμα των Ρυθμίσεων και επανεκκίνηση της επέκτασης"
+msgstr ""
+"Απαιτείται εκ νέου άνοιγμα των Ρυθμίσεων και επανεκκίνηση της επέκτασης"
 
 #: prefs.js:173
 msgid "General"
@@ -179,100 +184,105 @@ msgstr "Εξαίρεση"
 msgid "Limits"
 msgstr "Όρια"
 
-#: prefs.js:178
+#: prefs.js:179
 msgid "Global shortcuts"
 msgstr "Καθολικές συντομεύσεις πληκτρολογίου"
 
-#: prefs.js:179
+#: prefs.js:182
+msgid "Disabled by default; assign a shortcut below to enable each action"
+msgstr ""
+
+#: prefs.js:184
 msgid "Popup shortcuts"
 msgstr "Συντομεύσεις αναδυόμενου παραθύρου"
 
-#: prefs.js:235
+#: prefs.js:240
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Όνομα κλάσης παραθύρου, π.χ. «KeePassXC»"
 
-#: prefs.js:244
+#: prefs.js:249
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Κλάση παραθύρου ή id εφαρμογής, π.χ. «org.gnome.Ptyxis»"
 
-#: prefs.js:254
+#: prefs.js:259
 msgid "System"
 msgstr "Σύστημα"
 
-#: prefs.js:290
+#: prefs.js:295
 msgid "At mouse cursor"
 msgstr "Στον δρομέα του ποντικιού"
 
-#: prefs.js:291
+#: prefs.js:296
 msgid "Center of focused window"
 msgstr "Στο κέντρο του εστιασμένου παραθύρου"
 
-#: prefs.js:297
+#: prefs.js:302
 msgid "Toggle the clipboard popup"
 msgstr "Εμφάνιση/Απόκρυψη του αναδυόμενου παραθύρου προχείρου"
 
-#: prefs.js:306
+#: prefs.js:311
 msgid "Search in popup"
 msgstr "Αναζήτηση στο αναδυόμενο παράθυρο"
 
-#: prefs.js:307
+#: prefs.js:312
 msgid "Delete selected entry"
 msgstr "Διαγραφή επιλεγμένης καταχώρησης"
 
-#: prefs.js:308
+#: prefs.js:313
 msgid "Toggle private mode"
 msgstr "Εναλλαγή ιδιωτικής λειτουργίας"
 
-#: prefs.js:309
+#: prefs.js:314
 msgid "Next page"
 msgstr "Επόμενη σελίδα"
 
-#: prefs.js:310
+#: prefs.js:315
 msgid "Previous page"
 msgstr "Προηγούμενη σελίδα"
 
-#: prefs.js:311
+#: prefs.js:316
 msgid "Move selection up"
 msgstr "Μετακίνηση επιλογής προς τα πάνω"
 
-#: prefs.js:312
+#: prefs.js:317
 msgid "Move selection down"
 msgstr "Μετακίνηση επιλογής προς τα κάτω"
 
-#: prefs.js:313
+#: prefs.js:318
 msgid "Confirm selection"
 msgstr "Επιβεβαίωση επιλογής"
 
-#: prefs.js:314
+#: prefs.js:319
 msgid "Close popup"
 msgstr "Κλείσιμο αναδυόμενου παραθύρου"
 
-#: prefs.js:315
+#: prefs.js:320
 msgid "Match case (while searching)"
 msgstr "Διάκριση πεζών-κεφαλαίων (κατά την αναζήτηση)"
 
-#: prefs.js:316
+#: prefs.js:321
 msgid "Use regular expression (while searching)"
 msgstr "Χρήση κανονικής έκφρασης (κατά την αναζήτηση)"
 
-#: prefs.js:329
+#: prefs.js:334
 msgid "Enable shortcuts"
 msgstr "Ενεργοποίηση συντομεύσεων"
 
-#: prefs.js:339
+#: prefs.js:344
 msgid "Show shortcut reminder icons"
 msgstr "Εμφάνιση εικονιδίων υπενθύμισης συντομεύσεων"
 
-#: prefs.js:340
+#: prefs.js:345
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr "Εμφάνιση των εικονιδίων υπενθύμισης συντομεύσεων στο κάτω μέρος του "
+msgstr ""
+"Εμφάνιση των εικονιδίων υπενθύμισης συντομεύσεων στο κάτω μέρος του "
 "αναδυόμενου παραθύρου"
 
-#: prefs.js:349
+#: prefs.js:354
 msgid "Reset shortcuts to defaults"
 msgstr "Επαναφορά συντομεύσεων στις προεπιλογές"
 
-#: prefs.js:351
+#: prefs.js:356
 msgid "Reset"
 msgstr "Επαναφορά"
 
@@ -284,7 +294,7 @@ msgstr "Προσθήκη συντόμευσης"
 msgid "Remove shortcut"
 msgstr "Αφαίρεση συντόμευσης"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
 msgid "Disabled"
 msgstr "Απενεργοποιημένο"
 
@@ -300,36 +310,36 @@ msgstr "Επιλογή από εγκατεστημένες εφαρμογές"
 msgid "Search applications..."
 msgstr "Αναζήτηση εφαρμογών…"
 
-#: cursor-popup/cursorPopup.js:338
+#: cursor-popup/cursorPopup.js:335
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Διάκριση πεζών-κεφαλαίων (%s)"
 
-#: cursor-popup/cursorPopup.js:342
+#: cursor-popup/cursorPopup.js:339
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Χρήση κανονικής έκφρασης (%s)"
 
-#: cursor-popup/cursorPopup.js:379
+#: cursor-popup/cursorPopup.js:376
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Εμφάνιση/Απόκρυψη αναζήτησης (%s)"
 
-#: cursor-popup/cursorPopup.js:381
+#: cursor-popup/cursorPopup.js:378
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Εναλλαγή ιδιωτικής λειτουργίας (%s)"
 
-#: cursor-popup/cursorPopup.js:383
+#: cursor-popup/cursorPopup.js:380
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Διαγραφή επιλεγμένης καταχώρησης (%s)"
 
-#: cursor-popup/cursorPopup.js:573
+#: cursor-popup/cursorPopup.js:571
 msgid "Clipboard history is empty"
 msgstr "Το ιστορικό του προχείρου είναι κενό"
 
-#: cursor-popup/cursorPopup.js:574
+#: cursor-popup/cursorPopup.js:572
 msgid "No matching clipboard items"
 msgstr "Κανένα αντίστοιχο στοιχείο προχείρου"
 
@@ -337,22 +347,22 @@ msgstr "Κανένα αντίστοιχο στοιχείο προχείρου"
 msgid "Search..."
 msgstr "Αναζήτηση…"
 
-#: cursor-popup/popupUI.js:341
+#: cursor-popup/popupUI.js:332
 msgid "Match Case (Alt+C)"
 msgstr "Διάκριση πεζών-κεφαλαίων (Alt+C)"
 
-#: cursor-popup/popupUI.js:343
+#: cursor-popup/popupUI.js:334
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Χρήση κανονικής έκφρασης (Alt+R)"
 
-#: cursor-popup/popupUI.js:418
+#: cursor-popup/popupUI.js:414
 msgid "Toggle search (s)"
 msgstr "Εμφάνιση/Απόκρυψη αναζήτησης (s)"
 
-#: cursor-popup/popupUI.js:420
+#: cursor-popup/popupUI.js:416
 msgid "Toggle private mode (p)"
 msgstr "Εναλλαγή ιδιωτικής λειτουργίας (p)"
 
-#: cursor-popup/popupUI.js:422
+#: cursor-popup/popupUI.js:418
 msgid "Delete selected entry (d)"
 msgstr "Διαγραφή επιλεγμένης καταχώρησης (d)"

@@ -93,11 +93,8 @@ export class HistoryClearScheduler {
     }
 
     stopSignals() {
-        for (const id of this.#settingIds) {
-            try {
-                this.#settings.disconnect(id);
-            } catch (_e) { /* ignore */ }
-        }
+        for (const id of this.#settingIds)
+            this.#settings.disconnect(id);
         this.#settingIds = [];
     }
 
@@ -125,9 +122,7 @@ export class HistoryClearScheduler {
     }
 
     _persistNext(timestamp) {
-        try {
-            this.#settings.set_int(PrefsFields.NEXT_HISTORY_CLEAR, timestamp);
-        } catch (_e) { /* settings gone during disable */ }
+        this.#settings.set_int(PrefsFields.NEXT_HISTORY_CLEAR, timestamp);
     }
 
     _arm(secondsLeft) {

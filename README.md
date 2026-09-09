@@ -1,10 +1,12 @@
 # WayToClip
 
 A clipboard manager for GNOME with cursor-positioned popup and quick selection.
+It reads the clipboard to keep a local history; clipboard contents stay on
+your machine and are never shared.
 
 ## Features
 
-- **Cursor Popup** - Press `Alt+X` to show clipboard history at cursor position
+- **Cursor Popup** - Show clipboard history at cursor position (set a shortcut in Settings, e.g. `Alt+X`)
 - **Quick Selection** - Press keys `1-9` to instantly select and paste items
 - **Auto-Paste** - Selected items are automatically pasted at cursor
 - **Text & Images** - Supports both text and image clipboard content
@@ -16,7 +18,9 @@ A clipboard manager for GNOME with cursor-positioned popup and quick selection.
 
 ## Keyboard Shortcuts
 
-| Shortcut | Action |
+No global shortcuts are set by default. Open Settings to assign your own:
+
+| Shortcut (suggested) | Action |
 |----------|--------|
 | `Alt+X` | Open/close cursor popup |
 | `Ctrl+F10` | Clear history |
@@ -40,14 +44,19 @@ A clipboard manager for GNOME with cursor-positioned popup and quick selection.
 
 ```bash
 # Clone to your GNOME extensions directory
-git clone <repo-url> ~/.local/share/gnome-shell/extensions/waytoclip@waytoclip
+git clone <repo-url> ~/.local/share/gnome-shell/extensions/waytoclip@andersklint.github.io
 
 # Restart GNOME Shell (Alt+F2, then type 'r' and press Enter)
 # Or log out and log back in
 
 # Enable the extension
-gnome-extensions enable waytoclip@waytoclip
+gnome-extensions enable waytoclip@andersklint.github.io
 ```
+
+> Upgrading from an older checkout? Remove the previous
+> `waytoclip@waytoclip` directory first; the extension UUID changed
+> before release and old installs (including `~/.cache/waytoclip@waytoclip/`)
+> are not migrated automatically.
 
 ### Requirements
 
@@ -57,7 +66,7 @@ gnome-extensions enable waytoclip@waytoclip
 
 Open settings with:
 ```bash
-gnome-extensions prefs waytoclip@waytoclip
+gnome-extensions prefs waytoclip@andersklint.github.io
 ```
 
 ### Available Settings
@@ -74,7 +83,7 @@ gnome-extensions prefs waytoclip@waytoclip
 ## How It Works
 
 1. **Clipboard Monitoring**: The extension monitors clipboard changes automatically
-2. **History Storage**: Items are persisted to `~/.cache/waytoclip@waytoclip/`
+2. **History Storage**: Items are persisted to `~/.cache/waytoclip@andersklint.github.io/`
 3. **Selection**: When you select an item, it's copied to clipboard and pasted at cursor
 4. **Private Mode**: When enabled, clipboard changes are not recorded
 
@@ -82,11 +91,11 @@ gnome-extensions prefs waytoclip@waytoclip
 
 WayToClip is based on [Clipboard Indicator](https://github.com/Tudmotu/gnome-shell-extension-clipboard-indicator) with these additions:
 
-- Cursor-positioned popup (Alt+X)
+- Cursor-positioned popup (assign a shortcut in Settings, e.g. Alt+X)
 - Quick selection with keys 1-9
 - Auto-paste on selection
 - Larger default history size (100 vs 15)
 
 ## License
 
-MIT OR Apache-2.0
+MIT (see LICENSE.rst)

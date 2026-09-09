@@ -1,5 +1,5 @@
-MODULES = *.js src/*.js prefs/*.js cursor-popup/*.js locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/
-INSTALLPATH=~/.local/share/gnome-shell/extensions/waytoclip@waytoclip/
+MODULES = *.js src/*.js prefs/*.js cursor-popup/*.js locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/*.gschema.xml
+INSTALLPATH=~/.local/share/gnome-shell/extensions/waytoclip@andersklint.github.io/
 
 all: build-translations compile-locales compile-settings
 
