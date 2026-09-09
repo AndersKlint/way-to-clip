@@ -37,7 +37,7 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 ├── prefs.js            - Settings page assembly (GTK4/Adw)
 ├── prefs/
 │   ├── stringListManager.js - Generic strv ExpanderRow manager (excluded/terminal apps)
-│   └── shortcutRow.js  - Capturable shortcut button (no controller leak)
+│   └── shortcutRow.js  - Multi-shortcut chip editor (chips + x, plus to capture)
 ├── constants.js      - Settings keys + ITEMS_PER_PAGE + mimetypes
 ├── registry.js       - Coalesced atomic persistence (JSON cache + image files)
 ├── keyboard.js       - Virtual keyboard for auto-paste

@@ -3,7 +3,7 @@ import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import { PrefsFields } from './constants.js';
-import { createShortcutButton } from './prefs/shortcutRow.js';
+import { createShortcutEditor } from './prefs/shortcutRow.js';
 import { StringListManager } from './prefs/stringListManager.js';
 
 export default class WayToClipPreferences extends ExtensionPreferences {
@@ -15,7 +15,8 @@ export default class WayToClipPreferences extends ExtensionPreferences {
         page.add(settingsUI.behavior);
         page.add(settingsUI.limits);
         page.add(settingsUI.exclusion);
-        page.add(settingsUI.shortcuts);
+        page.add(settingsUI.globalShortcuts);
+        page.add(settingsUI.localShortcuts);
         window.add(page);
     }
 }
@@ -150,7 +151,8 @@ class Settings {
         this.behavior = new Adw.PreferencesGroup({ title: _('Behavior') });
         this.exclusion = new Adw.PreferencesGroup({ title: _('Exclusion') });
         this.limits = new Adw.PreferencesGroup({ title: _('Limits') });
-        this.shortcuts = new Adw.PreferencesGroup({ title: _('Shortcuts') });
+        this.globalShortcuts = new Adw.PreferencesGroup({ title: _('Global shortcuts') });
+        this.localShortcuts = new Adw.PreferencesGroup({ title: _('Popup shortcuts') });
 
         this.popup.add(this.field_popup_position_mode);
         this.popup.add(this.field_limit_popup_pages);
@@ -175,7 +177,8 @@ class Settings {
         this.limits.add(this.field_size);
         this.limits.add(this.field_cache_size);
 
-        this.#buildShorcuts(this.shortcuts);
+        this.#buildGlobalShortcuts(this.globalShortcuts);
+        this.#buildLocalShortcuts(this.localShortcuts);
 
         this.schema.bind(PrefsFields.HISTORY_SIZE, this.field_size, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CACHE_FILE_SIZE, this.field_cache_size, 'value', Gio.SettingsBindFlags.DEFAULT);
@@ -192,6 +195,7 @@ class Settings {
         this.schema.bind(PrefsFields.CACHE_IMAGES, this.field_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.SHOW_SHORTCUT_HINTS, this.field_show_shortcut_hints, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         this.field_clear_history_interval.set_sensitive(this.field_clear_history_on_interval.active);
         this.field_popup_pages.set_sensitive(this.field_limit_popup_pages.active);
@@ -223,23 +227,71 @@ class Settings {
         return liststore;
     }
 
-    #shortcuts = {
+    // GNOME-wide keybindings, effective even when the popup is closed.
+    #globalShortcuts = {
         [PrefsFields.BINDING_TOGGLE_POPUP]: _('Toggle the clipboard popup'),
         [PrefsFields.BINDING_PRIVATE_MODE]: _('Private mode'),
         [PrefsFields.BINDING_CLEAR_HISTORY]: _('Clear history'),
     };
 
-    #buildShorcuts(group) {
+    // Shortcuts local to the cursor popup (effective only while it is
+    // open). A setting may hold several accelerators, each rendered as
+    // its own removable chip in the editor below.
+    #localShortcuts = {
+        [PrefsFields.LOCAL_SEARCH]: _('Search in popup'),
+        [PrefsFields.LOCAL_DELETE_ENTRY]: _('Delete selected entry'),
+        [PrefsFields.LOCAL_PRIVATE_MODE]: _('Toggle private mode'),
+        [PrefsFields.LOCAL_PAGE_NEXT]: _('Next page'),
+        [PrefsFields.LOCAL_PAGE_PREVIOUS]: _('Previous page'),
+        [PrefsFields.LOCAL_MOVE_UP]: _('Move selection up'),
+        [PrefsFields.LOCAL_MOVE_DOWN]: _('Move selection down'),
+        [PrefsFields.LOCAL_CONFIRM]: _('Confirm selection'),
+        [PrefsFields.LOCAL_CLOSE]: _('Close popup'),
+        [PrefsFields.LOCAL_CASE_SENSITIVE]: _('Match case (while searching)'),
+        [PrefsFields.LOCAL_REGEX_SEARCH]: _('Use regular expression (while searching)'),
+    };
+
+    #addShortcutRows(group, shortcuts) {
+        for (const [pref, title] of Object.entries(shortcuts)) {
+            const row = new Adw.ActionRow({ title });
+            row.add_suffix(createShortcutEditor(this.schema, pref));
+            group.add(row);
+        }
+    }
+
+    #buildGlobalShortcuts(group) {
         this.field_keybinding_activation = new Adw.SwitchRow({
             title: _('Enable shortcuts'),
         });
 
         group.add(this.field_keybinding_activation);
+        this.#addShortcutRows(group, this.#globalShortcuts);
+        this.#addResetRow(group, this.#globalShortcuts);
+    }
 
-        for (const [pref, title] of Object.entries(this.#shortcuts)) {
-            const row = new Adw.ActionRow({ title });
-            row.add_suffix(createShortcutButton(this.schema, pref));
-            group.add(row);
-        }
+    #buildLocalShortcuts(group) {
+        this.field_show_shortcut_hints = new Adw.SwitchRow({
+            title: _('Show shortcut reminder icons'),
+            subtitle: _('Show the shortcut reminder icons at the bottom of the popup'),
+        });
+
+        group.add(this.field_show_shortcut_hints);
+        this.#addShortcutRows(group, this.#localShortcuts);
+        this.#addResetRow(group, this.#localShortcuts);
+    }
+
+    #addResetRow(group, shortcuts) {
+        const row = new Adw.ActionRow({ title: _('Reset shortcuts to defaults') });
+        const button = new Gtk.Button({
+            label: _('Reset'),
+            css_classes: ['flat'],
+            valign: Gtk.Align.CENTER,
+        });
+        button.connect('clicked', () => {
+            for (const pref of Object.keys(shortcuts))
+                this.schema.reset(pref);
+        });
+        row.add_suffix(button);
+        group.add(row);
     }
 }

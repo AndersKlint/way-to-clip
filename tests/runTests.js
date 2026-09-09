@@ -6,6 +6,14 @@
 import { HistoryStore } from '../src/historyStore.js';
 import { PopupSearch } from '../cursor-popup/popupSearch.js';
 import { decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode } from '../src/pasteKeys.js';
+import {
+    DEFAULT_LOCAL_SHORTCUTS,
+    formatAccelerator,
+    matchesShortcut,
+    ModMask,
+    parseAccelerator,
+    parseAcceleratorList,
+} from '../cursor-popup/localShortcuts.js';
 import { ITEMS_PER_PAGE } from '../constants.js';
 
 let failures = 0;
@@ -193,6 +201,67 @@ function fakeItem(text) {
     assert(!isTerminalWindow('myterm', null, []), 'empty list matches nothing');
     assert(!isTerminalWindow('myterm', null, null), 'null list matches nothing');
     assert(!isTerminalWindow('myterm', null, ['', '  ', null, 42]), 'blank/non-string entries ignored');
+}
+
+// --- localShortcuts ---
+
+{
+    // Parsing
+    assert(parseAccelerator('s').keyval === 0x73, 'parse bare letter');
+    assert(parseAccelerator('s').mods === 0, 'parse bare letter has no mods');
+    const altC = parseAccelerator('<Alt>c');
+    assert(altC.keyval === 0x63 && altC.mods === ModMask.MOD1, 'parse Alt combo');
+    const tab = parseAccelerator('Tab');
+    assert(tab.keyval === 0xff09 && tab.mods === 0, 'parse Tab');
+    const shiftTab = parseAccelerator('<Shift>ISO_Left_Tab');
+    assert(shiftTab.keyval === 0xfe20 && shiftTab.mods === ModMask.SHIFT, 'parse Shift+Tab');
+    assert(parseAccelerator('KP_Enter').keyval === 0xff8d, 'parse KP_Enter');
+    assert(parseAccelerator('<Control><Shift>F10').mods ===
+        (ModMask.CONTROL | ModMask.SHIFT), 'parse multi-modifier');
+    assert(parseAccelerator('') === null, 'parse empty is null');
+    assert(parseAccelerator(null) === null, 'parse null is null');
+    assert(parseAccelerator('<Foo>x') === null, 'parse unknown modifier is null');
+    assert(parseAccelerator('NotAKey') === null, 'parse unknown key is null');
+    assert(parseAcceleratorList(['s', 'bogus', null]).length === 1, 'parse list drops bad entries');
+    assert(parseAcceleratorList([]).length === 0, 'parse empty list (cleared shortcut)');
+
+    // Display
+    assert(formatAccelerator('s') === 's', 'format bare letter');
+    assert(formatAccelerator('<Alt>c') === 'Alt+C', 'format Alt combo');
+    assert(formatAccelerator('<Alt>r') === 'Alt+R', 'format Alt+R');
+    assert(formatAccelerator('Tab') === 'Tab', 'format Tab');
+    assert(formatAccelerator('<Shift>ISO_Left_Tab') === 'Shift+Tab', 'format Shift+Tab');
+    assert(formatAccelerator('KP_Enter') === 'KP_Enter', 'format KP_Enter');
+    assert(formatAccelerator('<Control>F10') === 'Ctrl+F10', 'format Ctrl+F10');
+
+    // Matching (fake key events)
+    const ev = (sym, state = 0) => ({
+        get_key_symbol: () => sym,
+        get_state: () => state,
+    });
+    const search = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.search);
+    assert(matchesShortcut(ev(0x73), search), 'default search matches s');
+    assert(!matchesShortcut(ev(0x53, ModMask.SHIFT), search), 'default search ignores Shift+S');
+    assert(matchesShortcut(ev(0x73, ModMask.CONTROL), search), 'default search tolerates extra mods');
+    assert(!matchesShortcut(ev(0x64), search), 'default search rejects d');
+    const cs = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.caseSensitive);
+    assert(matchesShortcut(ev(0x63, ModMask.MOD1), cs), 'default match-case matches Alt+C');
+    assert(matchesShortcut(ev(0x43, ModMask.MOD1 | ModMask.SHIFT), cs), 'default match-case matches Alt+Shift+C');
+    assert(!matchesShortcut(ev(0x63), cs), 'default match-case requires Alt');
+    assert(!matchesShortcut(ev(0x72, ModMask.MOD1), cs), 'default match-case rejects Alt+R');
+    const next = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.pageNext);
+    assert(matchesShortcut(ev(0xff09), next), 'default page-next matches Tab');
+    assert(matchesShortcut(ev(0xff53), next), 'default page-next matches Right');
+    assert(!matchesShortcut(ev(0xff51), next), 'default page-next rejects Left');
+    const prev = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.pagePrevious);
+    assert(matchesShortcut(ev(0xfe20, ModMask.SHIFT), prev), 'default page-previous matches Shift+Tab');
+    assert(matchesShortcut(ev(0xff51), prev), 'default page-previous matches Left');
+    assert(!matchesShortcut(ev(0xff53), prev), 'default page-previous rejects Right');
+    const confirm = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.confirm);
+    assert(matchesShortcut(ev(0xff0d), confirm), 'default confirm matches Return');
+    assert(matchesShortcut(ev(0xff8d), confirm), 'default confirm matches KP_Enter');
+    assert(!matchesShortcut(ev(0x73), confirm), 'default confirm rejects s');
+    assert(!matchesShortcut(ev(0x73), []), 'cleared shortcut matches nothing');
 }
 
 // --- constants ---

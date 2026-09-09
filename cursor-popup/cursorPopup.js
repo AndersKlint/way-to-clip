@@ -21,8 +21,29 @@ import { PrefsFields } from '../constants.js';
 import { PopupUIBuilder } from './popupUI.js';
 import { PopupSearch } from './popupSearch.js';
 import { PopupKeyHandler } from './popupKeyHandler.js';
+import {
+    DEFAULT_LOCAL_SHORTCUTS,
+    formatAccelerator,
+    matchesShortcut,
+    parseAcceleratorList,
+} from './localShortcuts.js';
 
 const ITEMS_PER_PAGE = 10;
+
+/** Popup-local action -> GSettings strv key holding its accelerators. */
+const LOCAL_SHORTCUT_KEYS = {
+    search: PrefsFields.LOCAL_SEARCH,
+    deleteEntry: PrefsFields.LOCAL_DELETE_ENTRY,
+    privateMode: PrefsFields.LOCAL_PRIVATE_MODE,
+    pageNext: PrefsFields.LOCAL_PAGE_NEXT,
+    pagePrevious: PrefsFields.LOCAL_PAGE_PREVIOUS,
+    moveUp: PrefsFields.LOCAL_MOVE_UP,
+    moveDown: PrefsFields.LOCAL_MOVE_DOWN,
+    confirm: PrefsFields.LOCAL_CONFIRM,
+    close: PrefsFields.LOCAL_CLOSE,
+    caseSensitive: PrefsFields.LOCAL_CASE_SENSITIVE,
+    regex: PrefsFields.LOCAL_REGEX_SEARCH,
+};
 
 export class CursorPopup {
     constructor(parent) {
@@ -36,6 +57,15 @@ export class CursorPopup {
         this._limitPopupPages = false;
         this._maxPopupPages = 3;
         this._settings = null;
+        // Popup-local shortcuts: raw accelerator strings plus parsed
+        // bindings per action (refreshed in updateSettings).
+        this._localShortcutStrings = {};
+        this._localBindings = {};
+        for (const [action, list] of Object.entries(DEFAULT_LOCAL_SHORTCUTS)) {
+            this._localShortcutStrings[action] = [...list];
+            this._localBindings[action] = parseAcceleratorList(list);
+        }
+        this._showShortcutHints = true;
 
         // UI references
         this._modalContainer = null;
@@ -49,7 +79,11 @@ export class CursorPopup {
         this._regexButton = null;
         this._searchTooltip = null;
         this._pageIndicator = null;
+        this._searchHint = null;
+        this._searchHintLabel = null;
         this._privateModeHint = null;
+        this._privateModeHintLabel = null;
+        this._deleteHint = null;
         this._anchorX = 0;
         this._anchorY = 0;
         this._monitor = null;
@@ -90,7 +124,20 @@ export class CursorPopup {
             regexEnabled = settings.get_boolean(PrefsFields.REGEX_SEARCH);
         } catch (_e) { /* headless tests / mocks: keep in-memory state */ }
         this._search.updateSettings(caseSensitive, regexEnabled);
+        try {
+            for (const [action, key] of Object.entries(LOCAL_SHORTCUT_KEYS)) {
+                const list = settings.get_strv(key);
+                this._localShortcutStrings[action] = Array.isArray(list)
+                    ? [...list]
+                    : [...DEFAULT_LOCAL_SHORTCUTS[action]];
+                this._localBindings[action] =
+                    parseAcceleratorList(this._localShortcutStrings[action]);
+            }
+            this._showShortcutHints =
+                settings.get_boolean(PrefsFields.SHOW_SHORTCUT_HINTS);
+        } catch (_e) { /* headless tests / mocks / old schema: keep defaults */ }
         this._syncSearchToggles();
+        this._syncShortcutHints();
         this._autoPaste = settings.get_boolean(PrefsFields.AUTO_PASTE);
         this._limitPopupPages = settings.get_boolean(PrefsFields.LIMIT_POPUP_PAGES);
         this._maxPopupPages = settings.get_int(PrefsFields.MAX_POPUP_PAGES);
@@ -193,7 +240,11 @@ export class CursorPopup {
         this._regexButton = null;
         this._searchTooltip = null;
         this._pageIndicator = null;
+        this._searchHint = null;
+        this._searchHintLabel = null;
         this._privateModeHint = null;
+        this._privateModeHintLabel = null;
+        this._deleteHint = null;
         this._anchorX = 0;
         this._anchorY = 0;
         this._monitor = null;
@@ -281,7 +332,66 @@ export class CursorPopup {
                 this._caseButton, this._search.caseSensitive);
             this._uiBuilder.setSearchToggleState?.(
                 this._regexButton, this._search.regexEnabled);
+            if (this._caseButton) {
+                this._caseButton._hoverTooltipText = _('Match Case (%s)').format(
+                    this._formatLocalShortcut('caseSensitive'));
+            }
+            if (this._regexButton) {
+                this._regexButton._hoverTooltipText = _('Use Regular Expression (%s)').format(
+                    this._formatLocalShortcut('regex'));
+            }
         } catch (_e) { /* UI not built yet: ignore */ }
+    }
+
+    /**
+     * Whether a key event hits the user's binding for a popup-local
+     * action (see LocalActions in localShortcuts.js).
+     */
+    isLocalShortcut(action, event) {
+        try {
+            return matchesShortcut(event, this._localBindings[action]);
+        } catch (_e) {
+            return false;
+        }
+    }
+
+    /**
+     * Display string for an action's first configured accelerator
+     * (e.g. 's', 'Alt+C'), or 'Disabled' when unbound.
+     */
+    _formatLocalShortcut(action) {
+        const raw = this._localShortcutStrings[action]?.[0];
+        if (!raw)
+            return _('Disabled');
+        return formatAccelerator(raw);
+    }
+
+    /**
+     * Refresh the footer reminder icons: labels follow the configured
+     * shortcuts, and each hint hides when its action is unbound or the
+     * "Show shortcut reminder icons" setting is off.
+     */
+    _syncShortcutHints() {
+        try {
+            this._applyShortcutHint(this._searchHint, this._searchHintLabel,
+                'search', ' = %s', _('Toggle search (%s)'));
+            this._applyShortcutHint(this._privateModeHint, this._privateModeHintLabel,
+                'privateMode', ' = %s', _('Toggle private mode (%s)'));
+            this._applyShortcutHint(this._deleteHint, this._deleteHint,
+                'deleteEntry', '🗑 = %s', _('Delete selected entry (%s)'));
+        } catch (_e) { /* UI not built yet: ignore */ }
+    }
+
+    _applyShortcutHint(hintActor, labelActor, action, labelFormat, tooltipFormat) {
+        if (!hintActor || !labelActor)
+            return;
+        const bound = (this._localBindings[action]?.length ?? 0) > 0;
+        hintActor.visible = this._showShortcutHints !== false && bound;
+        if (!bound)
+            return;
+        const display = this._formatLocalShortcut(action);
+        labelActor.set_text(labelFormat.format(display));
+        hintActor._hoverTooltipText = tooltipFormat.format(display);
     }
 
     _refocusSearchEntry() {
@@ -421,10 +531,17 @@ export class CursorPopup {
         // It floats without disturbing the popup layout.
         this._syncSearchToggles();
 
-        const { footerBox, privateModeHint, pageIndicator } = this._uiBuilder.createFooter(
-            this._modalContainer, tooltip);
+        const {
+            footerBox, searchHint, searchHintLabel, privateModeHint,
+            privateModeHintLabel, deleteHint, pageIndicator,
+        } = this._uiBuilder.createFooter(this._modalContainer, tooltip);
+        this._searchHint = searchHint;
+        this._searchHintLabel = searchHintLabel;
         this._privateModeHint = privateModeHint;
+        this._privateModeHintLabel = privateModeHintLabel;
+        this._deleteHint = deleteHint;
         this._pageIndicator = pageIndicator;
+        this._syncShortcutHints();
 
         this._popupLayout.add_child(this._searchBar);
         this._popupLayout.add_child(this._listScrollView);

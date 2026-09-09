@@ -206,13 +206,18 @@ export class PopupUIBuilder {
      * and hidden on leave.
      */
     attachSearchTooltip(button, text, tooltip, container) {
+        // Live text: owners (CursorPopup) may rewrite the tooltip when
+        // shortcuts are reconfigured; the hover handler reads the
+        // current value at show time.
+        button._hoverTooltipText = text;
         button.connect('enter-event', () => {
             try {
                 const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
                     SEARCH_TOOLTIP_DELAY_MS, () => {
                         this._pendingSearchTooltips.delete(id);
                         try {
-                            this._positionSearchTooltip(tooltip, button, container, text);
+                            this._positionSearchTooltip(tooltip, button, container,
+                                button._hoverTooltipText ?? text);
                         } catch (_e) { /* destroyed meanwhile: ignore */ }
                         return GLib.SOURCE_REMOVE;
                     });
@@ -381,8 +386,9 @@ export class PopupUIBuilder {
         const searchIcon = new St.Icon({
             icon_name: 'system-search-symbolic',
         });
+        const searchHintLabel = new St.Label({ text: ' = s' });
         searchHint.add_child(searchIcon);
-        searchHint.add_child(new St.Label({ text: ' = s' }));
+        searchHint.add_child(searchHintLabel);
 
         const privateModeHint = new St.BoxLayout({
             style_class: 'waytoclip-hint',
@@ -393,8 +399,9 @@ export class PopupUIBuilder {
         const privateIcon = new St.Icon({
             icon_name: 'security-medium-symbolic',
         });
+        const privateModeHintLabel = new St.Label({ text: ' = p' });
         privateModeHint.add_child(privateIcon);
-        privateModeHint.add_child(new St.Label({ text: ' = p' }));
+        privateModeHint.add_child(privateModeHintLabel);
 
         const deleteHint = new St.Label({
             text: '🗑 = d',
@@ -421,7 +428,10 @@ export class PopupUIBuilder {
         footerBox.add_child(pageIndicator);
         footerBox.add_child(deleteHint);
 
-        return { footerBox, privateModeHint, pageIndicator };
+        return {
+            footerBox, searchHint, searchHintLabel, privateModeHint,
+            privateModeHintLabel, deleteHint, pageIndicator,
+        };
     }
 
     /**

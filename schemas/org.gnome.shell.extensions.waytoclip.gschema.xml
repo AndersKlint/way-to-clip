@@ -100,7 +100,7 @@
         </description>
     </key>
     <key name="clear-history" type="as">
-        <default><![CDATA[['<Control>F10']]]></default>
+        <default>[]</default>
             <summary>Key to clear the history</summary>
             <description>
             </description>
@@ -113,7 +113,7 @@
             </description>
         </key>
         <key name="private-mode-binding" type="as">
-        <default><![CDATA[['<Control>F8']]]></default>
+        <default>[]</default>
             <summary>Toggle "Private Mode"</summary>
             <description>
                 Key to toggle the private mode
@@ -174,6 +174,58 @@
         <default>false</default>
         <summary>Regex-based search</summary>
         <description>Allow regex in search</description>
+    </key>
+    <key name="show-shortcut-hints" type="b">
+        <default>true</default>
+        <summary>Show shortcut reminder icons in the cursor popup</summary>
+        <description>
+            If true, the footer of the cursor popup shows reminder icons
+            for the popup-local shortcuts.
+        </description>
+    </key>
+    <key name="local-search" type="as">
+        <default><![CDATA[['s']]]></default>
+        <summary>Popup shortcut: toggle search</summary>
+    </key>
+    <key name="local-delete-entry" type="as">
+        <default><![CDATA[['d']]]></default>
+        <summary>Popup shortcut: delete selected entry</summary>
+    </key>
+    <key name="local-private-mode" type="as">
+        <default><![CDATA[['p']]]></default>
+        <summary>Popup shortcut: toggle private mode</summary>
+    </key>
+    <key name="local-page-next" type="as">
+        <default><![CDATA[['Tab', 'Right']]]></default>
+        <summary>Popup shortcut: next page</summary>
+    </key>
+    <key name="local-page-previous" type="as">
+        <default><![CDATA[['<Shift>ISO_Left_Tab', 'Left']]]></default>
+        <summary>Popup shortcut: previous page</summary>
+    </key>
+    <key name="local-move-up" type="as">
+        <default><![CDATA[['Up']]]></default>
+        <summary>Popup shortcut: move selection up</summary>
+    </key>
+    <key name="local-move-down" type="as">
+        <default><![CDATA[['Down']]]></default>
+        <summary>Popup shortcut: move selection down</summary>
+    </key>
+    <key name="local-confirm" type="as">
+        <default><![CDATA[['Return', 'KP_Enter']]]></default>
+        <summary>Popup shortcut: confirm selection</summary>
+    </key>
+    <key name="local-close" type="as">
+        <default><![CDATA[['Escape']]]></default>
+        <summary>Popup shortcut: close popup</summary>
+    </key>
+    <key name="local-case-sensitive" type="as">
+        <default><![CDATA[['<Alt>c']]]></default>
+        <summary>Popup shortcut: toggle match case while searching</summary>
+    </key>
+    <key name="local-regex-search" type="as">
+        <default><![CDATA[['<Alt>r']]]></default>
+        <summary>Popup shortcut: toggle regular expressions while searching</summary>
     </key>
     <key name="image-preview-size" type="i">
         <default>96</default>

@@ -23,6 +23,18 @@ export const PrefsFields = {
     CASE_SENSITIVE_SEARCH           : 'case-sensitive-search',
     REGEX_SEARCH                    : 'regex-search',
     IMAGE_PREVIEW_SIZE              : 'image-preview-size',
+    SHOW_SHORTCUT_HINTS             : 'show-shortcut-hints',
+    LOCAL_SEARCH                    : 'local-search',
+    LOCAL_DELETE_ENTRY              : 'local-delete-entry',
+    LOCAL_PRIVATE_MODE              : 'local-private-mode',
+    LOCAL_PAGE_NEXT                 : 'local-page-next',
+    LOCAL_PAGE_PREVIOUS             : 'local-page-previous',
+    LOCAL_MOVE_UP                   : 'local-move-up',
+    LOCAL_MOVE_DOWN                 : 'local-move-down',
+    LOCAL_CONFIRM                   : 'local-confirm',
+    LOCAL_CLOSE                     : 'local-close',
+    LOCAL_CASE_SENSITIVE            : 'local-case-sensitive',
+    LOCAL_REGEX_SEARCH              : 'local-regex-search',
 };
 
 /** Number of clipboard rows shown per popup page. */
