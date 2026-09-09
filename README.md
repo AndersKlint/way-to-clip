@@ -65,6 +65,7 @@ gnome-extensions prefs waytoclip@waytoclip
 | Setting | Default | Description |
 |---------|---------|-------------|
 | Auto-paste on selection | On | Automatically paste after selecting an item |
+| Language | System | Interface language override (`system` follows GNOME language; requires restart) |
 | History size | 100 | Maximum number of items to keep |
 | Move item to top after selection | On | Reorder history on selection (re-copied duplicates always bubble up) |
 | Popup position | At mouse cursor | Cursor or center of focused window |

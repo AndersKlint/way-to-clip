@@ -102,6 +102,7 @@ In-popup:
 | `clear-history-on-interval` | boolean | false | Auto-clear on interval |
 | `clear-history-interval` | int | 60 | Clear interval (minutes) |
 | `next-history-clear` | int | -1 | Next scheduled clear timestamp |
+| `language` | string | `system` | Interface language override (`system` = GNOME language; restart required) |
 | `toggle-popup` | strv | `Alt+X` | Toggle popup |
 | `clear-history` | strv | `Ctrl+F10` | Clear history |
 | `private-mode-binding` | strv | `Ctrl+F8` | Toggle private mode |

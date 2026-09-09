@@ -35,6 +35,7 @@ export const PrefsFields = {
     LOCAL_CLOSE                     : 'local-close',
     LOCAL_CASE_SENSITIVE            : 'local-case-sensitive',
     LOCAL_REGEX_SEARCH              : 'local-regex-search',
+    LANGUAGE                        : 'language',
 };
 
 /** Number of clipboard rows shown per popup page. */

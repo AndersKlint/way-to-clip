@@ -7,8 +7,8 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
-
+import { Extension, gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { syncOverrideFromSettings, translate } from './src/i18n.js';
 import { Registry } from './registry.js';
 import { DialogManager } from './confirmDialog.js';
 import { PopupPositionMode } from './constants.js';
@@ -23,6 +23,8 @@ import { HistoryClearScheduler } from './src/historyClearScheduler.js';
 import { AutoPaster } from './src/autoPaster.js';
 import { isTerminalWindow, snapshotPasteTarget } from './src/pasteKeys.js';
 import { error } from './src/logger.js';
+
+const _ = msgid => translate(msgid, nativeGettext);
 
 const INDICATOR_ICON = 'edit-paste-symbolic';
 
@@ -75,6 +77,7 @@ const WayToClip = GObject.registerClass({
         this._openSettingsFunc = deps.openSettings;
         this._uuid = deps.uuid;
 
+        syncOverrideFromSettings(deps.settings);
         this._settingsManager = new SettingsManager(deps.settings);
         this._snap = this._settingsManager.snapshot();
         // Private mode is UI-only state (was a module global).
@@ -586,6 +589,7 @@ const WayToClip = GObject.registerClass({
     }
 
     _refreshSnapshot() {
+        syncOverrideFromSettings(this._settingsManager.gio);
         const privateMode = this._snap?.privateMode ?? false;
         this._snap = this._settingsManager.snapshot();
         this._snap.privateMode = privateMode;

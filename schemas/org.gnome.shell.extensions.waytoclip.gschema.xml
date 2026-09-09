@@ -1,4 +1,4 @@
-<schemalist gettext-domain="gnome-shell-extensions">
+<schemalist gettext-domain="waytoclip">
     <schema id="org.gnome.shell.extensions.waytoclip"
         path="/org/gnome/shell/extensions/waytoclip/">
 
@@ -234,6 +234,16 @@
             Pixel size of image previews shown in the cursor popup.
         </description>
         <range min="32" max="512"/>
+    </key>
+    <key name="language" type="s">
+        <default>'system'</default>
+        <summary>Interface language</summary>
+        <description>
+            Interface language override. 'system' follows the GNOME system
+            language. Any other value is a locale code from the shipped
+            locale directory (e.g. 'de', 'fr_FR'). Takes effect after a
+            restart of GNOME Shell / reopening Settings.
+        </description>
     </key>
     </schema>
 </schemalist>

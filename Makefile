@@ -1,7 +1,7 @@
 MODULES = *.js src/*.js prefs/*.js cursor-popup/*.js locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/
 INSTALLPATH=~/.local/share/gnome-shell/extensions/waytoclip@waytoclip/
 
-all: compile-locales compile-settings
+all: build-translations compile-locales compile-settings
 
 compile-settings:
 	glib-compile-schemas --strict --targetdir=schemas/ schemas
@@ -11,9 +11,14 @@ compile-locales:
 		msgfmt $(file) -o $(subst .po,.mo,$(file));)
 
 update-po-files:
-	xgettext -L Python --from-code=UTF-8 -k_ -kN_ -o waytoclip.pot *.js src/*.js prefs/*.js cursor-popup/*.js
+	xgettext -L JavaScript --from-code=UTF-8 -k_ -kN_ -o waytoclip.pot *.js src/*.js prefs/*.js cursor-popup/*.js
 	$(foreach file, $(wildcard locale/*/LC_MESSAGES/*.po), \
-		msgmerge $(file) waytoclip.pot -o $(file);)
+		msgmerge -U $(file) waytoclip.pot;)
+
+# Regenerate the runtime override dictionaries from the .po files.
+# src/translations.js is committed so the extension works without a build step.
+build-translations:
+	python3 tools/build-translations.py
 
 install: all
 	rm -rf $(INSTALLPATH)

@@ -9,6 +9,21 @@
 
 import { PrefsFields } from '../constants.js';
 
+export const SYSTEM_LANGUAGE = 'system';
+
+/**
+ * Read the language override, tolerating old schemas without the key
+ * (same pattern as IMAGE_PREVIEW_SIZE above).
+ */
+function readLanguage(settings) {
+    try {
+        const v = settings.get_string(PrefsFields.LANGUAGE);
+        return typeof v === 'string' && v ? v : SYSTEM_LANGUAGE;
+    } catch (_e) {
+        return SYSTEM_LANGUAGE;
+    }
+}
+
 export class SettingsManager {
     #settings;
     #changedIds = [];
@@ -49,6 +64,7 @@ export class SettingsManager {
             caseSensitiveSearch: s.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH),
             regexSearch: s.get_boolean(PrefsFields.REGEX_SEARCH),
             imagePreviewSize,
+            language: readLanguage(s),
         };
     }
 

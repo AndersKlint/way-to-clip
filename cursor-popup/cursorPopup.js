@@ -15,8 +15,8 @@ import GLib from 'gi://GLib';
 import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
-
+import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { translate } from '../src/i18n.js';
 import { PrefsFields } from '../constants.js';
 import { PopupUIBuilder } from './popupUI.js';
 import { PopupSearch } from './popupSearch.js';
@@ -27,6 +27,8 @@ import {
     matchesShortcut,
     parseAcceleratorList,
 } from './localShortcuts.js';
+
+const _ = msgid => translate(msgid, nativeGettext);
 
 const ITEMS_PER_PAGE = 10;
 

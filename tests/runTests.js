@@ -15,6 +15,18 @@ import {
     parseAcceleratorList,
 } from '../cursor-popup/localShortcuts.js';
 import { ITEMS_PER_PAGE } from '../constants.js';
+import {
+    AVAILABLE_LANGUAGES,
+    LANGUAGE_LABELS,
+    SYSTEM_LANGUAGE,
+    getStoredLanguage,
+    isKnownLanguage,
+    normalizeLanguage,
+    setLanguageOverride,
+    getLanguageOverride,
+    translate,
+} from '../src/i18n.js';
+import { TRANSLATIONS } from '../src/translations.js';
 
 let failures = 0;
 
@@ -267,6 +279,50 @@ function fakeItem(text) {
 // --- constants ---
 
 assert(ITEMS_PER_PAGE === 10, 'ITEMS_PER_PAGE is 10');
+
+// --- i18n ---
+
+{
+    assert(SYSTEM_LANGUAGE === 'system', 'system language constant');
+    assert(AVAILABLE_LANGUAGES[0] === 'system', 'system first in language list');
+    assert(AVAILABLE_LANGUAGES.length === Object.keys(LANGUAGE_LABELS).length + 1,
+        'language list covers all labels');
+    assert(isKnownLanguage('system') && isKnownLanguage('de'), 'known languages');
+    assert(!isKnownLanguage('xx'), 'unknown language rejected');
+    assert(normalizeLanguage('de') === 'de', 'normalize keeps known code');
+    assert(normalizeLanguage('xx') === 'system', 'normalize falls back to system');
+    assert(normalizeLanguage('') === 'system', 'normalize empty to system');
+    assert(normalizeLanguage(null) === 'system', 'normalize null to system');
+
+    const fakeSettings = lang => ({ get_string: () => lang });
+    assert(getStoredLanguage(fakeSettings('de')) === 'de', 'stored language read');
+    assert(getStoredLanguage(fakeSettings('xx')) === 'system', 'stored junk normalized');
+    assert(getStoredLanguage({}) === 'system', 'stored missing key tolerated');
+    assert(getStoredLanguage(null) === 'system', 'stored null tolerated');
+
+    const identity = s => s;
+    setLanguageOverride('system');
+    assert(getLanguageOverride() === 'system', 'override set/get system');
+    assert(translate('Hello', identity) === 'Hello', 'system delegates to native');
+
+    // Find a real translated entry from the generated catalogs, if any.
+    let proven = false;
+    for (const [lang, catalog] of Object.entries(TRANSLATIONS)) {
+        const msgid = Object.keys(catalog ?? {})[0];
+        if (msgid && catalog[msgid]) {
+            setLanguageOverride(lang);
+            assert(translate(msgid, identity) === catalog[msgid],
+                `override translates ${lang}`);
+            assert(translate('__waytoclip_missing__', identity) === '__waytoclip_missing__',
+                'override miss falls back to native');
+            proven = true;
+            break;
+        }
+    }
+    assert(proven, 'at least one catalog entry exercised');
+    setLanguageOverride('system');
+    assert(translate('Hello', identity) === 'Hello', 'override resets to system');
+}
 
 if (failures > 0) {
     print(`${failures} test(s) FAILED`);

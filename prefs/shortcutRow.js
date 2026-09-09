@@ -11,7 +11,10 @@
 
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
-import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { translate } from '../src/i18n.js';
+
+const _ = msgid => translate(msgid, nativeGettext);
 
 export function createShortcutEditor(schema, pref) {
     const box = new Gtk.Box({

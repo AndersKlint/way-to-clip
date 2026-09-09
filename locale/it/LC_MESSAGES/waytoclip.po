@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 17:34+0200\n"
+"POT-Creation-Date: 2026-09-09 12:42+0200\n"
 "PO-Revision-Date: 2025-05-23 11:43+0300\n"
 "Last-Translator: Il Craccatore 2011\n"
 "Language-Team: none\n"
@@ -17,257 +17,356 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension.js:162 prefs.js:199
+#: extension.js:168
+#, fuzzy
+msgid "Show clipboard popup"
+msgstr "Copiato negli appunti"
+
+#: extension.js:188 prefs.js:298
 msgid "Private mode"
 msgstr "Modalità privata"
 
-#: extension.js:175 prefs.js:200
+#: extension.js:201 prefs.js:299
 msgid "Clear history"
 msgstr "Cancella la cronologia"
 
-#: extension.js:216
+#: extension.js:242
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: extension.js:297
+#: extension.js:329
 msgid "Clear all?"
 msgstr "Cancellare tutto?"
 
-#: extension.js:298
+#: extension.js:330
 msgid "Are you sure you want to delete all clipboard items?"
 msgstr "Sei sicuro di voler eliminare tutti gli elementi negli appunti?"
 
-#: extension.js:299
+#: extension.js:331
 msgid "This operation cannot be undone."
 msgstr "Questa operazione non può essere annullata."
 
-#: extension.js:300
+#: extension.js:332
 msgid "Clear"
 msgstr "Cancella"
 
-#: extension.js:301
+#: extension.js:333 prefs/shortcutRow.js:127
 msgid "Cancel"
 msgstr "Annulla"
 
-#: prefs.js:29
+#: prefs.js:46
 msgid "History Size"
 msgstr "Dimensioni della cronologia"
 
-#: prefs.js:38
+#: prefs.js:55
 msgid "Max cache file size (MB)"
 msgstr "Dimensione massima della cache (MB)"
 
-#: prefs.js:47
-msgid "Cache only pinned items"
-msgstr "Memorizza solo gli elementi fissati"
-
-#: prefs.js:51
+#: prefs.js:64
 msgid "Show confirmation on Clear History"
 msgstr "Mostra conferma per cancellare la cronologia"
 
-#: prefs.js:55
+#: prefs.js:68
 msgid "Move item to the top after selection"
 msgstr "Sposta l'elemento in cima dopo la selezione"
 
-#: prefs.js:59
+#: prefs.js:72
 msgid "Keep selected entry after Clear History"
 msgstr "Mantieni l'elemento selezionato dopo aver cancellato la cronologia"
 
-#: prefs.js:63
+#: prefs.js:76
 msgid "Clear clipboard history on system reboot"
 msgstr "Cancella la cronologia al riavvio del sistema"
 
-#: prefs.js:67
+#: prefs.js:80
 #, fuzzy
 msgid "Auto-paste on selection"
 msgstr "Incolla alla selezione"
 
-#: prefs.js:68
+#: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
 msgstr ""
 
-#: prefs.js:72
+#: prefs.js:85
 msgid "Popup position"
 msgstr ""
 
-#: prefs.js:73
+#: prefs.js:86
 msgid "Where to show the clipboard popup"
 msgstr ""
 
-#: prefs.js:78
+#: prefs.js:91
+msgid "Limit number of pages"
+msgstr ""
+
+#: prefs.js:92
+msgid "When off, the popup shows the full clipboard history"
+msgstr ""
+
+#: prefs.js:96
 msgid "Number of pages"
 msgstr ""
 
-#: prefs.js:79
+#: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr ""
 
-#: prefs.js:88
+#: prefs.js:106
+msgid "Image thumbnail size (px)"
+msgstr ""
+
+#: prefs.js:107
+msgid "Preview size for images in the popup"
+msgstr ""
+
+#: prefs.js:116
 msgid "Cache images"
 msgstr "Copia le immagini"
 
-#: prefs.js:93
+#: prefs.js:121
 msgid "Excluded Apps"
 msgstr "App escluse"
 
-#: prefs.js:94
+#: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr ""
 "Il contenuto copiato non verrà salvato mentre queste app sono in primo piano"
 
-#: prefs.js:106
-msgid "Case-sensitive search"
+#: prefs.js:134
+msgid "Terminal Apps"
 msgstr ""
 
-#: prefs.js:110
-msgid "Regular expression matching in search"
+#: prefs.js:135
+msgid ""
+"Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
+"inserts the wrong text"
 msgstr ""
 
-#: prefs.js:114
+#: prefs.js:147
 #, fuzzy
 msgid "Clear clipboard history on interval"
 msgstr "Cancella la cronologia al riavvio del sistema"
 
-#: prefs.js:118
+#: prefs.js:151
 msgid "History clear interval (in minutes)"
 msgstr ""
 
-#: prefs.js:130
+#: prefs.js:168
+msgid "Language"
+msgstr ""
+
+#: prefs.js:169
+#, fuzzy
+msgid "Requires reopening Settings and restarting the extension"
+msgstr "Richiede il riavvio dell'estensione"
+
+#: prefs.js:173
+msgid "General"
+msgstr ""
+
+#: prefs.js:174
 msgid "Popup"
 msgstr ""
 
-#: prefs.js:131
+#: prefs.js:175
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: prefs.js:132
+#: prefs.js:176
 msgid "Exclusion"
 msgstr "Esclusione"
 
-#: prefs.js:133
+#: prefs.js:177
 msgid "Limits"
 msgstr "Limiti"
 
-#: prefs.js:134
-msgid "Shortcuts"
+#: prefs.js:178
+#, fuzzy
+msgid "Global shortcuts"
+msgstr "Abilita scorciatoie"
+
+#: prefs.js:179
+#, fuzzy
+msgid "Popup shortcuts"
 msgstr "Scorciatoie"
 
-#: prefs.js:135
-msgid "Search"
+#: prefs.js:235
+msgid "Window class name, e.g. \"KeePassXC\""
+msgstr "Nome classe della finestra, ad esempio \"KeePassXC\""
+
+#: prefs.js:244
+#, fuzzy
+msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
+msgstr "Nome classe della finestra, ad esempio \"KeePassXC\""
+
+#: prefs.js:254
+msgid "System"
 msgstr ""
 
-#: prefs.js:192
+#: prefs.js:290
 msgid "At mouse cursor"
 msgstr ""
 
-#: prefs.js:193
+#: prefs.js:291
 msgid "Center of focused window"
 msgstr ""
 
-#: prefs.js:198
+#: prefs.js:297
 #, fuzzy
 msgid "Toggle the clipboard popup"
 msgstr "Copiato negli appunti"
 
-#: prefs.js:205
+#: prefs.js:306
+msgid "Search in popup"
+msgstr ""
+
+#: prefs.js:307
+msgid "Delete selected entry"
+msgstr ""
+
+#: prefs.js:308
+#, fuzzy
+msgid "Toggle private mode"
+msgstr "Modalità privata"
+
+#: prefs.js:309
+#, fuzzy
+msgid "Next page"
+msgstr "Voce successiva"
+
+#: prefs.js:310
+#, fuzzy
+msgid "Previous page"
+msgstr "Voce precedente"
+
+#: prefs.js:311
+#, fuzzy
+msgid "Move selection up"
+msgstr "Incolla alla selezione"
+
+#: prefs.js:312
+msgid "Move selection down"
+msgstr ""
+
+#: prefs.js:313
+#, fuzzy
+msgid "Confirm selection"
+msgstr "Incolla alla selezione"
+
+#: prefs.js:314
+msgid "Close popup"
+msgstr ""
+
+#: prefs.js:315
+msgid "Match case (while searching)"
+msgstr ""
+
+#: prefs.js:316
+msgid "Use regular expression (while searching)"
+msgstr ""
+
+#: prefs.js:329
 msgid "Enable shortcuts"
 msgstr "Abilita scorciatoie"
 
-#: prefs/excludedApps.js:79
-msgid "Window class name, e.g. \"KeePassXC\""
-msgstr "Nome classe della finestra, ad esempio \"KeePassXC\""
-
-#: prefs/excludedApps.js:90
-msgid "Choose from installed applications"
+#: prefs.js:339
+msgid "Show shortcut reminder icons"
 msgstr ""
 
-#: prefs/excludedApps.js:102
-msgid "Search applications..."
+#: prefs.js:340
+msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr ""
 
-#: prefs/shortcutRow.js:18
+#: prefs.js:349
+msgid "Reset shortcuts to defaults"
+msgstr ""
+
+#: prefs.js:351
+msgid "Reset"
+msgstr ""
+
+#: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
+#, fuzzy
+msgid "Add shortcut"
+msgstr "Inserisci scorciatoia"
+
+#: prefs/shortcutRow.js:79
+#, fuzzy
+msgid "Remove shortcut"
+msgstr "Inserisci scorciatoia"
+
+#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "Disabilitato"
 
-#: prefs/shortcutRow.js:51
-msgid "Enter shortcut"
+#: prefs/shortcutRow.js:134
+#, fuzzy
+msgid "Enter shortcut…"
 msgstr "Inserisci scorciatoia"
 
-#: cursor-popup/popupUI.js:54
+#: prefs/stringListManager.js:101
+msgid "Choose from installed applications"
+msgstr ""
+
+#: prefs/stringListManager.js:113
+msgid "Search applications..."
+msgstr ""
+
+#: cursor-popup/cursorPopup.js:338
+#, javascript-format
+msgid "Match Case (%s)"
+msgstr ""
+
+#: cursor-popup/cursorPopup.js:342
+#, javascript-format
+msgid "Use Regular Expression (%s)"
+msgstr ""
+
+#: cursor-popup/cursorPopup.js:379
+#, javascript-format
+msgid "Toggle search (%s)"
+msgstr ""
+
+#: cursor-popup/cursorPopup.js:381
+#, fuzzy, javascript-format
+msgid "Toggle private mode (%s)"
+msgstr "Mostra/nascondi il menu"
+
+#: cursor-popup/cursorPopup.js:383
+#, javascript-format
+msgid "Delete selected entry (%s)"
+msgstr ""
+
+#: cursor-popup/cursorPopup.js:573
+#, fuzzy
+msgid "Clipboard history is empty"
+msgstr "Appunti vuoti"
+
+#: cursor-popup/cursorPopup.js:574
+msgid "No matching clipboard items"
+msgstr ""
+
+#: cursor-popup/popupUI.js:101
 msgid "Search..."
 msgstr ""
 
-#~ msgid "Text will be here"
-#~ msgstr "Il testo sarà qui"
+#: cursor-popup/popupUI.js:341
+msgid "Match Case (Alt+C)"
+msgstr ""
 
-#~ msgid "Type here to search..."
-#~ msgstr "Digita qui per cercare..."
+#: cursor-popup/popupUI.js:343
+msgid "Use Regular Expression (Alt+R)"
+msgstr ""
 
-#~ msgid "Clipboard is empty"
-#~ msgstr "Appunti vuoti"
+#: cursor-popup/popupUI.js:418
+msgid "Toggle search (s)"
+msgstr ""
 
-#~ msgid "Clipboard history cleared"
-#~ msgstr "Cronologia cancellata"
+#: cursor-popup/popupUI.js:420
+#, fuzzy
+msgid "Toggle private mode (p)"
+msgstr "Mostra/nascondi il menu"
 
-#~ msgid "Preview Size (characters)"
-#~ msgstr "Dimensione anteprima (caratteri)"
-
-#~ msgid "Number of characters in top bar"
-#~ msgstr "Numero di caratteri nella barra superiore"
-
-#~ msgid "What to show in top bar"
-#~ msgstr "Cosa mostrare nella barra superiore"
-
-#~ msgid "Remove down arrow in top bar"
-#~ msgstr "Rimuove la freccia verso il basso nella barra superiore"
-
-#~ msgid "Show notification on copy"
-#~ msgstr "Mostra notifica quando si copia"
-
-#~ msgid "Show notification on cycle"
-#~ msgstr "Mostra notifica per voce già copiata"
-
-#~ msgid "Remove whitespace around text"
-#~ msgstr "Rimuovi spazi bianchi attorno al testo"
-
-#~ msgid "Show paste buttons"
-#~ msgstr "Mostra i pulsanti di incolla"
-
-#~ msgid "Adds a paste button to each entry that lets you paste it directly"
-#~ msgstr "Aggiunge a ogni voce un pulsante Incolla per copiarla direttamente"
-
-#~ msgid "Place the pinned section on the bottom"
-#~ msgstr "Posiziona la sezione fissata in fondo"
-
-#~ msgid "Requires restarting the extension"
-#~ msgstr "Richiede il riavvio dell'estensione"
-
-#~ msgid "UI"
-#~ msgstr "Interfaccia"
-
-#~ msgid "Topbar"
-#~ msgstr "Barra superiore"
-
-#~ msgid "Notifications"
-#~ msgstr "Notifiche"
-
-#~ msgid "Icon"
-#~ msgstr "Icona"
-
-#~ msgid "Clipboard Content"
-#~ msgstr "Contenuto appunti"
-
-#~ msgid "Both"
-#~ msgstr "Entrambi"
-
-#~ msgid "Neither"
-#~ msgstr "Nessuno"
-
-#~ msgid "Toggle the menu"
-#~ msgstr "Mostra/nascondi il menu"
-
-#~ msgid "Previous entry"
-#~ msgstr "Voce precedente"
-
-#~ msgid "Next entry"
-#~ msgstr "Voce successiva"
+#: cursor-popup/popupUI.js:422
+msgid "Delete selected entry (d)"
+msgstr ""

@@ -8,9 +8,11 @@ import GLib from 'gi://GLib';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
 
-import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { translate } from '../src/i18n.js';
 
 /** Default thumbnail size for image entries in the cursor popup. */
+const _ = msgid => translate(msgid, nativeGettext);
 export const IMAGE_PREVIEW_SIZE = 96;
 
 /** Hover delay (ms) before a search-toggle tooltip appears. */
