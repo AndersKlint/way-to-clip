@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2017-09-06 09:53+0300\n"
+"PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
-"Language: \n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,9 +20,8 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Kopioitu leikepöydälle"
+msgstr "Näytä leikepöydän ponnahdusikkuna"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -38,335 +37,320 @@ msgstr "Asetukset"
 
 #: extension.js:329
 msgid "Clear all?"
-msgstr ""
+msgstr "Tyhjennetäänkö kaikki?"
 
 #: extension.js:330
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "Haluatko varmasti poistaa kaikki leikepöydän kohteet?"
 
 #: extension.js:331
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Tätä toimintoa ei voi kumota."
 
 #: extension.js:332
 msgid "Clear"
-msgstr ""
+msgstr "Tyhjennä"
 
 #: extension.js:333 prefs/shortcutRow.js:127
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #: prefs.js:46
 msgid "History Size"
 msgstr "Historian koko"
 
 #: prefs.js:55
-#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr "Välimuistin enimmäiskoko (kt)"
+msgstr "Välimuistitiedoston enimmäiskoko (Mt)"
 
 #: prefs.js:64
-#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr "Näytä ilmoitus kopioitaessa"
+msgstr "Näytä vahvistus historiaa tyhjennettäessä"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
-msgstr ""
+msgstr "Siirrä kohde alkuun valinnan jälkeen"
 
 #: prefs.js:72
 msgid "Keep selected entry after Clear History"
-msgstr ""
+msgstr "Säilytä valittu tietue historian tyhjentämisen jälkeen"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "Leikepöydän sisältö tyhjennetty"
+msgstr "Tyhjennä leikepöydän historia järjestelmän uudelleenkäynnistyksessä"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "Liitä automaattisesti valittaessa"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Liitä automaattisesti ponnahdusikkunasta valitun kohteen jälkeen"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Ponnahdusikkunan sijainti"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Missä leikepöydän ponnahdusikkuna näytetään"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Rajoita sivujen määrää"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Kun pois käytöstä, ponnahdusikkuna näyttää koko leikepöydän historian"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Sivujen määrä"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Jokainen sivu näyttää 10 kohdetta (Tab sivujen vaihtamiseen)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Kuvien pienoiskuvien koko (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Kuvien esikatselukoko ponnahdusikkunassa"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "Tallenna kuvat välimuistiin"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Poissuljetut sovellukset"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "Kopioitua sisältöä ei tallenneta, kun nämä sovellukset ovat aktiivisina"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Päätesovellukset"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "Automaattiliittäminen käyttää Ctrl+Shift+V päätteissä. Lisää päätteesi, jos "
+"liittäminen lisää väärää tekstiä"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Leikepöydän sisältö tyhjennetty"
+msgstr "Tyhjennä leikepöydän historia säännöllisin väliajoin"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Historian tyhjennysväli (minuutteina)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Kieli"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr ""
+msgstr "Vaatii asetusten uudelleenavaamisen ja laajennuksen uudelleenkäynnistyksen"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Yleiset"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Ponnahdusikkuna"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "Käyttäytyminen"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Poissulkeminen"
 
 #: prefs.js:177
 msgid "Limits"
-msgstr ""
+msgstr "Rajat"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Pikanäppäimet"
+msgstr "Globaalit pikanäppäimet"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Pikanäppäimet"
+msgstr "Ponnahdusikkunan pikanäppäimet"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Ikkunan luokan nimi, esim. «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Ikkunan luokka tai sovelluksen id, esim. «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Järjestelmä"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Hiiren osoittimen kohdalla"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "Aktiivisen ikkunan keskellä"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Kopioitu leikepöydälle"
+msgstr "Näytä/piilota leikepöydän ponnahdusikkuna"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Hae ponnahdusikkunasta"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Poista valittu kohde"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Yksityistila"
+msgstr "Vaihda yksityistilaa"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Seuraava tietue"
+msgstr "Seuraava sivu"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Edellinen tietue"
+msgstr "Edellinen sivu"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "Siirrä valintaa ylöspäin"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Siirrä valintaa alaspäin"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "Vahvista valinta"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Sulje ponnahdusikkuna"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Erota isot ja pienet kirjaimet (haettaessa)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Käytä säännöllistä lauseketta (haettaessa)"
 
 #: prefs.js:329
-#, fuzzy
 msgid "Enable shortcuts"
-msgstr "Pikanäppäimet"
+msgstr "Ota pikanäppäimet käyttöön"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Näytä pikanäppäinmuistutusten kuvakkeet"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Näytä pikanäppäinmuistutusten kuvakkeet ponnahdusikkunan alareunassa"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Palauta pikanäppäimet oletuksiin"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Palauta"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Pikanäppäimet"
+msgstr "Lisää pikanäppäin"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Pikanäppäimet"
+msgstr "Poista pikanäppäin"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
-msgstr ""
+msgstr "Pois käytöstä"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Pikanäppäimet"
+msgstr "Anna pikanäppäin…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Valitse asennetuista sovelluksista"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Hae sovelluksia…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Erota isot ja pienet kirjaimet (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Säännöllinen lauseke (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Näytä/piilota haku (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Näytä/piilota valikko"
+msgstr "Vaihda yksityistilaa (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Poista valittu kohde (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Leikepöydän sisältö tyhjennetty"
+msgstr "Leikepöydän historia on tyhjä"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Ei vastaavia leikepöydän kohteita"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Hae…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Erota isot ja pienet kirjaimet (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Säännöllinen lauseke (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Näytä/piilota haku (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Näytä/piilota valikko"
+msgstr "Vaihda yksityistilaa (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Poista valittu kohde (d)"

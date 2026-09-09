@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2025-09-09 20:02+0200\n"
+"PO-Revision-Date: 2026-09-09 12:45+0200\n"
 "Last-Translator: Adam Lewicki <a.lewick95@gmail.com>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -23,9 +23,8 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Skrót do wyświetlania schowka"
+msgstr "Pokaż okienko schowka"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -69,7 +68,7 @@ msgstr "Maksymalny rozmiar buforu (MB)"
 
 #: prefs.js:64
 msgid "Show confirmation on Clear History"
-msgstr "Pokaż powiadomienie po wyczyszczeniu historii"
+msgstr "Pokaż potwierdzenie przed wyczyszczeniem historii"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
@@ -84,51 +83,50 @@ msgid "Clear clipboard history on system reboot"
 msgstr "Wyczyść historię przy uruchamianiu systemu"
 
 #: prefs.js:80
-#, fuzzy
 msgid "Auto-paste on selection"
-msgstr "Wklej po wybraniu"
+msgstr "Wklejaj automatycznie po wybraniu"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
 msgstr ""
+"Automatycznie wklejaj po wybraniu elementu z okienka"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Pozycja okienka"
 
 #: prefs.js:86
-#, fuzzy
 msgid "Where to show the clipboard popup"
-msgstr "Skrót do wyświetlania schowka"
+msgstr "Miejsce wyświetlania okienka schowka"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Ogranicz liczbę stron"
 
 #: prefs.js:92
-#, fuzzy
 msgid "When off, the popup shows the full clipboard history"
-msgstr "Skrót do wyświetlania schowka"
+msgstr ""
+"Gdy wyłączone, okienko pokazuje całą historię schowka"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Liczba stron"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Każda strona pokazuje 10 elementów (Tab przełącza strony)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Rozmiar miniatur obrazów (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Rozmiar podglądu obrazów w okienku"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr "Bufor obrazów"
+msgstr "Buforuj obrazy"
 
 #: prefs.js:121
 msgid "Excluded Apps"
@@ -142,39 +140,40 @@ msgstr ""
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Terminale"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
 msgstr ""
+"Automatyczne wklejanie używa Ctrl+Shift+V w terminalach. Dodaj swój "
+"terminal, jeśli wklejanie wstawia nieprawidłowy tekst"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Wyczyść historię przy uruchamianiu systemu"
+msgstr "Okresowo czyść historię schowka"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Częstotliwość czyszczenia historii (w minutach)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Język"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Wymaga ponownego uruchomienia rozszerzenia"
+msgstr ""
+"Wymaga ponownego otwarcia Ustawień i ponownego uruchomienia rozszerzenia"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Ogólne"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Okienko"
 
 #: prefs.js:175
 msgid "Behavior"
@@ -189,90 +188,80 @@ msgid "Limits"
 msgstr "Limity"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Włącz skróty klawiszowe"
+msgstr "Globalne skróty klawiszowe"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Skróty klawiszowe"
+msgstr "Skróty klawiszowe okienka"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Nazwa klasy okna, np. \"KeePassXC\""
 
 #: prefs.js:244
-#, fuzzy
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr "Nazwa klasy okna, np. \"KeePassXC\""
+msgstr "Klasa okna lub identyfikator aplikacji, np. \"org.gnome.Ptyxis\""
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Przy kursorze myszy"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "Na środku aktywnego okna"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Skrót do wyświetlania schowka"
+msgstr "Przełącz okienko schowka"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Szukaj w okienku"
 
 #: prefs.js:307
-#, fuzzy
 msgid "Delete selected entry"
-msgstr "Zachowaj wybrany element przy czyszczeniu"
+msgstr "Usuń wybrany element"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Przełącz \"Tryb prywatny\""
+msgstr "Przełącz tryb prywatny"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Następna pozycja"
+msgstr "Następna strona"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Poprzednia pozycja"
+msgstr "Poprzednia strona"
 
 #: prefs.js:311
-#, fuzzy
 msgid "Move selection up"
-msgstr "Wklej po wybraniu"
+msgstr "Przenieś zaznaczenie w górę"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Przenieś zaznaczenie w dół"
 
 #: prefs.js:313
-#, fuzzy
 msgid "Confirm selection"
-msgstr "Wklej po wybraniu"
+msgstr "Potwierdź zaznaczenie"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Zamknij okienko"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Uwzględnij wielkość liter (podczas wyszukiwania)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Użyj wyrażenia regularnego (podczas wyszukiwania)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -280,103 +269,97 @@ msgstr "Włącz skróty klawiszowe"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Pokazuj ikony przypominające skróty"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Pokazuj ikony przypominające skróty na dole okienka"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Przywróć domyślne skróty"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Przywróć"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Wprowadź skrót klawiszowy"
+msgstr "Dodaj skrót"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Wprowadź skrót klawiszowy"
+msgstr "Usuń skrót"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "Wyłączony"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Wprowadź skrót klawiszowy"
+msgstr "Wprowadź skrót klawiszowy…"
 
 #: prefs/stringListManager.js:101
-#, fuzzy
 msgid "Choose from installed applications"
-msgstr "Lista wykluczonych aplikacji"
+msgstr "Wybierz spośród zainstalowanych aplikacji"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Szukaj aplikacji…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Uwzględnij wielkość liter (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Użyj wyrażenia regularnego (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Przełącz wyszukiwanie (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Przełącz \"Tryb prywatny\""
+msgstr "Przełącz tryb prywatny (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Usuń wybrany element (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Schowek jest pusty"
+msgstr "Historia schowka jest pusta"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Brak pasujących elementów schowka"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Szukaj…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Uwzględnij wielkość liter (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Użyj wyrażenia regularnego (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Przełącz wyszukiwanie (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Przełącz \"Tryb prywatny\""
+msgstr "Przełącz tryb prywatny (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Usuń wybrany element (d)"

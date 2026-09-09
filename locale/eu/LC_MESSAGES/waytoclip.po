@@ -7,18 +7,18 @@ msgstr ""
 "Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2020-10-05 23:34+0200\n"
+"PO-Revision-Date: 2026-09-09 13:13+0200\n"
 "Last-Translator: Ibai Oihanguren Sala <ibai@oihanguren.com>\n"
 "Language-Team: \n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Arbelera kopiatuta"
+msgstr "Erakutsi arbelaren leiho emergentea"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -57,14 +57,12 @@ msgid "History Size"
 msgstr "Historiaren tamaina"
 
 #: prefs.js:55
-#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr "Cache fitxategiaren gehienezko tamaina (kb)"
+msgstr "Cache fitxategiaren gehienezko tamaina (MB)"
 
 #: prefs.js:64
-#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr "Erakutsi jakinarazpena kopiatzean"
+msgstr "Erakutsi berrespena historia garbitzean"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
@@ -72,297 +70,285 @@ msgstr "Eraman elementua goraino hautatu ostean"
 
 #: prefs.js:72
 msgid "Keep selected entry after Clear History"
-msgstr ""
+msgstr "Mantendu hautatutako sarrera historia garbitu ondoren"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "Arbelaren historia garbituta"
+msgstr "Garbitu arbelaren historia sistema berrabiaraztean"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "Itsatsi automatikoki hautatzean"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Itsatsi automatikoki leiho emergentetik elementu bat hautatu ondoren"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Leiho emergentearen kokapena"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Non erakutsi arbelaren leiho emergentea"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Mugatu orri kopurua"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Desaktibatuta dagoenean, leiho emergenteak arbelaren historia osoa erakusten "
+"du"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Orri kopurua"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Orri bakoitzak 10 elementu erakusten ditu (Tab orriz aldatzeko)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Irudien miniatura tamaina (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Irudien aurrebista tamaina leiho emergentean"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "Gorde irudiak cachean"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Baztertutako aplikazioak"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "Kopiatutako edukia ez da gordeko aplikazio hauek fokatuta dauden bitartean"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Terminal aplikazioak"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "Itsatsi automatikoak Ctrl+Shift+V erabiltzen du terminaletan. Gehitu zure "
+"terminala itsasteak testu okerra txertatzen badu"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Arbelaren historia garbituta"
+msgstr "Garbitu arbelaren historia tarteka"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Historia garbitzeko tartea (minututan)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Hizkuntza"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr ""
+msgstr "Ezarpenak berriro ireki eta hedadura berrabiarazi behar da"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Orokorra"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Leiho emergentea"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "Portaera"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Bazterketa"
 
 #: prefs.js:177
 msgid "Limits"
-msgstr ""
+msgstr "Mugak"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Laster-teklak"
+msgstr "Laster-tekla globalak"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Laster-teklak"
+msgstr "Leiho emergentearen laster-teklak"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Leiho klase izena, adib. «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Leiho klasea edo aplikazio id-a, adib. «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Saguaren kurtsorean"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "Fokatutako leihoaren erdian"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Arbelera kopiatuta"
+msgstr "Erakutsi/ezkutatu arbelaren leiho emergentea"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Bilatu leiho emergentean"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Ezabatu hautatutako sarrera"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Modu pribatua"
+msgstr "Aldatu modu pribatua"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Hurrengo sarrera"
+msgstr "Hurrengo orria"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Aurreko sarrera"
+msgstr "Aurreko orria"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "Mugitu hautapena gora"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Mugitu hautapena behera"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "Berretsi hautapena"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Itxi leiho emergentea"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Bereizi maiuskulak (bilatzean)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Erabili adierazpen erregularra (bilatzean)"
 
 #: prefs.js:329
-#, fuzzy
 msgid "Enable shortcuts"
-msgstr "Laster-teklak"
+msgstr "Gaitu laster-teklak"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Erakutsi laster-tekla oroigarrien ikonoak"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Erakutsi laster-tekla oroigarrien ikonoak leiho emergentearen behealdean"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Berrezarri laster-teklak lehenetsietara"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Berrezarri"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Laster-teklak"
+msgstr "Gehitu laster-tekla"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Laster-teklak"
+msgstr "Kendu laster-tekla"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
-msgstr ""
+msgstr "Desgaituta"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Laster-teklak"
+msgstr "Sartu laster-tekla…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Aukeratu instalatutako aplikazioetatik"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Bilatu aplikazioak…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Bereizi maiuskulak (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Erabili adierazpen erregularra (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Erakutsi/ezkutatu bilaketa (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Erakutsi/ezkutatu menua"
+msgstr "Aldatu modu pribatua (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Ezabatu hautatutako sarrera (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Arbelaren edukia"
+msgstr "Arbelaren historia hutsik dago"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Ez dago bat datorren arbel-elementurik"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Bilatu…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Bereizi maiuskulak (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Erabili adierazpen erregularra (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Erakutsi/ezkutatu bilaketa (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Erakutsi/ezkutatu menua"
+msgstr "Aldatu modu pribatua (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Ezabatu hautatutako sarrera (d)"

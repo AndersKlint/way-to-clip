@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: waytoclip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2025-05-23 11:43+0300\n"
+"PO-Revision-Date: 2026-09-09 12:45+0200\n"
 "Last-Translator: Il Craccatore 2011\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -18,9 +18,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Copiato negli appunti"
+msgstr "Mostra la finestra degli appunti"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -36,7 +35,7 @@ msgstr "Impostazioni"
 
 #: extension.js:329
 msgid "Clear all?"
-msgstr "Cancellare tutto?"
+msgstr "Cancella tutto?"
 
 #: extension.js:330
 msgid "Are you sure you want to delete all clipboard items?"
@@ -79,49 +78,50 @@ msgid "Clear clipboard history on system reboot"
 msgstr "Cancella la cronologia al riavvio del sistema"
 
 #: prefs.js:80
-#, fuzzy
 msgid "Auto-paste on selection"
 msgstr "Incolla alla selezione"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
 msgstr ""
+"Incolla automaticamente dopo aver selezionato un elemento dalla finestra"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Posizione della finestra"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Dove mostrare la finestra degli appunti"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Limita il numero di pagine"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
 msgstr ""
+"Se disattivata, la finestra mostra l'intera cronologia degli appunti"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Numero di pagine"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Ogni pagina mostra 10 elementi (Tab per cambiare pagina)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Dimensione delle miniature delle immagini (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Dimensione dell'anteprima delle immagini nella finestra"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr "Copia le immagini"
+msgstr "Memorizza le immagini nella cache"
 
 #: prefs.js:121
 msgid "Excluded Apps"
@@ -134,39 +134,39 @@ msgstr ""
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Terminali"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
 msgstr ""
+"L'incollamento automatico usa Ctrl+Maiusc+V nei terminali. Aggiungi il tuo "
+"terminale se l'incollamento inserisce il testo sbagliato"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Cancella la cronologia al riavvio del sistema"
+msgstr "Cancella la cronologia degli appunti a intervalli regolari"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Intervallo di cancellazione della cronologia (in minuti)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Lingua"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Richiede il riavvio dell'estensione"
+msgstr "Richiede la riapertura delle Impostazioni e il riavvio dell'estensione"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Finestra"
 
 #: prefs.js:175
 msgid "Behavior"
@@ -181,89 +181,80 @@ msgid "Limits"
 msgstr "Limiti"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Abilita scorciatoie"
+msgstr "Scorciatoie globali"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Scorciatoie"
+msgstr "Scorciatoie della finestra"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Nome classe della finestra, ad esempio \"KeePassXC\""
 
 #: prefs.js:244
-#, fuzzy
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr "Nome classe della finestra, ad esempio \"KeePassXC\""
+msgstr "Classe della finestra o ID applicazione, ad esempio \"org.gnome.Ptyxis\""
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Sul cursore del mouse"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "Al centro della finestra attiva"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Copiato negli appunti"
+msgstr "Mostra/nascondi la finestra degli appunti"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Cerca nella finestra"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Elimina l'elemento selezionato"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Modalità privata"
+msgstr "Attiva/disattiva la modalità privata"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Voce successiva"
+msgstr "Pagina successiva"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Voce precedente"
+msgstr "Pagina precedente"
 
 #: prefs.js:311
-#, fuzzy
 msgid "Move selection up"
-msgstr "Incolla alla selezione"
+msgstr "Sposta la selezione verso l'alto"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Sposta la selezione verso il basso"
 
 #: prefs.js:313
-#, fuzzy
 msgid "Confirm selection"
-msgstr "Incolla alla selezione"
+msgstr "Conferma la selezione"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Chiudi la finestra"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Distingui maiuscole/minuscole (durante la ricerca)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Usa espressioni regolari (durante la ricerca)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -271,102 +262,97 @@ msgstr "Abilita scorciatoie"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Mostra le icone di promemoria delle scorciatoie"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Mostra le icone di promemoria delle scorciatoie in fondo alla finestra"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Ripristina le scorciatoie predefinite"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Ripristina"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Inserisci scorciatoia"
+msgstr "Aggiungi scorciatoia"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Inserisci scorciatoia"
+msgstr "Rimuovi scorciatoia"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "Disabilitato"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Inserisci scorciatoia"
+msgstr "Inserisci scorciatoia…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Scegli tra le applicazioni installate"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Cerca applicazioni…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Distingui maiuscole/minuscole (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Usa espressioni regolari (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Mostra/nascondi la ricerca (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Mostra/nascondi il menu"
+msgstr "Attiva/disattiva la modalità privata (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Elimina l'elemento selezionato (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Appunti vuoti"
+msgstr "La cronologia degli appunti è vuota"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Nessun elemento corrispondente negli appunti"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Cerca…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Distingui maiuscole/minuscole (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Usa espressioni regolari (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Mostra/nascondi la ricerca (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Mostra/nascondi il menu"
+msgstr "Attiva/disattiva la modalità privata (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Elimina l'elemento selezionato (d)"

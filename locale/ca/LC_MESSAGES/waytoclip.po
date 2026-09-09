@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2018-03-10 10:10-0600\n"
+"PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "S’ha copiat en el porta-retalls"
+msgstr "Mostra la finestra emergent del porta-retalls"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -29,7 +28,7 @@ msgstr "Mode privat"
 
 #: extension.js:201 prefs.js:299
 msgid "Clear history"
-msgstr "Buida l’historial"
+msgstr "Esborra l’historial"
 
 #: extension.js:242
 msgid "Settings"
@@ -37,335 +36,324 @@ msgstr "Paràmetres"
 
 #: extension.js:329
 msgid "Clear all?"
-msgstr ""
+msgstr "Voleu esborrar-ho tot?"
 
 #: extension.js:330
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr ""
+msgstr "Esteu segur que voleu suprimir tots els elements del porta-retalls?"
 
 #: extension.js:331
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Aquesta operació no es pot desfer."
 
 #: extension.js:332
 msgid "Clear"
-msgstr ""
+msgstr "Esborra"
 
 #: extension.js:333 prefs/shortcutRow.js:127
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 #: prefs.js:46
 msgid "History Size"
 msgstr "Mida de l’historial"
 
 #: prefs.js:55
-#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr "Mida màxima de la memòria cau (kB)"
+msgstr "Mida màxima del fitxer de memòria cau (MB)"
 
 #: prefs.js:64
-#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr "Mostra una notificació en copiar"
+msgstr "Mostra una confirmació en netejar l’historial"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
-msgstr ""
+msgstr "Mou l'element al capdamunt després de seleccionar-lo"
 
 #: prefs.js:72
 msgid "Keep selected entry after Clear History"
-msgstr ""
+msgstr "Conserva l'entrada seleccionada després de netejar l’historial"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "S’ha buidat l’historial del porta-retalls"
+msgstr "Neteja l’historial del porta-retalls en reiniciar el sistema"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "Enganxament automàtic en seleccionar"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Enganxa automàticament després de seleccionar un element de la finestra "
+"emergent"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Posició de la finestra emergent"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "On es mostra la finestra emergent del porta-retalls"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Limita el nombre de pàgines"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Quan està desactivat, la finestra emergent mostra tot l’historial del "
+"porta-retalls"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Nombre de pàgines"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Cada pàgina mostra 10 elements (Tab per navegar entre pàgines)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Mida de les miniatures d'imatges (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Mida de la previsualització de les imatges a la finestra emergent"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "Desa les imatges a la memòria cau"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Aplicacions excloses"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "El contingut copiat no es desarà mentre aquestes aplicacions tinguin el "
+"focus"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Aplicacions de terminal"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "L'enganxament automàtic utilitza Ctrl+Maj+V als terminals. Afegeix el teu "
+"terminal si en enganxar s'insereix el text incorrecte"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "S’ha buidat l’historial del porta-retalls"
+msgstr "Neteja l’historial del porta-retalls a intervals"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Interval de neteja de l’historial (en minuts)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Llengua"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr ""
+msgstr "Requereix tornar a obrir els Paràmetres i reiniciar l'extensió"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Finestra emergent"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "Comportament"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Exclusió"
 
 #: prefs.js:177
 msgid "Limits"
-msgstr ""
+msgstr "Límits"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Dreceres de teclat"
+msgstr "Dreceres de teclat globals"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Dreceres de teclat"
+msgstr "Dreceres de teclat de la finestra emergent"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Nom de classe de finestra, p. ex. «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Classe de finestra o id d'aplicació, p. ex. «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Al cursor del ratolí"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "Al centre de la finestra enfocada"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "S’ha copiat en el porta-retalls"
+msgstr "Mostra/amaga la finestra emergent del porta-retalls"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Cerca a la finestra emergent"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Suprimeix l'entrada seleccionada"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Mode privat"
+msgstr "Commuta el mode privat"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Entrada següent"
+msgstr "Pàgina següent"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Entrada anterior"
+msgstr "Pàgina anterior"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "Mou la selecció cap amunt"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Mou la selecció cap avall"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "Confirma la selecció"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Tanca la finestra emergent"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Distingeix majúscules (en cercar)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Utilitza una expressió regular (en cercar)"
 
 #: prefs.js:329
-#, fuzzy
 msgid "Enable shortcuts"
-msgstr "Dreceres de teclat"
+msgstr "Activa les dreceres de teclat"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Mostra les icones de recordatori de dreceres"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Mostra les icones de recordatori de dreceres a la part inferior de la "
+"finestra emergent"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Restableix les dreceres per defecte"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Restableix"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Dreceres de teclat"
+msgstr "Afegeix una drecera"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Dreceres de teclat"
+msgstr "Suprimeix la drecera"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivat"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Dreceres de teclat"
+msgstr "Introdueix la drecera…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Tria d'entre les aplicacions instal·lades"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Cerca aplicacions…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Distingeix majúscules (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Utilitza una expressió regular (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Mostra/amaga la cerca (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Commuta el menú"
+msgstr "Commuta el mode privat (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Suprimeix l'entrada seleccionada (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Contingut del porta-retalls"
+msgstr "L'historial del porta-retalls és buit"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Cap element coincident al porta-retalls"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Cerca…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Distingeix majúscules (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Utilitza una expressió regular (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Mostra/amaga la cerca (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Commuta el menú"
+msgstr "Commuta el mode privat (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Suprimeix l'entrada seleccionada (d)"

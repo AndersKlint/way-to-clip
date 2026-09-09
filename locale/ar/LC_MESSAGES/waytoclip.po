@@ -1,4 +1,4 @@
-# Catalan translation for gnome-shell-extension-clipboard-indicator.
+# Arabic translation for gnome-shell-extension-clipboard-indicator.
 # Copyright (C) 2018 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-shell-extension-clipboard-indicator package.
 # Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2018.
@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2018-03-10 10:10-0600\n"
+"PO-Revision-Date: 2026-09-09 13:13+0200\n"
 "Last-Translator: Ahmed Ayman <ahmedayman055g@gmail.com>\n"
 "Language-Team: \n"
-"Language: ca\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "تم النسخ في الحافظة"
+msgstr "إظهار نافذة الحافظة المنبثقة"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -41,15 +40,15 @@ msgstr "حذف الكل؟"
 
 #: extension.js:330
 msgid "Are you sure you want to delete all clipboard items?"
-msgstr "هل أنت متأكد أنك تريد حذف جميع عناصر الحافطة؟"
+msgstr "هل أنت متأكد أنك تريد حذف جميع عناصر الحافظة؟"
 
 #: extension.js:331
 msgid "This operation cannot be undone."
-msgstr ".هذه العملية لا يمكن التراجع عنها"
+msgstr "هذه العملية لا يمكن التراجع عنها."
 
 #: extension.js:332
 msgid "Clear"
-msgstr "إزالة"
+msgstr "مسح"
 
 #: extension.js:333 prefs/shortcutRow.js:127
 msgid "Cancel"
@@ -60,14 +59,12 @@ msgid "History Size"
 msgstr "عدد العناصر في السجل"
 
 #: prefs.js:55
-#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr "أقصى حجم لملف ذاكرة التخزين المؤقت بالكيلوبايت"
+msgstr "أقصى حجم لملف ذاكرة التخزين المؤقت بالميجابايت"
 
 #: prefs.js:64
-#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr "أظهر إشعار عند النسخ"
+msgstr "إظهار تأكيد عند مسح السجل"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
@@ -75,297 +72,284 @@ msgstr "انقل العنصر إلى الأعلى بعد إختياره"
 
 #: prefs.js:72
 msgid "Keep selected entry after Clear History"
-msgstr ""
+msgstr "الاحتفاظ بالإدخال المحدد بعد مسح السجل"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "تم إزالة سجل الحافظة"
+msgstr "مسح سجل الحافظة عند إعادة تشغيل النظام"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "اللصق التلقائي عند التحديد"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "اللصق تلقائيًا بعد تحديد عنصر من النافذة المنبثقة"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "موضع النافذة المنبثقة"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "مكان إظهار نافذة الحافظة المنبثقة"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "تحديد عدد الصفحات"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "عند التعطيل، تعرض النافذة المنبثقة سجل الحافظة الكامل"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "عدد الصفحات"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "تعرض كل صفحة 10 عناصر (Tab للتنقل بين الصفحات)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "حجم مصغرات الصور (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "حجم معاينة الصور في النافذة المنبثقة"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "تخزين الصور مؤقتًا"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "التطبيقات المستبعدة"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "لن يتم حفظ المحتوى المنسوخ أثناء تركيز هذه التطبيقات"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "تطبيقات الطرفية"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "يستخدم اللصق التلقائي Ctrl+Shift+V في الطرفيات. أضف طرفيتك إذا كان اللصق "
+"يُدخل نصًا خاطئًا"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "تم إزالة سجل الحافظة"
+msgstr "مسح سجل الحافظة على فترات"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "الفاصل الزمني لمسح السجل (بالدقائق)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "اللغة"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr ""
+msgstr "يتطلب إعادة فتح الإعدادات وإعادة تشغيل الامتداد"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "عام"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "النافذة المنبثقة"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "السلوك"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "الاستبعاد"
 
 #: prefs.js:177
 msgid "Limits"
-msgstr ""
+msgstr "الحدود"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "إختصارات لوحة المفاتيح"
+msgstr "إختصارات لوحة المفاتيح العامة"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "إختصارات لوحة المفاتيح"
+msgstr "إختصارات النافذة المنبثقة"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "اسم فئة النافذة، مثل «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "فئة النافذة أو معرّف التطبيق، مثل «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "النظام"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "عند مؤشر الفأرة"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "في وسط النافذة المُركّز عليها"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "تم النسخ في الحافظة"
+msgstr "إظهار/إخفاء نافذة الحافظة المنبثقة"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "البحث في النافذة المنبثقة"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "حذف الإدخال المحدد"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "الوضع السري"
+msgstr "تبديل الوضع السري"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "الإدخال التالي"
+msgstr "الصفحة التالية"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "الإدخال السابق"
+msgstr "الصفحة السابقة"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "نقل التحديد لأعلى"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "نقل التحديد لأسفل"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "تأكيد التحديد"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "إغلاق النافذة المنبثقة"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "مطابقة الحالة (أثناء البحث)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "استخدام تعبير نمطي (أثناء البحث)"
 
 #: prefs.js:329
-#, fuzzy
 msgid "Enable shortcuts"
-msgstr "إختصارات لوحة المفاتيح"
+msgstr "تفعيل إختصارات لوحة المفاتيح"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "إظهار أيقونات تذكير الاختصارات"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "إظهار أيقونات تذكير الاختصارات في أسفل النافذة المنبثقة"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "إعادة تعيين الاختصارات إلى الافتراضية"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "إعادة تعيين"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "إختصارات لوحة المفاتيح"
+msgstr "إضافة اختصار"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "إختصارات لوحة المفاتيح"
+msgstr "إزالة اختصار"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
-msgstr ""
+msgstr "معطّل"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "إختصارات لوحة المفاتيح"
+msgstr "أدخل الاختصار…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "الاختيار من التطبيقات المثبتة"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "البحث في التطبيقات…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "مطابقة الحالة (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "استخدام تعبير نمطي (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "إظهار/إخفاء البحث (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "أظهر/أخفي القائمة"
+msgstr "تبديل الوضع السري (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "حذف الإدخال المحدد (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "محتوى الحافظة"
+msgstr "سجل الحافظة فارغ"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "لا توجد عناصر مطابقة في الحافظة"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "بحث…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "مطابقة الحالة (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "استخدام تعبير نمطي (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "إظهار/إخفاء البحث (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "أظهر/أخفي القائمة"
+msgstr "تبديل الوضع السري (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "حذف الإدخال المحدد (d)"

@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2024-12-20 23:19+0530\n"
+"PO-Revision-Date: 2026-09-09 13:12+0200\n"
 "Last-Translator: Sachin <sachin.aralapura@gmail.com>\n"
 "Language-Team: Kannada <debian-l10n-kannada@lists.debian.org>\n"
 "Language: kn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ"
+msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಪಾಪ್‌ಅಪ್ ತೋರಿಸಿ"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -74,191 +74,183 @@ msgid "Keep selected entry after Clear History"
 msgstr "ಇತಿಹಾಸ ಅಳಿಸಿದ ನಂತರ ಆಯ್ಕೆ ಮಾಡಿದ ಎಂಟ್ರಿಯನ್ನು ಉಳಿಸಿ"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಇತಿಹಾಸ ಅಳಿಸಲಾಗಿದೆ"
+msgstr "ಸಿಸ್ಟಮ್ ರೀಬೂಟ್ ಆದಾಗ ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಇತಿಹಾಸವನ್ನು ಅಳಿಸಿ"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "ಆಯ್ಕೆಯ ಮೇಲೆ ಸ್ವಯಂ-ಅಂಟಿಸಿ"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "ಪಾಪ್‌ಅಪ್‌ನಿಂದ ಐಟಂ ಆಯ್ಕೆ ಮಾಡಿದ ನಂತರ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಂಟಿಸಿ"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "ಪಾಪ್‌ಅಪ್ ಸ್ಥಾನ"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಪಾಪ್‌ಅಪ್ ಎಲ್ಲಿ ತೋರಿಸಬೇಕು"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "ಪುಟಗಳ ಸಂಖ್ಯೆಯನ್ನು ಮಿತಿಗೊಳಿಸಿ"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "ಆಫ್ ಆಗಿದ್ದಾಗ, ಪಾಪ್‌ಅಪ್ ಪೂರ್ಣ ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಇತಿಹಾಸವನ್ನು ತೋರಿಸುತ್ತದೆ"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "ಪುಟಗಳ ಸಂಖ್ಯೆ"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "ಪ್ರತಿ ಪುಟವು 10 ಐಟಂಗಳನ್ನು ತೋರಿಸುತ್ತದೆ (ಪುಟಗಳನ್ನು ಬದಲಾಯಿಸಲು Tab)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "ಚಿತ್ರ ಥಂಬ್‌ನೇಲ್ ಗಾತ್ರ (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "ಪಾಪ್‌ಅಪ್‌ನಲ್ಲಿ ಚಿತ್ರಗಳ ಮುನ್ನೋಟ ಗಾತ್ರ"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "ಚಿತ್ರಗಳನ್ನು ಕ್ಯಾಶ್ ಮಾಡಿ"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "ಹೊರಗಿಡಲಾದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "ಈ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು ಫೋಕಸ್‌ನಲ್ಲಿರುವಾಗ ನಕಲಿಸಿದ ವಿಷಯವನ್ನು ಉಳಿಸಲಾಗುವುದಿಲ್ಲ"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "ಟರ್ಮಿನಲ್ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "ಟರ್ಮಿನಲ್‌ಗಳಲ್ಲಿ ಸ್ವಯಂ-ಅಂಟಿಸುವಿಕೆಯು Ctrl+Shift+V ಬಳಸುತ್ತದೆ. ಅಂಟಿಸುವಿಕೆಯು "
+"ತಪ್ಪಾದ ಪಠ್ಯವನ್ನು ಸೇರಿಸಿದರೆ ನಿಮ್ಮ ಟರ್ಮಿನಲ್ ಸೇರಿಸಿ"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಇತಿಹಾಸ ಅಳಿಸಲಾಗಿದೆ"
+msgstr "ನಿಗದಿತ ಅಂತರದಲ್ಲಿ ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಇತಿಹಾಸವನ್ನು ಅಳಿಸಿ"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "ಇತಿಹಾಸ ಅಳಿಸುವ ಅಂತರ (ನಿಮಿಷಗಳಲ್ಲಿ)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "ಭಾಷೆ"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "ವಿಸ್ತರಣೆಯನ್ನು ಮರುಪ್ರಾರಂಭಿಸಲು ಅಗತ್ಯವಿದೆ"
+msgstr "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಮತ್ತೆ ತೆರೆದು ವಿಸ್ತರಣೆಯನ್ನು ಮರುಪ್ರಾರಂಭಿಸುವ ಅಗತ್ಯವಿದೆ"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "ಸಾಮಾನ್ಯ"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "ಪಾಪ್‌ಅಪ್"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "ವರ್ತನೆ"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "ಹೊರಗಿಡುವಿಕೆ"
 
 #: prefs.js:177
 msgid "Limits"
 msgstr "ಮಿತಿಗಳು"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ"
+msgstr "ಜಾಗತಿಕ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು"
+msgstr "ಪಾಪ್‌ಅಪ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "ವಿಂಡೋ ವರ್ಗದ ಹೆಸರು, ಉದಾ. «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "ವಿಂಡೋ ವರ್ಗ ಅಥವಾ ಅಪ್ಲಿಕೇಶನ್ ಐಡಿ, ಉದಾ. «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "ಸಿಸ್ಟಮ್"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "ಮೌಸ್ ಕರ್ಸರ್ ಬಳಿ"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "ಫೋಕಸ್ ಮಾಡಿದ ವಿಂಡೋದ ಮಧ್ಯದಲ್ಲಿ"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ"
+msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಪಾಪ್‌ಅಪ್ ತೋರಿಸಿ/ಮರೆಮಾಡಿ"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "ಪಾಪ್‌ಅಪ್‌ನಲ್ಲಿ ಹುಡುಕಿ"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "ಆಯ್ಕೆಮಾಡಿದ ನಮೂದನ್ನು ಅಳಿಸಿ"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "ಖಾಸಗಿ ಮೋಡ್"
+msgstr "ಖಾಸಗಿ ಮೋಡ್ ಬದಲಾಯಿಸಿ"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "ಮುಂದಿನ ಎಂಟ್ರಿ"
+msgstr "ಮುಂದಿನ ಪುಟ"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "ಹಿಂದಿನ ಎಂಟ್ರಿ"
+msgstr "ಹಿಂದಿನ ಪುಟ"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "ಆಯ್ಕೆಯನ್ನು ಮೇಲಕ್ಕೆ ಸರಿಸಿ"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "ಆಯ್ಕೆಯನ್ನು ಕೆಳಕ್ಕೆ ಸರಿಸಿ"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "ಆಯ್ಕೆಯನ್ನು ದೃಢೀಕರಿಸಿ"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "ಪಾಪ್‌ಅಪ್ ಮುಚ್ಚಿ"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "ಪ್ರಕರಣ ಹೊಂದಾಣಿಕೆ (ಹುಡುಕುವಾಗ)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "ನಿಯಮಿತ ಅಭಿವ್ಯಕ್ತಿ ಬಳಸಿ (ಹುಡುಕುವಾಗ)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -266,102 +258,97 @@ msgstr "ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸಕ್ರಿಯ�
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "ಶಾರ್ಟ್‌ಕಟ್ ಜ್ಞಾಪನೆ ಐಕಾನ್‌ಗಳನ್ನು ತೋರಿಸಿ"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "ಪಾಪ್‌ಅಪ್‌ನ ಕೆಳಭಾಗದಲ್ಲಿ ಶಾರ್ಟ್‌ಕಟ್ ಜ್ಞಾಪನೆ ಐಕಾನ್‌ಗಳನ್ನು ತೋರಿಸಿ"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಡೀಫಾಲ್ಟ್‌ಗಳಿಗೆ ಮರುಹೊಂದಿಸಿ"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "ಮರುಹೊಂದಿಸಿ"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "ಶಾರ್ಟ್‌ಕಟ್ ನಮೂದಿಸಿ"
+msgstr "ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "ಶಾರ್ಟ್‌ಕಟ್ ನಮೂದಿಸಿ"
+msgstr "ಶಾರ್ಟ್‌ಕಟ್ ತೆಗೆದುಹಾಕಿ"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "ಶಾರ್ಟ್‌ಕಟ್ ನಮೂದಿಸಿ"
+msgstr "ಶಾರ್ಟ್‌ಕಟ್ ನಮೂದಿಸಿ…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "ಸ್ಥಾಪಿಸಲಾದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳಿಂದ ಆರಿಸಿ"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ಹುಡುಕಿ…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "ಪ್ರಕರಣ ಹೊಂದಾಣಿಕೆ (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "ನಿಯಮಿತ ಅಭಿವ್ಯಕ್ತಿ (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "ಹುಡುಕಾಟ ತೋರಿಸಿ/ಮರೆಮಾಡಿ (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "ಮೆನು ಪರಿವರ್ತನೆ ಮಾಡಿ"
+msgstr "ಖಾಸಗಿ ಮೋಡ್ ಬದಲಾಯಿಸಿ (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "ಆಯ್ಕೆಮಾಡಿದ ನಮೂದನ್ನು ಅಳಿಸಿ (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಖಾಲಿಯಾಗಿದೆ"
+msgstr "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಇತಿಹಾಸ ಖಾಲಿಯಾಗಿದೆ"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "ಹೊಂದಾಣಿಕೆಯ ಕ್ಲಿಪ್‌ಬೋರ್ಡ್ ಐಟಂಗಳಿಲ್ಲ"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "ಹುಡುಕಿ…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "ಪ್ರಕರಣ ಹೊಂದಾಣಿಕೆ (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "ನಿಯಮಿತ ಅಭಿವ್ಯಕ್ತಿ (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "ಹುಡುಕಾಟ ತೋರಿಸಿ/ಮರೆಮಾಡಿ (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "ಮೆನು ಪರಿವರ್ತನೆ ಮಾಡಿ"
+msgstr "ಖಾಸಗಿ ಮೋಡ್ ಬದಲಾಯಿಸಿ (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "ಆಯ್ಕೆಮಾಡಿದ ನಮೂದನ್ನು ಅಳಿಸಿ (d)"

@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2024-05-30 21:35+0200\n"
+"PO-Revision-Date: 2026-09-09 13:12+0200\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: \n"
-"Language: sk_SK\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,9 +22,8 @@ msgstr ""
 "X-Poedit-SearchPath-1: extension.js\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Skopírované do schránky"
+msgstr "Zobraziť kontextové okno schránky"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -32,7 +31,7 @@ msgstr "Súkromný režim"
 
 #: extension.js:201 prefs.js:299
 msgid "Clear history"
-msgstr "Vymazanie histórie"
+msgstr "Vymazať históriu"
 
 #: extension.js:242
 msgid "Settings"
@@ -68,7 +67,7 @@ msgstr "Max. veľkosť súboru vyrovnávacej pamäte (MB)"
 
 #: prefs.js:64
 msgid "Show confirmation on Clear History"
-msgstr "Zobraziť upozornenie pri čistení histórie"
+msgstr "Zobraziť potvrdenie pri čistení histórie"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
@@ -79,191 +78,183 @@ msgid "Keep selected entry after Clear History"
 msgstr "Ponechať vybranú položku po vyčistení histórie"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "História schránky vymazaná"
+msgstr "Vymazať históriu schránky pri reštarte systému"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "Automatické vkladanie pri výbere"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Automaticky vložiť po výbere položky z kontextového okna"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Poloha kontextového okna"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Kde zobrazovať kontextové okno schránky"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Obmedziť počet stránok"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Ak je vypnuté, kontextové okno zobrazuje celú históriu schránky"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Počet stránok"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Každá stránka zobrazuje 10 položiek (Tab na prepínanie stránok)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Veľkosť miniatúr obrázkov (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Veľkosť ukážky obrázkov v kontextovom okne"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "Ukladať obrázky do vyrovnávacej pamäte"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Vylúčené aplikácie"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "Skopírovaný obsah sa neuloží, kým sú tieto aplikácie aktívne"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Terminálové aplikácie"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "Automatické vkladanie používa v termináloch Ctrl+Shift+V. Pridajte svoj "
+"terminál, ak vkladanie vkladá nesprávny text"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "História schránky vymazaná"
+msgstr "Mazať históriu schránky v intervaloch"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Interval mazania histórie (v minútach)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Jazyk"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Vyžaduje reštart rozšírenia"
+msgstr "Vyžaduje opätovné otvorenie Nastavení a reštart rozšírenia"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Všeobecné"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Kontextové okno"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "Správanie"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Vylúčenie"
 
 #: prefs.js:177
 msgid "Limits"
 msgstr "Limity"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Povoliť klávesové skratky"
+msgstr "Globálne klávesové skratky"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Skratky"
+msgstr "Skratky kontextového okna"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Názov triedy okna, napr. „KeePassXC“"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Trieda okna alebo ID aplikácie, napr. „org.gnome.Ptyxis“"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Systém"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Pri kurzore myši"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "V strede aktívneho okna"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Skopírované do schránky"
+msgstr "Zobraziť/skryť kontextové okno schránky"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Hľadať v kontextovom okne"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Odstrániť vybranú položku"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Súkromný režim"
+msgstr "Prepnúť súkromný režim"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Nasledujúca položka"
+msgstr "Nasledujúca stránka"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Predchádzajúca položka"
+msgstr "Predchádzajúca stránka"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "Presunúť výber nahor"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Presunúť výber nadol"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "Potvrdiť výber"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Zavrieť kontextové okno"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Rozlišovať veľkosť písmen (pri hľadaní)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Použiť regulárny výraz (pri hľadaní)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -271,102 +262,97 @@ msgstr "Povoliť klávesové skratky"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Zobrazovať ikony pripomienok skratiek"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Zobrazovať ikony pripomienok skratiek v dolnej časti kontextového okna"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Obnoviť predvolené skratky"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Obnoviť"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Zadajte klávesovú skratku"
+msgstr "Pridať skratku"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Zadajte klávesovú skratku"
+msgstr "Odstrániť skratku"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "Vypnuté"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Zadajte klávesovú skratku"
+msgstr "Zadajte klávesovú skratku…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Vybrať z nainštalovaných aplikácií"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Hľadať aplikácie…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Rozlišovať veľkosť písmen (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Použiť regulárny výraz (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Zobraziť/skryť hľadanie (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Prepnutie ponuky"
+msgstr "Prepnúť súkromný režim (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Odstrániť vybranú položku (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Schránka je prázdna"
+msgstr "História schránky je prázdna"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Žiadne zodpovedajúce položky schránky"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Hľadať…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Rozlišovať veľkosť písmen (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Použiť regulárny výraz (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Zobraziť/skryť hľadanie (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Prepnutie ponuky"
+msgstr "Prepnúť súkromný režim (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Odstrániť vybranú položku (d)"

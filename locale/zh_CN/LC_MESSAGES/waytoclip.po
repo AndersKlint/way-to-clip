@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2024-01-27 14:47+0800\n"
+"PO-Revision-Date: 2026-09-09 13:11+0200\n"
 "Last-Translator: hiiiha\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -23,9 +23,8 @@ msgstr ""
 "X-Poedit-SearchPath-1: extension.js\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "已复制到剪贴板"
+msgstr "显示剪贴板弹窗"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -69,7 +68,7 @@ msgstr "最大缓存文件大小 (MB)"
 
 #: prefs.js:64
 msgid "Show confirmation on Clear History"
-msgstr "清除历史时显示通知"
+msgstr "清除历史时显示确认"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
@@ -85,91 +84,89 @@ msgstr "系统重启时清除历史记录"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "选择后自动粘贴"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "从弹窗中选择条目后自动粘贴"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "弹窗位置"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "剪贴板弹窗的显示位置"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "限制页数"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "关闭后，弹窗将显示完整的剪贴板历史记录"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "页数"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "每页显示 10 个条目（用 Tab 切换页面）"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "图片缩略图大小（px）"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "弹窗中图片的预览大小"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "缓存图片"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "排除的应用"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "当这些应用处于焦点时，复制的内容将不会被保存"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "终端应用"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "在终端中自动粘贴使用 Ctrl+Shift+V。如果粘贴插入了错误的文本，请添加您的终端"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "系统重启时清除历史记录"
+msgstr "定期清除剪贴板历史记录"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "历史记录清除间隔（分钟）"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "需要重启此扩展"
+msgstr "需要重新打开“设置”并重启扩展"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "常规"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "弹窗"
 
 #: prefs.js:175
 msgid "Behavior"
@@ -177,93 +174,87 @@ msgstr "行为"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "排除"
 
 #: prefs.js:177
 msgid "Limits"
 msgstr "限制"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "开启键盘快捷键"
+msgstr "全局快捷键"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "快捷键"
+msgstr "弹窗快捷键"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "窗口类名，例如“KeePassXC”"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "窗口类或应用 ID，例如“org.gnome.Ptyxis”"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "系统"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "在鼠标光标处"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "在获得焦点的窗口中央"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "已复制到剪贴板"
+msgstr "显示/隐藏剪贴板弹窗"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "在弹窗中搜索"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "删除所选条目"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "隐私模式"
+msgstr "切换隐私模式"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "下一条"
+msgstr "下一页"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "上一条"
+msgstr "上一页"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "上移选择"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "下移选择"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "确认选择"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "关闭弹窗"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "区分大小写（搜索时）"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "使用正则表达式（搜索时）"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -271,102 +262,97 @@ msgstr "开启键盘快捷键"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "显示快捷键提醒图标"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "在弹窗底部显示快捷键提醒图标"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "重置为默认快捷键"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "重置"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "输入键盘快捷键"
+msgstr "添加快捷键"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "输入键盘快捷键"
+msgstr "删除快捷键"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
-msgstr "关闭"
+msgstr "已禁用"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "输入键盘快捷键"
+msgstr "输入键盘快捷键…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "从已安装的应用中选择"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "搜索应用…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "区分大小写（%s）"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "使用正则表达式（%s）"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "显示/隐藏搜索（%s）"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "切换菜单"
+msgstr "切换隐私模式（%s）"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "删除所选条目（%s）"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "剪贴板为空"
+msgstr "剪贴板历史记录为空"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "没有匹配的剪贴板条目"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "搜索…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "区分大小写（Alt+C）"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "使用正则表达式（Alt+R）"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "显示/隐藏搜索（s）"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "切换菜单"
+msgstr "切换隐私模式（p）"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "删除所选条目（d）"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2024-04-23 18:10+0200\n"
+"PO-Revision-Date: 2026-09-09 13:11+0200\n"
 "Last-Translator: Norman Henges <normanhenges@gmail.com>\n"
 "Language-Team: Deutsch <openweather@jenslody.de>\n"
 "Language: de\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Poedit 3.4.2\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "In Zwischenablage kopiert"
+msgstr "Zwischenablage-Popup anzeigen"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -81,91 +80,90 @@ msgstr "Verlauf beim Neustart des Systems löschen"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "Automatisches Einfügen bei Auswahl"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Nach Auswahl eines Eintrags aus dem Popup automatisch einfügen"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Popup-Position"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Wo das Zwischenablage-Popup angezeigt wird"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Seitenanzahl begrenzen"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Wenn deaktiviert, zeigt das Popup den gesamten Zwischenablage-Verlauf"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Seitenanzahl"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Jede Seite zeigt 10 Einträge (Tab zum Wechseln der Seiten)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Vorschaubildgröße für Bilder (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Vorschaugröße für Bilder im Popup"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "Bilder zwischenspeichern"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Ausgeschlossene Apps"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "Kopierte Inhalte werden nicht gespeichert, solange diese Apps im Fokus sind"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Terminal-Apps"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "Automatisches Einfügen verwendet Strg+Umschalt+V in Terminals. Fügen Sie Ihr "
+"Terminal hinzu, falls beim Einfügen falscher Text eingefügt wird"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Verlauf beim Neustart des Systems löschen"
+msgstr "Zwischenablage-Verlauf in Intervallen löschen"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Intervall zum Löschen des Verlaufs (in Minuten)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Erfordert Neustart der Erweiterung"
+msgstr "Erfordert erneutes Öffnen der Einstellungen und Neustart der Erweiterung"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Popup"
 
 #: prefs.js:175
 msgid "Behavior"
@@ -173,93 +171,87 @@ msgstr "Verhalten"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Ausschluss"
 
 #: prefs.js:177
 msgid "Limits"
 msgstr "Grenzwerte"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Tastenkombinationen aktivieren"
+msgstr "Globale Tastenkombinationen"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Tastenkombinationen"
+msgstr "Popup-Tastenkombinationen"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Fensterklassenname, z. B. „KeePassXC“"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Fensterklasse oder App-ID, z. B. „org.gnome.Ptyxis“"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Am Mauszeiger"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "In der Mitte des fokussierten Fensters"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "In Zwischenablage kopiert"
+msgstr "Zwischenablage-Popup ein-/ausblenden"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Im Popup suchen"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Ausgewählten Eintrag löschen"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Privater Modus"
+msgstr "Privaten Modus umschalten"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Nächster Eintrag"
+msgstr "Nächste Seite"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Vorheriger Eintrag"
+msgstr "Vorherige Seite"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "Auswahl nach oben bewegen"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Auswahl nach unten bewegen"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "Auswahl bestätigen"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Popup schließen"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Groß-/Kleinschreibung beachten (bei der Suche)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Regulären Ausdruck verwenden (bei der Suche)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -267,102 +259,97 @@ msgstr "Tastenkombinationen aktivieren"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Tastenkombinations-Hinweissymbole anzeigen"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Tastenkombinations-Hinweissymbole am unteren Rand des Popups anzeigen"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Tastenkombinationen zurücksetzen"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Tastenkombination eingeben"
+msgstr "Tastenkombination hinzufügen"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Tastenkombination eingeben"
+msgstr "Tastenkombination entfernen"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "Deaktiviert"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Tastenkombination eingeben"
+msgstr "Tastenkombination eingeben…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Aus installierten Anwendungen wählen"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Anwendungen suchen…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Groß-/Kleinschreibung (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Regulären Ausdruck (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Suche ein-/ausblenden (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Menü öffnen/schließen"
+msgstr "Privaten Modus umschalten (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Ausgewählten Eintrag löschen (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Zwischenablage ist leer"
+msgstr "Zwischenablage-Verlauf ist leer"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Keine passenden Zwischenablage-Einträge"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Suchen…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Groß-/Kleinschreibung (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Regulären Ausdruck (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Suche ein-/ausblenden (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Menü öffnen/schließen"
+msgstr "Privaten Modus umschalten (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Ausgewählten Eintrag löschen (d)"

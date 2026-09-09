@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2018-03-10 09:43-0600\n"
+"PO-Revision-Date: 2026-09-09 13:12+0200\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Copiado en el portapapeles"
+msgstr "Mostrar ventana emergente del portapapeles"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -45,7 +44,7 @@ msgstr "¿Está seguro de que quiere borrar todos los ítems del portapapeles?"
 
 #: extension.js:331
 msgid "This operation cannot be undone."
-msgstr "Esta operación no puede ser deshecha"
+msgstr "Esta operación no puede ser deshecha."
 
 #: extension.js:332
 msgid "Clear"
@@ -69,198 +68,192 @@ msgstr "Mostrar una confirmación al borrar el historial"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
-msgstr "Mover el ítem hacia arriba despues de seleccionarlo"
+msgstr "Mover el ítem hacia arriba después de seleccionarlo"
 
 #: prefs.js:72
 msgid "Keep selected entry after Clear History"
-msgstr "Mantener la entrada seleccionada después de limpiar el historial"
+msgstr "Mantener la entrada seleccionada después de vaciar el historial"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "Historial del portapapeles vaciado"
+msgstr "Vaciar el historial del portapapeles al reiniciar el sistema"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "Pegado automático al seleccionar"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Pegar automáticamente tras seleccionar un elemento de la ventana emergente"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Posición de la ventana emergente"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Dónde mostrar la ventana emergente del portapapeles"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Limitar el número de páginas"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Si está desactivado, la ventana emergente muestra todo el historial del "
+"portapapeles"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Número de páginas"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Cada página muestra 10 elementos (Tab para cambiar de página)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Tamaño de miniaturas de imágenes (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Tamaño de vista previa de imágenes en la ventana emergente"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "Almacenar imágenes en caché"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Aplicaciones excluidas"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "El contenido copiado no se guardará mientras estas aplicaciones estén "
+"enfocadas"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Aplicaciones de terminal"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "El pegado automático usa Ctrl+Mayús+V en terminales. Añade tu terminal si al "
+"pegar se inserta el texto incorrecto"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Historial del portapapeles vaciado"
+msgstr "Vaciar el historial del portapapeles cada cierto tiempo"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Intervalo de vaciado del historial (en minutos)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Requiere reiniciar la extensión"
+msgstr "Requiere reabrir la Configuración y reiniciar la extensión"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Ventana emergente"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "Comportamiento"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Exclusión"
 
 #: prefs.js:177
 msgid "Limits"
-msgstr "Limites"
+msgstr "Límites"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Habilitar atajos de teclado"
+msgstr "Atajos de teclado globales"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Atajos de teclado"
+msgstr "Atajos de teclado de la ventana emergente"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Nombre de clase de ventana, p. ej. «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Clase de ventana o id de aplicación, p. ej. «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "En el cursor del ratón"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "En el centro de la ventana enfocada"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Copiado en el portapapeles"
+msgstr "Mostrar/ocultar la ventana emergente del portapapeles"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Buscar en la ventana emergente"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Eliminar la entrada seleccionada"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Modo privado"
+msgstr "Activar/desactivar el modo privado"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Entrada siguiente"
+msgstr "Página siguiente"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Entrada anterior"
+msgstr "Página anterior"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "Mover la selección hacia arriba"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Mover la selección hacia abajo"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "Confirmar la selección"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Cerrar la ventana emergente"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Distinguir mayúsculas (al buscar)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Usar expresión regular (al buscar)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -268,102 +261,98 @@ msgstr "Habilitar atajos de teclado"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Mostrar iconos de recordatorio de atajos"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Mostrar los iconos de recordatorio de atajos en la parte inferior de la "
+"ventana emergente"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Restablecer atajos a los valores predeterminados"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Restablecer"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Introduce atajo de teclado"
+msgstr "Añadir atajo"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Introduce atajo de teclado"
+msgstr "Eliminar atajo"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "Deshabilitado"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Introduce atajo de teclado"
+msgstr "Introduce atajo de teclado…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Elegir de las aplicaciones instaladas"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Buscar aplicaciones…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Distinguir mayúsculas (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Usar expresión regular (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Mostrar/ocultar búsqueda (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Alternar menú"
+msgstr "Activar/desactivar el modo privado (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Eliminar la entrada seleccionada (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "El portapapeles está vacío"
+msgstr "El historial del portapapeles está vacío"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Ningún elemento coincidente en el portapapeles"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Buscar…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Distinguir mayúsculas (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Usar expresión regular (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Mostrar/ocultar búsqueda (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Alternar menú"
+msgstr "Activar/desactivar el modo privado (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Eliminar la entrada seleccionada (d)"

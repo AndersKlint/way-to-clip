@@ -3,24 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 # آوید <avds+git@disroot.org>, 2024.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 60\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2024-04-07 17:57+0330\n"
+"PO-Revision-Date: 2026-09-09 13:12+0200\n"
 "Last-Translator: Avid <avds+git@disroot.org>\n"
 "Language-Team: Farsi <avds+git@disroot.org>\n"
-"Language: fa_IR\n"
+"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "به تخته‌گیره رونوشت شد"
+msgstr "نمایش پنجرهٔ تخته‌گیره"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -75,191 +74,183 @@ msgid "Keep selected entry after Clear History"
 msgstr "نگه داشتن ورودی برگزیده پس از پاک‌سازی تاریخچه"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "تاریخچهٔ تخته‌گیره پاک شد"
+msgstr "پاک‌سازی تاریخچهٔ تخته‌گیره هنگام بازراه‌اندازی سامانه"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "چسباندن خودکار هنگام گزینش"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "چسباندن خودکار پس از گزینش موردی از پنجره"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "جایگاه پنجره"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "محل نمایش پنجرهٔ تخته‌گیره"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "محدود کردن شمار صفحه‌ها"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "اگر خاموش باشد، پنجره تاریخچهٔ کامل تخته‌گیره را نشان می‌دهد"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "شمار صفحه‌ها"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "هر صفحه ۱۰ مورد را نشان می‌دهد (Tab برای جابه‌جایی میان صفحه‌ها)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "اندازهٔ بندانگشتی تصویرها (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "اندازهٔ پیش‌نمایش تصویرها در پنجره"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "نهان‌سازی تصویرها"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "برنامه‌های مستثنا"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "محتوای رونوشت‌شده ذخیره نخواهد شد تا زمانی که این برنامه‌ها در کانون باشند"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "برنامه‌های پایانه"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "چسباندن خودکار در پایانه‌ها از Ctrl+Shift+V استفاده می‌کند. اگر چسباندن متن "
+"نادرست درج می‌کند، پایانهٔ خود را بیفزایید"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "تاریخچهٔ تخته‌گیره پاک شد"
+msgstr "پاک‌سازی تاریخچهٔ تخته‌گیره در بازه‌های زمانی"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "بازهٔ پاک‌سازی تاریخچه (به دقیقه)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "زبان"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "نیازمند راه‌اندازی دوبارهٔ افزونه"
+msgstr "نیازمند باز کردن دوبارهٔ تنظیمات و راه‌اندازی دوبارهٔ افزونه است"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "کلی"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "پنجره"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "رفتار"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "استثنا"
 
 #: prefs.js:177
 msgid "Limits"
 msgstr "محدودیت‌ها"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "به کار اندازی میان‌برها"
+msgstr "میان‌برهای سراسری"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "میان‌برها"
+msgstr "میان‌برهای پنجره"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "نام کلاس پنجره، مثل «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "کلاس پنجره یا شناسهٔ برنامه، مثل «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "سامانه"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "در کنار مکان‌نمای موشواره"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "در مرکز پنجرهٔ کانونی"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "به تخته‌گیره رونوشت شد"
+msgstr "نمایش/پنهان‌سازی پنجرهٔ تخته‌گیره"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "جست‌وجو در پنجره"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "حذف ورودی گزیده‌شده"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "حالت خصوصی"
+msgstr "تغییر وضعیت حالت خصوصی"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "ورودی پسین"
+msgstr "صفحهٔ پسین"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "ورودی پیشین"
+msgstr "صفحهٔ پیشین"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "جابه‌جایی گزینش به بالا"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "جابه‌جایی گزینش به پایین"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "تأیید گزینش"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "بستن پنجره"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "حساسیت به نویسه (هنگام جست‌وجو)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "استفاده از عبارت باقاعده (هنگام جست‌وجو)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -267,102 +258,97 @@ msgstr "به کار اندازی میان‌برها"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "نمایش شمایل‌های یادآور میان‌بر"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "نمایش شمایل‌های یادآور میان‌بر در پایین پنجره"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "بازنشانی میان‌برها به پیش‌فرض"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "بازنشانی"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "ورود میان‌بر"
+msgstr "افزودن میان‌بر"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "ورود میان‌بر"
+msgstr "حذف میان‌بر"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "از کار افتاده"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "ورود میان‌بر"
+msgstr "میان‌بر را وارد کنید…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "گزینش از میان برنامه‌های نصب‌شده"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "جست‌وجوی برنامه‌ها…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "حساسیت به نویسه (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "استفاده از عبارت باقاعده (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "نمایش/پنهان‌سازی جست‌وجو (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "تغییر وضعیت فهرست"
+msgstr "تغییر وضعیت حالت خصوصی (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "حذف ورودی گزیده‌شده (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "تخته‌گیره خالیست"
+msgstr "تاریخچهٔ تخته‌گیره خالی است"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "موردی مطابق در تخته‌گیره نیست"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "جست‌وجو…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "حساسیت به نویسه (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "استفاده از عبارت باقاعده (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "نمایش/پنهان‌سازی جست‌وجو (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "تغییر وضعیت فهرست"
+msgstr "تغییر وضعیت حالت خصوصی (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "حذف ورودی گزیده‌شده (d)"

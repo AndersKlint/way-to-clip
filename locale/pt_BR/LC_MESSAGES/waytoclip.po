@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2017-11-09 03:01-0300\n"
+"PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Diego R Lima <contact@diegoribeiro.net>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -22,9 +22,8 @@ msgstr ""
 "X-Poedit-SearchPath-1: extension.js\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Copiado para a área de transferência"
+msgstr "Mostrar janela da área de transferência"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -49,7 +48,7 @@ msgstr ""
 
 #: extension.js:331
 msgid "This operation cannot be undone."
-msgstr "Esta operação não pode ser desfeita"
+msgstr "Esta operação não pode ser desfeita."
 
 #: extension.js:332
 msgid "Clear"
@@ -64,14 +63,12 @@ msgid "History Size"
 msgstr "Tamanho do histórico"
 
 #: prefs.js:55
-#, fuzzy
 msgid "Max cache file size (MB)"
-msgstr "Tamanho máximo do arquivo de cache (kb)"
+msgstr "Tamanho máximo do arquivo de cache (MB)"
 
 #: prefs.js:64
-#, fuzzy
 msgid "Show confirmation on Clear History"
-msgstr "Mostrar notificação sobre cópia"
+msgstr "Mostrar confirmação ao limpar histórico"
 
 #: prefs.js:68
 msgid "Move item to the top after selection"
@@ -79,297 +76,285 @@ msgstr "Mover o item para o topo após a seleção"
 
 #: prefs.js:72
 msgid "Keep selected entry after Clear History"
-msgstr ""
+msgstr "Manter entrada selecionada após limpar histórico"
 
 #: prefs.js:76
-#, fuzzy
 msgid "Clear clipboard history on system reboot"
-msgstr "Histórico da área de transferência apagado"
+msgstr "Limpar histórico da área de transferência ao reiniciar o sistema"
 
 #: prefs.js:80
 msgid "Auto-paste on selection"
-msgstr ""
+msgstr "Colar automaticamente ao selecionar"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Colar automaticamente após selecionar um item da janela"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Posição da janela"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Onde mostrar a janela da área de transferência"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Limitar número de páginas"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Quando desativado, a janela mostra todo o histórico da área de transferência"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Número de páginas"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Cada página mostra 10 itens (Tab para navegar entre páginas)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Tamanho das miniaturas de imagens (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Tamanho da pré-visualização de imagens na janela"
 
 #: prefs.js:116
 msgid "Cache images"
-msgstr ""
+msgstr "Armazenar imagens em cache"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Aplicativos excluídos"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "O conteúdo copiado não será salvo enquanto estes aplicativos estiverem em "
+"foco"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Aplicativos de terminal"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "A colagem automática usa Ctrl+Shift+V em terminais. Adicione seu terminal se "
+"colar inserir o texto errado"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Histórico da área de transferência apagado"
+msgstr "Limpar histórico da área de transferência em intervalos"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Intervalo de limpeza do histórico (em minutos)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: prefs.js:169
 msgid "Requires reopening Settings and restarting the extension"
-msgstr ""
+msgstr "Requer reabrir as Configurações e reiniciar a extensão"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Janela"
 
 #: prefs.js:175
 msgid "Behavior"
-msgstr ""
+msgstr "Comportamento"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Exclusão"
 
 #: prefs.js:177
 msgid "Limits"
-msgstr ""
+msgstr "Limites"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Atalhos do teclado"
+msgstr "Atalhos de teclado globais"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Atalhos do teclado"
+msgstr "Atalhos de teclado da janela"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Nome da classe da janela, ex. «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Classe da janela ou id do aplicativo, ex. «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "No cursor do mouse"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "No centro da janela em foco"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Copiado para a área de transferência"
+msgstr "Mostrar/ocultar a janela da área de transferência"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Pesquisar na janela"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Excluir entrada selecionada"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Modo privado"
+msgstr "Alternar modo privado"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Próxima entrada"
+msgstr "Próxima página"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Entrada anterior"
+msgstr "Página anterior"
 
 #: prefs.js:311
 msgid "Move selection up"
-msgstr ""
+msgstr "Mover seleção para cima"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Mover seleção para baixo"
 
 #: prefs.js:313
 msgid "Confirm selection"
-msgstr ""
+msgstr "Confirmar seleção"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Fechar janela"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Diferenciar maiúsculas (ao pesquisar)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Usar expressão regular (ao pesquisar)"
 
 #: prefs.js:329
-#, fuzzy
 msgid "Enable shortcuts"
-msgstr "Atalhos do teclado"
+msgstr "Ativar atalhos do teclado"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Mostrar ícones de lembrete de atalhos"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Mostrar os ícones de lembrete de atalhos na parte inferior da janela"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Redefinir atalhos para o padrão"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Redefinir"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Atalhos do teclado"
+msgstr "Adicionar atalho"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Atalhos do teclado"
+msgstr "Remover atalho"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
-msgstr ""
+msgstr "Desativado"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Atalhos do teclado"
+msgstr "Digite o atalho…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Escolher dos aplicativos instalados"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Pesquisar aplicativos…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Diferenciar maiúsculas (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Usar expressão regular (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Mostrar/ocultar pesquisa (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Abrir menu"
+msgstr "Alternar modo privado (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Excluir entrada selecionada (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Conteúdo da área de transferência"
+msgstr "O histórico da área de transferência está vazio"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Nenhum item correspondente na área de transferência"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Pesquisar…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Diferenciar maiúsculas (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Usar expressão regular (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Mostrar/ocultar pesquisa (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Abrir menu"
+msgstr "Alternar modo privado (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Excluir entrada selecionada (d)"

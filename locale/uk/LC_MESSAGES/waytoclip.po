@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-09 12:42+0200\n"
-"PO-Revision-Date: 2025-02-19 00:12+0200\n"
+"PO-Revision-Date: 2026-09-09 13:11+0200\n"
 "Last-Translator: Yevhen Popok <xalt7x.service@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -21,9 +21,8 @@ msgstr ""
 "X-Generator: Poedit 3.4.4\n"
 
 #: extension.js:168
-#, fuzzy
 msgid "Show clipboard popup"
-msgstr "Скопійовано до буфера обміну"
+msgstr "Показати спливне вікно буфера обміну"
 
 #: extension.js:188 prefs.js:298
 msgid "Private mode"
@@ -82,45 +81,44 @@ msgid "Clear clipboard history on system reboot"
 msgstr "Очищати історію буфера обміну під час перезапуску"
 
 #: prefs.js:80
-#, fuzzy
 msgid "Auto-paste on selection"
-msgstr "Вставляти під час вибору"
+msgstr "Автовставлення під час вибору"
 
 #: prefs.js:81
 msgid "Automatically paste after selecting an item from the popup"
-msgstr ""
+msgstr "Автоматично вставляти після вибору елемента зі спливного вікна"
 
 #: prefs.js:85
 msgid "Popup position"
-msgstr ""
+msgstr "Положення спливного вікна"
 
 #: prefs.js:86
 msgid "Where to show the clipboard popup"
-msgstr ""
+msgstr "Місце показу спливного вікна буфера обміну"
 
 #: prefs.js:91
 msgid "Limit number of pages"
-msgstr ""
+msgstr "Обмежити кількість сторінок"
 
 #: prefs.js:92
 msgid "When off, the popup shows the full clipboard history"
-msgstr ""
+msgstr "Якщо вимкнено, спливне вікно показує всю історію буфера обміну"
 
 #: prefs.js:96
 msgid "Number of pages"
-msgstr ""
+msgstr "Кількість сторінок"
 
 #: prefs.js:97
 msgid "Each page shows 10 items (Tab to navigate pages)"
-msgstr ""
+msgstr "Кожна сторінка показує 10 елементів (Tab для переходу між сторінками)"
 
 #: prefs.js:106
 msgid "Image thumbnail size (px)"
-msgstr ""
+msgstr "Розмір мініатюр зображень (px)"
 
 #: prefs.js:107
 msgid "Preview size for images in the popup"
-msgstr ""
+msgstr "Розмір попереднього перегляду зображень у спливному вікні"
 
 #: prefs.js:116
 msgid "Cache images"
@@ -128,47 +126,46 @@ msgstr "Кешувати зображення"
 
 #: prefs.js:121
 msgid "Excluded Apps"
-msgstr ""
+msgstr "Виключені програми"
 
 #: prefs.js:122
 msgid "Content copied will not be saved while these apps are in focus"
-msgstr ""
+msgstr "Скопійований вміст не зберігатиметься, поки ці програми у фокусі"
 
 #: prefs.js:134
 msgid "Terminal Apps"
-msgstr ""
+msgstr "Термінали"
 
 #: prefs.js:135
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
-msgstr ""
+msgstr "Автовставлення використовує Ctrl+Shift+V у терміналах. Додайте свій "
+"термінал, якщо вставлення підставляє неправильний текст"
 
 #: prefs.js:147
-#, fuzzy
 msgid "Clear clipboard history on interval"
-msgstr "Очищати історію буфера обміну під час перезапуску"
+msgstr "Очищати історію буфера обміну через проміжки часу"
 
 #: prefs.js:151
 msgid "History clear interval (in minutes)"
-msgstr ""
+msgstr "Інтервал очищення історії (у хвилинах)"
 
 #: prefs.js:168
 msgid "Language"
-msgstr ""
+msgstr "Мова"
 
 #: prefs.js:169
-#, fuzzy
 msgid "Requires reopening Settings and restarting the extension"
-msgstr "Потребує перезапуску розширення"
+msgstr "Потребує повторного відкриття Налаштувань і перезапуску розширення"
 
 #: prefs.js:173
 msgid "General"
-msgstr ""
+msgstr "Загальні"
 
 #: prefs.js:174
 msgid "Popup"
-msgstr ""
+msgstr "Спливне вікно"
 
 #: prefs.js:175
 msgid "Behavior"
@@ -176,95 +173,87 @@ msgstr "Поведінка"
 
 #: prefs.js:176
 msgid "Exclusion"
-msgstr ""
+msgstr "Виключення"
 
 #: prefs.js:177
 msgid "Limits"
 msgstr "Обмеження"
 
 #: prefs.js:178
-#, fuzzy
 msgid "Global shortcuts"
-msgstr "Увімкнути клавіатурні скорочення"
+msgstr "Глобальні клавіатурні скорочення"
 
 #: prefs.js:179
-#, fuzzy
 msgid "Popup shortcuts"
-msgstr "Клавіатурні скорочення"
+msgstr "Клавіатурні скорочення спливного вікна"
 
 #: prefs.js:235
 msgid "Window class name, e.g. \"KeePassXC\""
-msgstr ""
+msgstr "Назва класу вікна, напр. «KeePassXC»"
 
 #: prefs.js:244
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
-msgstr ""
+msgstr "Клас вікна або ID програми, напр. «org.gnome.Ptyxis»"
 
 #: prefs.js:254
 msgid "System"
-msgstr ""
+msgstr "Система"
 
 #: prefs.js:290
 msgid "At mouse cursor"
-msgstr ""
+msgstr "Біля курсора миші"
 
 #: prefs.js:291
 msgid "Center of focused window"
-msgstr ""
+msgstr "У центрі активного вікна"
 
 #: prefs.js:297
-#, fuzzy
 msgid "Toggle the clipboard popup"
-msgstr "Скопійовано до буфера обміну"
+msgstr "Показати/приховати спливне вікно буфера обміну"
 
 #: prefs.js:306
 msgid "Search in popup"
-msgstr ""
+msgstr "Пошук у спливному вікні"
 
 #: prefs.js:307
 msgid "Delete selected entry"
-msgstr ""
+msgstr "Видалити вибраний запис"
 
 #: prefs.js:308
-#, fuzzy
 msgid "Toggle private mode"
-msgstr "Приватний режим"
+msgstr "Увімкнути/вимкнути приватний режим"
 
 #: prefs.js:309
-#, fuzzy
 msgid "Next page"
-msgstr "Наступний запис"
+msgstr "Наступна сторінка"
 
 #: prefs.js:310
-#, fuzzy
 msgid "Previous page"
-msgstr "Попередній запис"
+msgstr "Попередня сторінка"
 
 #: prefs.js:311
-#, fuzzy
 msgid "Move selection up"
-msgstr "Вставляти під час вибору"
+msgstr "Перемістити виділення вгору"
 
 #: prefs.js:312
 msgid "Move selection down"
-msgstr ""
+msgstr "Перемістити виділення вниз"
 
 #: prefs.js:313
-#, fuzzy
 msgid "Confirm selection"
-msgstr "Вставляти під час вибору"
+msgstr "Підтвердити вибір"
 
 #: prefs.js:314
 msgid "Close popup"
-msgstr ""
+msgstr "Закрити спливне вікно"
 
 #: prefs.js:315
 msgid "Match case (while searching)"
-msgstr ""
+msgstr "Враховувати регістр (під час пошуку)"
 
 #: prefs.js:316
 msgid "Use regular expression (while searching)"
-msgstr ""
+msgstr "Використовувати регулярний вираз (під час пошуку)"
 
 #: prefs.js:329
 msgid "Enable shortcuts"
@@ -272,102 +261,97 @@ msgstr "Увімкнути клавіатурні скорочення"
 
 #: prefs.js:339
 msgid "Show shortcut reminder icons"
-msgstr ""
+msgstr "Показувати значки-нагадування скорочень"
 
 #: prefs.js:340
 msgid "Show the shortcut reminder icons at the bottom of the popup"
-msgstr ""
+msgstr "Показувати значки-нагадування скорочень унизу спливного вікна"
 
 #: prefs.js:349
 msgid "Reset shortcuts to defaults"
-msgstr ""
+msgstr "Скинути скорочення до стандартних"
 
 #: prefs.js:351
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Введіть клавіатурне скорочення"
+msgstr "Додати скорочення"
 
 #: prefs/shortcutRow.js:79
-#, fuzzy
 msgid "Remove shortcut"
-msgstr "Введіть клавіатурне скорочення"
+msgstr "Видалити скорочення"
 
 #: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:367
 msgid "Disabled"
 msgstr "Вимкнено"
 
 #: prefs/shortcutRow.js:134
-#, fuzzy
 msgid "Enter shortcut…"
-msgstr "Введіть клавіатурне скорочення"
+msgstr "Введіть клавіатурне скорочення…"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
-msgstr ""
+msgstr "Вибрати зі встановлених програм"
 
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
-msgstr ""
+msgstr "Пошук програм…"
 
 #: cursor-popup/cursorPopup.js:338
 #, javascript-format
 msgid "Match Case (%s)"
-msgstr ""
+msgstr "Враховувати регістр (%s)"
 
 #: cursor-popup/cursorPopup.js:342
 #, javascript-format
 msgid "Use Regular Expression (%s)"
-msgstr ""
+msgstr "Використовувати регулярний вираз (%s)"
 
 #: cursor-popup/cursorPopup.js:379
 #, javascript-format
 msgid "Toggle search (%s)"
-msgstr ""
+msgstr "Показати/приховати пошук (%s)"
 
 #: cursor-popup/cursorPopup.js:381
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "Toggle private mode (%s)"
-msgstr "Перемкнути меню"
+msgstr "Увімкнути/вимкнути приватний режим (%s)"
 
 #: cursor-popup/cursorPopup.js:383
 #, javascript-format
 msgid "Delete selected entry (%s)"
-msgstr ""
+msgstr "Видалити вибраний запис (%s)"
 
 #: cursor-popup/cursorPopup.js:573
-#, fuzzy
 msgid "Clipboard history is empty"
-msgstr "Вміст буфера обміну порожній"
+msgstr "Історія буфера обміну порожня"
 
 #: cursor-popup/cursorPopup.js:574
 msgid "No matching clipboard items"
-msgstr ""
+msgstr "Немає відповідних елементів буфера обміну"
 
 #: cursor-popup/popupUI.js:101
 msgid "Search..."
-msgstr ""
+msgstr "Пошук…"
 
 #: cursor-popup/popupUI.js:341
 msgid "Match Case (Alt+C)"
-msgstr ""
+msgstr "Враховувати регістр (Alt+C)"
 
 #: cursor-popup/popupUI.js:343
 msgid "Use Regular Expression (Alt+R)"
-msgstr ""
+msgstr "Використовувати регулярний вираз (Alt+R)"
 
 #: cursor-popup/popupUI.js:418
 msgid "Toggle search (s)"
-msgstr ""
+msgstr "Показати/приховати пошук (s)"
 
 #: cursor-popup/popupUI.js:420
-#, fuzzy
 msgid "Toggle private mode (p)"
-msgstr "Перемкнути меню"
+msgstr "Увімкнути/вимкнути приватний режим (p)"
 
 #: cursor-popup/popupUI.js:422
 msgid "Delete selected entry (d)"
-msgstr ""
+msgstr "Видалити вибраний запис (d)"
