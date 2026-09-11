@@ -2,7 +2,7 @@ import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { WayToClip } from './panelButton.js';
+import { WayToClip } from './src/panel/panelButton.js';
 
 export default class WayToClipExtension extends Extension {
     enable() {
@@ -17,8 +17,6 @@ export default class WayToClipExtension extends Extension {
     }
 
     disable() {
-        // enable() may have thrown before assigning (or never run),
-        // in which case there is nothing to tear down.
         if (this.waytoclip) {
             this.waytoclip.destroy();
             this.waytoclip = null;

@@ -1,7 +1,3 @@
-/**
- * PopupUIBuilder - Constructs and positions all UI widgets for the cursor popup.
- */
-
 import Clutter from 'gi://Clutter';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
@@ -9,34 +5,79 @@ import Pango from 'gi://Pango';
 import St from 'gi://St';
 
 import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { translate } from '../src/i18n.js';
+import { translate, makeTranslator } from '../common/i18n.js';
 
-/** Default thumbnail size for image entries in the cursor popup. */
-const _ = msgid => translate(msgid, nativeGettext);
-export const IMAGE_PREVIEW_SIZE = 96;
+const _ = makeTranslator(nativeGettext);
+const IMAGE_PREVIEW_SIZE = 96;
 
-/** Hover delay (ms) before a search-toggle tooltip appears. */
-const SEARCH_TOOLTIP_DELAY_MS = 500;
+// Approx. characters per visual line in the popup (400-600px wide).
+// Used to detect multi-line clipping that max-height CSS would otherwise
+// cut off silently, so we can append an explicit " ..." marker.
+export const POPUP_PREVIEW_CHARS_PER_LINE = 60;
+export const POPUP_PREVIEW_ELLIPSIS = ' ...';
 
-export class PopupUIBuilder {
-    constructor() {
-        this._imagePreviewSize = IMAGE_PREVIEW_SIZE;
-        this._pendingSearchTooltips = new Set();
+/**
+ * Truncate clipboard text for the popup list so clipped items visibly
+ * end with " ...". Only the preview is shortened — callers keep
+ * filtering/copying from the full entry value.
+ *
+ * @param {string} text full clipboard string
+ * @param {number} [maxLines] visible rows (1-3)
+ * @returns {string} preview with " ..." appended when truncated
+ */
+export function truncatePreviewText(text, maxLines = 3) {
+    if (text === null || text === undefined)
+        return '';
+    const str = String(text).replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    if (str === '')
+        return '';
+    const lines = Number.isFinite(maxLines)
+        ? Math.min(3, Math.max(1, Math.floor(maxLines)))
+        : 3;
+
+    let preview;
+    let truncated = false;
+    if (lines <= 1) {
+        // single-row previews collapse newlines so short multi-line clips
+        // still fit on one visual line without a false ellipsis
+        preview = str.split('\n').join(' ');
+    } else {
+        let parts = str.split('\n');
+        if (parts.length > lines) {
+            parts = parts.slice(0, lines);
+            truncated = true;
+        }
+        preview = parts.join('\n');
+        if (!truncated && preview !== str && str.length > preview.length)
+            truncated = true;
     }
 
-    /**
-     * Update the thumbnail size for image previews.
-     * Clamped to the same 32-512 range as the GSettings schema so
-     * out-of-range values (or stale prefs) can't collapse the layout.
-     */
+    const maxChars = lines * POPUP_PREVIEW_CHARS_PER_LINE;
+    if (preview.length > maxChars) {
+        preview = preview.slice(0, maxChars).replace(/\s+$/, '');
+        truncated = true;
+    }
+
+    if (truncated) {
+        preview = preview.replace(/\s+$/, '');
+        if (!preview.endsWith('...'))
+            preview += POPUP_PREVIEW_ELLIPSIS;
+    }
+    return preview;
+}
+
+const SEARCH_TOOLTIP_DELAY_MS = 500;
+const SEARCH_TOGGLE_DEBOUNCE_MS = 300;
+
+export class PopupUIBuilder {
+    #imagePreviewSize = IMAGE_PREVIEW_SIZE;
+    #pendingSearchTooltips = new Set();
+
     setImagePreviewSize(size) {
         if (!Number.isFinite(size))
             return;
-        this._imagePreviewSize = Math.min(512, Math.max(32, Math.round(size)));
+        this.#imagePreviewSize = Math.min(512, Math.max(32, Math.round(size)));
     }
-    /**
-     * Create the full-screen modal overlay widget.
-     */
     createModalContainer() {
         return new St.Widget({
             reactive: true,
@@ -47,9 +88,6 @@ export class PopupUIBuilder {
         });
     }
 
-    /**
-     * Create the main popup box layout.
-     */
     createPopupLayout() {
         return new St.BoxLayout({
             style_class: 'waytoclip-cursor-popup',
@@ -58,12 +96,6 @@ export class PopupUIBuilder {
         });
     }
 
-    /**
-     * Create the scrollable list container for clipboard items.
-     * This is the inner box holding the rows; it must be placed inside
-     * the St.ScrollView returned by createListScrollView() so the list
-     * can scroll when the popup doesn't fit on screen.
-     */
     createListContainer() {
         return new St.BoxLayout({
             style_class: 'waytoclip-popup-list',
@@ -71,13 +103,6 @@ export class PopupUIBuilder {
         });
     }
 
-    /**
-     * Create the scroll wrapper for the item list.
-     * Scrolling stays disabled (policy NEVER) until CursorPopup caps the
-     * list height on overflow; that keeps the popup naturally sized when
-     * everything fits and only scrolls when it doesn't.
-     * @param {St.BoxLayout} listBox - inner container from createListContainer()
-     */
     createListScrollView(listBox) {
         const scrollView = new St.ScrollView({
             style_class: 'waytoclip-popup-list-scroll',
@@ -90,11 +115,6 @@ export class PopupUIBuilder {
         return scrollView;
     }
 
-    /**
-     * Create the search entry widget with event bindings.
-     * @param {Function} onTextChanged - callback(queryText)
-     * @param {Function} onKeyPress - callback(event) => Clutter.EVENT_*
-     */
     createSearchEntry(onTextChanged, onKeyPress) {
         const entry = new St.Entry({
             style_class: 'waytoclip-search-entry',
@@ -114,12 +134,6 @@ export class PopupUIBuilder {
         return entry;
     }
 
-    /**
-     * Create a small toggle button for the search bar ("Aa" / ".*").
-     * @param {string} label - button text
-     * @param {string} tooltip - tooltip text
-     * @returns {St.Button}
-     */
     createSearchToggleButton(label) {
         const button = new St.Button({
             style_class: 'waytoclip-search-toggle',
@@ -136,13 +150,7 @@ export class PopupUIBuilder {
         return button;
     }
 
-    /**
-     * Create the shared floating hover tooltip (search toggles, footer
-     * hints). It is hidden by default; callers add it to the fullscreen
-     * modal container (so it floats above the popup without disturbing
-     * the layout) and wire actors via attachSearchTooltip().
-     * @returns {St.Label}
-     */
+    // shared floating tooltip (native ones don't render here)
     createSearchTooltip() {
         return new St.Label({
             style_class: 'waytoclip-search-tooltip',
@@ -150,28 +158,16 @@ export class PopupUIBuilder {
         });
     }
 
-    /**
-     * Cancel all pending (delayed) search-toggle tooltip timeouts.
-     */
     cancelPendingSearchTooltips() {
-        // Fired timeouts remove themselves from the set, so every id
-        // here is still pending and safe to remove.
-        for (const id of this._pendingSearchTooltips)
+        for (const id of this.#pendingSearchTooltips)
             GLib.source_remove(id);
-        this._pendingSearchTooltips = new Set();
+        this.#pendingSearchTooltips = new Set();
     }
 
-    /**
-     * Show `tooltip` with `text` anchored above `button` (below it when
-     * there is no room above), clamped inside `container`. Restacks the
-     * tooltip above its siblings first so it always paints on top of
-     * the popup.
-     */
     _positionSearchTooltip(tooltip, button, container, text) {
         tooltip.set_text(text);
         container.set_child_above_sibling(tooltip, null);
-        // Show first so preferred-size reflects the new text, then
-        // position synchronously — no painted frame in between.
+        // show first so size is right, then place (no flash in between)
         tooltip.visible = true;
 
         const [conX, conY] = container.get_transformed_position();
@@ -196,59 +192,39 @@ export class PopupUIBuilder {
         tooltip.set_position(x, y);
     }
 
-    /**
-     * Wire a custom hover tooltip on any reactive actor (search
-     * toggles, footer hints): native St tooltips do not render here,
-     * so the shared floating label is shown after a short hover delay
-     * and hidden on leave.
-     */
     attachSearchTooltip(button, text, tooltip, container) {
-        // Live text: owners (CursorPopup) may rewrite the tooltip when
-        // shortcuts are reconfigured; the hover handler reads the
-        // current value at show time.
+        // read live at show time — owners rewrite this when shortcuts change
         button._hoverTooltipText = text;
         button.connect('enter-event', () => {
             const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
                 SEARCH_TOOLTIP_DELAY_MS, () => {
-                    this._pendingSearchTooltips.delete(id);
+                    this.#pendingSearchTooltips.delete(id);
                     this._positionSearchTooltip(tooltip, button, container,
                         button._hoverTooltipText ?? text);
                     return GLib.SOURCE_REMOVE;
                 });
-            this._pendingSearchTooltips.add(id);
+            this.#pendingSearchTooltips.add(id);
         });
         const dismiss = () => {
             this.cancelPendingSearchTooltips();
             this.hideSearchTooltip(tooltip);
         };
         button.connect('leave-event', dismiss);
-        // Clicking dismisses any pending/visible tooltip; the toggle
-        // itself is handled by the separately bound press/clicked
-        // handlers (this one deliberately does not stop propagation).
+        // press just dismisses, toggle itself is wired separately
         button.connect('button-press-event', dismiss);
     }
 
-    /**
-     * Hide the shared search-toggle tooltip, if visible.
-     */
     hideSearchTooltip(tooltip) {
         if (tooltip)
             tooltip.visible = false;
     }
 
-    /**
-     * Bind a toggle callback to a search button.
-     * Item rows in this popup select via 'button-press-event', which is
-     * the proven-delivering signal under the modal grab; plain 'clicked'
-     * alone has been observed to never arrive. Both are wired so at least
-     * one fires, with a short dedup window so a press+clicked pair only
-     * toggles once.
-     */
+    // rows use press-event (clicked often never arrives under the grab) + dedup
     _bindSearchToggle(button, onToggle) {
         let lastFire = 0;
         const fire = () => {
             const now = Date.now();
-            if (now - lastFire < 300)
+            if (now - lastFire < SEARCH_TOGGLE_DEBOUNCE_MS)
                 return;
             lastFire = now;
             onToggle();
@@ -260,11 +236,6 @@ export class PopupUIBuilder {
         });
     }
 
-    /**
-     * Sync a search toggle button's visual state.
-     * @param {St.Button} button
-     * @param {boolean} active
-     */
     setSearchToggleState(button, active) {
         if (!button)
             return;
@@ -275,21 +246,6 @@ export class PopupUIBuilder {
             button.remove_style_class_name('active');
     }
 
-    /**
-     * Create the search field: a single field-styled bar holding the text
-     * entry plus two icon-style toggles ("Aa" case-sensitive, ".*"
-     * regex) embedded at the right, inside the field. The whole bar is
-     * hidden until search mode is enabled, mirroring the old
-     * entry-only behavior.
-     * @param {Function} onTextChanged - callback(queryText)
-     * @param {Function} onKeyPress - callback(event) => Clutter.EVENT_*
-     * @param {Function} onCaseToggle - callback()
-     * @param {Function} onRegexToggle - callback()
-     * @param {St.Widget} container - fullscreen modal container hosting
-     *   the popup; the floating hover tooltip is positioned relative to
-     *   it (callers must add the returned tooltip to it).
-     * @returns {{ searchBar: St.BoxLayout, entry: St.Entry, caseButton: St.Button, regexButton: St.Button, tooltip: St.Label }}
-     */
     createSearchBar(onTextChanged, onKeyPress, onCaseToggle, onRegexToggle, container) {
         const searchBar = new St.BoxLayout({
             style_class: 'waytoclip-search-bar',
@@ -308,9 +264,6 @@ export class PopupUIBuilder {
         this._bindSearchToggle(caseButton, onCaseToggle);
         this._bindSearchToggle(regexButton, onRegexToggle);
 
-        // Custom hover tooltips ("Match Case (Alt+C)", ...). Native St
-        // tooltips do not render here, so a shared floating label is
-        // shown above the hovered toggle instead.
         const tooltip = this.createSearchTooltip();
         if (container) {
             this.attachSearchTooltip(caseButton,
@@ -323,8 +276,6 @@ export class PopupUIBuilder {
         searchBar.add_child(caseButton);
         searchBar.add_child(regexButton);
 
-        // Highlight the field while typing (the container draws the
-        // field chrome; the nested entry itself is transparent).
         const text = entry.get_clutter_text();
         text.connect('key-focus-in', () => searchBar.add_style_class_name('focus'));
         text.connect('key-focus-out', () => searchBar.remove_style_class_name('focus'));
@@ -332,9 +283,6 @@ export class PopupUIBuilder {
         return { searchBar, entry, caseButton, regexButton, tooltip };
     }
 
-    /**
-     * Create the page indicator label.
-     */
     createPageIndicator() {
         return new St.Label({
             style_class: 'waytoclip-page-indicator',
@@ -343,18 +291,6 @@ export class PopupUIBuilder {
         });
     }
 
-    /**
-     * Build the footer bar with hints and the page indicator.
-     * Hints are reactive so the shared floating hover tooltip can be
-     * attached (see attachSearchTooltip).
-     * @param {St.Widget} container - fullscreen modal container the
-     *   shared tooltip is positioned relative to (omit to skip tooltips).
-     * @param {St.Label} tooltip - shared floating tooltip label.
-     * @returns {{ footerBox: St.BoxLayout, searchHint: St.BoxLayout,
-      *   searchHintLabel: St.Label, privateModeHint: St.BoxLayout,
-      *   privateModeHintLabel: St.Label, deleteHint: St.BoxLayout,
-      *   deleteHintLabel: St.Label, pageIndicator: St.Label }}
-     */
     createFooter(container, tooltip) {
         const searchHint = new St.BoxLayout({
             style_class: 'waytoclip-hint',
@@ -418,10 +354,6 @@ export class PopupUIBuilder {
         };
     }
 
-    /**
-     * Create the placeholder label shown in place of the entry list when
-     * there is nothing to display (empty history or no search matches).
-     */
     createEmptyLabel(text) {
         return new St.Label({
             style_class: 'waytoclip-empty-label',
@@ -431,14 +363,7 @@ export class PopupUIBuilder {
         });
     }
 
-    /**
-     * Build a small thumbnail actor for an image entry, or null when the
-     * entry is not an image / has no decodable bytes. Uses a BytesIcon so
-     * no cache-file roundtrip is needed (works even before/independently
-     * of the on-disk image cache).
-     */
     createImagePreview(entry) {
-        // Best-effort thumbnail: undecodable bytes yield no preview.
         try {
             if (!entry || !entry.isImage())
                 return null;
@@ -448,7 +373,7 @@ export class PopupUIBuilder {
             const gicon = Gio.BytesIcon.new(bytes);
             return new St.Icon({
                 gicon,
-                icon_size: this._imagePreviewSize,
+                icon_size: this.#imagePreviewSize,
                 style_class: 'waytoclip-item-image',
                 x_align: Clutter.ActorAlign.START,
             });
@@ -457,14 +382,7 @@ export class PopupUIBuilder {
         }
     }
 
-    /**
-     * Create a single clipboard item widget.
-     * @param {Object} mItem - the menu item data
-     * @param {number} index - 0-based index within the current page
-     * @param {Function} onSelect - callback(mItem) when clicked
-     * @param {number} maxLines - max text lines for this row (3, 2 or 1).
-     *   Used to shrink rows so the locked popup box keeps fitting without moving.
-     */
+    // one clipboard row (maxLines lets us squeeze rows instead of moving the popup)
     createItemWidget(mItem, index, onSelect, maxLines = 3) {
         const itemBox = new St.BoxLayout({
             style_class: 'waytoclip-popup-item',
@@ -496,7 +414,7 @@ export class PopupUIBuilder {
             textContainer.add_child(imagePreview);
         } else {
             const textLabel = new St.Label({
-                text: mItem.entry.getStringValue(),
+                text: truncatePreviewText(mItem.entry.getStringValue(), maxLines),
                 style_class: 'waytoclip-item-text',
                 y_align: Clutter.ActorAlign.START,
                 x_expand: true,
@@ -504,10 +422,7 @@ export class PopupUIBuilder {
             textLabel.get_clutter_text().set_line_wrap(true);
             textLabel.get_clutter_text().set_line_wrap_mode(Pango.WrapMode.WORD_CHAR);
             textLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.END);
-            // Truncate long rows to fit the locked popup height: 3 lines is the
-            // stylesheet default (4.8em), 2 lines ~3.2em, 1 line ~1.6em.
-            // Inline style wins over the stylesheet so pages can shrink rows
-            // instead of moving/resizing the popup box away from the cursor.
+            // squeeze tall rows: inline style beats the stylesheet here
             if (maxLines === 2) {
                 textLabel.set_style('max-height: 3.2em;');
             } else if (maxLines <= 1) {
@@ -528,22 +443,7 @@ export class PopupUIBuilder {
         return itemBox;
     }
 
-    /**
-     * Initial placement near the cursor. Prioritizes BELOW the cursor when
-     * the popup fits there; only pops upwards when there is not enough
-     * space below but there is enough above. When neither side fits, uses
-     * the side with the most available space so the scrollable list gets
-     * maximum height. Left edge starts at the cursor and is clamped once
-     * — callers lock the returned X and cursor-anchored edge and must
-     * never recompute placement on page changes.
-     *
-     * @param {St.Widget} modalContainer
-     * @param {St.BoxLayout} popup
-     * @param {number} x - cursor X in global coordinates
-     * @param {number} y - cursor Y in global coordinates
-     * @param {Object} monitor - { x, y, width, height }
-     * @returns {{ x: number, y: number, mode: string, belowTopY: number, aboveBottomY: number }}
-     */
+    // below first if it fits, else above, else whichever side is bigger
     positionPopup(modalContainer, popup, x, y, monitor) {
         const MARGIN = 10;
         const GAP_BELOW = 20;
@@ -552,14 +452,12 @@ export class PopupUIBuilder {
         const [, natW] = popup.get_preferred_width(-1);
         const [, natH] = popup.get_preferred_height(natW);
 
-        // Position the modal container to cover the monitor
         modalContainer.set_position(monitor.x, monitor.y);
         modalContainer.set_size(monitor.width, monitor.height);
 
         const relX = x - monitor.x;
         const relY = y - monitor.y;
 
-        // Lock left edge at cursor, clamped once to stay on-screen.
         const popupX = Math.max(MARGIN, Math.min(relX, monitor.width - natW - MARGIN));
 
         const spaceBelow = monitor.height - relY - GAP_BELOW - MARGIN;
@@ -571,17 +469,12 @@ export class PopupUIBuilder {
         let mode;
         let popupY;
         if (natH <= spaceBelow) {
-            // Prefer below whenever it fits.
             mode = 'below';
             popupY = belowTopY;
         } else if (natH <= spaceAbove) {
             mode = 'above';
             popupY = aboveBottomY - natH;
         } else {
-            // Neither side fits: use the side with the most available
-            // space so the (scrollable) list gets maximum height. Ties
-            // keep the preferred below-mode. Callers cap the list to the
-            // locked side's available space, so nothing paints off-screen.
             if (spaceAbove > spaceBelow) {
                 mode = 'above';
                 popupY = aboveBottomY - natH;
@@ -596,14 +489,14 @@ export class PopupUIBuilder {
         return { x: popupX, y: popupY, mode, belowTopY, aboveBottomY };
     }
 
+    // re-glue after content changes: left + cursor edge locked, rest can grow
     /**
-     * Keep the popup glued to the cursor after content changes.
-     * Left edge is always locked; the cursor-anchored edge is locked too:
-     * below-mode keeps top at belowTopY (bottom grows/shrinks),
-     * above-mode keeps bottom at aboveBottomY (top grows/shrinks).
-     * Width may only grow rightwards and is capped to the monitor instead
-     * of moving X. Height is left natural; callers truncate rows or hard-cap
-     * when natural height exceeds available space.
+     * @param {object} modalContainer full-screen container
+     * @param {object} popup popup actor to position
+     * @param {{x:number, mode:string, belowTopY:number, aboveBottomY:number}} lock cursor edge lock from positionPopup
+     * @param {{width:number, height:number}} monitor monitor geometry
+     * @param {number|null} [natH] measured height, re-measured when null
+     * @returns {number} anchored height
      */
     anchorPopup(modalContainer, popup, lock, monitor, natH = null) {
         const MARGIN = 10;
@@ -611,7 +504,6 @@ export class PopupUIBuilder {
         modalContainer.set_position(monitor.x, monitor.y);
         modalContainer.set_size(monitor.width, monitor.height);
 
-        // Right side may grow, but never push X: cap width to monitor.
         const [, natW] = popup.get_preferred_width(-1);
         const availableW = Math.max(0, monitor.width - lock.x - MARGIN);
         if (natW > availableW) {
@@ -636,7 +528,23 @@ export class PopupUIBuilder {
     }
 
     /**
-     * Natural popup size for the current children, honoring any width cap.
+     * @param {{mode:string, belowTopY:number, aboveBottomY:number}|null} lock cursor edge lock from positionPopup
+     * @param {{height:number}|null} monitor monitor geometry
+     * @returns {number} available height for the popup, Infinity when unlocked
+     */
+    availHeightForLock(lock, monitor) {
+        if (!lock || !monitor)
+            return Infinity;
+        if (lock.mode === 'above')
+            return Math.max(0, lock.aboveBottomY - 10);
+        return Math.max(0, monitor.height - lock.belowTopY - 10);
+    }
+
+    /**
+     * @param {object} popup popup actor to measure
+     * @param {{width:number, height:number}} monitor monitor geometry
+     * @param {number} lockedX locked left edge
+     * @returns {{natW:number, natH:number, availableW:number}} natural size + available width
      */
     measurePopup(popup, monitor, lockedX) {
         const MARGIN = 10;

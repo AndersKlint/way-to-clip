@@ -1,18 +1,5 @@
-/**
- * localShortcuts - parsing, matching and display of the cursor popup's
- * local shortcuts.
- *
- * Local shortcuts live only inside the popup (they are NOT global GNOME
- * keybindings) and are stored as GTK accelerator strings in strv settings
- * (e.g. 's', '<Alt>c', 'Tab', '<Shift>ISO_Left_Tab'). A setting may hold
- * several accelerators; matching succeeds when any of them matches.
- *
- * This module is intentionally free of gi imports so it stays
- * headless-testable: modifier masks mirror Clutter.ModifierType and
- * keyvals mirror GDK keyvals (identical numbers).
- */
+// no gi imports on purpose so tests can run headless
 
-/** Modifier masks (mirror Clutter.ModifierType). */
 export const ModMask = {
     SHIFT: 1 << 0,
     LOCK: 1 << 1,
@@ -24,7 +11,6 @@ export const ModMask = {
     MOD5: 1 << 7,
 };
 
-/** Popup actions addressable by a local shortcut. */
 export const LocalActions = {
     SEARCH: 'search',
     DELETE_ENTRY: 'deleteEntry',
@@ -39,7 +25,6 @@ export const LocalActions = {
     REGEX: 'regex',
 };
 
-/** Fallback bindings used when settings are missing or unreadable. */
 export const DEFAULT_LOCAL_SHORTCUTS = {
     [LocalActions.SEARCH]: ['s'],
     [LocalActions.DELETE_ENTRY]: ['d'],
@@ -54,7 +39,6 @@ export const DEFAULT_LOCAL_SHORTCUTS = {
     [LocalActions.REGEX]: ['<Alt>r'],
 };
 
-// Lower-cased GTK accelerator key name -> [keyval, display name].
 const NAMED_KEYS = {
     tab: [0xff09, 'Tab'],
     iso_left_tab: [0xfe20, 'Tab'],
@@ -76,11 +60,7 @@ const NAMED_KEYS = {
 for (let i = 1; i <= 12; i++)
     NAMED_KEYS[`f${i}`] = [0xffbd + i, `F${i}`];
 
-/**
- * Parse a GTK accelerator string (e.g. 's', '<Alt>c',
- * '<Control><Shift>F10', 'Tab') into { keyval, mods }.
- * Returns null for empty/unknown input (incl. cleared "Disabled" entries).
- */
+// gtk accel string -> { keyval, mods }, null if junk/"Disabled"
 export function parseAccelerator(accel) {
     if (!accel || typeof accel !== 'string')
         return null;
@@ -117,10 +97,6 @@ export function parseAccelerator(accel) {
     return { keyval, mods, display };
 }
 
-/**
- * Parse a list of accelerator strings, dropping unparsable entries.
- * @returns {Array<{keyval: number, mods: number}>}
- */
 export function parseAcceleratorList(list) {
     if (!Array.isArray(list))
         return [];
@@ -138,14 +114,7 @@ function isAsciiLetter(keyval) {
         (keyval >= 0x61 && keyval <= 0x7a);
 }
 
-/**
- * Whether a key event matches a parsed binding.
- *
- * Matches on exact keyval equality, plus the shift-produced case variant
- * of ASCII letters when the binding requires a non-Shift modifier (so
- * Alt+Shift+C still hits '<Alt>c', while bare Shift+S does NOT hit 's').
- * Required modifiers must all be held; extra modifiers are ignored.
- */
+// match, tolerating shift-case on letter+modifier combos (alt+shift+c still hits <Alt>c)
 export function matchesBinding(event, binding) {
     if (!binding)
         return false;
@@ -161,20 +130,12 @@ export function matchesBinding(event, binding) {
     return (state & binding.mods) === binding.mods;
 }
 
-/**
- * Whether a key event matches any binding in a parsed list.
- */
 export function matchesShortcut(event, bindings) {
     if (!Array.isArray(bindings))
         return false;
     return bindings.some(b => matchesBinding(event, b));
 }
 
-/**
- * Format an accelerator string for display (e.g. '<Alt>c' -> 'Alt+C',
- * '<Shift>ISO_Left_Tab' -> 'Shift+Tab'). Returns the raw string when it
- * cannot be parsed.
- */
 export function formatAccelerator(accel) {
     const parsed = parseAccelerator(accel);
     if (!parsed)
@@ -198,8 +159,6 @@ export function formatAccelerator(accel) {
     if (parsed.display) {
         key = parsed.display;
     } else {
-        // Single character: show upper-case in combos ('Alt+C'), as-is
-        // for bare letters ('s').
         key = String.fromCodePoint(parsed.keyval);
         if (parsed.mods !== 0)
             key = key.toUpperCase();

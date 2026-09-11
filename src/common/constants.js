@@ -38,10 +38,9 @@ export const PrefsFields = {
     LANGUAGE                        : 'language',
 };
 
-/** Number of clipboard rows shown per popup page. */
 export const ITEMS_PER_PAGE = 10;
 
-/** Clipboard mimetypes probed in priority order (text first, then images). */
+// text first, then images — order matters
 export const CLIPBOARD_MIMETYPES = [
     'text/plain;charset=utf-8',
     'UTF8_STRING',
@@ -56,7 +55,7 @@ export const CLIPBOARD_MIMETYPES = [
     'text/html',
 ];
 
-/** Popup placement modes (mirrors popup-position-mode schema). */
+// mirrors the popup-position-mode schema
 export const PopupPositionMode = {
     CURSOR: 0,
     WINDOW_CENTER: 1,

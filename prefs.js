@@ -2,31 +2,29 @@ import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 import { ExtensionPreferences, gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { PrefsFields } from './constants.js';
-import { createShortcutEditor } from './prefs/shortcutRow.js';
-import { StringListManager } from './prefs/stringListManager.js';
+import { PrefsFields } from './src/common/constants.js';
+import { createShortcutEditor } from './src/settings/shortcutRow.js';
+import { StringListManager } from './src/settings/stringListManager.js';
 import {
     AVAILABLE_LANGUAGES,
     LANGUAGE_LABELS,
     SYSTEM_LANGUAGE,
     normalizeLanguage,
     syncOverrideFromSettings,
-    translate,
-} from './src/i18n.js';
+    makeTranslator,
+} from './src/common/i18n.js';
 
-const _ = msgid => translate(msgid, nativeGettext);
+const _ = makeTranslator(nativeGettext);
 
 export default class WayToClipPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
         syncOverrideFromSettings(settings);
-        // Keep the override live: popups/prefs opened after a change
-        // already use the new language; built rows need a reopen.
+        // live-update popups, built rows need a reopen though
         const languageChangedId = settings.connect(`changed::${PrefsFields.LANGUAGE}`, () => {
             syncOverrideFromSettings(settings);
         });
-        // The settings object outlives the window; drop the handler on
-        // close so it can't pin the whole widget tree afterwards.
+        // settings outlives the window, don't leak the handler
         window.connect('destroy', () => {
             settings.disconnect(languageChangedId);
         });
@@ -182,8 +180,10 @@ class Settings {
         this.limits = new Adw.PreferencesGroup({ title: _('Limits') });
         this.globalShortcuts = new Adw.PreferencesGroup({
             title: _('Global shortcuts'),
-            // No global shortcuts are bound by default (clipboard data is
-            // only touched once the user assigns and presses a shortcut).
+            // No global shortcuts for accessing clipbaord data bound by default (as the gnome extension
+            // guidelines prohibits any defautl keybindings for clipboard interaction).
+            // This rule might be up for interpretation regarding opening the cursor popup, though. But
+            // to be on the safe side, we don't bind any default keybindings.
             description: _('Disabled by default; assign a shortcut below to enable each action'),
         });
         this.localShortcuts = new Adw.PreferencesGroup({ title: _('Popup shortcuts') });
@@ -206,9 +206,7 @@ class Settings {
         this.behavior.add(this.field_clear_history_interval);
         this.behavior.add(this.field_confirm_clear_toggle);
 
-        // NOTE: the add-button lives only as the ExpanderRow suffix.
-        // (The old code also added it as a group child, which reparented
-        // it away from the row.)
+        // button is the row suffix only. Adding it as group child would reparent it away
         this.exclusion.add(this.field_exclusion_row);
 
         this.limits.add(this.field_size);
@@ -268,8 +266,6 @@ class Settings {
         return liststore;
     }
 
-    // GSettings stores a locale code string; ComboRow exposes an index.
-    // Sync both directions (guard against feedback loops).
     #bindLanguageRow() {
         const codes = AVAILABLE_LANGUAGES;
         const readStored = () => {
@@ -302,16 +298,12 @@ class Settings {
         return liststore;
     }
 
-    // GNOME-wide keybindings, effective even when the popup is closed.
     #globalShortcuts = {
         [PrefsFields.BINDING_TOGGLE_POPUP]: _('Toggle the clipboard popup'),
         [PrefsFields.BINDING_PRIVATE_MODE]: _('Private mode'),
         [PrefsFields.BINDING_CLEAR_HISTORY]: _('Clear history'),
     };
 
-    // Shortcuts local to the cursor popup (effective only while it is
-    // open). A setting may hold several accelerators, each rendered as
-    // its own removable chip in the editor below.
     #localShortcuts = {
         [PrefsFields.LOCAL_SEARCH]: _('Search in popup'),
         [PrefsFields.LOCAL_DELETE_ENTRY]: _('Delete selected entry'),

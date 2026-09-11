@@ -17,9 +17,7 @@ export class Keyboard {
 
     destroy () {
         Main.inputMethod.disconnectObject(this);
-        // run_dispose() is required here: the virtual input device created
-        // via create_virtual_device() holds a server-side Wayland resource
-        // that is otherwise never released when the extension is disabled.
+        // virtual device holds a Wayland resource, leaks without this
         this.#device.run_dispose();
     }
 
@@ -35,21 +33,11 @@ export class Keyboard {
         return this.#contentPurpose;
     }
 
-    /**
-     * Snapshot the current input purpose. Call while the target app
-     * still has focus (before the cursor popup takes its modal grab):
-     * opening the popup steals input-method focus and resets the live
-     * content-purpose to NORMAL, so reading purpose at paste time
-     * misdetects terminals as plain text fields.
-     */
+    // grab purpose now — popup focus resets it to NORMAL later
     savePurpose () {
         this.#savedPurpose = this.#contentPurpose;
     }
 
-    /**
-     * Purpose saved by savePurpose(), or null when never saved.
-     * AutoPaster consults this alongside the live purpose.
-     */
     get savedPurpose () {
         return this.#savedPurpose;
     }

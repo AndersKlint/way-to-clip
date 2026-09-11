@@ -1,12 +1,8 @@
-/**
- * ClipboardEntry - in-memory model for one clipboard item.
- *
- * Extracted from registry.js so history logic, persistence and the
- * popup can share one definition. Depends only on GLib/Gio (no Shell).
- */
-
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
+import { error } from '../common/logger.js';
+
+Gio._promisify(Gio.File.prototype, 'load_contents_async', 'load_contents_finish');
 
 const FileQueryInfoFlags = Gio.FileQueryInfoFlags;
 const FileTest = GLib.FileTest;
@@ -26,12 +22,6 @@ export class ClipboardEntry {
         return ClipboardEntry.#isTextMimetype(mimetype);
     }
 
-    /**
-     * Canonical target offered when pasting plain text.
-     * Only the plain-text family (text/plain variants, STRING,
-     * UTF8_STRING) collapses here; image/* and text/html (real markup)
-     * are never normalized so pictures and formatting survive.
-     */
     static canonicalPlainTextMimetype = 'text/plain;charset=utf-8';
 
     static isPlainTextMimetype(mimetype) {
@@ -48,11 +38,6 @@ export class ClipboardEntry {
         return mimetype;
     }
 
-    /**
-     * Rebuild an entry from its JSON registry representation.
-     * Never throws: returns null for missing/corrupt data so callers
-     * can filter it out instead of hanging.
-     */
     static async fromJSON(jsonEntry) {
         try {
             const mimetype = jsonEntry.mimetype || 'text/plain;charset=utf-8';
@@ -68,39 +53,26 @@ export class ClipboardEntry {
 
                 const file = Gio.file_new_for_path(filename);
                 try {
-                    bytes = await new Promise((resolve, reject) => {
-                        file.load_contents_async(null, (obj, res) => {
-                            try {
-                                const [success, contents] = obj.load_contents_finish(res);
-                                if (success)
-                                    resolve(contents);
-                                else
-                                    reject(new Error('WayToClip: could not read image file from cache'));
-                            } catch (e) {
-                                reject(e);
-                            }
-                        });
-                    });
+                    // promisified resolves to [data, etag] — no success flag
+                    [bytes] = await file.load_contents_async(null);
+                    if (!bytes)
+                        throw new Error('could not read image file from cache');
                 } catch (e) {
-                    console.error('WayToClip: could not read cached image, skipping', e);
+                    error('could not read cached image, skipping', e);
                     return null;
                 }
             }
 
             return new ClipboardEntry(mimetype, bytes, favorite);
         } catch (e) {
-            console.error('WayToClip: corrupt registry entry, skipping', e);
+            error('corrupt registry entry, skipping', e);
             return null;
         }
     }
 
     constructor(mimetype, bytes, favorite) {
-        // Collapse the plain-text family (STRING vs text/plain vs
-        // UTF8_STRING from GNOME's 2nd-copy mimetype mangling) to one
-        // canonical target so duplicates dedupe and paste works.
-        // image/* and text/html pass through untouched.
         this.#mimetype = ClipboardEntry.canonicalizeMimetype(mimetype);
-        // Store a plain Uint8Array copy so callers can't mutate us.
+        // copy so callers can't mutate us
         this.#bytes = bytes instanceof Uint8Array ? bytes.slice() : bytes;
         this.#favorite = !!favorite;
     }
@@ -125,11 +97,6 @@ export class ClipboardEntry {
         return this.#mimetype;
     }
 
-    /**
-     * Target to offer when writing this entry back to the clipboard.
-     * Plain text always offers the canonical target; everything else
-     * (images, text/html, ...) keeps its stored mimetype.
-     */
     normalizedMimetype() {
         return ClipboardEntry.canonicalizeMimetype(this.#mimetype);
     }
@@ -158,7 +125,7 @@ export class ClipboardEntry {
         return GLib.Bytes.new(this.#bytes);
     }
 
-    /** Stable hex digest for filenames and image labels. */
+    // doubles as image filename + label
     checksum() {
         return GLib.compute_checksum_for_bytes(
             GLib.ChecksumType.SHA256, this.asBytes());

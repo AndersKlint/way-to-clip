@@ -1,11 +1,8 @@
-/**
- * Headless unit tests for pure-logic modules.
- * Run: gjs -m tests/runTests.js   (or: make check)
- */
+// headless tests for the pure bits — run: gjs -m tests/runTests.js (or make check)
 
-import { HistoryStore } from '../src/historyStore.js';
-import { PopupSearch } from '../cursor-popup/popupSearch.js';
-import { decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode } from '../src/pasteKeys.js';
+import { HistoryStore } from '../src/history/historyStore.js';
+import { PopupSearch } from '../src/cursorPopup/popupSearch.js';
+import { decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode } from '../src/paste/pasteKeys.js';
 import {
     DEFAULT_LOCAL_SHORTCUTS,
     formatAccelerator,
@@ -13,8 +10,8 @@ import {
     ModMask,
     parseAccelerator,
     parseAcceleratorList,
-} from '../cursor-popup/localShortcuts.js';
-import { ITEMS_PER_PAGE } from '../constants.js';
+} from '../src/cursorPopup/localShortcuts.js';
+import { ITEMS_PER_PAGE, PrefsFields } from '../src/common/constants.js';
 import {
     AVAILABLE_LANGUAGES,
     LANGUAGE_LABELS,
@@ -25,10 +22,22 @@ import {
     setLanguageOverride,
     getLanguageOverride,
     translate,
-} from '../src/i18n.js';
-import { TRANSLATIONS } from '../src/translations.js';
+} from '../src/common/i18n.js';
+import { TRANSLATIONS } from '../src/common/translations.js';
+import { HistoryClearScheduler } from '../src/history/historyClearScheduler.js';
+import { ClipboardEntry } from '../src/clipboard/clipboardEntry.js';
 
 let failures = 0;
+
+function test(name, fn) {
+    try {
+        fn();
+        print(`ok - ${name}`);
+    } catch (e) {
+        print(`FAIL - ${name}: ${e.message}`);
+        failures++;
+    }
+}
 
 function assert(cond, name) {
     if (cond) {
@@ -323,6 +332,126 @@ assert(ITEMS_PER_PAGE === 10, 'ITEMS_PER_PAGE is 10');
     setLanguageOverride('system');
     assert(translate('Hello', identity) === 'Hello', 'override resets to system');
 }
+
+// --- PopupSearch regex regression (raw query + flag, not lowercased pattern) ---
+
+{
+    const search = new PopupSearch();
+    search.updateSettings(false, true);
+    const items = [fakeItem('hello'), fakeItem('HELLO'), fakeItem('123')];
+    assert(search.filter(items, '[A-Z]+').length === 2,
+        'search case-insensitive regex uses raw pattern with i flag');
+    search.updateSettings(true, true);
+    assert(search.filter(items, '[A-Z]+').length === 1,
+        'search case-sensitive regex respects case');
+    search.updateSettings(false, true);
+    const paren = [fakeItem('a(b'), fakeItem('xyz')];
+    assert(search.filter(paren, '(').length === 1,
+        'search invalid regex falls back to plain contains');
+}
+
+// --- fakeEntry mirrors ClipboardEntry surface used by HistoryStore ---
+
+test('fakeEntry covers ClipboardEntry interface', () => {
+    const fake = fakeEntry('x');
+    for (const m of ['equals', 'isFavorite', 'isText', 'isImage', 'getStringValue']) {
+        if (typeof ClipboardEntry.prototype[m] !== 'function')
+            throw new Error(`ClipboardEntry missing ${m}`);
+        if (typeof fake[m] !== 'function' && m !== 'equals')
+            throw new Error(`fakeEntry missing ${m}`);
+    }
+    if (typeof fake.equals !== 'function')
+        throw new Error('fakeEntry missing equals');
+});
+
+// --- HistoryClearScheduler ---
+
+function fakeScheduler({ snap, now = 1000 }) {
+    const persisted = {};
+    const ticks = [];
+    let clears = 0;
+    const settings = {
+        connect: () => 1,
+        disconnect: () => {},
+        set_int: (k, v) => { persisted[k] = v; },
+    };
+    const settingsManager = { snapshot: () => ({ ...snap }) };
+    const sched = new HistoryClearScheduler({
+        settings,
+        settingsManager,
+        onClear: () => { clears++; },
+        onTick: v => { ticks.push(v); },
+        nowSeconds: () => now,
+    });
+    // never arm real GLib timers in tests
+    sched._arm = () => {};
+    return { sched, persisted, ticks, clears: () => clears };
+}
+
+test('scheduler start disabled ticks -1', () => {
+    const { sched, ticks } = fakeScheduler({
+        snap: { clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 5 },
+    });
+    sched.start();
+    if (ticks.length !== 1 || ticks[0] !== -1)
+        throw new Error(`expected single -1 tick, got ${JSON.stringify(ticks)}`);
+    sched.destroy();
+});
+
+test('scheduler start with next===-1 schedules', () => {
+    const { sched, persisted } = fakeScheduler({
+        snap: { clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: -1 },
+        now: 1000,
+    });
+    sched.start();
+    const expected = 1000 + 10 * 60;
+    if (persisted[PrefsFields.NEXT_HISTORY_CLEAR] !== expected)
+        throw new Error(`expected next=${expected}, got ${persisted[PrefsFields.NEXT_HISTORY_CLEAR]}`);
+    sched.destroy();
+});
+
+test('scheduler start with overdue fires onClear then reschedules', () => {
+    const { sched, persisted, clears } = fakeScheduler({
+        snap: { clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: 500 },
+        now: 1000,
+    });
+    sched.start();
+    if (clears() !== 1)
+        throw new Error(`expected 1 clear, got ${clears()}`);
+    const expected = 1000 + 10 * 60;
+    if (persisted[PrefsFields.NEXT_HISTORY_CLEAR] !== expected)
+        throw new Error(`expected reschedule to ${expected}`);
+    sched.destroy();
+});
+
+test('scheduler schedule disabled persists -1', () => {
+    const { sched, persisted, ticks } = fakeScheduler({
+        snap: { clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 999 },
+    });
+    sched.schedule();
+    if (persisted[PrefsFields.NEXT_HISTORY_CLEAR] !== -1)
+        throw new Error('expected -1 persisted');
+    if (ticks[ticks.length - 1] !== -1)
+        throw new Error('expected -1 tick');
+    sched.destroy();
+});
+
+test('scheduler timeLeft', () => {
+    const disabled = fakeScheduler({
+        snap: { clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 2000 },
+        now: 1000,
+    });
+    if (disabled.sched.timeLeft() !== -1)
+        throw new Error('disabled should be -1');
+    disabled.sched.destroy();
+    const enabled = fakeScheduler({
+        snap: { clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: 1500 },
+        now: 1000,
+    });
+    if (enabled.sched.timeLeft() !== 500)
+        throw new Error(`expected 500, got ${enabled.sched.timeLeft()}`);
+    enabled.sched.destroy();
+});
 
 if (failures > 0) {
     print(`${failures} test(s) FAILED`);

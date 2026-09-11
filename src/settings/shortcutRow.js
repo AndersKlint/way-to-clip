@@ -1,20 +1,9 @@
-/**
- * shortcutRow - multi-shortcut chip editor for the prefs window.
- *
- * Each shortcut setting (a strv of GTK accelerators) renders as a row of
- * "bubble" chips — one per accelerator — each with an x button that
- * removes just that entry, plus a + button at the far right that
- * captures and appends a new shortcut. Escape, Backspace, or a second
- * click on + cancels an ongoing capture. One Gtk.EventControllerKey is
- * created per capture session and removed afterwards.
- */
-
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 import { gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { translate } from '../src/i18n.js';
+import { translate, makeTranslator } from '../common/i18n.js';
 
-const _ = msgid => translate(msgid, nativeGettext);
+const _ = makeTranslator(nativeGettext);
 
 export function createShortcutEditor(schema, pref) {
     const box = new Gtk.Box({
@@ -25,9 +14,7 @@ export function createShortcutEditor(schema, pref) {
         valign: Gtk.Align.CENTER,
     });
 
-    // Plain Box, not FlowBox: a row holds at most a few chips, and
-    // FlowBox's wrapping layout fights the ActionRow suffix allocation
-    // (GtkFlowBoxChild "measured for width of 0" warning spam).
+    // plain Box: FlowBox wrapping fights the ActionRow layout
     const chips = new Gtk.Box({
         orientation: Gtk.Orientation.HORIZONTAL,
         spacing: 6,
@@ -106,7 +93,6 @@ export function createShortcutEditor(schema, pref) {
     };
 
     const stopCapture = () => {
-        // Idempotent via the nulling: each controller is removed once.
         if (debounceTimeoutId) {
             clearTimeout(debounceTimeoutId);
             debounceTimeoutId = 0;
@@ -122,7 +108,6 @@ export function createShortcutEditor(schema, pref) {
     };
 
     addButton.connect('clicked', () => {
-        // Second click while capturing cancels.
         if (captureController) {
             stopCapture();
             return;
@@ -182,14 +167,10 @@ export function createShortcutEditor(schema, pref) {
         box.show();
     });
 
-    // Re-render on external changes (e.g. dconf edits). The schema
-    // object outlives the row, so disconnect on destroy to avoid
-    // pinning the widgets (and the debounce closure) afterwards.
+    // re-render on outside edits (dconf), disconnect on destroy so we don't leak
     const externalChangedId = schema.connect(`changed::${pref}`, render);
 
-    // Drop a pending debounced write if the prefs window closes
-    // mid-capture so it can't touch destroyed widgets. (Factory
-    // function, not a widget subclass, so observe destroy here.)
+    // don't write into dead widgets if prefs closes mid-capture
     box.connect('destroy', () => {
         schema.disconnect(externalChangedId);
         if (debounceTimeoutId) {

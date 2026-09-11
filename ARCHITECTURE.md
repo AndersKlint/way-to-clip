@@ -17,41 +17,26 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 ## Architecture
 
 ```
-├── extension.js      - Thin entry (enable/disable) + WayToClip indicator wiring
+├── extension.js      - Thin entry (enable/disable), must stay at root (GNOME)
+├── prefs.js          - Settings page assembly (GTK4/Adw), must stay at root (GNOME)
 ├── src/
-│   ├── settingsManager.js      - Typed Gio.Settings wrapper (replaces globals)
-│   ├── historyStore.js         - Pure history/selection/trim model (unit-tested)
-│   ├── clipboardEntry.js       - Clipboard item model (SHA256 filenames)
-│   ├── clipboardMenuItem.js    - PopupMenuItem subclass (no monkey-patching)
-│   ├── clipboardManager.js     - Clipboard monitoring, read/write, inhibit token
-│   ├── shortcutManager.js      - Global keybinding lifecycle
-│   ├── historyClearScheduler.js - Interval-clear timer (single dispose)
-│   ├── autoPaster.js           - Paste keypresses + clipboard restore
-│   │   ├── pasteKeys.js            - Pure paste-target decision (unit-tested)
-│   └── logger.js               - Prefixed log helpers
-├── cursor-popup/
-│   ├── cursorPopup.js    - Popup lifecycle, paging, selection
-│   ├── popupUI.js        - Widget construction and cursor-anchored positioning
-│   ├── popupKeyHandler.js - Main/search key handling
-│   └── popupSearch.js    - Filtering (case-sensitive/regex optional)
-├── prefs.js            - Settings page assembly (GTK4/Adw)
-├── prefs/
-│   ├── stringListManager.js - Generic strv ExpanderRow manager (excluded/terminal apps)
-│   └── shortcutRow.js  - Multi-shortcut chip editor (chips + x, plus to capture)
-├── constants.js      - Settings keys + ITEMS_PER_PAGE + mimetypes
-├── registry.js       - Coalesced atomic persistence (JSON cache + image files)
-├── keyboard.js       - Virtual keyboard for auto-paste
-├── confirmDialog.js  - Clear-history confirmation dialog
+│   ├── common/       - Shared kernel: constants, logger, i18n, translations
+│   ├── clipboard/    - clipboardManager (monitor/read/write/inhibit), clipboardEntry (SHA256 model), clipboardMenuItem
+│   ├── history/      - historyStore (pure model, unit-tested), registry (atomic JSON+image persistence), historyClearScheduler, menuBuilder
+│   ├── cursorPopup/  - cursorPopup (lifecycle/paging/selection), popupUI, popupKeyHandler, popupSearch, localShortcuts
+│   ├── panel/        - panelButton (WayToClip orchestrator), confirmDialog
+│   ├── paste/        - autoPaster (paste keypresses + restore), pasteKeys (pure decision, unit-tested), keyboard (virtual device)
+│   └── settings/     - settingsManager (typed Gio.Settings), shortcutManager (global bindings), shortcutRow + stringListManager (prefs widgets)
 └── tests/runTests.js - Headless unit tests (`make check` / `gjs -m`)
 ```
 
 ## Key Classes
-- `WayToClip` (extension.js): Indicator menus, wires managers together
-- `HistoryStore` (src/): Pure history list, selection, trim/clear rules
-- `ClipboardManager` (src/): Clipboard events, dedup callbacks, inhibit
-- `Registry` (registry.js): Serialized atomic writes, hardened read
-- `HistoryClearScheduler` (src/): Countdown timer with leak-free dispose
-- `CursorPopup` (cursor-popup/): Floating popup with search, navigation, selection
+- `WayToClip` (src/panel/panelButton.js): Indicator menus, wires managers together
+- `HistoryStore` (src/history/): Pure history list, selection, trim/clear rules
+- `ClipboardManager` (src/clipboard/): Clipboard events, dedup callbacks, inhibit
+- `Registry` (src/history/registry.js): Serialized atomic writes, hardened read
+- `HistoryClearScheduler` (src/history/): Countdown timer with leak-free dispose
+- `CursorPopup` (src/cursorPopup/): Floating popup with search, navigation, selection
 
 ## Keyboard Shortcuts
 

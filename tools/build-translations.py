@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build src/translations.js from locale/*/LC_MESSAGES/waytoclip.po.
+"""Build src/common/translations.js from locale/*/LC_MESSAGES/waytoclip.po.
 
 Generates a committed JS module exporting TRANSLATIONS = { lang: {msgid: msgstr} }.
 Only non-empty, non-fuzzy, non-obsolete entries are included, so the runtime
@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LOCALE_DIR = ROOT / "locale"
-OUT = ROOT / "src" / "translations.js"
+OUT = ROOT / "src" / "common" / "translations.js"
 
 
 def parse_po(path):

@@ -1,12 +1,15 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import St from 'gi://St';
-import { PrefsFields } from './constants.js';
-import { ClipboardEntry } from './src/clipboardEntry.js';
+import { PrefsFields } from '../common/constants.js';
+import { ClipboardEntry } from '../clipboard/clipboardEntry.js';
+import { error } from '../common/logger.js';
 
-// Re-export so existing `from './registry.js'` imports keep working
-// while new code imports from './src/clipboardEntry.js' directly.
-export { ClipboardEntry };
+Gio._promisify(Gio.File.prototype, 'replace_async', 'replace_finish');
+Gio._promisify(Gio.OutputStream.prototype, 'write_bytes_async', 'write_bytes_finish');
+Gio._promisify(Gio.File.prototype, 'load_contents_async', 'load_contents_finish');
+Gio._promisify(Gio.File.prototype, 'query_info_async', 'query_info_finish');
+Gio._promisify(Gio.File.prototype, 'delete_async', 'delete_finish');
 
 const FileQueryInfoFlags = Gio.FileQueryInfoFlags;
 const FileCopyFlags = Gio.FileCopyFlags;
@@ -34,17 +37,19 @@ export class Registry {
         this.REGISTRY_PATH = this.REGISTRY_DIR + '/' + this.REGISTRY_FILE;
         this.BACKUP_REGISTRY_PATH = this.REGISTRY_PATH + '~';
 
-        // Serialized, coalesced write queue: many synchronous
-        // _updateCache() calls collapse into one disk write.
         this._pendingEntries = null;
         this._writeInFlight = false;
         this._writeScheduled = false;
     }
 
-    /**
-     * Persist entries. Coalesced: rapid successive calls result in a
-     * single write of the latest snapshot. Fire-and-forget (async).
-     */
+    destroy() {
+        this._pendingEntries = null;
+        this._writeScheduled = false;
+        // in-flight Gio ops cannot be cancelled; their results are ignored after destroy
+        this.settings = null;
+    }
+
+    // save entries, coalesced — spam it, only the last one hits disk
     write(entries) {
         this._pendingEntries = [...entries];
         if (this._writeInFlight) {
@@ -54,7 +59,6 @@ export class Registry {
         this._flushWriteQueue();
     }
 
-    /** Synchronous snapshot builder shared by write paths. */
     _buildRegistryContent(entries) {
         const registryContent = [];
         for (const entry of entries) {
@@ -66,12 +70,11 @@ export class Registry {
                 item.contents = entry.getStringValue();
             } else if (entry.isImage()) {
                 item.contents = this.getEntryFilename(entry);
-                // Best-effort: image bytes are already in memory; the
-                // file write runs async and must not block the snapshot.
+                // don't block the snapshot on the file write
                 this.writeEntryFile(entry).catch(e =>
-                    console.error('WayToClip: failed to cache image file', e));
+                    error('failed to cache image file', e));
             } else {
-                // Unknown binary type: skip rather than corrupt the cache.
+                // unknown type: skip it, don't corrupt the cache
                 continue;
             }
             registryContent.push(item);
@@ -91,7 +94,7 @@ export class Registry {
             const registryContent = this._buildRegistryContent(entries);
             await this.writeToFile(registryContent);
         } catch (e) {
-            console.error('WayToClip: failed to write registry', e);
+            error('failed to write registry', e);
         } finally {
             this._writeInFlight = false;
             if (this._writeScheduled) {
@@ -101,67 +104,37 @@ export class Registry {
         }
     }
 
-    /**
-     * Atomic write: tmp file + rename. Returns a promise; never throws
-     * synchronously. Errors reject so callers can log once.
-     */
-    writeToFile(registry) {
-        return new Promise((resolve, reject) => {
-            let json;
-            try {
-                json = JSON.stringify(registry);
-            } catch (e) {
-                reject(e);
-                return;
-            }
-            const contents = new TextEncoder().encode(json);
+    // tmp file + rename so we never half-write the cache
+    async writeToFile(registry) {
+        let json;
+        try {
+            json = JSON.stringify(registry);
+        } catch (e) {
+            throw e;
+        }
+        const contents = new TextEncoder().encode(json);
 
-            try {
-                GLib.mkdir_with_parents(this.REGISTRY_DIR, parseInt('0775', 8));
-            } catch (e) {
-                reject(e);
-                return;
-            }
+        GLib.mkdir_with_parents(this.REGISTRY_DIR, 0o775);
 
-            const tmpPath = this.REGISTRY_PATH + '.tmp';
-            const tmpFile = Gio.file_new_for_path(tmpPath);
-            const destFile = Gio.file_new_for_path(this.REGISTRY_PATH);
+        const tmpPath = this.REGISTRY_PATH + '.tmp';
+        const tmpFile = Gio.file_new_for_path(tmpPath);
+        const destFile = Gio.file_new_for_path(this.REGISTRY_PATH);
 
-            tmpFile.replace_async(null, false, Gio.FileCreateFlags.REPLACE_DESTINATION,
-                GLib.PRIORITY_DEFAULT, null, (obj, res) => {
-                    let stream;
-                    try {
-                        stream = obj.replace_finish(res);
-                    } catch (e) {
-                        reject(e);
-                        return;
-                    }
-                    stream.write_bytes_async(new GLib.Bytes(contents),
-                        GLib.PRIORITY_DEFAULT, null, (wObj, wRes) => {
-                            try {
-                                wObj.write_bytes_finish(wRes);
-                            } catch (e) {
-                                try { stream.close(null); } catch (_ignored) {}
-                                reject(e);
-                                return;
-                            }
-                            try {
-                                stream.close(null);
-                            } catch (e) {
-                                reject(e);
-                                return;
-                            }
-                            // Atomic publish: tmp -> registry.txt
-                            try {
-                                tmpFile.move(destFile, FileCopyFlags.OVERWRITE, null, null);
-                            } catch (e) {
-                                reject(e);
-                                return;
-                            }
-                            resolve();
-                        });
-                });
-        });
+        const stream = await tmpFile.replace_async(null, false,
+            Gio.FileCreateFlags.REPLACE_DESTINATION, GLib.PRIORITY_DEFAULT, null);
+        try {
+            await stream.write_bytes_async(new GLib.Bytes(contents),
+                GLib.PRIORITY_DEFAULT, null);
+        } catch (e) {
+            try { stream.close(null); } catch (_ignored) {}
+            throw e;
+        }
+        try {
+            stream.close(null);
+        } catch (e) {
+            throw e;
+        }
+        tmpFile.move(destFile, FileCopyFlags.OVERWRITE, null, null);
     }
 
     async read() {
@@ -172,38 +145,27 @@ export class Registry {
             const file = Gio.file_new_for_path(this.REGISTRY_PATH);
             const cacheFileSizeMb = this.settings.get_int(PrefsFields.CACHE_FILE_SIZE);
 
-            const fileInfo = await new Promise((resolve, reject) => {
-                file.query_info_async('standard::size',
-                    FileQueryInfoFlags.NONE, GLib.PRIORITY_DEFAULT, null, (src, res) => {
-                        try {
-                            resolve(src.query_info_finish(res));
-                        } catch (e) {
-                            reject(e);
-                        }
-                    });
-            });
+            const fileInfo = await file.query_info_async('standard::size',
+                FileQueryInfoFlags.NONE, GLib.PRIORITY_DEFAULT, null);
 
             if (fileInfo.get_size() >= cacheFileSizeMb * 1024 * 1024) {
                 try {
                     const destination = Gio.file_new_for_path(this.BACKUP_REGISTRY_PATH);
                     file.move(destination, FileCopyFlags.OVERWRITE, null, null);
                 } catch (e) {
-                    console.error('WayToClip: failed to back up oversized registry', e);
+                    error('failed to back up oversized registry', e);
                 }
                 return [];
             }
 
-            const contents = await new Promise(resolve => {
-                file.load_contents_async(null, (obj, res) => {
-                    try {
-                        const [success, data] = obj.load_contents_finish(res);
-                        resolve(success ? data : null);
-                    } catch (e) {
-                        console.error('WayToClip: failed to read registry file', e);
-                        resolve(null);
-                    }
-                });
-            });
+            let contents = null;
+            try {
+                // promisified resolves to [data, etag] — no success flag
+                [contents] = await file.load_contents_async(null);
+            } catch (e) {
+                error('failed to read registry file', e);
+                return [];
+            }
 
             if (!contents)
                 return [];
@@ -212,7 +174,7 @@ export class Registry {
             try {
                 parsed = JSON.parse(new TextDecoder().decode(contents));
             } catch (e) {
-                console.error('WayToClip: corrupt registry JSON, starting fresh', e);
+                error('corrupt registry JSON, starting fresh', e);
                 return [];
             }
             if (!Array.isArray(parsed))
@@ -225,11 +187,10 @@ export class Registry {
                     parsed.map(jsonEntry => ClipboardEntry.fromJSON(jsonEntry))
                 )).filter(entry => entry !== null);
             } catch (e) {
-                console.error('WayToClip: failed to decode registry entries', e);
+                error('failed to decode registry entries', e);
                 return [];
             }
 
-            // Trim oldest non-favorites to history-size.
             let registryNoFavorite = clipboardEntries.filter(entry => !entry.isFavorite());
             while (registryNoFavorite.length > maxSize) {
                 const oldestNoFavorite = registryNoFavorite.shift();
@@ -242,7 +203,7 @@ export class Registry {
 
             return clipboardEntries;
         } catch (e) {
-            console.error('WayToClip: failed to open registry file', e);
+            error('failed to open registry file', e);
             return [];
         }
     }
@@ -253,14 +214,14 @@ export class Registry {
     }
 
     async getEntryAsImage(entry) {
-        if (entry.isImage() === false)
+        if (!entry.isImage())
             return null;
 
-        if (this.#entryFileExists(entry) === false) {
+        if (!this.#entryFileExists(entry)) {
             try {
                 await this.writeEntryFile(entry);
             } catch (e) {
-                console.error('WayToClip: failed to materialize image file', e);
+                error('failed to materialize image file', e);
                 return null;
             }
         }
@@ -277,32 +238,19 @@ export class Registry {
         if (this.#entryFileExists(entry))
             return;
 
-        GLib.mkdir_with_parents(this.REGISTRY_DIR, parseInt('0775', 8));
+        GLib.mkdir_with_parents(this.REGISTRY_DIR, 0o775);
         const file = Gio.file_new_for_path(this.getEntryFilename(entry));
 
-        return new Promise((resolve, reject) => {
-            file.replace_async(null, false, Gio.FileCreateFlags.NONE,
-                GLib.PRIORITY_DEFAULT, null, (obj, res) => {
-                    let stream;
-                    try {
-                        stream = obj.replace_finish(res);
-                    } catch (e) {
-                        reject(e);
-                        return;
-                    }
-                    stream.write_bytes_async(entry.asBytes(), GLib.PRIORITY_DEFAULT,
-                        null, (wObj, wRes) => {
-                            try {
-                                wObj.write_bytes_finish(wRes);
-                                stream.close(null);
-                                resolve();
-                            } catch (e) {
-                                try { stream.close(null); } catch (_ignored) {}
-                                reject(e);
-                            }
-                        });
-                });
-        });
+        const stream = await file.replace_async(null, false,
+            Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT, null);
+        try {
+            await stream.write_bytes_async(entry.asBytes(),
+                GLib.PRIORITY_DEFAULT, null);
+            stream.close(null);
+        } catch (e) {
+            try { stream.close(null); } catch (_ignored) {}
+            throw e;
+        }
     }
 
     async deleteEntryFile(entry) {
@@ -310,11 +258,11 @@ export class Registry {
         try {
             await file.delete_async(GLib.PRIORITY_DEFAULT, null);
         } catch (e) {
-            // Missing file after a move/clear race is not an error.
+            // file gone after a race is fine, ignore it
             if (e instanceof GLib.Error &&
                 e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.NOT_FOUND))
                 return;
-            console.error('WayToClip: failed to delete cached image', e);
+            error('failed to delete cached image', e);
         }
     }
 
@@ -331,12 +279,12 @@ export class Registry {
                 try {
                     child.delete(null);
                 } catch (e) {
-                    console.error('WayToClip: failed to delete cache file', e);
+                    error('failed to delete cache file', e);
                 }
             }
             try { enumerator.close(null); } catch (_e) { /* ignore */ }
         } catch (e) {
-            console.error('WayToClip: failed to clear cache folder', e);
+            error('failed to clear cache folder', e);
         }
     }
 }

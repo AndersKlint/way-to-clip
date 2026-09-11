@@ -1,17 +1,10 @@
-/**
- * ClipboardManager - clipboard monitoring + read/write (shell process).
- *
- * Emits new entries via onNewEntry; the panel button owns history/menus.
- * An inhibit counter suppresses history writes during auto-paste restore.
- */
-
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import { CLIPBOARD_MIMETYPES } from './constants.js';
-import { ClipboardEntry } from './src/clipboardEntry.js';
-import { error } from './src/logger.js';
+import { CLIPBOARD_MIMETYPES } from '../common/constants.js';
+import { ClipboardEntry } from './clipboardEntry.js';
+import { error } from '../common/logger.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
@@ -26,16 +19,6 @@ export class ClipboardManager {
     #isExcludedApp = () => false;
     #cacheImages = () => true;
 
-    /**
-     * @param {object} deps
-     * @param {St.Clipboard} deps.clipboard
-     * @param {Registry} deps.registry
-     * @param {function(): boolean} deps.isPrivateMode
-     * @param {function(string|null): boolean} deps.isExcludedApp
-     * @param {function(): boolean} deps.cacheImages
-     * @param {function(ClipboardEntry): void} deps.onNewEntry
-     * @param {function(ClipboardEntry): void} deps.onDuplicateEntry
-     */
     constructor(deps) {
         this.#clipboard = deps.clipboard;
         this.#registry = deps.registry;
@@ -49,7 +32,6 @@ export class ClipboardManager {
         this.onDuplicateEntry = deps.onDuplicateEntry ?? (() => {});
     }
 
-    /** Temporarily ignore clipboard owner-changed events (auto-paste restore). */
     inhibit() {
         this.#inhibitCount++;
         return () => {
@@ -117,12 +99,8 @@ export class ClipboardManager {
                             resolve(null);
                             return;
                         }
-                        // HACK: GNOME 2nd+ copy mangles mimetypes, see
+                        // gnome mangles text mimetypes on 2nd copy, squish them into one
                         // https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/8233
-                        // Collapse the plain-text family (STRING vs text/plain
-                        // vs UTF8_STRING) to one canonical target so re-copies
-                        // dedupe and paste works. image/* and text/html pass
-                        // through untouched.
                         let effectiveType = ClipboardEntry.canonicalizeMimetype(type);
                         try {
                             const result = new ClipboardEntry(

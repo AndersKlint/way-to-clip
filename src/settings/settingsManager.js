@@ -1,20 +1,8 @@
-/**
- * SettingsManager - typed wrapper around Gio.Settings.
- *
- * Replaces the module-level `let MAX_REGISTRY_LENGTH ...` globals in
- * extension.js. One instance per Indicator; exposes a snapshot object
- * and a single `changed` subscription point so callers don't each
- * connect to GSettings directly.
- */
-
-import { PrefsFields } from '../constants.js';
+import { PrefsFields } from '../common/constants.js';
 
 export const SYSTEM_LANGUAGE = 'system';
 
-/**
- * Read the language override, tolerating old schemas without the key
- * (same pattern as IMAGE_PREVIEW_SIZE above).
- */
+// tolerate old schemas missing the key
 function readLanguage(settings) {
     try {
         const v = settings.get_string(PrefsFields.LANGUAGE);
@@ -26,6 +14,7 @@ function readLanguage(settings) {
 
 export class SettingsManager {
     #settings;
+    // manual signal-ID tracking: plain JS class, no GObject connectObject/disconnectObject
     #changedIds = [];
 
     constructor(settings) {
@@ -36,13 +25,12 @@ export class SettingsManager {
         return this.#settings;
     }
 
-    /** Plain snapshot of every key WayToClip cares about. */
     snapshot() {
         const s = this.#settings;
         let imagePreviewSize = 96;
         try {
             imagePreviewSize = s.get_int(PrefsFields.IMAGE_PREVIEW_SIZE);
-        } catch (_e) { /* old schema without the key: keep default */ }
+        } catch (_e) { /* old schema, keep default */ }
         return {
             maxRegistryLength: s.get_int(PrefsFields.HISTORY_SIZE),
             cacheOnlyFavorite: s.get_boolean(PrefsFields.CACHE_ONLY_FAVORITE),
@@ -76,10 +64,6 @@ export class SettingsManager {
         this.#settings.set_int(PrefsFields.NEXT_HISTORY_CLEAR, timestamp);
     }
 
-    /**
-     * Subscribe to any settings change. Returns a disconnect function.
-     * Prefer key-specific subscription via `onKey` to avoid triple-fetch.
-     */
     onAnyChange(callback) {
         const id = this.#settings.connect('changed', callback);
         this.#changedIds.push(id);

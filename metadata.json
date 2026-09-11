@@ -9,7 +9,7 @@
     ],
     "uuid": "waytoclip@andersklint.github.io",
     "name": "WayToClip",
-    "description": "A clipboard manager that monitors the clipboard to keep a history with cursor-positioned popup, quick selection with keys 1-9, and auto-paste functionality. Clipboard contents are only stored locally on your machine and never shared.",
+    "description": "A keyboard centric clipboard manager for quickly accessing clipboard history using quick selection with keys 1-9. Clipboard contents are only stored locally on your machine and never shared.",
     "url": "https://github.com/AndersKlint/way-to-clip",
     "gettext-domain": "waytoclip",
     "settings-schema": "org.gnome.shell.extensions.waytoclip"

@@ -1,11 +1,3 @@
-/**
- * panelButton.js - WayToClip panel indicator (shell process).
- *
- * Owns the status-area button, its menu, clipboard monitoring and the
- * cursor popup. Kept out of extension.js so the entry point stays a
- * thin enable()/disable() pair that is easy to review for cleanup.
- */
-
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
@@ -15,23 +7,23 @@ import St from 'gi://St';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { resetLanguageOverride, syncOverrideFromSettings, translate } from './src/i18n.js';
-import { Registry } from './registry.js';
+import { resetLanguageOverride, syncOverrideFromSettings, translate, makeTranslator } from '../common/i18n.js';
+import { Registry } from '../history/registry.js';
 import { DialogManager } from './confirmDialog.js';
-import { PopupPositionMode } from './constants.js';
-import { Keyboard } from './keyboard.js';
-import { CursorPopup } from './cursor-popup/cursorPopup.js';
-import { SettingsManager } from './src/settingsManager.js';
-import { HistoryStore } from './src/historyStore.js';
-import { ClipboardMenuItem } from './src/clipboardMenuItem.js';
-import { ClipboardManager } from './clipboardManager.js';
-import { ShortcutManager } from './src/shortcutManager.js';
-import { HistoryClearScheduler } from './src/historyClearScheduler.js';
-import { AutoPaster } from './autoPaster.js';
-import { isTerminalWindow, snapshotPasteTarget } from './src/pasteKeys.js';
-import { error } from './src/logger.js';
+import { PopupPositionMode } from '../common/constants.js';
+import { Keyboard } from '../paste/keyboard.js';
+import { CursorPopup } from '../cursorPopup/cursorPopup.js';
+import { SettingsManager } from '../settings/settingsManager.js';
+import { HistoryStore } from '../history/historyStore.js';
+import { MenuBuilder } from '../history/menuBuilder.js';
+import { ClipboardManager } from '../clipboard/clipboardManager.js';
+import { ShortcutManager } from '../settings/shortcutManager.js';
+import { HistoryClearScheduler } from '../history/historyClearScheduler.js';
+import { AutoPaster } from '../paste/autoPaster.js';
+import { isTerminalWindow, snapshotPasteTarget } from '../paste/pasteKeys.js';
+import { error } from '../common/logger.js';
 
-const _ = msgid => translate(msgid, nativeGettext);
+const _ = makeTranslator(nativeGettext);
 
 const INDICATOR_ICON = 'edit-paste-symbolic';
 
@@ -41,6 +33,10 @@ export const WayToClip = GObject.registerClass({
     destroy() {
         this._clearPendingIdles();
         this._disconnectSettings();
+        if (this._registry) {
+            this._registry.destroy();
+            this._registry = null;
+        }
         if (this._shortcutManager) {
             this._shortcutManager.destroy();
             this._shortcutManager = null;
@@ -71,6 +67,10 @@ export const WayToClip = GObject.registerClass({
             this._settingsManager.destroy();
             this._settingsManager = null;
         }
+        if (this._menuBuilder) {
+            this._menuBuilder.destroy();
+            this._menuBuilder = null;
+        }
         resetLanguageOverride();
 
         super.destroy();
@@ -78,8 +78,10 @@ export const WayToClip = GObject.registerClass({
 
     _init(deps) {
         super._init(0.0, 'WayToClip');
-        // Null-initialized so destroy() stays safe if _init throws midway.
+        // so destroy() is safe even if _init blows up halfway
         this._settingsManager = null;
+        this._registry = null;
+        this._menuBuilder = null;
         this._shortcutManager = null;
         this._clipboardManager = null;
         this._scheduler = null;
@@ -94,18 +96,27 @@ export const WayToClip = GObject.registerClass({
         syncOverrideFromSettings(deps.settings);
         this._settingsManager = new SettingsManager(deps.settings);
         this._snap = this._settingsManager.snapshot();
-        // Private mode is UI-only state (was a module global).
         this._snap.privateMode = false;
 
         this._store = new HistoryStore();
         this._registry = new Registry({ settings: this._settingsManager.gio, uuid: this._uuid });
         this._keyboard = new Keyboard();
-        this._cursorPopup = new CursorPopup(this);
+        this._cursorPopup = new CursorPopup({
+            removeEntry: (item, event) => this._removeEntry(item, event),
+            selectMenuItem: (item, autoSet) => this._selectMenuItem(item, autoSet),
+            moveItemFirstIfSelected: item => {
+                if (this._snap.moveItemFirst)
+                    this._moveItemFirst(item);
+            },
+            autoPasteAndClose: item => this.autoPasteAndClose(item),
+            togglePrivateMode: () => this.togglePrivateMode(),
+            isPrivateMode: () => this._snap.privateMode,
+            getAllMenuItems: () => this._getAllIMenuItems(),
+        });
         this._dialogManager = new DialogManager();
 
         this._settingsChangedId = 0;
         this._pendingIdles = [];
-        this.clipItemsRadioGroup = [];
         this._pasteTarget = null;
 
         const hbox = new St.BoxLayout({
@@ -152,29 +163,14 @@ export const WayToClip = GObject.registerClass({
             onTick: secondsLeft => this._renderCountdown(secondsLeft),
         });
 
-        // Private mode lives in the snapshot (was a module global).
-
         this._buildMenu().then(() => {
-            // disable() may have run while the history read was in
-            // flight (destroy nulls the managers); starting them now
-            // would resurrect monitoring after teardown.
+            // bail if disable() ran while history was still loading
             if (!this._clipboardManager || !this._scheduler)
                 return;
             this._clipboardManager.start();
             this._scheduler.start();
             this._applyKeybindingPref();
         }).catch(e => error('Failed to build menu', e));
-
-        // Back-compat aliases: cursor-popup calls parent._removeEntry,
-        // parent._selectMenuItem, parent._getAllIMenuItems, parent.moveItemFirst.
-        this.cursorPopup = this._cursorPopup;
-        this.keyboard = this._keyboard;
-        this.dialogManager = this._dialogManager;
-        this.extension = {
-            clipboard: this._clipboard,
-            settings: this._settingsManager.gio,
-            openSettings: () => this._openSettings(),
-        };
     }
 
     // --- menu construction ---
@@ -184,6 +180,10 @@ export const WayToClip = GObject.registerClass({
 
         this.favoritesSection = new PopupMenu.PopupMenuSection();
         this.historySection = new PopupMenu.PopupMenuSection();
+        this._menuBuilder = new MenuBuilder({
+            favoritesSection: this.favoritesSection,
+            historySection: this.historySection,
+        });
 
         this.showPopupMenuItem = new PopupMenu.PopupMenuItem(_('Show clipboard popup'));
         this.showPopupMenuItem.insert_child_at_index(
@@ -196,8 +196,7 @@ export const WayToClip = GObject.registerClass({
         );
         this.menu.addMenuItem(this.showPopupMenuItem);
         this.showPopupMenuItem.connect('activate', () => {
-            // Defer so the indicator menu can close before the
-            // cursor popup takes its own modal grab.
+            // let the menu close first or the popup grab fails
             this._runIdle(() => this._openCursorPopup());
         });
 
@@ -268,8 +267,7 @@ export const WayToClip = GObject.registerClass({
         this.menu.addMenuItem(this.settingsMenuItem);
         this.settingsMenuItem.connect('activate', this._openSettings.bind(this));
 
-        // Populate data model (sections stay off the visible menu; the
-        // cursor popup reads them via _getAllIMenuItems).
+        // popup reads these, they stay off the visible menu
         this._store.load(clipHistory);
         for (const entry of this._store.entries)
             this._addEntry(entry);
@@ -277,21 +275,16 @@ export const WayToClip = GObject.registerClass({
 
         const selected = this._store.selected;
         if (selected) {
-            const widget = this.clipItemsRadioGroup.find(m => m.entry === selected);
+            const widget = this._menuBuilder.items.find(m => m.entry === selected);
             if (widget)
                 this._selectMenuItem(widget);
         }
     }
 
     _addEntry(entry, autoSelect, autoSetClip) {
-        const menuItem = new ClipboardMenuItem(entry);
-        menuItem.connect('activate', () => this._selectMenuItem(menuItem, true));
-        this.clipItemsRadioGroup.push(menuItem);
-
-        if (entry.isFavorite())
-            this.favoritesSection.addMenuItem(menuItem, 0);
-        else
-            this.historySection.addMenuItem(menuItem, 0);
+        const menuItem = this._menuBuilder.addEntry(entry, {
+            onActivate: item => this._selectMenuItem(item, true),
+        });
 
         if (autoSelect === true)
             this._selectMenuItem(menuItem, autoSetClip);
@@ -305,23 +298,18 @@ export const WayToClip = GObject.registerClass({
     _onNewClipboardEntry(entry) {
         this._store.add(entry);
         this._addEntry(entry, true, false);
-        this._trimAndPersist();
+        this._trimHistory();
         this._persist();
     }
 
-    /**
-     * Returns the matched widget (truthy) when the entry already exists
-     * so ClipboardManager skips onNewEntry; null otherwise.
-     */
     _onDuplicateClipboardEntry(entry) {
         const existing = this._store.findEqual(entry);
         if (!existing)
             return null;
-        const widget = this.clipItemsRadioGroup.find(m => m.entry === existing);
+        const widget = this._menuBuilder.items.find(m => m.entry === existing);
         if (widget) {
             this._selectMenuItem(widget, false);
-            // Re-copied duplicates always bubble to the top (favorites stay
-            // pinned). Unlike selection, this is NOT gated on moveItemFirst.
+            // re-copies always bubble up (favorites stay pinned), not gated on the pref
             if (!existing.isFavorite())
                 this._moveItemFirst(widget);
         }
@@ -336,10 +324,7 @@ export const WayToClip = GObject.registerClass({
     }
 
     _confirmRemoveAll() {
-        // Defer so the indicator menu can close (releasing its grab)
-        // before the confirm dialog takes its own modal grab. Opening
-        // synchronously from the menu's 'activate' handler prevents the
-        // dialog from appearing.
+        // menu has to close first or the dialog never shows
         this.menu.close();
         this._runIdle(() => {
             this._dialogManager.open({
@@ -353,11 +338,7 @@ export const WayToClip = GObject.registerClass({
         });
     }
 
-    /**
-     * Defer a callback to the next idle cycle. The source id is tracked
-     * so destroy() can remove it if disable() happens before it fires
-     * (review guidelines require removing all main loop sources).
-     */
+    // run next idle, tracked so destroy() can cancel it
     _runIdle(callback) {
         const id = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
             this._pendingIdles = this._pendingIdles.filter(x => x !== id);
@@ -398,10 +379,7 @@ export const WayToClip = GObject.registerClass({
         if (event === 'delete' && wasSelected)
             this._clipboardManager.clear();
 
-        menuItem.destroy();
-        const idx = this.clipItemsRadioGroup.indexOf(menuItem);
-        if (idx >= 0)
-            this.clipItemsRadioGroup.splice(idx, 1);
+        this._menuBuilder.removeWidget(menuItem);
 
         if (menuItem.entry.isImage()) {
             this._registry.deleteEntryFile(menuItem.entry).catch(e =>
@@ -411,20 +389,16 @@ export const WayToClip = GObject.registerClass({
     }
 
     _destroyWidgetForEntry(entry, { deleteImageFile = false } = {}) {
-        const widget = this.clipItemsRadioGroup.find(m => m.entry === entry);
+        const widget = this._menuBuilder.destroyWidgetForEntry(entry);
         if (!widget)
             return;
-        widget.destroy();
-        const idx = this.clipItemsRadioGroup.indexOf(widget);
-        if (idx >= 0)
-            this.clipItemsRadioGroup.splice(idx, 1);
         if (deleteImageFile && entry.isImage()) {
             this._registry.deleteEntryFile(entry).catch(e =>
                 error('Failed to delete cached image', e));
         }
     }
 
-    _trimAndPersist() {
+    _trimHistory() {
         const removed = this._store.trim(this._snap.maxRegistryLength);
         for (const { entry } of removed)
             this._destroyWidgetForEntry(entry, { deleteImageFile: true });
@@ -433,20 +407,16 @@ export const WayToClip = GObject.registerClass({
     _moveItemFirst(item) {
         const entry = item.entry;
         const wasSelected = item.currentlySelected;
-        // Remove widget without deleting the image file (entry survives).
-        item.destroy();
-        const idx = this.clipItemsRadioGroup.indexOf(item);
-        if (idx >= 0)
-            this.clipItemsRadioGroup.splice(idx, 1);
+        // entry survives, just rebuild the widget on top
+        this._menuBuilder.removeWidget(item);
 
         this._store.select(entry, { moveFirst: true });
-        const replacement = this._addEntry(entry, wasSelected, false);
-        void replacement;
+        this._addEntry(entry, wasSelected, false);
         this._persist();
     }
 
     _onMenuItemSelected(menuItem, autoSet) {
-        for (const other of this.clipItemsRadioGroup)
+        for (const other of this._menuBuilder.items)
             other.setSelected(other === menuItem && !!menuItem.clipContents);
         this._store.select(menuItem.entry);
         if (autoSet !== false)
@@ -458,12 +428,11 @@ export const WayToClip = GObject.registerClass({
     }
 
     _getCurrentlySelectedItem() {
-        return this.clipItemsRadioGroup.find(item => item.currentlySelected);
+        return this._menuBuilder.selectedItem;
     }
 
     _getAllIMenuItems() {
-        return this.historySection._getMenuItems()
-            .concat(this.favoritesSection._getMenuItems());
+        return this._menuBuilder?.allItems ?? [];
     }
 
     _persist() {
@@ -482,11 +451,7 @@ export const WayToClip = GObject.registerClass({
         this.timerLabel.visible = enabled;
         if (!enabled)
             return;
-        if (secondsLeft == null || secondsLeft < 0) {
-            this.timerLabel.set_text('');
-            return;
-        }
-        if (secondsLeft <= 0) {
+        if (secondsLeft == null || secondsLeft <= 0) {
             this.timerLabel.set_text('');
             return;
         }
@@ -512,14 +477,9 @@ export const WayToClip = GObject.registerClass({
     }
 
     _openCursorPopup() {
-        // NOTE: no early return on empty history — the cursor popup stays
-        // responsible for showing its "Clipboard history is empty" placeholder.
+        // NOTE: empty history still opens, popup shows the placeholder
 
-        // Snapshot the paste target while the target app still has
-        // focus: opening the popup takes a modal grab and resets the
-        // live content-purpose to NORMAL, which would make AutoPaster
-        // misdetect terminals (plain Ctrl+V isn't bound to clipboard
-        // paste there, so the chosen entry would not paste).
+        // grab the target now — opening the popup steals focus and messes up terminal detection
         const focusedWindow = global.display.get_focus_window();
         this._keyboard.savePurpose();
         this._pasteTarget = snapshotPasteTarget(
@@ -546,17 +506,11 @@ export const WayToClip = GObject.registerClass({
             this._cursorPopup.close();
     }
 
-    /**
-     * Snapshot whether the focused window is a terminal emulator.
-     * Used as a fallback when the input method reports no
-     * content-purpose (purpose stays undefined on some setups), in
-     * which case purpose-based detection can never fire.
-     */
+    // is the focused window a terminal? (fallback when purpose is blank)
     _isTerminalWindow(focusedWindow) {
         if (!focusedWindow)
             return false;
         const wmClass = focusedWindow.get_wm_class() ?? null;
-        // App lookup is best-effort: windows without an app yield null.
         const app = Shell.WindowTracker.get_default().get_window_app(focusedWindow);
         const appId = app ? app.get_id() : null;
         return isTerminalWindow(wmClass, appId,
@@ -564,17 +518,16 @@ export const WayToClip = GObject.registerClass({
     }
 
     autoPasteAndClose(menuItem) {
-        // cursorPopup may pass a widget that _moveItemFirst just destroyed
-        // (entry object survives); resolve to the live widget first.
+        // widget might be stale after a move, grab the live one
         const entry = menuItem.entry;
-        const live = this.clipItemsRadioGroup.find(m => m.entry === entry) ?? menuItem;
+        const live = this._menuBuilder.items.find(m => m.entry === entry) ?? menuItem;
         this.menu.close();
         this._closeCursorPopup();
         const currentlySelected = this._getCurrentlySelectedItem();
         const previouslySelected = currentlySelected && currentlySelected !== live
             ? currentlySelected.entry
             : null;
-        // Selecting also sets the clipboard; AutoPaster restores afterwards.
+        // selecting sets the clipboard too, autopaster restores after
         this._selectMenuItem(live, true);
         if (this._snap.autoPaste) {
             this._autoPaster.paste(entry, previouslySelected, null,
@@ -586,14 +539,6 @@ export const WayToClip = GObject.registerClass({
 
     togglePrivateMode() {
         this.privateModeMenuItem.toggle();
-    }
-
-    get isPrivateMode() {
-        return this._snap.privateMode;
-    }
-
-    get moveItemFirst() {
-        return this._snap.moveItemFirst;
     }
 
     _onPrivateModeSwitch() {
@@ -630,7 +575,7 @@ export const WayToClip = GObject.registerClass({
     async _onSettingsChange() {
         try {
             this._refreshSnapshot();
-            this._trimAndPersist();
+            this._trimHistory();
             this._persist();
             this._applyKeybindingPref();
             this._renderCountdown(this._scheduler.timeLeft());
@@ -649,7 +594,7 @@ export const WayToClip = GObject.registerClass({
     }
 
     _disconnectSettings() {
-        // onAnyChange() always returns a disconnect closure (see SettingsManager).
+        // onAnyChange gives us a disconnect func directly
         if (this._settingsChangedId) {
             this._settingsChangedId();
             this._settingsChangedId = 0;

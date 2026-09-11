@@ -1,30 +1,11 @@
-/**
- * i18n - language override support.
- *
- * System language works automatically via metadata.json gettext-domain.
- * This module adds the `language` GSettings override (default 'system'):
- * when set to a locale code, lookups are served from the bundled
- * TRANSLATIONS catalogs (generated from locale/*.po) instead of the
- * process locale. This is process-local — unlike GLib.setenv('LANGUAGE'),
- * it never affects the rest of GNOME Shell.
- *
- * Usage in Shell code:
- *   import { gettext as nativeGettext } from 'resource:///.../extension.js';
- *   import { translate } from './src/i18n.js';
- *   const _ = msgid => translate(msgid, nativeGettext);
- *   // at startup: setLanguageOverride(settings.get_string('language'))
- *
- * Restart is required for a full UI refresh (menus/prefs are built once),
- * but popups opened after the change already use the new language since
- * translate() reads the live override on every call.
- */
+// language override ('system' = native gettext, else bundled catalogs)
+// process-local only, never touches the rest of the shell
 
-import { PrefsFields } from '../constants.js';
+import { PrefsFields } from './constants.js';
 import { TRANSLATIONS } from './translations.js';
 
 export const SYSTEM_LANGUAGE = 'system';
 
-/** Locale code -> native display name (endonyms, never translated). */
 export const LANGUAGE_LABELS = {
     ar: 'العربية',
     ca: 'Català',
@@ -52,7 +33,6 @@ export const LANGUAGE_LABELS = {
     zh_CN: '简体中文',
 };
 
-/** Ordered codes for the prefs ComboRow (system first, then alphabetical). */
 export const AVAILABLE_LANGUAGES = [
     SYSTEM_LANGUAGE,
     ...Object.keys(LANGUAGE_LABELS).sort((a, b) =>
@@ -76,13 +56,13 @@ export function isKnownLanguage(code) {
     );
 }
 
-/** Unknown/empty values fall back to 'system' (never throw on stale dconf). */
+// junk in -> 'system', never throws on stale dconf
 export function normalizeLanguage(code) {
     if (typeof code !== 'string' || !code)
         return SYSTEM_LANGUAGE;
     if (code === SYSTEM_LANGUAGE)
         return SYSTEM_LANGUAGE;
-    // Accept 'fr-fr' / 'frFR' typos loosely, canonical form wins.
+    // be lenient with fr-fr / frFR typos
     if (Object.prototype.hasOwnProperty.call(LANGUAGE_LABELS, code))
         return code;
     const dashed = code.replace('-', '_');
@@ -91,7 +71,6 @@ export function normalizeLanguage(code) {
     return SYSTEM_LANGUAGE;
 }
 
-/** Read the stored override from Gio.Settings (null settings yield system). */
 export function getStoredLanguage(settings) {
     try {
         return normalizeLanguage(settings.get_string(PrefsFields.LANGUAGE));
@@ -100,21 +79,14 @@ export function getStoredLanguage(settings) {
     }
 }
 
-/** Sync the module-global override from Gio.Settings. */
 export function syncOverrideFromSettings(settings) {
     setLanguageOverride(getStoredLanguage(settings));
 }
 
-/** Release the stored override (call on disable). */
 export function resetLanguageOverride() {
     override = SYSTEM_LANGUAGE;
 }
 
-/**
- * Translate msgid under the current override.
- * @param {string} msgid
- * @param {function(string): string} fallback native gettext (system locale)
- */
 export function translate(msgid, fallback) {
     if (override === SYSTEM_LANGUAGE)
         return fallback(msgid);
@@ -125,7 +97,6 @@ export function translate(msgid, fallback) {
     return fallback(msgid);
 }
 
-/** Build a local `_` bound to a native gettext (convenience). */
 export function makeTranslator(nativeGettext) {
     return msgid => translate(msgid, nativeGettext);
 }

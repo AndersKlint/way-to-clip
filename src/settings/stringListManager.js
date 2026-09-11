@@ -1,18 +1,10 @@
-/**
- * stringListManager - ExpanderRow manager for a strv preference.
- *
- * Owns the row counter, the add-button sensitivity, and the app-picker
- * popover so Settings stays declarative. Instantiated once per list
- * setting (excluded apps, terminal apps, ...).
- */
-
 import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 import { gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { translate } from '../src/i18n.js';
+import { translate, makeTranslator } from '../common/i18n.js';
 
-const _ = msgid => translate(msgid, nativeGettext);
+const _ = makeTranslator(nativeGettext);
 
 export class StringListManager {
     #schema;
@@ -52,9 +44,7 @@ export class StringListManager {
         this.#counter = value;
         const hasApps = this.#counter > 0;
         this.#expanderRow.set_enable_expansion(hasApps);
-        // autoExpand=false (e.g. the pre-filled terminal list) stays
-        // collapsed on load; adding via the + button still expands
-        // through openInputRow() so the input row is visible.
+        // autoExpand off stays shut on load, + still opens it for input
         this.#expanderRow.set_expanded(hasApps && this.#autoExpand);
     }
 
@@ -208,8 +198,8 @@ export class StringListManager {
         okButton.connect('clicked', () => finishInput(true));
         cancelButton.connect('clicked', () => finishInput(false));
 
-        // Hide the ActionRow's default title children; we use prefix/suffix.
-        // entryRow.child may be null before the row is realized.
+        // ActionRow has default title kids we don't want; hide them
+        // (child can be null before realize)
         let child = entryRow.child?.get_first_child() ?? null;
         while (child) {
             child.visible = false;

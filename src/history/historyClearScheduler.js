@@ -1,15 +1,6 @@
-/**
- * HistoryClearScheduler - interval-based "clear history on timer".
- *
- * Extracted from WayToClip._setupHistoryIntervalClearing and friends.
- * All GLib timeout/interval ids and GSettings signal ids live here with
- * a single destroy() that releases everything (fixes the leaked 1s
- * interval on disable). Time is injectable for tests.
- */
-
 import GLib from 'gi://GLib';
 
-import { PrefsFields } from '../constants.js';
+import { PrefsFields } from '../common/constants.js';
 
 export class HistoryClearScheduler {
     #settings;
@@ -19,16 +10,9 @@ export class HistoryClearScheduler {
     #nowSeconds;
     #timeoutId = 0;
     #intervalId = 0;
+    // manual signal-ID tracking: plain JS class, no GObject connectObject/disconnectObject
     #settingIds = [];
 
-    /**
-     * @param {object} deps
-     * @param {Gio.Settings} deps.settings raw GSettings for int persistence
-     * @param {SettingsManager} deps.settingsManager snapshot source
-     * @param {function(): void} deps.onClear called when the timer fires
-     * @param {function(number): void} [deps.onTick] seconds-left countdown
-     * @param {function(): number} [deps.nowSeconds] clock (tests)
-     */
     constructor({ settings, settingsManager, onClear, onTick, nowSeconds }) {
         this.#settings = settings;
         this.#settingsManager = settingsManager;
@@ -84,7 +68,7 @@ export class HistoryClearScheduler {
         this.#onTick(-1);
     }
 
-    /** Remaining seconds until the next clear, or -1 when disabled. */
+    // seconds left, -1 when off
     timeLeft() {
         const snap = this.#settingsManager.snapshot();
         if (!snap.clearHistoryOnInterval)

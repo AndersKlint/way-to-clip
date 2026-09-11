@@ -1,16 +1,8 @@
-/**
- * ShortcutManager - owns global keybinding lifecycle.
- *
- * Extracted from WayToClip._bindShortcuts/_unbindShortcuts/_bindShortcut.
- * Bindings are tracked by name so disable() always removes exactly what
- * enable() added, even if settings change mid-session.
- */
-
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import { PrefsFields } from '../constants.js';
+import { PrefsFields } from '../common/constants.js';
 
 const BINDINGS = [
     [PrefsFields.BINDING_CLEAR_HISTORY, 'handleClearHistory'],
@@ -23,10 +15,6 @@ export class ShortcutManager {
     #handlers;
     #boundNames = [];
 
-    /**
-     * @param {Gio.Settings} settings
-     * @param {object} handlers { handleClearHistory, handleTogglePopup, handlePrivateMode }
-     */
     constructor(settings, handlers) {
         this.#settings = settings;
         this.#handlers = handlers;
@@ -45,14 +33,11 @@ export class ShortcutManager {
     }
 
     #bindOne(name, callback) {
-        const ModeType = Object.prototype.hasOwnProperty.call(Shell, 'ActionMode')
-            ? Shell.ActionMode
-            : Shell.KeyBindingMode;
         Main.wm.addKeybinding(
             name,
             this.#settings,
             Meta.KeyBindingFlags.NONE,
-            ModeType.ALL,
+            Shell.ActionMode.ALL,
             callback,
         );
         this.#boundNames.push(name);

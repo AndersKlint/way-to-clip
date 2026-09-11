@@ -6,15 +6,7 @@ import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 export class DialogManager {
     #openDialog = null;
 
-    open(firstArg = {}, ...rest) {
-        // Back-compat: open(title, message, subMessage, okLabel, cancelLabel, cb)
-        let opts;
-        if (typeof firstArg === 'string') {
-            const [message, subMessage, okLabel, cancelLabel, onConfirm] = rest;
-            opts = { title: firstArg, message, subMessage, okLabel, cancelLabel, onConfirm };
-        } else {
-            opts = firstArg ?? {};
-        }
+    open(opts = {}) {
         const { title, message, subMessage, okLabel, cancelLabel, onConfirm } = opts;
         if (this.#openDialog)
             return;
@@ -29,9 +21,7 @@ export class DialogManager {
                 this.#openDialog = null;
             },
         });
-        // If the dialog is closed/destroyed without going through a button
-        // (e.g. Escape via ModalDialog itself), still release the guard so
-        // the next Clear History attempt can open a fresh dialog.
+        // escape-closes still need to release the guard
         this.#openDialog.connect('destroy', () => {
             this.#openDialog = null;
         });

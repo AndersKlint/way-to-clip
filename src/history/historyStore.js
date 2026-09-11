@@ -1,12 +1,3 @@
-/**
- * HistoryStore - pure in-memory clipboard history model.
- *
- * Owns the ordered entry list, the selected entry, and trim/move
- * rules. No St/PopupMenu/GSettings dependencies so it is unit
- * testable with plain gjs. The Indicator maps store records to
- * ClipboardMenuItem widgets.
- */
-
 export class HistoryStore {
     #entries = [];
     #selected = null;
@@ -66,10 +57,7 @@ export class HistoryStore {
         return entry.isFavorite();
     }
 
-    /**
-     * Remove one entry. Returns true if the removed entry was selected.
-     * Image file deletion is the caller's job (Registry).
-     */
+    // true if we dropped the selected one (caller clears clipboard then)
     remove(entry) {
         const idx = this.#entries.indexOf(entry);
         if (idx < 0)
@@ -81,11 +69,6 @@ export class HistoryStore {
         return wasSelected;
     }
 
-    /**
-     * Remove oldest non-favorites until within maxSize.
-     * Returns the removed entries so the caller can delete image files
-     * and persist once (single write, not N writes).
-     */
     trim(maxSize) {
         const removed = [];
         let nonFavorites = this.#entries.filter(e => !e.isFavorite());
@@ -104,11 +87,6 @@ export class HistoryStore {
         return removed;
     }
 
-    /**
-     * Clear non-favorites (favorites always survive).
-     * When keepSelected is true the selected entry survives too.
-     * Returns { removed, clearedClipboard } for the caller to act on.
-     */
     clear({ keepSelected = false } = {}) {
         const removed = [];
         let clearedClipboard = false;
