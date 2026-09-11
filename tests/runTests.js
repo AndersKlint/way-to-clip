@@ -1,4 +1,4 @@
-// headless tests for the pure bits — run: gjs -m tests/runTests.js (or make check)
+// headless tests for the pure bits, run with: gjs -m tests/runTests.js (or make check)
 
 import { HistoryStore } from '../src/history/historyStore.js';
 import { PopupSearch } from '../src/cursorPopup/popupSearch.js';
@@ -120,13 +120,9 @@ function fakeEntry(value, favorite = false) {
 
 // --- PopupSearch ---
 
-function fakeItem(text) {
-    return { clipContents: text, entry: { getStringValue: () => text } };
-}
-
 {
     const search = new PopupSearch();
-    const items = [fakeItem('Hello'), fakeItem('world'), fakeItem('HELLO again')];
+    const items = [fakeEntry('Hello'), fakeEntry('world'), fakeEntry('HELLO again')];
     search.updateSettings(false, false);
     assert(search.filter(items, '').length === 3, 'search empty query returns all');
     assert(search.filter(items, 'hello').length === 2, 'search case-insensitive');
@@ -150,7 +146,7 @@ function fakeItem(text) {
     search.updateSettings(false, false);
     assert(search.caseSensitive === false && search.regexEnabled === false,
         'search updateSettings resets toggles');
-    const items = [fakeItem('Hello'), fakeItem('hello')];
+    const items = [fakeEntry('Hello'), fakeEntry('hello')];
     search.setCaseSensitive(true);
     assert(search.filter(items, 'hello').length === 1, 'search toggle setter affects filter');
 }
@@ -338,14 +334,14 @@ assert(ITEMS_PER_PAGE === 10, 'ITEMS_PER_PAGE is 10');
 {
     const search = new PopupSearch();
     search.updateSettings(false, true);
-    const items = [fakeItem('hello'), fakeItem('HELLO'), fakeItem('123')];
+    const items = [fakeEntry('hello'), fakeEntry('HELLO'), fakeEntry('123')];
     assert(search.filter(items, '[A-Z]+').length === 2,
         'search case-insensitive regex uses raw pattern with i flag');
     search.updateSettings(true, true);
     assert(search.filter(items, '[A-Z]+').length === 1,
         'search case-sensitive regex respects case');
     search.updateSettings(false, true);
-    const paren = [fakeItem('a(b'), fakeItem('xyz')];
+    const paren = [fakeEntry('a(b'), fakeEntry('xyz')];
     assert(search.filter(paren, '(').length === 1,
         'search invalid regex falls back to plain contains');
 }

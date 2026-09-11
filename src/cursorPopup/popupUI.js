@@ -18,7 +18,7 @@ export const POPUP_PREVIEW_ELLIPSIS = ' ...';
 
 /**
  * Truncate clipboard text for the popup list so clipped items visibly
- * end with " ...". Only the preview is shortened — callers keep
+ * end with " ...". Only the preview is shortened, callers keep
  * filtering/copying from the full entry value.
  *
  * @param {string} text full clipboard string
@@ -193,7 +193,7 @@ export class PopupUIBuilder {
     }
 
     attachSearchTooltip(button, text, tooltip, container) {
-        // read live at show time — owners rewrite this when shortcuts change
+        // read live at show time, owners rewrite this when shortcuts change
         button._hoverTooltipText = text;
         button.connect('enter-event', () => {
             const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
@@ -383,7 +383,7 @@ export class PopupUIBuilder {
     }
 
     // one clipboard row (maxLines lets us squeeze rows instead of moving the popup)
-    createItemWidget(mItem, index, onSelect, maxLines = 3) {
+    createItemWidget(entry, index, onSelect, maxLines = 3) {
         const itemBox = new St.BoxLayout({
             style_class: 'waytoclip-popup-item',
             reactive: true,
@@ -409,12 +409,12 @@ export class PopupUIBuilder {
             x_expand: true,
         });
 
-        const imagePreview = this.createImagePreview(mItem.entry);
+        const imagePreview = this.createImagePreview(entry);
         if (imagePreview) {
             textContainer.add_child(imagePreview);
         } else {
             const textLabel = new St.Label({
-                text: truncatePreviewText(mItem.entry.getStringValue(), maxLines),
+                text: truncatePreviewText(entry.getStringValue(), maxLines),
                 style_class: 'waytoclip-item-text',
                 y_align: Clutter.ActorAlign.START,
                 x_expand: true,
@@ -436,7 +436,7 @@ export class PopupUIBuilder {
         itemBox.add_child(topRow);
 
         itemBox.connect('button-press-event', () => {
-            onSelect(mItem);
+            onSelect(entry);
             return Clutter.EVENT_STOP;
         });
 

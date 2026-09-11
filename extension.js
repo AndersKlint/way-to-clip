@@ -2,24 +2,24 @@ import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { WayToClip } from './src/panel/panelButton.js';
+import { WayToClipController } from './src/wayToClipController.js';
 
 export default class WayToClipExtension extends Extension {
     enable() {
-        this.waytoclip = new WayToClip({
+        this.controller = new WayToClipController({
             clipboard: St.Clipboard.get_default(),
             settings: this.getSettings(),
             openSettings: () => this.openPreferences(),
             uuid: this.uuid,
         });
 
-        Main.panel.addToStatusArea('waytoclip', this.waytoclip, 1);
+        Main.panel.addToStatusArea('waytoclip', this.controller.panelButton, 1);
     }
 
     disable() {
-        if (this.waytoclip) {
-            this.waytoclip.destroy();
-            this.waytoclip = null;
+        if (this.controller) {
+            this.controller.destroy();
+            this.controller = null;
         }
     }
 }

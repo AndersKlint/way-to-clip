@@ -21,17 +21,28 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 ├── prefs.js          - Settings page assembly (GTK4/Adw), must stay at root (GNOME)
 ├── src/
 │   ├── common/       - Shared kernel: constants, logger, i18n, translations
-│   ├── clipboard/    - clipboardManager (monitor/read/write/inhibit), clipboardEntry (SHA256 model), clipboardMenuItem
-│   ├── history/      - historyStore (pure model, unit-tested), registry (atomic JSON+image persistence), historyClearScheduler, menuBuilder
+│   ├── clipboard/    - clipboardManager (monitor/read/write/inhibit), clipboardEntry (SHA256 model)
+│   ├── history/      - historyStore (pure model, unit-tested; favorites backend only, no UI yet),
+│   │                    registry (atomic JSON+image persistence), historyClearScheduler
 │   ├── cursorPopup/  - cursorPopup (lifecycle/paging/selection), popupUI, popupKeyHandler, popupSearch, localShortcuts
-│   ├── panel/        - panelButton (WayToClip orchestrator), confirmDialog
+│   ├── wayToClipController.js - App controller: owns store, registry, clipboard,
+│   │                    paster, scheduler, shortcuts, settings, popup lifecycle.
+│   │                    Views exchange model entries, never widgets.
+│   ├── panel/        - panelButton (WayToClip dumb view: static control rows only,
+│   │                    clipboard data never appears here), confirmDialog
 │   ├── paste/        - autoPaster (paste keypresses + restore), pasteKeys (pure decision, unit-tested), keyboard (virtual device)
 │   └── settings/     - settingsManager (typed Gio.Settings), shortcutManager (global bindings), shortcutRow + stringListManager (prefs widgets)
 └── tests/runTests.js - Headless unit tests (`make check` / `gjs -m`)
 ```
 
 ## Key Classes
-- `WayToClip` (src/panel/panelButton.js): Indicator menus, wires managers together
+- `WayToClipController` (src/wayToClipController.js): Owns all orchestration. Covers
+  history mutations, clipboard events, private mode, popup lifecycle, settings. Exposes an
+  entry-based API (`selectEntry`, `removeEntry`, `selectAndPaste`, `togglePrivateMode`,
+  `requestClearHistory`); views never see widgets from other views.
+- `WayToClip` (src/panel/panelButton.js): Dumb indicator view. Static control rows
+  (popup, private mode, clear, settings), private-mode switch, countdown label.
+  Never shows clipboard data; history surface is the cursor popup.
 - `HistoryStore` (src/history/): Pure history list, selection, trim/clear rules
 - `ClipboardManager` (src/clipboard/): Clipboard events, dedup callbacks, inhibit
 - `Registry` (src/history/registry.js): Serialized atomic writes, hardened read

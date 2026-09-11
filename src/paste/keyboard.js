@@ -33,7 +33,7 @@ export class Keyboard {
         return this.#contentPurpose;
     }
 
-    // grab purpose now — popup focus resets it to NORMAL later
+    // grab purpose now. Popup focus resets it to NORMAL later.
     savePurpose () {
         this.#savedPurpose = this.#contentPurpose;
     }

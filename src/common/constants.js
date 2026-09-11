@@ -40,7 +40,7 @@ export const PrefsFields = {
 
 export const ITEMS_PER_PAGE = 10;
 
-// text first, then images — order matters
+// text first, then images, order matters
 export const CLIPBOARD_MIMETYPES = [
     'text/plain;charset=utf-8',
     'UTF8_STRING',

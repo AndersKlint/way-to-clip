@@ -49,7 +49,7 @@ export class Registry {
         this.settings = null;
     }
 
-    // save entries, coalesced — spam it, only the last one hits disk
+    // save entries, coalesced. Spam it, only the last one hits disk.
     write(entries) {
         this._pendingEntries = [...entries];
         if (this._writeInFlight) {
@@ -160,7 +160,7 @@ export class Registry {
 
             let contents = null;
             try {
-                // promisified resolves to [data, etag] — no success flag
+                // promisified resolves to [data, etag]. No success flag.
                 [contents] = await file.load_contents_async(null);
             } catch (e) {
                 error('failed to read registry file', e);

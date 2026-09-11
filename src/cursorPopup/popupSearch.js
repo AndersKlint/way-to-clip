@@ -28,8 +28,8 @@ export class PopupSearch {
             return items;
         }
 
-        return items.filter(mItem => {
-            const text = mItem.clipContents || mItem.entry.getStringValue();
+        return items.filter(entry => {
+            const text = entry.getStringValue();
 
             if (this.#regexEnabled) {
                 try {

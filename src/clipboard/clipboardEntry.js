@@ -53,7 +53,7 @@ export class ClipboardEntry {
 
                 const file = Gio.file_new_for_path(filename);
                 try {
-                    // promisified resolves to [data, etag] — no success flag
+                    // promisified resolves to [data, etag]. No success flag.
                     [bytes] = await file.load_contents_async(null);
                     if (!bytes)
                         throw new Error('could not read image file from cache');

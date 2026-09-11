@@ -33,24 +33,14 @@ const LOCAL_SHORTCUT_KEYS = {
 };
 
 export class CursorPopup {
-    #actions = null;
+    #facade = null;
     #uiBuilder = null;
     #search = null;
     #keyHandler = null;
     #ui = null;
 
-    /**
-     * @param {object} actions - host callbacks owned by the panel button
-     * @param {(item:any, event:string)=>void} actions.removeEntry
-     * @param {(item:any, autoSet?:boolean)=>void} actions.selectMenuItem
-     * @param {(item:any)=>void} actions.moveItemFirstIfSelected
-     * @param {(item:any)=>void} actions.autoPasteAndClose
-     * @param {()=>void} actions.togglePrivateMode
-     * @param {()=>boolean} actions.isPrivateMode
-     * @param {()=>any[]} actions.getAllMenuItems
-     */
-    constructor(actions) {
-        this.#actions = actions;
+    constructor(facade) {
+        this.#facade = facade;
         this.#uiBuilder = new PopupUIBuilder();
         this.#search = new PopupSearch();
         this.#keyHandler = new PopupKeyHandler(this);
@@ -118,9 +108,9 @@ export class CursorPopup {
         return this.#ui !== null;
     }
 
-    open(x, y, items, monitor) {
-        this._originalItems = items;
-        this._itemsToShow = [...items.slice(0, this._getMaxItems(items.length))];
+    open(x, y, entries, monitor) {
+        this._originalItems = entries;
+        this._itemsToShow = [...entries.slice(0, this._getMaxItems(entries.length))];
         this._currentPage = 0;
         this._selectedIndex = this._itemsToShow.length > 0 ? 0 : -1;
         this._currentPageItems = [];
@@ -167,7 +157,7 @@ export class CursorPopup {
         this.#ui.popupLayout.connect('key-press-event',
             this.#keyHandler.handleMainKeyPress.bind(this.#keyHandler));
 
-        this._updatePrivateModeState();
+        this.updatePrivateModeState();
 
         this._modalGrab = Main.pushModal(this.#ui.modalContainer);
         global.stage.set_key_focus(this.#ui.popupLayout);
@@ -381,10 +371,10 @@ export class CursorPopup {
 
         const start = this._currentPage * ITEMS_PER_PAGE;
         const target = this._itemsToShow[start + this._selectedIndex];
-        this.#actions.removeEntry(target, 'delete');
+        this.#facade.deleteEntry(target);
 
         // keep the search filter after a delete
-        const updatedItems = this.#actions.getAllMenuItems().filter(item => item.actor.visible);
+        const updatedItems = this.#facade.getEntries();
         this._originalItems = updatedItems;
 
         if (this._isSearchMode && this.#ui.searchEntry.get_text() !== '') {
@@ -417,8 +407,7 @@ export class CursorPopup {
     // --- Private mode ---
 
     togglePrivateMode() {
-        this.#actions.togglePrivateMode();
-        this._updatePrivateModeState();
+        this.#facade.togglePrivateMode();
     }
 
     // --- Private: UI construction ---
@@ -491,9 +480,9 @@ export class CursorPopup {
                 this.#uiBuilder.createEmptyLabel(emptyText));
         }
 
-        pageItems.forEach((mItem, index) => {
+        pageItems.forEach((entry, index) => {
             const itemBox = this.#uiBuilder.createItemWidget(
-                mItem, index, (item) => this._selectItem(item), lines
+                entry, index, (item) => this._selectItem(item), lines
             );
 
             if (index === this._selectedIndex) {
@@ -666,14 +655,8 @@ export class CursorPopup {
 
     // --- Private: selection ---
 
-    _selectItem(mItem) {
-        this.#actions.selectMenuItem(mItem, true);
-        this.#actions.moveItemFirstIfSelected(mItem);
-        if (this._autoPaste) {
-            this.#actions.autoPasteAndClose(mItem);
-        } else {
-            this.close();
-        }
+    _selectItem(entry) {
+        this.#facade.selectAndPaste(entry);
     }
 
     // --- Private: search ---
@@ -688,10 +671,10 @@ export class CursorPopup {
 
     // --- Private: helpers ---
 
-    _updatePrivateModeState() {
+    updatePrivateModeState() {
         if (!this.#ui?.privateModeHint)
             return;
-        if (this.#actions.isPrivateMode()) {
+        if (this.#facade.isPrivateMode()) {
             this.#ui.privateModeHint.add_style_class_name('active');
         } else {
             this.#ui.privateModeHint.remove_style_class_name('active');
