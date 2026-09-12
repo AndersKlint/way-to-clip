@@ -3,14 +3,7 @@
 import { HistoryStore } from '../src/history/historyStore.js';
 import { PopupSearch } from '../src/cursorPopup/popupSearch.js';
 import { decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode } from '../src/paste/pasteKeys.js';
-import {
-    DEFAULT_LOCAL_SHORTCUTS,
-    formatAccelerator,
-    matchesShortcut,
-    ModMask,
-    parseAccelerator,
-    parseAcceleratorList,
-} from '../src/cursorPopup/localShortcuts.js';
+import * as LocalShortcuts from '../src/cursorPopup/localShortcuts.js';
 import { ITEMS_PER_PAGE, PrefsFields } from '../src/common/constants.js';
 import {
     AVAILABLE_LANGUAGES,
@@ -26,6 +19,7 @@ import {
 import { TRANSLATIONS } from '../src/common/translations.js';
 import { HistoryClearScheduler } from '../src/history/historyClearScheduler.js';
 import { ClipboardEntry } from '../src/clipboard/clipboardEntry.js';
+import { PopupSelectionController } from '../src/cursorPopup/popupSelectionController.js';
 
 let failures = 0;
 
@@ -83,6 +77,15 @@ function fakeEntry(value, favorite = false) {
 }
 
 {
+    // paste echo is an equal-but-distinct object, must resolve to the live entry
+    const store = new HistoryStore();
+    const a = fakeEntry('a');
+    store.load([a, fakeEntry('b')]);
+    assert(store.findEqual(fakeEntry('a')) === a, 'store findEqual resolves echo to live entry');
+    assert(store.findEqual(fakeEntry('zzz')) === null, 'store findEqual misses unknown entry');
+}
+
+{
     const store = new HistoryStore();
     const fav = fakeEntry('fav', true);
     const items = [fakeEntry('1'), fakeEntry('2'), fakeEntry('3'), fav];
@@ -118,18 +121,70 @@ function fakeEntry(value, favorite = false) {
     assert(persistFav.length === 0, 'store cache-only-favorite filters');
 }
 
+// --- PopupSelectionController ordering ---
+
+{
+    const sel = new PopupSelectionController({ handlers: {}, popup: {}, search: {} });
+    const a = fakeEntry('a');
+    const b = fakeEntry('b');
+    const c = fakeEntry('c');
+    const input = [a, b, c];
+    sel.reset(input);
+    assert(input[0] === a && input[2] === c, 'selection reset keeps input order');
+    const page = sel.getCurrentPageState();
+    assert(page.entries.length === 3 && page.entries[0] === c && page.entries[2] === a,
+        'selection shows newest first');
+}
+
+{
+    // bubbled entries must land on top, not the last page
+    const store = new HistoryStore();
+    const a = fakeEntry('a');
+    const b = fakeEntry('b');
+    store.load([a, b]);
+    store.select(a, { moveFirst: true });
+    const sel = new PopupSelectionController({ handlers: {}, popup: {}, search: {} });
+    sel.reset(store.entries);
+    assert(sel.getCurrentPageState().entries[0] === a,
+        'selection shows bubbled entry on top');
+}
+
+{
+    // deleting must keep newest-first order, not flip to store order
+    const backing = [fakeEntry('a'), fakeEntry('b'), fakeEntry('c')];
+    const sel = new PopupSelectionController({
+        handlers: {
+            onRemoveEntry(target) {
+                const i = backing.indexOf(target);
+                if (i >= 0)
+                    backing.splice(i, 1);
+            },
+            onGetEntries: () => [...backing],
+        },
+        popup: { renderPage() {} },
+        search: { isSearchMode: false },
+    });
+    sel.reset([...backing]);
+    sel.setPageActors([{}, {}, {}]);
+    sel.deleteSelectedItem();
+    const page = sel.getCurrentPageState();
+    assert(page.entries.length === 2 && page.entries[0].getStringValue() === 'b' &&
+        page.entries[1].getStringValue() === 'a',
+        'selection stays newest-first after delete');
+}
+
 // --- PopupSearch ---
 
 {
     const search = new PopupSearch();
     const items = [fakeEntry('Hello'), fakeEntry('world'), fakeEntry('HELLO again')];
-    search.updateSettings(false, false);
+    search.applySettings(false, false);
     assert(search.filter(items, '').length === 3, 'search empty query returns all');
     assert(search.filter(items, 'hello').length === 2, 'search case-insensitive');
-    search.updateSettings(true, false);
+    search.applySettings(true, false);
     assert(search.filter(items, 'hello').length === 0, 'search case-sensitive');
     assert(search.filter(items, 'Hello').length === 1, 'search case-sensitive match');
-    search.updateSettings(false, true);
+    search.applySettings(false, true);
     assert(search.filter(items, 'h.llo').length === 2, 'search regex');
     assert(search.filter(items, '([').length === 0, 'search invalid regex falls back');
 }
@@ -143,9 +198,9 @@ function fakeEntry(value, favorite = false) {
     search.setRegexEnabled(true);
     assert(search.caseSensitive === true && search.regexEnabled === true,
         'search toggle setters flip on');
-    search.updateSettings(false, false);
+    search.applySettings(false, false);
     assert(search.caseSensitive === false && search.regexEnabled === false,
-        'search updateSettings resets toggles');
+        'search applySettings resets toggles');
     const items = [fakeEntry('Hello'), fakeEntry('hello')];
     search.setCaseSensitive(true);
     assert(search.filter(items, 'hello').length === 1, 'search toggle setter affects filter');
@@ -224,61 +279,68 @@ function fakeEntry(value, favorite = false) {
 
 {
     // Parsing
-    assert(parseAccelerator('s').keyval === 0x73, 'parse bare letter');
-    assert(parseAccelerator('s').mods === 0, 'parse bare letter has no mods');
-    const altC = parseAccelerator('<Alt>c');
-    assert(altC.keyval === 0x63 && altC.mods === ModMask.MOD1, 'parse Alt combo');
-    const tab = parseAccelerator('Tab');
+    assert(LocalShortcuts.parseAccelerator('s').keyval === 0x73, 'parse bare letter');
+    assert(LocalShortcuts.parseAccelerator('s').mods === 0, 'parse bare letter has no mods');
+    const altC = LocalShortcuts.parseAccelerator('<Alt>c');
+    assert(altC.keyval === 0x63 && altC.mods === LocalShortcuts.ModMask.MOD1, 'parse Alt combo');
+    const tab = LocalShortcuts.parseAccelerator('Tab');
     assert(tab.keyval === 0xff09 && tab.mods === 0, 'parse Tab');
-    const shiftTab = parseAccelerator('<Shift>ISO_Left_Tab');
-    assert(shiftTab.keyval === 0xfe20 && shiftTab.mods === ModMask.SHIFT, 'parse Shift+Tab');
-    assert(parseAccelerator('KP_Enter').keyval === 0xff8d, 'parse KP_Enter');
-    assert(parseAccelerator('<Control><Shift>F10').mods ===
-        (ModMask.CONTROL | ModMask.SHIFT), 'parse multi-modifier');
-    assert(parseAccelerator('') === null, 'parse empty is null');
-    assert(parseAccelerator(null) === null, 'parse null is null');
-    assert(parseAccelerator('<Foo>x') === null, 'parse unknown modifier is null');
-    assert(parseAccelerator('NotAKey') === null, 'parse unknown key is null');
-    assert(parseAcceleratorList(['s', 'bogus', null]).length === 1, 'parse list drops bad entries');
-    assert(parseAcceleratorList([]).length === 0, 'parse empty list (cleared shortcut)');
+    const shiftTab = LocalShortcuts.parseAccelerator('<Shift>ISO_Left_Tab');
+    assert(shiftTab.keyval === 0xfe20 && shiftTab.mods === LocalShortcuts.ModMask.SHIFT, 'parse Shift+Tab');
+    assert(LocalShortcuts.parseAccelerator('KP_Enter').keyval === 0xff8d, 'parse KP_Enter');
+    assert(LocalShortcuts.parseAccelerator('<Control><Shift>F10').mods ===
+        (LocalShortcuts.ModMask.CONTROL | LocalShortcuts.ModMask.SHIFT), 'parse multi-modifier');
+    assert(LocalShortcuts.parseAccelerator('') === null, 'parse empty is null');
+    assert(LocalShortcuts.parseAccelerator(null) === null, 'parse null is null');
+    assert(LocalShortcuts.parseAccelerator('<Foo>x') === null, 'parse unknown modifier is null');
+    assert(LocalShortcuts.parseAccelerator('NotAKey') === null, 'parse unknown key is null');
+    assert(LocalShortcuts.parseAcceleratorList(['s', 'bogus', null]).length === 1, 'parse list drops bad entries');
+    assert(LocalShortcuts.parseAcceleratorList([]).length === 0, 'parse empty list (cleared shortcut)');
 
     // Display
-    assert(formatAccelerator('s') === 's', 'format bare letter');
-    assert(formatAccelerator('<Alt>c') === 'Alt+C', 'format Alt combo');
-    assert(formatAccelerator('<Alt>r') === 'Alt+R', 'format Alt+R');
-    assert(formatAccelerator('Tab') === 'Tab', 'format Tab');
-    assert(formatAccelerator('<Shift>ISO_Left_Tab') === 'Shift+Tab', 'format Shift+Tab');
-    assert(formatAccelerator('KP_Enter') === 'KP_Enter', 'format KP_Enter');
-    assert(formatAccelerator('<Control>F10') === 'Ctrl+F10', 'format Ctrl+F10');
+    assert(LocalShortcuts.formatAccelerator('s') === 's', 'format bare letter');
+    assert(LocalShortcuts.formatAccelerator('<Alt>c') === 'Alt+C', 'format Alt combo');
+    assert(LocalShortcuts.formatAccelerator('<Alt>r') === 'Alt+R', 'format Alt+R');
+    assert(LocalShortcuts.formatAccelerator('Tab') === 'Tab', 'format Tab');
+    assert(LocalShortcuts.formatAccelerator('<Shift>ISO_Left_Tab') === 'Shift+Tab', 'format Shift+Tab');
+    assert(LocalShortcuts.formatAccelerator('KP_Enter') === 'KP_Enter', 'format KP_Enter');
+    assert(LocalShortcuts.formatAccelerator('<Control>F10') === 'Ctrl+F10', 'format Ctrl+F10');
 
     // Matching (fake key events)
     const ev = (sym, state = 0) => ({
         get_key_symbol: () => sym,
         get_state: () => state,
     });
-    const search = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.search);
-    assert(matchesShortcut(ev(0x73), search), 'default search matches s');
-    assert(!matchesShortcut(ev(0x53, ModMask.SHIFT), search), 'default search ignores Shift+S');
-    assert(matchesShortcut(ev(0x73, ModMask.CONTROL), search), 'default search tolerates extra mods');
-    assert(!matchesShortcut(ev(0x64), search), 'default search rejects d');
-    const cs = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.caseSensitive);
-    assert(matchesShortcut(ev(0x63, ModMask.MOD1), cs), 'default match-case matches Alt+C');
-    assert(matchesShortcut(ev(0x43, ModMask.MOD1 | ModMask.SHIFT), cs), 'default match-case matches Alt+Shift+C');
-    assert(!matchesShortcut(ev(0x63), cs), 'default match-case requires Alt');
-    assert(!matchesShortcut(ev(0x72, ModMask.MOD1), cs), 'default match-case rejects Alt+R');
-    const next = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.pageNext);
-    assert(matchesShortcut(ev(0xff09), next), 'default page-next matches Tab');
-    assert(matchesShortcut(ev(0xff53), next), 'default page-next matches Right');
-    assert(!matchesShortcut(ev(0xff51), next), 'default page-next rejects Left');
-    const prev = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.pagePrevious);
-    assert(matchesShortcut(ev(0xfe20, ModMask.SHIFT), prev), 'default page-previous matches Shift+Tab');
-    assert(matchesShortcut(ev(0xff51), prev), 'default page-previous matches Left');
-    assert(!matchesShortcut(ev(0xff53), prev), 'default page-previous rejects Right');
-    const confirm = parseAcceleratorList(DEFAULT_LOCAL_SHORTCUTS.confirm);
-    assert(matchesShortcut(ev(0xff0d), confirm), 'default confirm matches Return');
-    assert(matchesShortcut(ev(0xff8d), confirm), 'default confirm matches KP_Enter');
-    assert(!matchesShortcut(ev(0x73), confirm), 'default confirm rejects s');
-    assert(!matchesShortcut(ev(0x73), []), 'cleared shortcut matches nothing');
+    const search = LocalShortcuts.parseAcceleratorList(LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS.search);
+    assert(LocalShortcuts.matchesShortcut(ev(0x73), search), 'default search matches s');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x53, LocalShortcuts.ModMask.SHIFT), search), 'default search ignores Shift+S');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x73, LocalShortcuts.ModMask.CONTROL), search), 'default search rejects Ctrl+S');
+    assert(LocalShortcuts.matchesShortcut(ev(0x73, LocalShortcuts.ModMask.MOD2), search), 'default search ignores NumLock');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x64), search), 'default search rejects d');
+    const cs = LocalShortcuts.parseAcceleratorList(LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS.caseSensitive);
+    assert(LocalShortcuts.matchesShortcut(ev(0x63, LocalShortcuts.ModMask.MOD1), cs), 'default match-case matches Alt+C');
+    assert(LocalShortcuts.matchesShortcut(ev(0x43, LocalShortcuts.ModMask.MOD1 | LocalShortcuts.ModMask.SHIFT), cs), 'default match-case matches Alt+Shift+C');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x63), cs), 'default match-case requires Alt');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x72, LocalShortcuts.ModMask.MOD1), cs), 'default match-case rejects Alt+R');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x63, LocalShortcuts.ModMask.MOD1 | LocalShortcuts.ModMask.CONTROL), cs), 'default match-case rejects Ctrl+Alt+C');
+    assert(LocalShortcuts.matchesShortcut(ev(0x43, LocalShortcuts.ModMask.MOD1 | LocalShortcuts.ModMask.LOCK), cs), 'default match-case matches CapsLock+Alt+C');
+    const shiftD = LocalShortcuts.parseAcceleratorList(['<Shift>d']);
+    assert(LocalShortcuts.matchesShortcut(ev(0x44, LocalShortcuts.ModMask.SHIFT), shiftD), 'Shift+D matches <Shift>d');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x64), shiftD), 'bare d does not match <Shift>d');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x44, LocalShortcuts.ModMask.SHIFT | LocalShortcuts.ModMask.CONTROL), shiftD), 'Ctrl+Shift+D does not match <Shift>d');
+    const next = LocalShortcuts.parseAcceleratorList(LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS.pageNext);
+    assert(LocalShortcuts.matchesShortcut(ev(0xff09), next), 'default page-next matches Tab');
+    assert(LocalShortcuts.matchesShortcut(ev(0xff53), next), 'default page-next matches Right');
+    assert(!LocalShortcuts.matchesShortcut(ev(0xff51), next), 'default page-next rejects Left');
+    const prev = LocalShortcuts.parseAcceleratorList(LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS.pagePrevious);
+    assert(LocalShortcuts.matchesShortcut(ev(0xfe20, LocalShortcuts.ModMask.SHIFT), prev), 'default page-previous matches Shift+Tab');
+    assert(LocalShortcuts.matchesShortcut(ev(0xff51), prev), 'default page-previous matches Left');
+    assert(!LocalShortcuts.matchesShortcut(ev(0xff53), prev), 'default page-previous rejects Right');
+    const confirm = LocalShortcuts.parseAcceleratorList(LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS.confirm);
+    assert(LocalShortcuts.matchesShortcut(ev(0xff0d), confirm), 'default confirm matches Return');
+    assert(LocalShortcuts.matchesShortcut(ev(0xff8d), confirm), 'default confirm matches KP_Enter');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x73), confirm), 'default confirm rejects s');
+    assert(!LocalShortcuts.matchesShortcut(ev(0x73), []), 'cleared shortcut matches nothing');
 }
 
 // --- constants ---
@@ -333,14 +395,14 @@ assert(ITEMS_PER_PAGE === 10, 'ITEMS_PER_PAGE is 10');
 
 {
     const search = new PopupSearch();
-    search.updateSettings(false, true);
+    search.applySettings(false, true);
     const items = [fakeEntry('hello'), fakeEntry('HELLO'), fakeEntry('123')];
     assert(search.filter(items, '[A-Z]+').length === 2,
         'search case-insensitive regex uses raw pattern with i flag');
-    search.updateSettings(true, true);
+    search.applySettings(true, true);
     assert(search.filter(items, '[A-Z]+').length === 1,
         'search case-sensitive regex respects case');
-    search.updateSettings(false, true);
+    search.applySettings(false, true);
     const paren = [fakeEntry('a(b'), fakeEntry('xyz')];
     assert(search.filter(paren, '(').length === 1,
         'search invalid regex falls back to plain contains');

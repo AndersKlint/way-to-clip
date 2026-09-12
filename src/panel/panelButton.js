@@ -14,12 +14,12 @@ const INDICATOR_ICON = 'edit-paste-symbolic';
 export const WayToClip = GObject.registerClass({
     GTypeName: 'WayToClip',
 }, class WayToClip extends PanelMenu.Button {
-    _init({ onShowPopup, onTogglePrivateMode, onRequestClear,
-        onResetTimer, onOpenSettings }) {
+    _init({ onShowPopup, onTogglePrivateMode, onRequestClearHistory,
+        onResetClearTimer, onOpenSettings }) {
         super._init(0.0, 'WayToClip');
-        this._handlers = { onShowPopup, onTogglePrivateMode, onRequestClear,
-            onResetTimer, onOpenSettings };
-        // guards setPrivateMode(): set_state() emits toggled too
+        this._handlers = { onShowPopup, onTogglePrivateMode, onRequestClearHistory,
+            onResetClearTimer, onOpenSettings };
+        // guards setPrivateMode(): setToggleState() emits toggled too
         this._settingPrivateMode = false;
 
         const hbox = new St.BoxLayout({
@@ -41,7 +41,7 @@ export const WayToClip = GObject.registerClass({
     setPrivateMode(on) {
         this._settingPrivateMode = true;
         try {
-            this.privateModeMenuItem.set_state(!!on);
+            this.privateModeMenuItem.setToggleState(!!on);
         } finally {
             this._settingPrivateMode = false;
         }
@@ -144,7 +144,7 @@ export const WayToClip = GObject.registerClass({
             y_align: Clutter.ActorAlign.CENTER,
         });
         this.resetTimerButton.connect('clicked', () => {
-            this._handlers.onResetTimer();
+            this._handlers.onResetClearTimer();
         });
         this.resetTimerButton.visible = false;
         this.timerLabel.visible = false;
@@ -152,7 +152,7 @@ export const WayToClip = GObject.registerClass({
         timerBox.add_child(this.resetTimerButton);
         this.clearMenuItem.add_child(timerBox);
 
-        this.clearMenuItem.connect('activate', () => this._handlers.onRequestClear());
+        this.clearMenuItem.connect('activate', () => this._handlers.onRequestClearHistory());
         this.menu.addMenuItem(this.clearMenuItem);
 
         this.settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));

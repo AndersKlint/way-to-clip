@@ -1,5 +1,12 @@
-// no gi imports on purpose so tests can run headless
+/*
+    Local shortcuts are keyboard shortcuts that only live inside the popup, e.g. 'd' for delete.
+    As we are prohibited by Gnome conventions to import GI modules into a shell application, we cannot
+    use the GDK keyval constants. Instead, we parse make our own shortcut parser here.
+*/
+import { PrefsFields } from '../common/constants.js';
 
+// modifier bits copied from the platform (GDK/Clutter ModifierType): Alt is bit 3, Super is bit 6, rest as listed.
+// event.get_state() reports these same bits, so matching below is plain bit masking. Keep the values in sync.
 export const ModMask = {
     SHIFT: 1 << 0,
     LOCK: 1 << 1,
@@ -10,6 +17,10 @@ export const ModMask = {
     MOD4: 1 << 6, // Super
     MOD5: 1 << 7,
 };
+
+// our parser only ever produces these four, so they are the only ones that count.
+// NumLock, CapsLock-state and the like get stripped before comparing and can never block a shortcut.
+const SignificantMods = ModMask.CONTROL | ModMask.SHIFT | ModMask.MOD1 | ModMask.MOD4;
 
 export const LocalActions = {
     SEARCH: 'search',
@@ -30,7 +41,7 @@ export const DEFAULT_LOCAL_SHORTCUTS = {
     [LocalActions.DELETE_ENTRY]: ['d'],
     [LocalActions.PRIVATE_MODE]: ['p'],
     [LocalActions.PAGE_NEXT]: ['Tab', 'Right'],
-    [LocalActions.PAGE_PREVIOUS]: ['<Shift>ISO_Left_Tab', 'Left'],
+    [LocalActions.PAGE_PREVIOUS]: ['<Shift>ISO_Left_Tab', 'Left'], 
     [LocalActions.MOVE_UP]: ['Up'],
     [LocalActions.MOVE_DOWN]: ['Down'],
     [LocalActions.CONFIRM]: ['Return', 'KP_Enter'],
@@ -39,6 +50,23 @@ export const DEFAULT_LOCAL_SHORTCUTS = {
     [LocalActions.REGEX]: ['<Alt>r'],
 };
 
+// Preferences override default shortcuts.
+export const LOCAL_SHORTCUT_PREF_KEYS = {
+    [LocalActions.SEARCH]: PrefsFields.LOCAL_SEARCH,
+    [LocalActions.DELETE_ENTRY]: PrefsFields.LOCAL_DELETE_ENTRY,
+    [LocalActions.PRIVATE_MODE]: PrefsFields.LOCAL_PRIVATE_MODE,
+    [LocalActions.PAGE_NEXT]: PrefsFields.LOCAL_PAGE_NEXT,
+    [LocalActions.PAGE_PREVIOUS]: PrefsFields.LOCAL_PAGE_PREVIOUS,
+    [LocalActions.MOVE_UP]: PrefsFields.LOCAL_MOVE_UP,
+    [LocalActions.MOVE_DOWN]: PrefsFields.LOCAL_MOVE_DOWN,
+    [LocalActions.CONFIRM]: PrefsFields.LOCAL_CONFIRM,
+    [LocalActions.CLOSE]: PrefsFields.LOCAL_CLOSE,
+    [LocalActions.CASE_SENSITIVE]: PrefsFields.LOCAL_CASE_SENSITIVE,
+    [LocalActions.REGEX]: PrefsFields.LOCAL_REGEX_SEARCH,
+};
+
+// multi-char key names to XKB keysym values (keysymdef.h: the 0xff00 block holds special keys, arrows, F-keys).
+// single letters skip this table, their keyval is just the unicode codepoint.
 const NAMED_KEYS = {
     tab: [0xff09, 'Tab'],
     iso_left_tab: [0xfe20, 'Tab'],
@@ -57,10 +85,13 @@ const NAMED_KEYS = {
     home: [0xff50, 'Home'],
     end: [0xff57, 'End'],
 };
+// F1..F12 keysyms run consecutive from 0xffbe, so index math covers the whole row
 for (let i = 1; i <= 12; i++)
     NAMED_KEYS[`f${i}`] = [0xffbd + i, `F${i}`];
 
-// gtk accel string -> { keyval, mods }, null if junk/"Disabled"
+// an accelerator is a GTK shortcut string: optional <Modifier> tags plus a key, like '<Alt>c' or 'Tab'.
+// prefs writes these, this turns one back into { keyval, mods }. null means junk: the caller drops it,
+// so a cleared or hand-edited setting matches nothing instead of crashing.
 export function parseAccelerator(accel) {
     if (!accel || typeof accel !== 'string')
         return null;
@@ -97,6 +128,7 @@ export function parseAccelerator(accel) {
     return { keyval, mods, display };
 }
 
+// one action can hold several bindings ('Tab' and 'Right' both turn the page). junk entries are dropped.
 export function parseAcceleratorList(list) {
     if (!Array.isArray(list))
         return [];
@@ -109,33 +141,44 @@ export function parseAcceleratorList(list) {
     return out;
 }
 
+// ascii upper/lowercase differ in exactly one bit (0x20), so OR-ing with it folds case for comparison
 function isAsciiLetter(keyval) {
     return (keyval >= 0x41 && keyval <= 0x5a) ||
         (keyval >= 0x61 && keyval <= 0x7a);
 }
 
-// match, tolerating shift-case on letter+modifier combos (alt+shift+c still hits <Alt>c)
+// matching is strict about modifiers but forgiving about letter case. capital and
+// small letters count as the same key, so '<Alt>c' also fires on Alt+Shift+C and
+// '<Shift>d' fires on Shift+D. any other extra modifier blocks: Ctrl+Alt+C is not
+// Alt+C. one exception: a bare letter like 's' only fires on a plain s press,
+// so Shift+S does nothing and stays free for typing capitals.
 export function matchesBinding(event, binding) {
     if (!binding)
         return false;
     const sym = event.get_key_symbol();
-    if (sym !== binding.keyval) {
-        const caseVariant = isAsciiLetter(sym) && isAsciiLetter(binding.keyval) &&
-            (sym | 0x20) === (binding.keyval | 0x20) &&
-            (binding.mods & ~ModMask.SHIFT) !== 0;
-        if (!caseVariant)
-            return false;
-    }
-    const state = event.get_state();
-    return (state & binding.mods) === binding.mods;
+    const folded = sym !== binding.keyval && isAsciiLetter(sym) &&
+        isAsciiLetter(binding.keyval) && (sym | 0x20) === (binding.keyval | 0x20);
+    if (sym !== binding.keyval && !folded)
+        return false;
+    // bare letter like 's' never matches a shifted keysym, so Shift+S types instead of firing
+    if (folded && (binding.mods & ~ModMask.SHIFT) === 0 && !(binding.mods & ModMask.SHIFT))
+        return false;
+    const state = event.get_state() & SignificantMods;
+    if (state === binding.mods)
+        return true;
+    // Shift only produced the capital (Alt+Shift+C for '<Alt>c'), anything else extra blocks
+    return folded && !(binding.mods & ModMask.SHIFT) &&
+        state === (binding.mods | ModMask.SHIFT);
 }
 
+// an action matches if any of its bindings match ('Tab' or 'Right' both turn the page)
 export function matchesShortcut(event, bindings) {
     if (!Array.isArray(bindings))
         return false;
     return bindings.some(b => matchesBinding(event, b));
 }
 
+// pretty label for the footer hints: '<Alt>c' becomes 'Alt+C', '<Shift>ISO_Left_Tab' becomes 'Shift+Tab'
 export function formatAccelerator(accel) {
     const parsed = parseAccelerator(accel);
     if (!parsed)

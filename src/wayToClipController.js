@@ -3,7 +3,7 @@ import Shell from 'gi://Shell';
 
 import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
 import { resetLanguageOverride, syncOverrideFromSettings, makeTranslator } from './common/i18n.js';
-import { PopupPositionMode } from './common/constants.js';
+import { PrefsFields, PopupPositionMode } from './common/constants.js';
 import { error } from './common/logger.js';
 import { Registry } from './history/registry.js';
 import { HistoryStore } from './history/historyStore.js';
@@ -20,9 +20,9 @@ import { WayToClip } from './panel/panelButton.js';
 
 const _ = makeTranslator(nativeGettext);
 
+// Main orchestration class for the extension. Handles callbacks, state and overall component orchestration.
 export class WayToClipController {
     constructor({ clipboard, settings, openSettings, uuid }) {
-        // so destroy() is safe even if construction blows up halfway
         this._settingsManager = null;
         this._registry = null;
         this._shortcutManager = null;
@@ -39,18 +39,19 @@ export class WayToClipController {
 
         syncOverrideFromSettings(settings);
         this._settingsManager = new SettingsManager(settings);
-        this._snap = this._settingsManager.snapshot();
+        this._settingsSnapshot = this._settingsManager.snapshot();
         this._privateMode = false;
 
         this._store = new HistoryStore();
         this._registry = new Registry({ settings: this._settingsManager.gio, uuid: this._uuid });
         this._keyboard = new Keyboard();
         this._cursorPopup = new CursorPopup({
-            getEntries: () => this._store.entries,
-            selectAndPaste: entry => this.selectEntryFromPopup(entry),
-            deleteEntry: entry => this.removeEntry(entry, 'delete'),
-            togglePrivateMode: () => this.togglePrivateMode(),
-            isPrivateMode: () => this._privateMode,
+            onGetEntries: () => this.entries,
+            onSelectEntryFromPopup: entry => this.selectClipboardEntryFromPopup(entry),
+            onRemoveEntry: (entry, event) => this.removeClipboardEntry(entry, event),
+            onTogglePrivateMode: () => this.togglePrivateMode(),
+            onIsPrivateMode: () => this.isPrivateMode(),
+            onSetSearchOption: (name, value) => this.setSearchOption(name, value),
         });
         this._dialogManager = new DialogManager();
 
@@ -59,27 +60,24 @@ export class WayToClipController {
         this._pasteTarget = null;
 
         this._panel = new WayToClip({
-            onShowPopup: () => {
-                // let the menu close first or the popup grab fails
-                this._runIdle(() => this.openCursorPopup());
-            },
+            onShowPopup: () => this.showPopupFromIndicatorMenu(),
             onTogglePrivateMode: () => this.togglePrivateMode(),
-            onRequestClear: () => this.requestClearHistory(),
-            onResetTimer: () => this._scheduler.schedule(),
-            onOpenSettings: () => this._openSettingsFunc(),
+            onRequestClearHistory: () => this.requestClearHistory(),
+            onResetClearTimer: () => this.resetClearTimer(),
+            onOpenSettings: () => this.openSettings(),
         });
 
         this._loadSettings();
 
-        if (this._snap.clearOnBoot)
+        if (this._settingsSnapshot.clearOnBoot)
             this._registry.clearCacheFolder();
 
         this._clipboardManager = new ClipboardManager({
             clipboard: this._clipboard,
             registry: this._registry,
             isPrivateMode: () => this._privateMode,
-            isExcludedApp: wmClass => (this._snap.excludedApps ?? []).includes(wmClass),
-            cacheImages: () => this._snap.cacheImages,
+            isExcludedApp: wmClass => (this._settingsSnapshot.excludedApps ?? []).includes(wmClass),
+            shouldCacheImages: () => this._settingsSnapshot.shouldCacheImages,
             onNewEntry: entry => this._onNewClipboardEntry(entry),
             onDuplicateEntry: entry => this._onDuplicateClipboardEntry(entry),
         });
@@ -90,9 +88,9 @@ export class WayToClipController {
         });
 
         this._shortcutManager = new ShortcutManager(this._settingsManager.gio, {
-            handleClearHistory: () => this.requestClearHistory(),
-            handleTogglePopup: () => this.toggleCursorPopup(),
-            handlePrivateMode: () => this.togglePrivateMode(),
+            onRequestClearHistory: () => this.requestClearHistory(),
+            onToggleCursorPopup: () => this.toggleCursorPopup(),
+            onTogglePrivateMode: () => this.togglePrivateMode(),
         });
 
         this._scheduler = new HistoryClearScheduler({
@@ -100,7 +98,7 @@ export class WayToClipController {
             settingsManager: this._settingsManager,
             onClear: () => this._clearHistory(),
             onTick: secondsLeft => this._panel.setCountdown(
-                secondsLeft, this._snap.clearHistoryOnInterval),
+                secondsLeft, this._settingsSnapshot.clearHistoryOnInterval),
         });
 
         this._boot();
@@ -134,7 +132,7 @@ export class WayToClipController {
             this._autoPaster = null;
         }
         if (this._cursorPopup) {
-            this._cursorPopup.close();
+            this._cursorPopup.destroy();
             this._cursorPopup = null;
         }
         if (this._dialogManager) {
@@ -181,7 +179,7 @@ export class WayToClipController {
             this._store.load(clipHistory);
             this._panel.setPrivateMode(this._privateMode);
             this._panel.setCountdown(this._scheduler.timeLeft(),
-                this._snap.clearHistoryOnInterval);
+                this._settingsSnapshot.clearHistoryOnInterval);
             this._clipboardManager.start();
             this._scheduler.start();
             this._applyKeybindingPref();
@@ -190,7 +188,7 @@ export class WayToClipController {
         }
     }
 
-    // --- clipboard callbacks (single persistence write per event) ---
+    // --- clipboard manipulation ---
 
     _onNewClipboardEntry(entry) {
         this._store.add(entry);
@@ -202,13 +200,13 @@ export class WayToClipController {
     _onDuplicateClipboardEntry(entry) {
         const existing = this._store.findEqual(entry);
         if (!existing)
-            return;
+            return null;
         // re-copies always bubble up (favorites stay pinned), not gated on the pref
         this._store.select(existing, { moveFirst: true });
         this._persist();
+        // truthy tells the clipboard watcher this was a duplicate, not a new entry
+        return existing;
     }
-
-    // --- history mutations (each persists exactly once) ---
 
     selectEntry(entry, { setClipboard = true } = {}) {
         const existing = this._store.select(entry);
@@ -218,7 +216,7 @@ export class WayToClipController {
             this._clipboardManager.writeEntry(existing);
     }
 
-    removeEntry(entry, event) {
+    removeClipboardEntry(entry, event) {
         const wasSelected = this._store.remove(entry);
         if (event === 'delete' && wasSelected)
             this._clipboardManager.clear();
@@ -230,7 +228,8 @@ export class WayToClipController {
         this._persist();
     }
 
-    // no favorites UI yet, backend only
+    // no favorites UI yet, backend only, persisted from the original fork from clipboard-indicator.
+    // I need to figure out a decent ux design before implementing it
     toggleFavorite(entry) {
         if (!this._store.has(entry))
             return;
@@ -239,10 +238,12 @@ export class WayToClipController {
         this._persist();
     }
 
+    // --- history ---
+
     requestClearHistory() {
         if (this._privateMode)
             return;
-        if (this._snap.confirmOnClear)
+        if (this._settingsSnapshot.confirmOnClear)
             this._confirmRemoveAll();
         else
             this._clearHistory();
@@ -263,6 +264,40 @@ export class WayToClipController {
         });
     }
 
+
+    _clearHistory() {
+        const { removed, clearedClipboard } = this._store.clear({
+            keepSelected: this._settingsSnapshot.keepSelectedOnClear,
+        });
+        for (const { entry } of removed) {
+            if (entry.isImage()) {
+                this._registry.deleteEntryFile(entry).catch(e =>
+                    error('Failed to delete cached image', e));
+            }
+        }
+        if (clearedClipboard)
+            this._clipboardManager.clear();
+        this._persist();
+    }
+
+    _trimHistory() {
+        const removed = this._store.trim(this._settingsSnapshot.maxRegistryLength);
+        for (const { entry } of removed) {
+            if (entry.isImage()) {
+                this._registry.deleteEntryFile(entry).catch(e =>
+                    error('Failed to delete cached image', e));
+            }
+        }
+    }
+
+    _persist() {
+        this._registry.write(this._store.toPersistable({
+            cacheOnlyFavorite: this._settingsSnapshot.cacheOnlyFavorite,
+        }));
+    }
+
+    // --- popup wiring ---
+
     // run next idle, tracked so destroy() can cancel it
     _runIdle(callback) {
         const id = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
@@ -279,38 +314,10 @@ export class WayToClipController {
         this._pendingIdles = [];
     }
 
-    _clearHistory() {
-        const { removed, clearedClipboard } = this._store.clear({
-            keepSelected: this._snap.keepSelectedOnClear,
-        });
-        for (const { entry } of removed) {
-            if (entry.isImage()) {
-                this._registry.deleteEntryFile(entry).catch(e =>
-                    error('Failed to delete cached image', e));
-            }
-        }
-        if (clearedClipboard)
-            this._clipboardManager.clear();
-        this._persist();
+    // Needs to run in an idle so the indicator menu has time to close
+    showPopupFromIndicatorMenu() {
+        this._runIdle(() => this.openCursorPopup());
     }
-
-    _trimHistory() {
-        const removed = this._store.trim(this._snap.maxRegistryLength);
-        for (const { entry } of removed) {
-            if (entry.isImage()) {
-                this._registry.deleteEntryFile(entry).catch(e =>
-                    error('Failed to delete cached image', e));
-            }
-        }
-    }
-
-    _persist() {
-        this._registry.write(this._store.toPersistable({
-            cacheOnlyFavorite: this._snap.cacheOnlyFavorite,
-        }));
-    }
-
-    // --- popup wiring ---
 
     toggleCursorPopup() {
         if (this._cursorPopup.isOpen())
@@ -320,9 +327,7 @@ export class WayToClipController {
     }
 
     openCursorPopup() {
-        // NOTE: empty history still opens, popup shows the placeholder
-
-        // grab the target now. Opening the popup steals focus and messes up terminal detection.
+        // grab the target first. Opening the popup steals focus and messes up terminal detection.
         const focusedWindow = global.display.get_focus_window();
         this._keyboard.savePurpose();
         this._pasteTarget = snapshotPasteTarget(
@@ -333,7 +338,7 @@ export class WayToClipController {
         const monitor = global.display.get_current_monitor();
         const monitorGeometry = global.display.get_monitor_geometry(monitor);
 
-        if (this._snap.popupPositionMode === PopupPositionMode.WINDOW_CENTER && focusedWindow) {
+        if (this._settingsSnapshot.popupPositionMode === PopupPositionMode.WINDOW_CENTER && focusedWindow) {
             const rect = focusedWindow.get_frame_rect();
             x = rect.x + rect.width / 2;
             y = rect.y + rect.height / 3;
@@ -349,7 +354,7 @@ export class WayToClipController {
             this._cursorPopup.close();
     }
 
-    // is the focused window a terminal? (fallback when purpose is blank)
+    // terminals need special paste handling (ctrl+shift+v)
     _isTerminalWindow(focusedWindow) {
         if (!focusedWindow)
             return false;
@@ -357,21 +362,21 @@ export class WayToClipController {
         const app = Shell.WindowTracker.get_default().get_window_app(focusedWindow);
         const appId = app ? app.get_id() : null;
         return isTerminalWindow(wmClass, appId,
-            this._snap.terminalApps ?? []);
+            this._settingsSnapshot.terminalApps ?? []);
     }
 
-    selectEntryFromPopup(entry) {
+    selectClipboardEntryFromPopup(entry) {
         const live = this._store.findEqual(entry) ?? entry;
         if (!this._store.has(live)) {
             this._cursorPopup.close();
             return;
         }
         this.selectEntry(live, { setClipboard: true });
-        if (this._snap.moveItemFirst) {
+        if (this._settingsSnapshot.moveItemFirst) {
             this._store.select(live, { moveFirst: true });
             this._persist();
         }
-        if (this._snap.autoPaste)
+        if (this._settingsSnapshot.autoPaste)
             this._pasteAndClose(live);
         else
             this._cursorPopup.close();
@@ -384,9 +389,8 @@ export class WayToClipController {
         const previouslySelected = currentlySelected && currentlySelected !== entry
             ? currentlySelected
             : null;
-        // selecting sets the clipboard too, autopaster restores after
         this.selectEntry(entry, { setClipboard: true });
-        if (this._snap.autoPaste) {
+        if (this._settingsSnapshot.autoPaste) {
             this._autoPaster.paste(entry, previouslySelected, null,
                 this._pasteTarget);
         }
@@ -414,13 +418,20 @@ export class WayToClipController {
         this._settingsChangedId = this._settingsManager.onAnyChange(
             () => this._onSettingsChange());
         this._refreshSnapshot();
-        this._cursorPopup.updateSettings(this._settingsManager.gio);
     }
 
     _refreshSnapshot() {
         syncOverrideFromSettings(this._settingsManager.gio);
-        this._snap = this._settingsManager.snapshot();
-        this._cursorPopup.updateSettings(this._settingsManager.gio);
+        this._settingsSnapshot = this._settingsManager.snapshot();
+        this._cursorPopup.applySettings(this._settingsSnapshot);
+    }
+
+    // popup search toggles write back here. Gio write fires changed, which round-trips through _refreshSnapshot.
+    setSearchOption(name, value) {
+        const key = name === 'regex'
+            ? PrefsFields.REGEX_SEARCH
+            : PrefsFields.CASE_SENSITIVE_SEARCH;
+        this._settingsManager.gio.set_boolean(key, !!value);
     }
 
     async _onSettingsChange() {
@@ -430,16 +441,24 @@ export class WayToClipController {
             this._persist();
             this._applyKeybindingPref();
             this._panel.setCountdown(this._scheduler.timeLeft(),
-                this._snap.clearHistoryOnInterval);
+                this._settingsSnapshot.clearHistoryOnInterval);
         } catch (e) {
             error('Failed to update registry', e);
         }
     }
 
+    resetClearTimer() {
+        this._scheduler.schedule();
+    }
+
+    openSettings() {
+        this._openSettingsFunc();
+    }
+
     _applyKeybindingPref() {
         if (!this._shortcutManager)
             return;
-        if (this._snap.enableKeybinding)
+        if (this._settingsSnapshot.enableKeybinding)
             this._shortcutManager.bindAll();
         else
             this._shortcutManager.unbindAll();

@@ -120,7 +120,7 @@
                 Key to toggle the private mode
             </description>
         </key>
-        <key name="cache-images" type="b">
+        <key name="should-cache-images" type="b">
         <default>true</default>
         <summary>Cache images</summary>
         <description>

@@ -1,4 +1,5 @@
 import { PrefsFields } from '../common/constants.js';
+import * as LocalShortcuts from '../cursorPopup/localShortcutUtils.js';
 
 export const SYSTEM_LANGUAGE = 'system';
 
@@ -10,6 +11,13 @@ function readLanguage(settings) {
     } catch (_e) {
         return SYSTEM_LANGUAGE;
     }
+}
+
+function readLocalShortcuts(settings) {
+    const out = {};
+    for (const [action, key] of Object.entries(LocalShortcuts.LOCAL_SHORTCUT_PREF_KEYS))
+        out[action] = settings.get_strv(key);
+    return out;
 }
 
 export class SettingsManager {
@@ -39,7 +47,7 @@ export class SettingsManager {
             enableKeybinding: s.get_boolean(PrefsFields.ENABLE_KEYBINDING),
             clearOnBoot: s.get_boolean(PrefsFields.CLEAR_ON_BOOT),
             keepSelectedOnClear: s.get_boolean(PrefsFields.KEEP_SELECTED_ON_CLEAR),
-            cacheImages: s.get_boolean(PrefsFields.CACHE_IMAGES),
+            shouldCacheImages: s.get_boolean(PrefsFields.SHOULD_CACHE_IMAGES),
             excludedApps: s.get_strv(PrefsFields.EXCLUDED_APPS),
             terminalApps: s.get_strv(PrefsFields.TERMINAL_APPS),
             clearHistoryOnInterval: s.get_boolean(PrefsFields.CLEAR_HISTORY_ON_INTERVAL),
@@ -51,6 +59,8 @@ export class SettingsManager {
             autoPaste: s.get_boolean(PrefsFields.AUTO_PASTE),
             caseSensitiveSearch: s.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH),
             regexSearch: s.get_boolean(PrefsFields.REGEX_SEARCH),
+            showShortcutHints: s.get_boolean(PrefsFields.SHOW_SHORTCUT_HINTS),
+            localShortcuts: readLocalShortcuts(s),
             imagePreviewSize,
             language: readLanguage(s),
         };

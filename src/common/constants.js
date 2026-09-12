@@ -14,7 +14,7 @@ export const PrefsFields = {
     POPUP_POSITION_MODE             : 'popup-position-mode',
     MAX_POPUP_PAGES                 : 'popup-pages',
     LIMIT_POPUP_PAGES               : 'limit-popup-pages',
-    CACHE_IMAGES                    : 'cache-images',
+    SHOULD_CACHE_IMAGES             : 'should-cache-images',
     EXCLUDED_APPS                   : 'excluded-apps',
     TERMINAL_APPS                   : 'terminal-apps',
     CLEAR_HISTORY_ON_INTERVAL       : 'clear-history-on-interval',

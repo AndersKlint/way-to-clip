@@ -2,7 +2,7 @@ export class PopupSearch {
     #caseSensitive = false;
     #regexEnabled = false;
 
-    updateSettings(caseSensitive, regexEnabled) {
+    applySettings(caseSensitive, regexEnabled) {
         this.#caseSensitive = !!caseSensitive;
         this.#regexEnabled = !!regexEnabled;
     }
@@ -35,7 +35,7 @@ export class PopupSearch {
                 try {
                     const flags = this.#caseSensitive ? '' : 'i';
                     return new RegExp(query, flags).test(text);
-                } catch (_e) {
+                } catch {
                     // bad regex, just do a plain contains
                     const q = this.#caseSensitive ? query : query.toLowerCase();
                     const t = this.#caseSensitive ? text : text.toLowerCase();

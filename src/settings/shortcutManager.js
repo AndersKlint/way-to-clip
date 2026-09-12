@@ -5,9 +5,9 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import { PrefsFields } from '../common/constants.js';
 
 const BINDINGS = [
-    [PrefsFields.BINDING_CLEAR_HISTORY, 'handleClearHistory'],
-    [PrefsFields.BINDING_TOGGLE_POPUP, 'handleTogglePopup'],
-    [PrefsFields.BINDING_PRIVATE_MODE, 'handlePrivateMode'],
+    [PrefsFields.BINDING_CLEAR_HISTORY, 'onRequestClearHistory'],
+    [PrefsFields.BINDING_TOGGLE_POPUP, 'onToggleCursorPopup'],
+    [PrefsFields.BINDING_PRIVATE_MODE, 'onTogglePrivateMode'],
 ];
 
 export class ShortcutManager {

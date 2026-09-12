@@ -5,26 +5,23 @@ import Pango from 'gi://Pango';
 import St from 'gi://St';
 
 import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { translate, makeTranslator } from '../common/i18n.js';
+import { makeTranslator } from '../common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 const IMAGE_PREVIEW_SIZE = 96;
 
+export const POPUP_GEOMETRY = {
+    MARGIN: 10,
+    GAP_BELOW: 20,
+    GAP_ABOVE: 10,
+};
+
 // Approx. characters per visual line in the popup (400-600px wide).
 // Used to detect multi-line clipping that max-height CSS would otherwise
-// cut off silently, so we can append an explicit " ..." marker.
+// cut off silently, so we can append an ellipsis.
 export const POPUP_PREVIEW_CHARS_PER_LINE = 60;
 export const POPUP_PREVIEW_ELLIPSIS = ' ...';
 
-/**
- * Truncate clipboard text for the popup list so clipped items visibly
- * end with " ...". Only the preview is shortened, callers keep
- * filtering/copying from the full entry value.
- *
- * @param {string} text full clipboard string
- * @param {number} [maxLines] visible rows (1-3)
- * @returns {string} preview with " ..." appended when truncated
- */
 export function truncatePreviewText(text, maxLines = 3) {
     if (text === null || text === undefined)
         return '';
@@ -72,12 +69,42 @@ const SEARCH_TOGGLE_DEBOUNCE_MS = 300;
 export class PopupUIBuilder {
     #imagePreviewSize = IMAGE_PREVIEW_SIZE;
     #pendingSearchTooltips = new Set();
+    #hoverTooltipTexts = new WeakMap();
 
     setImagePreviewSize(size) {
         if (!Number.isFinite(size))
             return;
         this.#imagePreviewSize = Math.min(512, Math.max(32, Math.round(size)));
     }
+
+    destroy() {
+        this.cancelPendingSearchTooltips();
+    }
+
+    cancelPendingSearchTooltips() {
+        for (const id of this.#pendingSearchTooltips)
+            GLib.source_remove(id);
+        this.#pendingSearchTooltips.clear();
+    }
+
+    setHoverTooltipText(actor, text) {
+        this.#hoverTooltipTexts.set(actor, text);
+    }
+
+    getHoverTooltipText(actor, fallback) {
+        return this.#hoverTooltipTexts.get(actor) ?? fallback;
+    }
+
+    // set_policy is 47+, older shells use the properties
+    setScrollPolicies(scrollView, hPolicy, vPolicy) {
+        if (typeof scrollView.set_policy === 'function')
+            scrollView.set_policy(hPolicy, vPolicy);
+        else {
+            scrollView.hscrollbar_policy = hPolicy;
+            scrollView.vscrollbar_policy = vPolicy;
+        }
+    }
+
     createModalContainer() {
         return new St.Widget({
             reactive: true,
@@ -123,7 +150,7 @@ export class PopupUIBuilder {
             x_expand: true,
         });
 
-        entry.get_clutter_text().connect('text-changed', (actor) => {
+        entry.get_clutter_text().connect('text-changed', actor => {
             onTextChanged(actor.get_text());
         });
 
@@ -158,13 +185,7 @@ export class PopupUIBuilder {
         });
     }
 
-    cancelPendingSearchTooltips() {
-        for (const id of this.#pendingSearchTooltips)
-            GLib.source_remove(id);
-        this.#pendingSearchTooltips = new Set();
-    }
-
-    _positionSearchTooltip(tooltip, button, container, text) {
+    #positionSearchTooltip(tooltip, button, container, text) {
         tooltip.set_text(text);
         container.set_child_above_sibling(tooltip, null);
         // show first so size is right, then place (no flash in between)
@@ -194,13 +215,13 @@ export class PopupUIBuilder {
 
     attachSearchTooltip(button, text, tooltip, container) {
         // read live at show time, owners rewrite this when shortcuts change
-        button._hoverTooltipText = text;
+        this.setHoverTooltipText(button, text);
         button.connect('enter-event', () => {
             const id = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
                 SEARCH_TOOLTIP_DELAY_MS, () => {
                     this.#pendingSearchTooltips.delete(id);
-                    this._positionSearchTooltip(tooltip, button, container,
-                        button._hoverTooltipText ?? text);
+                    this.#positionSearchTooltip(tooltip, button, container,
+                        this.getHoverTooltipText(button, text));
                     return GLib.SOURCE_REMOVE;
                 });
             this.#pendingSearchTooltips.add(id);
@@ -220,7 +241,7 @@ export class PopupUIBuilder {
     }
 
     // rows use press-event (clicked often never arrives under the grab) + dedup
-    _bindSearchToggle(button, onToggle) {
+    #bindSearchToggle(button, onToggle) {
         let lastFire = 0;
         const fire = () => {
             const now = Date.now();
@@ -261,8 +282,8 @@ export class PopupUIBuilder {
         const caseButton = this.createSearchToggleButton('Aa');
         const regexButton = this.createSearchToggleButton('.*');
 
-        this._bindSearchToggle(caseButton, onCaseToggle);
-        this._bindSearchToggle(regexButton, onRegexToggle);
+        this.#bindSearchToggle(caseButton, onCaseToggle);
+        this.#bindSearchToggle(regexButton, onRegexToggle);
 
         const tooltip = this.createSearchTooltip();
         if (container) {
@@ -364,22 +385,23 @@ export class PopupUIBuilder {
     }
 
     createImagePreview(entry) {
+        if (!entry || !entry.isImage())
+            return null;
+        let bytes = null;
         try {
-            if (!entry || !entry.isImage())
-                return null;
-            const bytes = entry.asBytes();
-            if (bytes.get_size() === 0)
-                return null;
-            const gicon = Gio.BytesIcon.new(bytes);
-            return new St.Icon({
-                gicon,
-                icon_size: this.#imagePreviewSize,
-                style_class: 'waytoclip-item-image',
-                x_align: Clutter.ActorAlign.START,
-            });
-        } catch (_e) {
+            bytes = entry.asBytes();
+        } catch {
             return null;
         }
+        if (!bytes || bytes.get_size() === 0)
+            return null;
+        const gicon = Gio.BytesIcon.new(bytes);
+        return new St.Icon({
+            gicon,
+            icon_size: this.#imagePreviewSize,
+            style_class: 'waytoclip-item-image',
+            x_align: Clutter.ActorAlign.START,
+        });
     }
 
     // one clipboard row (maxLines lets us squeeze rows instead of moving the popup)
@@ -443,11 +465,24 @@ export class PopupUIBuilder {
         return itemBox;
     }
 
-    // below first if it fits, else above, else whichever side is bigger
+    // Prioritize below if it fits, else above if it fits, else whichever side is bigger.
+    // x, y are stage coords, same as positionPopup takes.
+    decidePopupSide(natH, y, monitor) {
+        const { MARGIN, GAP_BELOW, GAP_ABOVE } = POPUP_GEOMETRY;
+
+        const relY = y - monitor.y;
+        const spaceBelow = monitor.height - relY - GAP_BELOW - MARGIN;
+        const spaceAbove = relY - GAP_ABOVE - MARGIN;
+
+        if (natH <= spaceBelow)
+            return 'below';
+        if (natH <= spaceAbove)
+            return 'above';
+        return spaceAbove > spaceBelow ? 'above' : 'below';
+    }
+
     positionPopup(modalContainer, popup, x, y, monitor) {
-        const MARGIN = 10;
-        const GAP_BELOW = 20;
-        const GAP_ABOVE = 10;
+        const { MARGIN, GAP_BELOW, GAP_ABOVE } = POPUP_GEOMETRY;
 
         const [, natW] = popup.get_preferred_width(-1);
         const [, natH] = popup.get_preferred_height(natW);
@@ -460,28 +495,15 @@ export class PopupUIBuilder {
 
         const popupX = Math.max(MARGIN, Math.min(relX, monitor.width - natW - MARGIN));
 
-        const spaceBelow = monitor.height - relY - GAP_BELOW - MARGIN;
-        const spaceAbove = relY - GAP_ABOVE - MARGIN;
-
         const belowTopY = relY + GAP_BELOW;
         const aboveBottomY = relY - GAP_ABOVE;
 
-        let mode;
+        const mode = this.decidePopupSide(natH, y, monitor);
         let popupY;
-        if (natH <= spaceBelow) {
-            mode = 'below';
+        if (mode === 'below') {
             popupY = belowTopY;
-        } else if (natH <= spaceAbove) {
-            mode = 'above';
-            popupY = aboveBottomY - natH;
         } else {
-            if (spaceAbove > spaceBelow) {
-                mode = 'above';
-                popupY = aboveBottomY - natH;
-            } else {
-                mode = 'below';
-                popupY = belowTopY;
-            }
+            popupY = aboveBottomY - natH;
         }
 
         popup.set_position(popupX, popupY);
@@ -489,17 +511,9 @@ export class PopupUIBuilder {
         return { x: popupX, y: popupY, mode, belowTopY, aboveBottomY };
     }
 
-    // re-glue after content changes: left + cursor edge locked, rest can grow
-    /**
-     * @param {object} modalContainer full-screen container
-     * @param {object} popup popup actor to position
-     * @param {{x:number, mode:string, belowTopY:number, aboveBottomY:number}} lock cursor edge lock from positionPopup
-     * @param {{width:number, height:number}} monitor monitor geometry
-     * @param {number|null} [natH] measured height, re-measured when null
-     * @returns {number} anchored height
-     */
+    // re-glue after content changes, so the popup doesn't jump around
     anchorPopup(modalContainer, popup, lock, monitor, natH = null) {
-        const MARGIN = 10;
+        const { MARGIN } = POPUP_GEOMETRY;
 
         modalContainer.set_position(monitor.x, monitor.y);
         modalContainer.set_size(monitor.width, monitor.height);
@@ -527,27 +541,17 @@ export class PopupUIBuilder {
         return natH;
     }
 
-    /**
-     * @param {{mode:string, belowTopY:number, aboveBottomY:number}|null} lock cursor edge lock from positionPopup
-     * @param {{height:number}|null} monitor monitor geometry
-     * @returns {number} available height for the popup, Infinity when unlocked
-     */
     availHeightForLock(lock, monitor) {
+        const { MARGIN } = POPUP_GEOMETRY;
         if (!lock || !monitor)
             return Infinity;
         if (lock.mode === 'above')
-            return Math.max(0, lock.aboveBottomY - 10);
-        return Math.max(0, monitor.height - lock.belowTopY - 10);
+            return Math.max(0, lock.aboveBottomY - MARGIN);
+        return Math.max(0, monitor.height - lock.belowTopY - MARGIN);
     }
 
-    /**
-     * @param {object} popup popup actor to measure
-     * @param {{width:number, height:number}} monitor monitor geometry
-     * @param {number} lockedX locked left edge
-     * @returns {{natW:number, natH:number, availableW:number}} natural size + available width
-     */
     measurePopup(popup, monitor, lockedX) {
-        const MARGIN = 10;
+        const { MARGIN } = POPUP_GEOMETRY;
         const [, natW] = popup.get_preferred_width(-1);
         const availableW = Math.max(0, monitor.width - lockedX - MARGIN);
         const effW = Math.min(natW, availableW);

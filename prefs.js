@@ -115,7 +115,7 @@ class Settings {
             }),
         });
 
-        this.field_cache_images = new Adw.SwitchRow({
+        this.field_should_cache_images = new Adw.SwitchRow({
             title: _('Cache images'),
             active: true,
         });
@@ -200,7 +200,7 @@ class Settings {
         this.behavior.add(this.field_terminal_row);
         this.behavior.add(this.field_move_item_first);
         this.behavior.add(this.field_keep_selected_on_clear);
-        this.behavior.add(this.field_cache_images);
+        this.behavior.add(this.field_should_cache_images);
         this.behavior.add(this.field_clear_on_boot);
         this.behavior.add(this.field_clear_history_on_interval);
         this.behavior.add(this.field_clear_history_interval);
@@ -227,7 +227,7 @@ class Settings {
         this.schema.bind(PrefsFields.LIMIT_POPUP_PAGES, this.field_limit_popup_pages, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.MAX_POPUP_PAGES, this.field_popup_pages, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.IMAGE_PREVIEW_SIZE, this.field_image_preview_size, 'value', Gio.SettingsBindFlags.DEFAULT);
-        this.schema.bind(PrefsFields.CACHE_IMAGES, this.field_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.SHOULD_CACHE_IMAGES, this.field_should_cache_images, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.SHOW_SHORTCUT_HINTS, this.field_show_shortcut_hints, 'active', Gio.SettingsBindFlags.DEFAULT);

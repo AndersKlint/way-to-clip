@@ -8,6 +8,9 @@ import { error } from '../common/logger.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
+/**
+ * Watches the system clipboard and reports fresh copies. Own writes go through inhibit() so pastes don't echo back as new.
+ */
 export class ClipboardManager {
     #clipboard;
     #registry;
@@ -17,7 +20,7 @@ export class ClipboardManager {
     #inhibitCount = 0;
     #isPrivateMode = () => false;
     #isExcludedApp = () => false;
-    #cacheImages = () => true;
+    #shouldCacheImages = () => true;
 
     constructor(deps) {
         this.#clipboard = deps.clipboard;
@@ -26,12 +29,13 @@ export class ClipboardManager {
             this.#isPrivateMode = deps.isPrivateMode;
         if (deps.isExcludedApp)
             this.#isExcludedApp = deps.isExcludedApp;
-        if (deps.cacheImages)
-            this.#cacheImages = deps.cacheImages;
+        if (deps.shouldCacheImages)
+            this.#shouldCacheImages = deps.shouldCacheImages;
         this.onNewEntry = deps.onNewEntry ?? (() => {});
         this.onDuplicateEntry = deps.onDuplicateEntry ?? (() => {});
     }
 
+    // mute the watcher while we write the clipboard ourselves, or each paste looks like a fresh copy causing a loop. Returned fn unmutes.
     inhibit() {
         this.#inhibitCount++;
         return () => {
@@ -102,6 +106,7 @@ export class ClipboardManager {
                         // gnome mangles text mimetypes on 2nd copy, squish them into one
                         // https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/8233
                         let effectiveType = ClipboardEntry.canonicalizeMimetype(type);
+                        // outer try can't reach in here (later tick). Without this a throw hangs the promise and refresh stays wedged.
                         try {
                             const result = new ClipboardEntry(
                                 effectiveType, bytes.get_data(), false);
@@ -118,9 +123,9 @@ export class ClipboardManager {
             });
 
             if (entry) {
-                if (!this.#cacheImages() && entry.isImage())
+                if (!this.#shouldCacheImages() && entry.isImage())
                     return null;
-                if (this.#cacheImages() && entry.isImage()) {
+                if (this.#shouldCacheImages() && entry.isImage()) {
                     try {
                         await this.#registry.writeEntryFile(entry);
                     } catch (e) {

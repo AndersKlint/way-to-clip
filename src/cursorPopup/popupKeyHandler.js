@@ -2,73 +2,79 @@ import Clutter from 'gi://Clutter';
 
 export class PopupKeyHandler {
     #popup;
+    #shortcuts;
+    #search;
+    #selection;
 
-    constructor(popup) {
+    constructor({ popup, shortcuts, search, selection }) {
         this.#popup = popup;
+        this.#shortcuts = shortcuts;
+        this.#search = search;
+        this.#selection = selection;
     }
 
     handleMainKeyPress(_actor, event) {
         // toggles work even when a toggle button has focus
-        if (this._handleSearchToggleKeys(event))
+        if (this.#handleSearchToggleKeys(event))
             return Clutter.EVENT_STOP;
 
-        if (this.#popup.isLocalShortcut('close', event)) {
+        if (this.#shortcuts.isLocalShortcut('close', event)) {
             this.#popup.close();
             return Clutter.EVENT_STOP;
         }
 
-        if (this.#popup.isLocalShortcut('confirm', event)) {
-            this.#popup.confirmSelection();
+        if (this.#shortcuts.isLocalShortcut('confirm', event)) {
+            this.#selection.confirmSelection();
             return Clutter.EVENT_STOP;
         }
 
-        if (this.#popup.isLocalShortcut('search', event)) {
-            this.#popup.toggleSearch();
+        if (this.#shortcuts.isLocalShortcut('search', event)) {
+            this.#search.toggleSearch();
             return Clutter.EVENT_STOP;
         }
 
         // don't eat keystrokes meant for the search field
-        if (!this.#popup.isSearchMode) {
-            if (this.#popup.isLocalShortcut('deleteEntry', event)) {
-                this.#popup.deleteSelectedItem();
+        if (!this.#search.isSearchMode) {
+            if (this.#shortcuts.isLocalShortcut('deleteEntry', event)) {
+                this.#selection.deleteSelectedItem();
                 return Clutter.EVENT_STOP;
             }
 
-            if (this.#popup.isLocalShortcut('privateMode', event)) {
+            if (this.#shortcuts.isLocalShortcut('privateMode', event)) {
                 this.#popup.togglePrivateMode();
                 return Clutter.EVENT_STOP;
             }
         }
 
-        if (this.#popup.isLocalShortcut('pageNext', event)) {
-            this.#popup.navigatePageForward();
+        if (this.#shortcuts.isLocalShortcut('pageNext', event)) {
+            this.#selection.navigatePageForward();
             return Clutter.EVENT_STOP;
         }
 
-        if (this.#popup.isLocalShortcut('pagePrevious', event)) {
-            this.#popup.navigatePageBack();
+        if (this.#shortcuts.isLocalShortcut('pagePrevious', event)) {
+            this.#selection.navigatePageBack();
             return Clutter.EVENT_STOP;
         }
 
-        if (this.#popup.isLocalShortcut('moveUp', event)) {
-            this.#popup.navigateUp();
+        if (this.#shortcuts.isLocalShortcut('moveUp', event)) {
+            this.#selection.navigateUp();
             return Clutter.EVENT_STOP;
         }
 
-        if (this.#popup.isLocalShortcut('moveDown', event)) {
-            this.#popup.navigateDown();
+        if (this.#shortcuts.isLocalShortcut('moveDown', event)) {
+            this.#selection.navigateDown();
             return Clutter.EVENT_STOP;
         }
 
         const key = event.get_key_symbol();
 
         if (key >= Clutter.KEY_0 && key <= Clutter.KEY_9) {
-            this.#popup.selectByNumberKey(key);
+            this.#selection.selectByNumberKey(key);
             return Clutter.EVENT_STOP;
         }
 
         if (key === Clutter.KEY_BackSpace) {
-            if (!this.#popup.isSearchMode) {
+            if (!this.#search.isSearchMode) {
                 this.#popup.close();
                 return Clutter.EVENT_STOP;
             }
@@ -78,41 +84,41 @@ export class PopupKeyHandler {
         return Clutter.EVENT_PROPAGATE;
     }
 
-    _handleSearchToggleKeys(event) {
-        if (!this.#popup.isSearchMode)
+    #handleSearchToggleKeys(event) {
+        if (!this.#search.isSearchMode)
             return false;
-        if (this.#popup.isLocalShortcut('caseSensitive', event)) {
-            this.#popup.toggleCaseSensitive();
+        if (this.#shortcuts.isLocalShortcut('caseSensitive', event)) {
+            this.#search.toggleCaseSensitiveSearch();
             return true;
         }
-        if (this.#popup.isLocalShortcut('regex', event)) {
-            this.#popup.toggleRegex();
+        if (this.#shortcuts.isLocalShortcut('regex', event)) {
+            this.#search.toggleRegexSearch();
             return true;
         }
         return false;
     }
 
     handleSearchKeyPress(event) {
-        if (this._handleSearchToggleKeys(event))
+        if (this.#handleSearchToggleKeys(event))
             return Clutter.EVENT_STOP;
 
-        if (this.#popup.isLocalShortcut('confirm', event)) {
-            this.#popup.confirmSelection();
-            return Clutter.EVENT_STOP;
-        }
-
-        if (this.#popup.isLocalShortcut('close', event)) {
-            this.#popup.exitSearch();
+        if (this.#shortcuts.isLocalShortcut('confirm', event)) {
+            this.#selection.confirmSelection();
             return Clutter.EVENT_STOP;
         }
 
-        if (this.#popup.isLocalShortcut('moveUp', event)) {
-            this.#popup.navigateUp();
+        if (this.#shortcuts.isLocalShortcut('close', event)) {
+            this.#search.exitSearch();
             return Clutter.EVENT_STOP;
         }
 
-        if (this.#popup.isLocalShortcut('moveDown', event)) {
-            this.#popup.navigateDown();
+        if (this.#shortcuts.isLocalShortcut('moveUp', event)) {
+            this.#selection.navigateUp();
+            return Clutter.EVENT_STOP;
+        }
+
+        if (this.#shortcuts.isLocalShortcut('moveDown', event)) {
+            this.#selection.navigateDown();
             return Clutter.EVENT_STOP;
         }
 

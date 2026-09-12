@@ -24,7 +24,10 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 │   ├── clipboard/    - clipboardManager (monitor/read/write/inhibit), clipboardEntry (SHA256 model)
 │   ├── history/      - historyStore (pure model, unit-tested; favorites backend only, no UI yet),
 │   │                    registry (atomic JSON+image persistence), historyClearScheduler
-│   ├── cursorPopup/  - cursorPopup (lifecycle/paging/selection), popupUI, popupKeyHandler, popupSearch, localShortcuts
+ │   ├── cursorPopup/  - cursorPopup (thin facade: open/close/settings fan-out),
+ │   │                    popupLayoutPlacer (build/fit/anchor/reposition), popupSelectionController
+ │   │                    (items/pages/highlight/delete), popupSearchController (search mode/filter/toggles),
+ │   │                    popupLocalShortcuts (bindings + hint labels), popupUI, popupKeyHandler, popupSearch, localShortcuts
 │   ├── wayToClipController.js - App controller: owns store, registry, clipboard,
 │   │                    paster, scheduler, shortcuts, settings, popup lifecycle.
 │   │                    Views exchange model entries, never widgets.
@@ -47,7 +50,13 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 - `ClipboardManager` (src/clipboard/): Clipboard events, dedup callbacks, inhibit
 - `Registry` (src/history/registry.js): Serialized atomic writes, hardened read
 - `HistoryClearScheduler` (src/history/): Countdown timer with leak-free dispose
-- `CursorPopup` (src/cursorPopup/): Floating popup with search, navigation, selection
+- `CursorPopup` (src/cursorPopup/cursorPopup.js): Thin facade (open/close/settings fan-out).
+- Sub-controllers own one concern each and are wired in the facade ctor (keyHandler
+- takes them directly, no facade pass-throughs): `PopupLayoutPlacer` (row build, 3/2/1-line
+- fit, cursor-edge anchor, reposition), `PopupSelectionController` (visible items, paging,
+- highlight, delete), `PopupSearchController` (search mode, filter, toggle buttons),
+- `PopupLocalShortcuts` (key bindings, footer hint labels). `PopupSearch` stays a pure
+- filter model with its own unit tests.
 
 ## Keyboard Shortcuts
 
@@ -85,7 +94,7 @@ In-popup:
 | `move-item-first` | boolean | true | Move selected item to top (re-copied duplicates always bubble up) |
 | `enable-keybindings` | boolean | true | Enable keyboard shortcuts |
 | `keep-selected-on-clear` | boolean | false | Keep selection when clearing |
-| `cache-images` | boolean | true | Cache image content |
+| `should-cache-images` | boolean | true | Cache image content |
 | `excluded-apps` | string[] | [] | Apps to exclude from monitoring |
 | `terminal-apps` | string[] | pre-filled terminal list | Window classes/app ids treated as terminals for auto-paste |
 | `clear-on-boot` | boolean | false | Clear history on login |
