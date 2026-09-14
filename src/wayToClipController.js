@@ -11,7 +11,7 @@ import { HistoryClearScheduler } from './history/historyClearScheduler.js';
 import { ClipboardManager } from './clipboard/clipboardManager.js';
 import { Keyboard } from './paste/keyboard.js';
 import { AutoPaster } from './paste/autoPaster.js';
-import { isTerminalWindow, snapshotPasteTarget } from './paste/pasteKeys.js';
+import { isTerminalWindow, snapshotPasteTarget } from './paste/pasteTarget.js';
 import { SettingsManager } from './settings/settingsManager.js';
 import { ShortcutManager } from './settings/shortcutManager.js';
 import { CursorPopup } from './cursorPopup/cursorPopup.js';
@@ -120,7 +120,7 @@ export class WayToClipController {
             this._shortcutManager = null;
         }
         if (this._clipboardManager) {
-            this._clipboardManager.stop();
+            this._clipboardManager.destroy();
             this._clipboardManager = null;
         }
         if (this._scheduler) {
@@ -228,7 +228,9 @@ export class WayToClipController {
         this._persist();
     }
 
-    // no favorites UI yet, backend only, persisted from the original fork from clipboard-indicator.
+    // no favorites UI yet, backend only.
+    // Persisted favorites predate the fork of clipboard-indicator
+    // (https://github.com/Tudmotu/gnome-shell-extension-clipboard-indicator).
     // I need to figure out a decent ux design before implementing it
     toggleFavorite(entry) {
         if (!this._store.has(entry))
@@ -330,9 +332,10 @@ export class WayToClipController {
         // grab the target first. Opening the popup steals focus and messes up terminal detection.
         const focusedWindow = global.display.get_focus_window();
         this._keyboard.savePurpose();
-        this._pasteTarget = snapshotPasteTarget(
-            this._keyboard.savedPurpose,
-            this._isTerminalWindow(focusedWindow));
+        this._pasteTarget = snapshotPasteTarget({
+            isPurposeTerminal: this._keyboard.isSavedPurposeTerminal,
+            isTerminalWindow: this._isTerminalWindow(focusedWindow),
+        });
 
         let x, y;
         const monitor = global.display.get_current_monitor();

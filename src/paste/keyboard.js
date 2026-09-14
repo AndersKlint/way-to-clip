@@ -1,6 +1,8 @@
 import Clutter from 'gi://Clutter';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+import { PasteMode } from './pasteTarget.js';
+
 export class Keyboard {
     #device;
     #contentPurpose;
@@ -19,6 +21,7 @@ export class Keyboard {
         Main.inputMethod.disconnectObject(this);
         // virtual device holds a Wayland resource, leaks without this
         this.#device.run_dispose();
+        this.#device = null;
     }
 
     #notify (key, state) {
@@ -29,8 +32,8 @@ export class Keyboard {
         );
     }
 
-    get purpose () {
-        return this.#contentPurpose;
+    get isPurposeTerminal() {
+        return this.#contentPurpose === Clutter.InputContentPurpose.TERMINAL;
     }
 
     // grab purpose now. Popup focus resets it to NORMAL later.
@@ -38,8 +41,8 @@ export class Keyboard {
         this.#savedPurpose = this.#contentPurpose;
     }
 
-    get savedPurpose () {
-        return this.#savedPurpose;
+    get isSavedPurposeTerminal() {
+        return this.#savedPurpose === Clutter.InputContentPurpose.TERMINAL;
     }
 
     press (key) {
@@ -48,5 +51,19 @@ export class Keyboard {
 
     release (key) {
         this.#notify(key, Clutter.KeyState.RELEASED);
+    }
+
+    pressPaste (mode) {
+        if (mode === PasteMode.TERMINAL)
+            this._pressRelease(Clutter.KEY_Control_L, Clutter.KEY_Shift_L, Clutter.KEY_v);
+        else
+            this._pressRelease(Clutter.KEY_Control_L, Clutter.KEY_v);
+    }
+
+    _pressRelease (...keys) {
+        for (const key of keys)
+            this.press(key);
+        for (let i = keys.length - 1; i >= 0; i--)
+            this.release(keys[i]);
     }
 }

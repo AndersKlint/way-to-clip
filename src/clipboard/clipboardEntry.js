@@ -2,7 +2,15 @@ import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import { error } from '../common/logger.js';
 
-Gio._promisify(Gio.File.prototype, 'load_contents_async', 'load_contents_finish');
+// promisified lazily so importing the module stays side-effect free
+let promisified = false;
+
+function ensurePromisified() {
+    if (promisified)
+        return;
+    promisified = true;
+    Gio._promisify(Gio.File.prototype, 'load_contents_async', 'load_contents_finish');
+}
 
 const FileTest = GLib.FileTest;
 
@@ -56,6 +64,7 @@ export class ClipboardEntry {
 
     //  safe to call, skips on error
     static async #readImageBytes(filename) {
+        ensurePromisified();
         if (!filename || !GLib.file_test(filename, FileTest.EXISTS))
             return null;
         try {

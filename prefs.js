@@ -3,8 +3,8 @@ import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 import { ExtensionPreferences, gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import { PrefsFields } from './src/common/constants.js';
-import { createShortcutEditor } from './src/settings/shortcutRow.js';
-import { StringListManager } from './src/settings/stringListManager.js';
+import { createShortcutEditor } from './prefs/shortcutRow.js';
+import { StringListManager } from './prefs/stringListManager.js';
 import {
     AVAILABLE_LANGUAGES,
     LANGUAGE_LABELS,
@@ -20,13 +20,9 @@ export default class WayToClipPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
         syncOverrideFromSettings(settings);
-        // live-update popups, built rows need a reopen though
+        // live-update popups (built rows need a reopen tho)
         const languageChangedId = settings.connect(`changed::${PrefsFields.LANGUAGE}`, () => {
             syncOverrideFromSettings(settings);
-        });
-        // settings outlives the window, don't leak the handler
-        window.connect('destroy', () => {
-            settings.disconnect(languageChangedId);
         });
         const settingsUI = new Settings(settings);
         const page = new Adw.PreferencesPage();
@@ -38,10 +34,35 @@ export default class WayToClipPreferences extends ExtensionPreferences {
         page.add(settingsUI.globalShortcuts);
         page.add(settingsUI.localShortcuts);
         window.add(page);
+        window.connect('destroy', () => {
+            settings.disconnect(languageChangedId);
+            settingsUI.destroy();
+        });
     }
 }
 
 class Settings {
+    #disconnectors = [];
+
+    #track(target, id) {
+        this.#disconnectors.push(() => target.disconnect(id));
+    }
+
+    destroy() {
+        for (const disconnect of this.#disconnectors)
+            disconnect();
+        this.#disconnectors = [];
+        if (this.excludedApps) {
+            this.excludedApps.destroy();
+            this.excludedApps = null;
+        }
+        if (this.terminalApps) {
+            this.terminalApps.destroy();
+            this.terminalApps = null;
+        }
+        this.schema = null;
+    }
+
     constructor(schema) {
         this.schema = schema;
 
@@ -159,13 +180,15 @@ class Settings {
             }),
         });
 
-        this.field_clear_history_on_interval.connect('notify::active', widget => {
-            this.field_clear_history_interval.set_sensitive(widget.active);
-        });
+        this.#track(this.field_clear_history_on_interval,
+            this.field_clear_history_on_interval.connect('notify::active', widget => {
+                this.field_clear_history_interval.set_sensitive(widget.active);
+            }));
 
-        this.field_limit_popup_pages.connect('notify::active', widget => {
-            this.field_popup_pages.set_sensitive(widget.active);
-        });
+        this.#track(this.field_limit_popup_pages,
+            this.field_limit_popup_pages.connect('notify::active', widget => {
+                this.field_popup_pages.set_sensitive(widget.active);
+            }));
 
         this.field_language = new Adw.ComboRow({
             title: _('Language'),
@@ -281,14 +304,16 @@ class Settings {
                 this.field_language.selected = idx;
         };
         applyStoredToRow();
-        this.field_language.connect('notify::selected', () => {
-            const code = codes[this.field_language.selected] ?? SYSTEM_LANGUAGE;
-            if (readStored() !== code) {
-                this.schema.set_string(PrefsFields.LANGUAGE, code);
-                syncOverrideFromSettings(this.schema);
-            }
-        });
-        this.schema.connect(`changed::${PrefsFields.LANGUAGE}`, applyStoredToRow);
+        this.#track(this.field_language,
+            this.field_language.connect('notify::selected', () => {
+                const code = codes[this.field_language.selected] ?? SYSTEM_LANGUAGE;
+                if (readStored() !== code) {
+                    this.schema.set_string(PrefsFields.LANGUAGE, code);
+                    syncOverrideFromSettings(this.schema);
+                }
+            }));
+        this.#track(this.schema,
+            this.schema.connect(`changed::${PrefsFields.LANGUAGE}`, applyStoredToRow));
     }
 
     #createPopupPositionOptions() {

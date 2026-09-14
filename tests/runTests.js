@@ -2,8 +2,8 @@
 
 import { HistoryStore } from '../src/history/historyStore.js';
 import { PopupSearch } from '../src/cursorPopup/popupSearch.js';
-import { decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode } from '../src/paste/pasteKeys.js';
-import * as LocalShortcuts from '../src/cursorPopup/localShortcuts.js';
+import { decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode } from '../src/paste/pasteTarget.js';
+import * as LocalShortcuts from '../src/cursorPopup/localShortcutUtils.js';
 import { ITEMS_PER_PAGE, PrefsFields } from '../src/common/constants.js';
 import {
     AVAILABLE_LANGUAGES,
@@ -206,48 +206,45 @@ function fakeEntry(value, favorite = false) {
     assert(search.filter(items, 'hello').length === 1, 'search toggle setter affects filter');
 }
 
-// --- pasteKeys ---
+// --- pasteTarget ---
 
 {
-    // Stand-ins for Clutter.InputContentPurpose values.
-    const TERMINAL = 9;
-    const NORMAL = 0;
-    const T = (purpose, windowIsTerminal = false) =>
-        snapshotPasteTarget(purpose, windowIsTerminal);
+    const T = (isPurposeTerminal, isTerminalWindow = false) =>
+        snapshotPasteTarget({ isPurposeTerminal, isTerminalWindow });
 
-    assert(snapshotPasteTarget(TERMINAL, 1).windowIsTerminal === true,
+    assert(snapshotPasteTarget({ isPurposeTerminal: 1, isTerminalWindow: 1 }).isTerminalWindow === true,
         'snapshot coerces window flag to boolean');
 
     // The reported bug: popup opened in a terminal (snapshot TERMINAL),
     // modal grab reset the live purpose to NORMAL by paste time.
     // Must still take the terminal keystroke, otherwise a plain Ctrl+V
     // misses the terminal's clipboard paste binding.
-    assert(decidePasteMode(T(TERMINAL), NORMAL, TERMINAL) === PasteMode.TERMINAL,
+    assert(decidePasteMode(T(true), false) === PasteMode.TERMINAL,
         'paste uses terminal keys when live purpose went stale');
-    assert(decidePasteMode(T(TERMINAL), undefined, TERMINAL) === PasteMode.TERMINAL,
+    assert(decidePasteMode(T(true), undefined) === PasteMode.TERMINAL,
         'paste uses terminal keys when live purpose never reported');
     // Focus returns to the terminal before pasting.
-    assert(decidePasteMode(T(NORMAL), TERMINAL, TERMINAL) === PasteMode.TERMINAL,
+    assert(decidePasteMode(T(false), true) === PasteMode.TERMINAL,
         'paste uses terminal keys when live purpose recovered');
     // No snapshot (paste without a prior open): live value decides.
-    assert(decidePasteMode(null, TERMINAL, TERMINAL) === PasteMode.TERMINAL,
+    assert(decidePasteMode(null, true) === PasteMode.TERMINAL,
         'paste falls back to live terminal purpose');
-    assert(decidePasteMode(null, NORMAL, TERMINAL) === PasteMode.TEXT,
+    assert(decidePasteMode(null, false) === PasteMode.TEXT,
         'paste falls back to live text purpose');
-    assert(decidePasteMode(T(NORMAL), NORMAL, TERMINAL) === PasteMode.TEXT,
+    assert(decidePasteMode(T(false), false) === PasteMode.TEXT,
         'paste uses text keys for plain fields');
-    assert(decidePasteMode(null, undefined, TERMINAL) === PasteMode.TEXT,
+    assert(decidePasteMode(null, undefined) === PasteMode.TEXT,
         'paste uses text keys when purpose unknown');
 
     // Window-class fallback: input method reports no purpose at all
     // (both undefined), e.g. Ptyxis on non-IBus setups. Without the
     // snapshot flag the terminal would get plain Ctrl+V instead of
     // Ctrl+Shift+V.
-    assert(decidePasteMode(T(undefined, true), undefined, TERMINAL) === PasteMode.TERMINAL,
+    assert(decidePasteMode(T(undefined, true), undefined) === PasteMode.TERMINAL,
         'paste uses terminal keys from window snapshot without purpose');
-    assert(decidePasteMode(T(undefined, false), undefined, TERMINAL) === PasteMode.TEXT,
+    assert(decidePasteMode(T(undefined, false), undefined) === PasteMode.TEXT,
         'paste uses text keys without purpose or snapshot');
-    assert(decidePasteMode(T(NORMAL, true), NORMAL, TERMINAL) === PasteMode.TERMINAL,
+    assert(decidePasteMode(T(false, true), false) === PasteMode.TERMINAL,
         'window snapshot wins over stale normal purpose');
 }
 

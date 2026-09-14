@@ -10,7 +10,6 @@ export class HistoryClearScheduler {
     #nowSeconds;
     #timeoutId = 0;
     #intervalId = 0;
-    // manual signal-ID tracking: plain JS class, no GObject connectObject/disconnectObject
     #settingIds = [];
 
     constructor({ settings, settingsManager, onClear, onTick, nowSeconds }) {
@@ -68,7 +67,7 @@ export class HistoryClearScheduler {
         this.#onTick(-1);
     }
 
-    // seconds left, -1 when off
+    // seconds left is -1 when off
     timeLeft() {
         const snap = this.#settingsManager.snapshot();
         if (!snap.clearHistoryOnInterval)
@@ -91,7 +90,6 @@ export class HistoryClearScheduler {
         this.#onTick = null;
     }
 
-    // --- private ---
 
     _onIntervalChanged() {
         this.schedule();

@@ -19,7 +19,6 @@ export const WayToClip = GObject.registerClass({
         super._init(0.0, 'WayToClip');
         this._handlers = { onShowPopup, onTogglePrivateMode, onRequestClearHistory,
             onResetClearTimer, onOpenSettings };
-        // guards setPrivateMode(): setToggleState() emits toggled too
         this._settingPrivateMode = false;
 
         const hbox = new St.BoxLayout({
@@ -36,21 +35,17 @@ export const WayToClip = GObject.registerClass({
         this._buildMenu();
     }
 
-    // --- view API ---
-
     setPrivateMode(on) {
         this._settingPrivateMode = true;
-        try {
-            this.privateModeMenuItem.setToggleState(!!on);
-        } finally {
-            this._settingPrivateMode = false;
-        }
+        this.privateModeMenuItem.setToggleState(!!on);
+        this._settingPrivateMode = false;
         if (on)
             this.hbox.add_style_class_name('private-mode');
         else
             this.hbox.remove_style_class_name('private-mode');
     }
 
+    // If the setting to clear history on interval is enabled, a countdown timer is shown in the menu.
     setCountdown(secondsLeft, enabled) {
         if (!this.timerLabel || !this.resetTimerButton)
             return;
@@ -78,7 +73,10 @@ export const WayToClip = GObject.registerClass({
         this.menu.close();
     }
 
-    // --- menu construction ---
+    destroy() {
+        this._handlers = null;
+        super.destroy();
+    }
 
     _buildMenu() {
         this.showPopupMenuItem = new PopupMenu.PopupMenuItem(_('Show clipboard popup'));

@@ -8,7 +8,6 @@
     margin-right:.5em;
 }
 
-/* WayToClip cursor popup styles */
 .waytoclip-cursor-popup {
     background-color: rgba(30, 30, 30, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -23,8 +22,6 @@
     spacing: 2px;
 }
 
-/* Scroll wrapper: invisible when the list fits (policy NEVER),
-   scrollbar only appears once CursorPopup caps the list height. */
 .waytoclip-popup-list-scroll {
     padding: 0;
 }
@@ -76,8 +73,6 @@
 }
 
 .waytoclip-item-image {
-    /* Size is set dynamically via St.Icon icon_size
-       (image-preview-size setting); keep only decoration here. */
     border-radius: 6px;
     background-color: rgba(255, 255, 255, 0.05);
 }
@@ -98,8 +93,6 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* The search bar itself draws the text-field chrome; the nested
-   entry and toggles sit transparently inside it. */
 .waytoclip-search-bar {
     margin: 8px;
     padding: 6px 6px 6px 10px;
@@ -131,8 +124,6 @@
     color: #fff;
 }
 
-/* Icon-style toggles embedded in the field: plain glyphs, no button
-   chrome; bold + accent when active. */
 .waytoclip-search-toggle {
     padding: 4px 6px;
     border-radius: 4px;

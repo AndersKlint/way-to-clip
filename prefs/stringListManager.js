@@ -2,7 +2,7 @@ import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 import { gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { translate, makeTranslator } from '../common/i18n.js';
+import { makeTranslator } from '../src/common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 
@@ -13,6 +13,7 @@ export class StringListManager {
     #expanderRow;
     #addButton;
     #autoExpand;
+    #addClickedId = 0;
     #counter = 0;
 
     constructor(schema, expanderRow, addButton, field, inputPlaceholder,
@@ -23,7 +24,17 @@ export class StringListManager {
         this.#field = field;
         this.#inputPlaceholder = inputPlaceholder;
         this.#autoExpand = autoExpand;
-        this.#addButton.connect('clicked', () => this.openInputRow());
+        this.#addClickedId = this.#addButton.connect('clicked', () => this.openInputRow());
+    }
+
+    destroy() {
+        if (this.#addClickedId) {
+            this.#addButton.disconnect(this.#addClickedId);
+            this.#addClickedId = 0;
+        }
+        this.#schema = null;
+        this.#expanderRow = null;
+        this.#addButton = null;
     }
 
     load() {
@@ -44,7 +55,6 @@ export class StringListManager {
         this.#counter = value;
         const hasApps = this.#counter > 0;
         this.#expanderRow.set_enable_expansion(hasApps);
-        // autoExpand off stays shut on load, + still opens it for input
         this.#expanderRow.set_expanded(hasApps && this.#autoExpand);
     }
 
@@ -198,8 +208,7 @@ export class StringListManager {
         okButton.connect('clicked', () => finishInput(true));
         cancelButton.connect('clicked', () => finishInput(false));
 
-        // ActionRow has default title kids we don't want; hide them
-        // (child can be null before realize)
+        // ActionRow has default title children we don't want, so hide them
         let child = entryRow.child?.get_first_child() ?? null;
         while (child) {
             child.visible = false;

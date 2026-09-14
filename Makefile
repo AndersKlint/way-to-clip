@@ -1,4 +1,4 @@
-MODULES = *.js src/*/*.js locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/*.gschema.xml
+MODULES = *.js src/*/*.js prefs/*.js locale/*/LC_MESSAGES/*.mo metadata.json stylesheet.css LICENSE.rst README.md schemas/*.gschema.xml
 INSTALLPATH=~/.local/share/gnome-shell/extensions/waytoclip@andersklint.github.io/
 
 all: build-translations compile-locales compile-settings
@@ -11,7 +11,7 @@ compile-locales:
 		msgfmt $(file) -o $(subst .po,.mo,$(file));)
 
 update-po-files:
-	xgettext -L JavaScript --from-code=UTF-8 -k_ -kN_ -o waytoclip.pot *.js src/*/*.js
+	xgettext -L JavaScript --from-code=UTF-8 -k_ -kN_ -o waytoclip.pot *.js src/*/*.js prefs/*.js
 	$(foreach file, $(wildcard locale/*/LC_MESSAGES/*.po), \
 		msgmerge -U $(file) waytoclip.pot;)
 
@@ -24,10 +24,18 @@ install: all
 	rm -rf $(INSTALLPATH)
 	mkdir -p $(INSTALLPATH)
 	cp *.js metadata.json stylesheet.css LICENSE.rst README.md $(INSTALLPATH)/
-	cp -r src schemas locale $(INSTALLPATH)/
+	cp -r src prefs schemas locale $(INSTALLPATH)/
 
 check:
 	gjs -m tests/runTests.js
+
+# EGO review UI readability: flag hand-written lines over 200 chars
+# (generated src/common/translations.js is intentionally excluded).
+lint:
+	@awk 'length > 200 {print FILENAME":"FNR":"length; bad=1} END {exit bad}' \
+		extension.js prefs.js prefs/*.js src/clipboard/*.js src/common/constants.js \
+		src/common/i18n.js src/common/logger.js src/history/*.js src/panel/*.js \
+		src/paste/*.js src/settings/*.js src/wayToClipController.js
 
 # Opens a nested gnome-shell session for testing the extension without the need to log out and back in.
 nested-session:

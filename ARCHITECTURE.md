@@ -33,7 +33,7 @@ A clipboard manager for GNOME Shell with cursor-positioned popup for quick selec
 │   │                    Views exchange model entries, never widgets.
 │   ├── panel/        - panelButton (WayToClip dumb view: static control rows only,
 │   │                    clipboard data never appears here), confirmDialog
-│   ├── paste/        - autoPaster (paste keypresses + restore), pasteKeys (pure decision, unit-tested), keyboard (virtual device)
+│   ├── paste/        - autoPaster (paste keypresses + restore), pasteTarget (pure decision, unit-tested), keyboard (virtual device)
 │   └── settings/     - settingsManager (typed Gio.Settings), shortcutManager (global bindings), shortcutRow + stringListManager (prefs widgets)
 └── tests/runTests.js - Headless unit tests (`make check` / `gjs -m`)
 ```

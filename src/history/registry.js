@@ -5,11 +5,19 @@ import { PrefsFields } from '../common/constants.js';
 import { ClipboardEntry } from '../clipboard/clipboardEntry.js';
 import { error } from '../common/logger.js';
 
-Gio._promisify(Gio.File.prototype, 'replace_async', 'replace_finish');
-Gio._promisify(Gio.OutputStream.prototype, 'write_bytes_async', 'write_bytes_finish');
-Gio._promisify(Gio.File.prototype, 'load_contents_async', 'load_contents_finish');
-Gio._promisify(Gio.File.prototype, 'query_info_async', 'query_info_finish');
-Gio._promisify(Gio.File.prototype, 'delete_async', 'delete_finish');
+// promisified lazily in the constructor so importing the module stays side-effect free
+let promisified = false;
+
+function ensurePromisified() {
+    if (promisified)
+        return;
+    promisified = true;
+    Gio._promisify(Gio.File.prototype, 'replace_async', 'replace_finish');
+    Gio._promisify(Gio.OutputStream.prototype, 'write_bytes_async', 'write_bytes_finish');
+    Gio._promisify(Gio.File.prototype, 'load_contents_async', 'load_contents_finish');
+    Gio._promisify(Gio.File.prototype, 'query_info_async', 'query_info_finish');
+    Gio._promisify(Gio.File.prototype, 'delete_async', 'delete_finish');
+}
 
 const FileQueryInfoFlags = Gio.FileQueryInfoFlags;
 const FileCopyFlags = Gio.FileCopyFlags;
@@ -30,6 +38,7 @@ function extensionFor(mimetype) {
 
 export class Registry {
     constructor({ settings, uuid }) {
+        ensurePromisified();
         this.settings = settings;
         this.uuid = uuid;
         this.REGISTRY_FILE = 'registry.txt';
@@ -45,11 +54,9 @@ export class Registry {
     destroy() {
         this._pendingEntries = null;
         this._writeScheduled = false;
-        // in-flight Gio ops cannot be cancelled; their results are ignored after destroy
         this.settings = null;
     }
 
-    // save entries, coalesced. Spam it, only the last one hits disk.
     write(entries) {
         this._pendingEntries = [...entries];
         if (this._writeInFlight) {
@@ -83,6 +90,10 @@ export class Registry {
     }
 
     async _flushWriteQueue() {
+        if (!this.settings) {
+            this._writeInFlight = false;
+            return;
+        }
         if (!this._pendingEntries) {
             this._writeInFlight = false;
             return;
@@ -104,14 +115,9 @@ export class Registry {
         }
     }
 
-    // tmp file + rename so we never half-write the cache
+    // tmp file + rename so we never half-write the cache on error
     async writeToFile(registry) {
-        let json;
-        try {
-            json = JSON.stringify(registry);
-        } catch (e) {
-            throw e;
-        }
+        const json = JSON.stringify(registry);
         const contents = new TextEncoder().encode(json);
 
         GLib.mkdir_with_parents(this.REGISTRY_DIR, 0o775);

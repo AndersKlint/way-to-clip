@@ -21,10 +21,6 @@ export class DialogManager {
                 this.#openDialog = null;
             },
         });
-        // escape-closes still need to release the guard
-        this.#openDialog.connect('destroy', () => {
-            this.#openDialog = null;
-        });
         this.#openDialog.open();
     }
 
@@ -81,6 +77,12 @@ const ConfirmDialog = GObject.registerClass(
                     },
                 },
             ]);
+        }
+
+        destroy() {
+            // escape-close bypasses the button actions, so we still release the manager guard
+            this._onFinish();
+            super.destroy();
         }
     }
 );

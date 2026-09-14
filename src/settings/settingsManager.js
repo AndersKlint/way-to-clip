@@ -22,7 +22,6 @@ function readLocalShortcuts(settings) {
 
 export class SettingsManager {
     #settings;
-    // manual signal-ID tracking: plain JS class, no GObject connectObject/disconnectObject
     #changedIds = [];
 
     constructor(settings) {

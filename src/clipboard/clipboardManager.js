@@ -58,7 +58,7 @@ export class ClipboardManager {
             });
     }
 
-    stop() {
+    destroy() {
         if (this.#selectionOwnerChangedId && this.#selection)
             this.#selection.disconnect(this.#selectionOwnerChangedId);
         this.#selectionOwnerChangedId = 0;
