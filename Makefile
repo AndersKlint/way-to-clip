@@ -31,10 +31,13 @@ check:
 
 # EGO review UI readability: flag hand-written lines over 200 chars
 # (generated src/common/translations.js is intentionally excluded).
+# Import boundaries: shell must not reach Gtk Gdk Adw
+# prefs must not reach Clutter Meta St Shell, shared stays import free.
 lint:
+	python3 tools/check-imports.py
 	@awk 'length > 200 {print FILENAME":"FNR":"length; bad=1} END {exit bad}' \
 		extension.js prefs.js prefs/*.js src/clipboard/*.js src/common/constants.js \
-		src/common/i18n.js src/common/logger.js src/history/*.js src/panel/*.js \
+		src/common/i18n.js src/common/logger.js src/cursorPopup/*.js src/history/*.js src/panel/*.js \
 		src/paste/*.js src/settings/*.js src/wayToClipController.js
 
 # Opens a nested gnome-shell session for testing the extension without the need to log out and back in.

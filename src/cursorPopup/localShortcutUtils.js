@@ -1,7 +1,7 @@
 /*
-    Local shortcuts are keyboard shortcuts that only live inside the popup, e.g. 'd' for delete.
-    As we are prohibited by Gnome conventions to import GI modules into a shell application, we cannot
-    use the GDK keyval constants. Instead, we parse make our own shortcut parser here.
+    Local shortcuts live inside the popup only, e.g. 'd' for delete.
+    Gtk Gdk and Adw are banned in shell so this stays import free
+    and works in shell prefs and gjs tests.
 */
 import { PrefsFields } from '../common/constants.js';
 
