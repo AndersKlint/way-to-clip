@@ -41,6 +41,22 @@ export class PopupLocalShortcuts {
         return (this.#bindings[action]?.length ?? 0) > 0;
     }
 
+    // quick select slot 0-9, or -1 when no quick slot matches the event
+    matchQuickSelectSlot(event) {
+        for (let i = 0; i < LocalShortcuts.QUICK_SELECT_ORDER.length; i++) {
+            if (this.isLocalShortcut(LocalShortcuts.QUICK_SELECT_ORDER[i], event))
+                return i;
+        }
+        return -1;
+    }
+
+    quickSlotDisplay(index) {
+        const action = LocalShortcuts.QUICK_SELECT_ORDER[index];
+        if (!action || !this.isBound(action))
+            return '';
+        return this.formatForHint(action);
+    }
+
     get showHints() {
         return this.#showHints;
     }

@@ -449,7 +449,8 @@ export class PopupUIBuilder {
     }
 
     // one clipboard row (maxLines lets us squeeze rows instead of moving the popup)
-    createItemWidget(entry, index, onSelect, maxLines = 3) {
+    // shortcutLabel is the configured shortcut for this slot, empty when unbound
+    createItemWidget(entry, index, onSelect, maxLines = 3, shortcutLabel = null) {
         const itemBox = new St.BoxLayout({
             style_class: 'waytoclip-popup-item',
             reactive: true,
@@ -463,8 +464,9 @@ export class PopupUIBuilder {
             vertical: false,
         });
 
+        const numberText = shortcutLabel ?? `${(index + 1) % 10}`;
         const numberLabel = new St.Label({
-            text: `${(index + 1) % 10}. `,
+            text: numberText ? `${numberText}. ` : '',
             style_class: 'waytoclip-item-number',
             y_align: Clutter.ActorAlign.START,
         });

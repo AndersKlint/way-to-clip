@@ -248,7 +248,8 @@ export class PopupLayoutPlacer {
 
         for (const [index, entry] of pageItems.entries()) {
             const itemBox = this.#uiBuilder.createItemWidget(
-                entry, index, item => selection.selectItem(item), lines
+                entry, index, item => selection.selectItem(item), lines,
+                this.#shortcuts.quickSlotDisplay(index)
             );
 
             if (index === selectedIndex) {

@@ -76,12 +76,15 @@ export class PopupKeyHandler {
             return Clutter.EVENT_STOP;
         }
 
-        const key = event.get_key_symbol();
-
-        if (key >= Clutter.KEY_0 && key <= Clutter.KEY_9) {
-            this.#selection.selectByNumberKey(key);
-            return Clutter.EVENT_STOP;
+        if (!this.#search.isSearchMode) {
+            const slot = this.#shortcuts.matchQuickSelectSlot(event);
+            if (slot >= 0) {
+                this.#selection.selectBySlotIndex(slot);
+                return Clutter.EVENT_STOP;
+            }
         }
+
+        const key = event.get_key_symbol();
 
         if (key === Clutter.KEY_BackSpace) {
             if (!this.#search.isSearchMode) {

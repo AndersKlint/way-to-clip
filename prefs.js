@@ -358,6 +358,16 @@ class Settings {
         [PrefsFields.LOCAL_REGEX_SEARCH]: _('Use regular expression (while searching)'),
         [PrefsFields.LOCAL_TOGGLE_FAVORITE]: _('Toggle favorite on selected entry'),
         [PrefsFields.LOCAL_FAVORITES_VIEW]: _('Open favorites or go back'),
+        [PrefsFields.LOCAL_QUICK_SELECT_1]: _('Quick select item 1'),
+        [PrefsFields.LOCAL_QUICK_SELECT_2]: _('Quick select item 2'),
+        [PrefsFields.LOCAL_QUICK_SELECT_3]: _('Quick select item 3'),
+        [PrefsFields.LOCAL_QUICK_SELECT_4]: _('Quick select item 4'),
+        [PrefsFields.LOCAL_QUICK_SELECT_5]: _('Quick select item 5'),
+        [PrefsFields.LOCAL_QUICK_SELECT_6]: _('Quick select item 6'),
+        [PrefsFields.LOCAL_QUICK_SELECT_7]: _('Quick select item 7'),
+        [PrefsFields.LOCAL_QUICK_SELECT_8]: _('Quick select item 8'),
+        [PrefsFields.LOCAL_QUICK_SELECT_9]: _('Quick select item 9'),
+        [PrefsFields.LOCAL_QUICK_SELECT_10]: _('Quick select item 10'),
     };
 
     #addShortcutRows(group, shortcuts) {

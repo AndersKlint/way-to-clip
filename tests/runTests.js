@@ -638,6 +638,57 @@ test('ignore-secret-mimetypes pref defaults to true', () => {
         throw new Error('pref key mismatch');
 });
 
+test('quick select defaults cover 1-9 and 0', () => {
+    const expected = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+    if (LocalShortcuts.QUICK_SELECT_ORDER.length !== 10)
+        throw new Error('quick select needs 10 slots');
+    for (const [i, action] of LocalShortcuts.QUICK_SELECT_ORDER.entries()) {
+        const def = LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS[action];
+        if (!def || def[0] !== expected[i])
+            throw new Error(`${action} defaults to ${expected[i]}`);
+        const parsed = LocalShortcuts.parseAcceleratorList(def);
+        if (parsed.length !== 1)
+            throw new Error(`${action} must parse to one binding`);
+    }
+    const ev = (sym, state = 0) => ({
+        get_key_symbol: () => sym,
+        get_state: () => state,
+    });
+    for (const [i, action] of LocalShortcuts.QUICK_SELECT_ORDER.entries()) {
+        const bindings = LocalShortcuts.parseAcceleratorList(
+            LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS[action]);
+        const sym = expected[i].codePointAt(0);
+        if (!LocalShortcuts.matchesShortcut(ev(sym), bindings))
+            throw new Error(`${action} must match ${expected[i]}`);
+    }
+});
+
+test('quick select slot index picks visible item', () => {
+    let picked = null;
+    const backing = [fakeEntry('a'), fakeEntry('b'), fakeEntry('c')];
+    const sel = new PopupSelectionController({
+        handlers: { onSelectEntryFromPopup: e => { picked = e; } },
+        popup: { renderPage() {}, updateFavoriteHint() {} },
+        search: { isSearchMode: false, query: '' },
+    });
+    sel.applySettings({ limitPopupPages: false, maxPopupPages: 3, favoritesEnabled: true });
+    sel.reset([...backing]);
+    sel.selectBySlotIndex(0);
+    if (!picked || picked.getStringValue() !== 'c')
+        throw new Error('slot 0 must pick newest first');
+    sel.selectBySlotIndex(2);
+    if (!picked || picked.getStringValue() !== 'a')
+        throw new Error('slot 2 must pick third item');
+    picked = null;
+    sel.selectBySlotIndex(5);
+    if (picked !== null)
+        throw new Error('out of range slot must pick nothing');
+    picked = null;
+    sel.selectBySlotIndex(-1);
+    if (picked !== null)
+        throw new Error('negative slot must pick nothing');
+});
+
 if (failures > 0) {
     print(`${failures} test(s) FAILED`);
     throw new Error(`${failures} test(s) failed`);

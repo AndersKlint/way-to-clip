@@ -36,7 +36,31 @@ export const LocalActions = {
     CLOSE: 'close',
     CASE_SENSITIVE: 'caseSensitive',
     REGEX: 'regex',
+    QUICK_SELECT_1: 'quickSelect1',
+    QUICK_SELECT_2: 'quickSelect2',
+    QUICK_SELECT_3: 'quickSelect3',
+    QUICK_SELECT_4: 'quickSelect4',
+    QUICK_SELECT_5: 'quickSelect5',
+    QUICK_SELECT_6: 'quickSelect6',
+    QUICK_SELECT_7: 'quickSelect7',
+    QUICK_SELECT_8: 'quickSelect8',
+    QUICK_SELECT_9: 'quickSelect9',
+    QUICK_SELECT_10: 'quickSelect10',
 };
+
+// slot order matches the popup rows: slot 0 is the first row, slot 9 the tenth
+export const QUICK_SELECT_ORDER = [
+    'quickSelect1',
+    'quickSelect2',
+    'quickSelect3',
+    'quickSelect4',
+    'quickSelect5',
+    'quickSelect6',
+    'quickSelect7',
+    'quickSelect8',
+    'quickSelect9',
+    'quickSelect10',
+];
 
 export const DEFAULT_LOCAL_SHORTCUTS = {
     [LocalActions.SEARCH]: ['s'],
@@ -52,6 +76,16 @@ export const DEFAULT_LOCAL_SHORTCUTS = {
     [LocalActions.CLOSE]: ['Escape'],
     [LocalActions.CASE_SENSITIVE]: ['<Alt>c'],
     [LocalActions.REGEX]: ['<Alt>r'],
+    [LocalActions.QUICK_SELECT_1]: ['1'],
+    [LocalActions.QUICK_SELECT_2]: ['2'],
+    [LocalActions.QUICK_SELECT_3]: ['3'],
+    [LocalActions.QUICK_SELECT_4]: ['4'],
+    [LocalActions.QUICK_SELECT_5]: ['5'],
+    [LocalActions.QUICK_SELECT_6]: ['6'],
+    [LocalActions.QUICK_SELECT_7]: ['7'],
+    [LocalActions.QUICK_SELECT_8]: ['8'],
+    [LocalActions.QUICK_SELECT_9]: ['9'],
+    [LocalActions.QUICK_SELECT_10]: ['0'],
 };
 
 // Preferences override default shortcuts.
@@ -69,6 +103,16 @@ export const LOCAL_SHORTCUT_PREF_KEYS = {
     [LocalActions.CLOSE]: PrefsFields.LOCAL_CLOSE,
     [LocalActions.CASE_SENSITIVE]: PrefsFields.LOCAL_CASE_SENSITIVE,
     [LocalActions.REGEX]: PrefsFields.LOCAL_REGEX_SEARCH,
+    [LocalActions.QUICK_SELECT_1]: PrefsFields.LOCAL_QUICK_SELECT_1,
+    [LocalActions.QUICK_SELECT_2]: PrefsFields.LOCAL_QUICK_SELECT_2,
+    [LocalActions.QUICK_SELECT_3]: PrefsFields.LOCAL_QUICK_SELECT_3,
+    [LocalActions.QUICK_SELECT_4]: PrefsFields.LOCAL_QUICK_SELECT_4,
+    [LocalActions.QUICK_SELECT_5]: PrefsFields.LOCAL_QUICK_SELECT_5,
+    [LocalActions.QUICK_SELECT_6]: PrefsFields.LOCAL_QUICK_SELECT_6,
+    [LocalActions.QUICK_SELECT_7]: PrefsFields.LOCAL_QUICK_SELECT_7,
+    [LocalActions.QUICK_SELECT_8]: PrefsFields.LOCAL_QUICK_SELECT_8,
+    [LocalActions.QUICK_SELECT_9]: PrefsFields.LOCAL_QUICK_SELECT_9,
+    [LocalActions.QUICK_SELECT_10]: PrefsFields.LOCAL_QUICK_SELECT_10,
 };
 
 // multi-char key names to XKB keysym values (keysymdef.h: the 0xff00 block holds special keys, arrows, F-keys).

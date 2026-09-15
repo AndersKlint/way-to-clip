@@ -138,7 +138,12 @@ export class PopupSelectionController {
     selectByNumberKey(keySymbol) {
         // digit keysyms run consecutive, so subtracting KEY_1 turns the pressed digit into a 0-based index
         const idx = keySymbol === KEY_0 ? 9 : keySymbol - KEY_1;
+        this.selectBySlotIndex(idx);
+    }
 
+    selectBySlotIndex(idx) {
+        if (!Number.isInteger(idx) || idx < 0 || idx >= ITEMS_PER_PAGE)
+            return;
         const start = this.#currentPage * ITEMS_PER_PAGE;
         if (start + idx < this.#itemsToShow.length) {
             this.selectItem(this.#itemsToShow[start + idx]);

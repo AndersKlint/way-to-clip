@@ -244,6 +244,46 @@
         <default><![CDATA[['-']]]></default>
         <summary>Popup shortcut: open favorites or go back</summary>
     </key>
+    <key name="local-quick-select-1" type="as">
+        <default><![CDATA[['1']]]></default>
+        <summary>Popup shortcut: quick select item 1</summary>
+    </key>
+    <key name="local-quick-select-2" type="as">
+        <default><![CDATA[['2']]]></default>
+        <summary>Popup shortcut: quick select item 2</summary>
+    </key>
+    <key name="local-quick-select-3" type="as">
+        <default><![CDATA[['3']]]></default>
+        <summary>Popup shortcut: quick select item 3</summary>
+    </key>
+    <key name="local-quick-select-4" type="as">
+        <default><![CDATA[['4']]]></default>
+        <summary>Popup shortcut: quick select item 4</summary>
+    </key>
+    <key name="local-quick-select-5" type="as">
+        <default><![CDATA[['5']]]></default>
+        <summary>Popup shortcut: quick select item 5</summary>
+    </key>
+    <key name="local-quick-select-6" type="as">
+        <default><![CDATA[['6']]]></default>
+        <summary>Popup shortcut: quick select item 6</summary>
+    </key>
+    <key name="local-quick-select-7" type="as">
+        <default><![CDATA[['7']]]></default>
+        <summary>Popup shortcut: quick select item 7</summary>
+    </key>
+    <key name="local-quick-select-8" type="as">
+        <default><![CDATA[['8']]]></default>
+        <summary>Popup shortcut: quick select item 8</summary>
+    </key>
+    <key name="local-quick-select-9" type="as">
+        <default><![CDATA[['9']]]></default>
+        <summary>Popup shortcut: quick select item 9</summary>
+    </key>
+    <key name="local-quick-select-10" type="as">
+        <default><![CDATA[['0']]]></default>
+        <summary>Popup shortcut: quick select item 10</summary>
+    </key>
     <key name="enable-favorites" type="b">
         <default>true</default>
         <summary>Enable favorites in the cursor popup</summary>
