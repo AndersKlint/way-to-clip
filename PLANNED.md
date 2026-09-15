@@ -1,5 +1,3 @@
-x-kde-passwordManagerHint mime type. add a setting to ignore these, enabled by default
-
 control center gui, where we can browser clipboard history and mass edit (questionable feature, maybe we just keep it simple)
 
 customizable default size of popup

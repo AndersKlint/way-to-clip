@@ -96,6 +96,7 @@ In-popup:
 | `keep-selected-on-clear` | boolean | false | Keep selection when clearing |
 | `should-cache-images` | boolean | true | Cache image content |
 | `excluded-apps` | string[] | [] | Apps to exclude from monitoring |
+| `ignore-secret-mimetypes` | boolean | true | Skip clipboard offering a secret mimetype |
 | `terminal-apps` | string[] | pre-filled terminal list | Window classes/app ids treated as terminals for auto-paste |
 | `clear-on-boot` | boolean | false | Clear history on login |
 | `auto-paste` | boolean | true | Auto-paste after selection in popup |

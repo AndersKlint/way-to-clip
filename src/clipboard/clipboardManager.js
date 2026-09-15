@@ -4,6 +4,7 @@ import St from 'gi://St';
 
 import { CLIPBOARD_MIMETYPES } from '../common/constants.js';
 import { ClipboardEntry } from './clipboardEntry.js';
+import { SECRET_HINT_MIMETYPES, isSecretHintPayload } from './secretHints.js';
 import { error } from '../common/logger.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
@@ -21,6 +22,7 @@ export class ClipboardManager {
     #isPrivateMode = () => false;
     #isExcludedApp = () => false;
     #shouldCacheImages = () => true;
+    #shouldIgnoreSecrets = () => true;
 
     constructor(deps) {
         this.#clipboard = deps.clipboard;
@@ -31,6 +33,8 @@ export class ClipboardManager {
             this.#isExcludedApp = deps.isExcludedApp;
         if (deps.shouldCacheImages)
             this.#shouldCacheImages = deps.shouldCacheImages;
+        if (deps.shouldIgnoreSecrets)
+            this.#shouldIgnoreSecrets = deps.shouldIgnoreSecrets;
         this.onNewEntry = deps.onNewEntry ?? (() => {});
         this.onDuplicateEntry = deps.onDuplicateEntry ?? (() => {});
     }
@@ -80,6 +84,8 @@ export class ClipboardManager {
             return;
         this.#refreshInProgress = true;
         try {
+            if (this.#shouldIgnoreSecrets() && await this.hasSecretHint())
+                return;
             const result = await this.readClipboard();
             if (!result)
                 return;
@@ -92,6 +98,33 @@ export class ClipboardManager {
         } finally {
             this.#refreshInProgress = false;
         }
+    }
+
+    async hasSecretHint() {
+        for (let type of SECRET_HINT_MIMETYPES) {
+            const secret = await new Promise(resolve => {
+                try {
+                    this.#clipboard.get_content(CLIPBOARD_TYPE, type, (_cb, bytes) => {
+                        if (bytes === null || bytes.get_size() === 0) {
+                            resolve(false);
+                            return;
+                        }
+                        try {
+                            resolve(isSecretHintPayload(type, bytes.get_data()));
+                        } catch (e) {
+                            error('Failed to decode secret hint', e);
+                            resolve(false);
+                        }
+                    });
+                } catch (e) {
+                    error('Secret hint read failed for ' + type, e);
+                    resolve(false);
+                }
+            });
+            if (secret)
+                return true;
+        }
+        return false;
     }
 
     async readClipboard() {

@@ -182,6 +182,16 @@
             for the popup-local shortcuts.
         </description>
     </key>
+    <key name="ignore-secret-mimetypes" type="b">
+        <default>true</default>
+        <summary>Ignore clipboard marked as secret</summary>
+        <description>
+            Skip clipboard content offering a secret mimetype
+            (x-kde-passwordManagerHint, x-gnome-passwordManagerHint
+            with value secret, or application/x-nspasteboard-concealed-type).
+            Password managers use these to keep secrets out of history.
+        </description>
+    </key>
     <key name="local-search" type="as">
         <default><![CDATA[['s']]]></default>
         <summary>Popup shortcut: toggle search</summary>

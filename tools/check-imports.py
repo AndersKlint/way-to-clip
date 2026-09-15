@@ -18,6 +18,7 @@ PREFS_BANNED = {"gi://Clutter", "gi://Meta", "gi://St", "gi://Shell"}
 
 SHARED = [
     "src/common/constants.js",
+    "src/clipboard/secretHints.js",
     "src/common/logger.js",
     "src/common/i18n.js",
     "src/common/translations.js",

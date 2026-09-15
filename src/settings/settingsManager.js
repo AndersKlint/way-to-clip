@@ -38,6 +38,10 @@ export class SettingsManager {
         try {
             imagePreviewSize = s.get_int(PrefsFields.IMAGE_PREVIEW_SIZE);
         } catch (_e) { /* old schema, keep default */ }
+        let ignoreSecretMimetypes = true;
+        try {
+            ignoreSecretMimetypes = s.get_boolean(PrefsFields.IGNORE_SECRET_MIMETYPES);
+        } catch (_e) { /* old schema, keep default */ }
         return {
             maxRegistryLength: s.get_int(PrefsFields.HISTORY_SIZE),
             cacheOnlyFavorite: s.get_boolean(PrefsFields.CACHE_ONLY_FAVORITE),
@@ -59,6 +63,7 @@ export class SettingsManager {
             caseSensitiveSearch: s.get_boolean(PrefsFields.CASE_SENSITIVE_SEARCH),
             regexSearch: s.get_boolean(PrefsFields.REGEX_SEARCH),
             showShortcutHints: s.get_boolean(PrefsFields.SHOW_SHORTCUT_HINTS),
+            ignoreSecretMimetypes,
             localShortcuts: readLocalShortcuts(s),
             imagePreviewSize,
             language: readLanguage(s),

@@ -24,6 +24,7 @@ export const PrefsFields = {
     REGEX_SEARCH                    : 'regex-search',
     IMAGE_PREVIEW_SIZE              : 'image-preview-size',
     SHOW_SHORTCUT_HINTS             : 'show-shortcut-hints',
+    IGNORE_SECRET_MIMETYPES         : 'ignore-secret-mimetypes',
     LOCAL_SEARCH                    : 'local-search',
     LOCAL_DELETE_ENTRY              : 'local-delete-entry',
     LOCAL_PRIVATE_MODE              : 'local-private-mode',

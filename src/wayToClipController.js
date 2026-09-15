@@ -78,6 +78,7 @@ export class WayToClipController {
             isPrivateMode: () => this._privateMode,
             isExcludedApp: wmClass => (this._settingsSnapshot.excludedApps ?? []).includes(wmClass),
             shouldCacheImages: () => this._settingsSnapshot.shouldCacheImages,
+            shouldIgnoreSecrets: () => this._settingsSnapshot.ignoreSecretMimetypes ?? true,
             onNewEntry: entry => this._onNewClipboardEntry(entry),
             onDuplicateEntry: entry => this._onDuplicateClipboardEntry(entry),
         });

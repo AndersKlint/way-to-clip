@@ -141,6 +141,11 @@ class Settings {
             active: true,
         });
 
+        this.field_ignore_secret_mimetypes = new Adw.SwitchRow({
+            title: _('Ignore secret clipboard types'),
+            subtitle: _('Skip content marked with a secret mimetype (password managers)'),
+        });
+
         this.field_exclusion_row = new Adw.ExpanderRow({
             title: _('Excluded Apps'),
             subtitle: _('Content copied will not be saved while these apps are in focus'),
@@ -230,6 +235,7 @@ class Settings {
         this.behavior.add(this.field_confirm_clear_toggle);
 
         // button is the row suffix only. Adding it as group child would reparent it away
+        this.exclusion.add(this.field_ignore_secret_mimetypes);
         this.exclusion.add(this.field_exclusion_row);
 
         this.limits.add(this.field_size);
@@ -254,6 +260,7 @@ class Settings {
         this.schema.bind(PrefsFields.CLEAR_HISTORY_ON_INTERVAL, this.field_clear_history_on_interval, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.SHOW_SHORTCUT_HINTS, this.field_show_shortcut_hints, 'active', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.IGNORE_SECRET_MIMETYPES, this.field_ignore_secret_mimetypes, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         this.field_clear_history_interval.set_sensitive(this.field_clear_history_on_interval.active);
         this.field_popup_pages.set_sensitive(this.field_limit_popup_pages.active);
