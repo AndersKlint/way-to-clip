@@ -50,8 +50,8 @@
     </key>
 
     <key type="i" name="cache-size">
-        <default>5</default>
-        <summary>The allowed size for the registry cache file in MB</summary>
+        <default>64</default>
+        <summary>The allowed size for the cache file in MB</summary>
         <description>
             If the cache overflows this limit, the file will be overriden.
             High limit might cause slowness of shell startup.
@@ -61,9 +61,9 @@
 
     <key name="cache-only-favorites" type="b">
         <default>false</default>
-        <summary>Disable the registry cache file for favorites and use memory only</summary>
+        <summary>Only save favorites to disk</summary>
         <description>
-            Contents which are not favorites are not stored and retrieved from a cache (registry.txt) file.
+            Contents which are not favorites are not stored and retrieved from a cache file.
             This can avoid writing passwords to a plaintext file, but at the cost of persistant history.
             Your clipboard history, except favorite items, is lost after a gnome-shell session ends or the extension is reloaded.
         </description>
@@ -89,14 +89,14 @@
         <summary>Keep selected item on clear</summary>
         <description>
             Whether to keep the currently selected entry in the clipboard
-            after clearing the history
+            after clearing the history.
         </description>
     </key>
     <key name="enable-keybindings" type="b">
         <default>true</default>
         <summary>Enable the keyboard shortcuts</summary>
         <description>
-            If true, user can toggle the popup, clear history and toggle private mode with keyboard shortcuts
+            If true, user can toggle the popup, clear history and toggle private mode with keyboard shortcuts.
         </description>
     </key>
     <key name="clear-history" type="as">
@@ -122,9 +122,9 @@
         </key>
         <key name="should-cache-images" type="b">
         <default>true</default>
-        <summary>Cache images</summary>
+        <summary>Cache images to disk</summary>
         <description>
-            Allow caching images to disk
+            Allow caching images to disk so they survive a reboot. Otherwise they will only be temporarily saved in memory.
         </description>
     </key>
     <key name="excluded-apps" type="as">
@@ -168,13 +168,11 @@
     </key>
     <key name="case-sensitive-search" type="b">
         <default>false</default>
-        <summary>Case sensitive search</summary>
-        <description>Make search case sensitive</description>
+        <summary>Toggle case sensitive search in popup</summary>
     </key>
     <key name="regex-search" type="b">
         <default>false</default>
-        <summary>Regex-based search</summary>
-        <description>Allow regex in search</description>
+        <summary>Toggle Regex-based search in popup</summary>
     </key>
     <key name="show-shortcut-hints" type="b">
         <default>true</default>

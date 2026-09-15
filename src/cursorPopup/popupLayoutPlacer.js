@@ -29,6 +29,8 @@ export class PopupLayoutPlacer {
 
     // defines how many text lines high each list item should be at max. This is used to determine if the popup fits on screen, and will shrink if needed.
     #linesPerItem = DEFAULT_LINES_PER_ITEM;
+    // Direction is settled once per open. Later pages keep it to avoid jumping.
+    #isDirectionSettled = false;
 
     #repositionIdleId = 0;
 
@@ -105,6 +107,7 @@ export class PopupLayoutPlacer {
         this.#anchorX = x;
         this.#anchorY = y;
         this.#monitor = monitor;
+        this.#isDirectionSettled = false;
 
         const ui = this.#popup.ui;
         const pos = this.#uiBuilder.positionPopup(
@@ -131,6 +134,7 @@ export class PopupLayoutPlacer {
         this.#anchorX = 0;
         this.#anchorY = 0;
         this.#linesPerItem = DEFAULT_LINES_PER_ITEM;
+        this.#isDirectionSettled = false;
         this.cancelPendingReposition();
     }
 
@@ -330,14 +334,17 @@ export class PopupLayoutPlacer {
         const ui = this.#popup.ui;
         this.#resetLayoutMeasure();
 
-        // the lock side came from the empty pre-items layout. Re-settle it from the
-        // real height: below if it fits, else above if it fits, else biggest side.
+        // The lock side came from the empty pre-items layout. Settle it once
+        // from the real height, then keep it for the whole open.
         // Shrinking and scrolling below only kick in when neither side fits clean.
         this.#buildPageItems(DEFAULT_LINES_PER_ITEM);
-        const { natH } = this.#uiBuilder.measurePopup(
-            ui.popupLayout, this.#monitor, this.#popupLock.x);
-        this.#popupLock.mode = this.#uiBuilder.decidePopupSide(
-            natH, this.#anchorY, this.#monitor);
+        if (!this.#isDirectionSettled) {
+            const { natH } = this.#uiBuilder.measurePopup(
+                ui.popupLayout, this.#monitor, this.#popupLock.x);
+            this.#popupLock.mode = this.#uiBuilder.decidePopupSide(
+                natH, this.#anchorY, this.#monitor);
+            this.#isDirectionSettled = true;
+        }
 
         const fitted = this.#fitRowsToLock(DEFAULT_LINES_PER_ITEM);
         this.#anchorPopupToLock(fitted);
