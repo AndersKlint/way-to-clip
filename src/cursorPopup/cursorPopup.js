@@ -163,6 +163,10 @@ export class CursorPopup {
         }
     }
 
+    updateFavoriteHint() {
+        this.#layoutPlacer.updateFavoriteHint();
+    }
+
     renderPage() {
         this.#layoutPlacer.renderPage();
     }

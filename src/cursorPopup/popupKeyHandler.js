@@ -44,6 +44,16 @@ export class PopupKeyHandler {
                 this.#popup.togglePrivateMode();
                 return Clutter.EVENT_STOP;
             }
+
+            if (this.#shortcuts.isLocalShortcut('toggleFavorite', event)) {
+                this.#selection.toggleFavoriteSelected();
+                return Clutter.EVENT_STOP;
+            }
+
+            if (this.#shortcuts.isLocalShortcut('favoritesView', event)) {
+                this.#selection.toggleFavoritesView();
+                return Clutter.EVENT_STOP;
+            }
         }
 
         if (this.#shortcuts.isLocalShortcut('pageNext', event)) {

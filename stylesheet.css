@@ -176,3 +176,12 @@
 .waytoclip-hint StIcon {
     icon-size: 1.1em;
 }
+
+.waytoclip-favorites-row {
+    margin-top: 4px;
+}
+
+.waytoclip-favorites-row StIcon {
+    icon-size: 1.1em;
+    margin-right: .5em;
+}

@@ -339,6 +339,19 @@ export class PopupUIBuilder {
         privateModeHint.add_child(privateIcon);
         privateModeHint.add_child(privateModeHintLabel);
 
+        const favoriteHint = new St.BoxLayout({
+            style_class: 'waytoclip-hint',
+            x_align: Clutter.ActorAlign.END,
+            reactive: true,
+            track_hover: true,
+        });
+        const favoriteIcon = new St.Icon({
+            icon_name: 'starred-symbolic',
+        });
+        const favoriteHintLabel = new St.Label({ text: ' = f' });
+        favoriteHint.add_child(favoriteIcon);
+        favoriteHint.add_child(favoriteHintLabel);
+
         const deleteHint = new St.BoxLayout({
             style_class: 'waytoclip-hint',
             x_align: Clutter.ActorAlign.END,
@@ -357,6 +370,8 @@ export class PopupUIBuilder {
                 _('Toggle search (s)'), tooltip, container);
             this.attachSearchTooltip(privateModeHint,
                 _('Toggle private mode (p)'), tooltip, container);
+            this.attachSearchTooltip(favoriteHint,
+                _('Toggle favorite (f)'), tooltip, container);
             this.attachSearchTooltip(deleteHint,
                 _('Delete selected entry (d)'), tooltip, container);
         }
@@ -367,12 +382,41 @@ export class PopupUIBuilder {
         footerBox.add_child(searchHint);
         footerBox.add_child(privateModeHint);
         footerBox.add_child(pageIndicator);
+        footerBox.add_child(favoriteHint);
         footerBox.add_child(deleteHint);
 
         return {
             footerBox, searchHint, searchHintLabel, privateModeHint,
-            privateModeHintLabel, deleteHint, deleteHintLabel, pageIndicator,
+            privateModeHintLabel, favoriteHint, favoriteHintLabel,
+            deleteHint, deleteHintLabel, pageIndicator,
         };
+    }
+
+    createFavoritesRow({ isBack, onActivate }) {
+        const row = new St.BoxLayout({
+            style_class: 'waytoclip-popup-item waytoclip-favorites-row',
+            reactive: true,
+            x_expand: true,
+            track_hover: true,
+            vertical: false,
+        });
+        const icon = new St.Icon({
+            icon_name: isBack ? 'go-previous-symbolic' : 'folder-symbolic',
+            style_class: 'waytoclip-favorites-icon',
+        });
+        const label = new St.Label({
+            text: isBack ? _('Back') : _('Favorites'),
+            style_class: 'waytoclip-item-text',
+            y_align: Clutter.ActorAlign.START,
+            x_expand: true,
+        });
+        row.add_child(icon);
+        row.add_child(label);
+        row.connect('button-press-event', () => {
+            onActivate();
+            return Clutter.EVENT_STOP;
+        });
+        return { row, icon, label };
     }
 
     createEmptyLabel(text) {

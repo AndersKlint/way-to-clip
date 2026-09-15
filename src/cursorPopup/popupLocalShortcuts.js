@@ -9,6 +9,7 @@ export class PopupLocalShortcuts {
     #shortcutStrings = {};
     #bindings = {};
     #showHints = true;
+    #favoritesEnabled = true;
     #uiBuilder = null;
 
     constructor({ uiBuilder } = {}) {
@@ -29,6 +30,7 @@ export class PopupLocalShortcuts {
                 LocalShortcuts.parseAcceleratorList(this.#shortcutStrings[action]);
         }
         this.#showHints = prefs.showShortcutHints;
+        this.#favoritesEnabled = prefs.favoritesEnabled ?? true;
     }
 
     isLocalShortcut(action, event) {
@@ -59,6 +61,13 @@ export class PopupLocalShortcuts {
             'search', ' = %s', _('Toggle search (%s)'));
         this.#applyHint(ui.privateModeHint, ui.privateModeHintLabel,
             'privateMode', ' = %s', _('Toggle private mode (%s)'));
+        if (ui.favoriteHint) {
+            if (!this.#favoritesEnabled)
+                ui.favoriteHint.visible = false;
+            else
+                this.#applyHint(ui.favoriteHint, ui.favoriteHintLabel,
+                    'toggleFavorite', ' = %s', _('Toggle favorite (%s)'));
+        }
         this.#applyHint(ui.deleteHint, ui.deleteHintLabel,
             'deleteEntry', ' = %s', _('Delete selected entry (%s)'));
     }

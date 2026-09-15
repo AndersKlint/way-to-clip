@@ -105,7 +105,8 @@ export class PopupSearchController {
 
     applyFilter(query) {
         this.#query = query;
-        const filteredItems = this.#model.filter(this.#selection.originalItems, query);
+        const source = this.#selection.getSearchSource();
+        const filteredItems = this.#model.filter(source, query);
         this.#selection.showFiltered(filteredItems);
         this.#popup.renderPage();
     }

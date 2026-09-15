@@ -42,6 +42,10 @@ export class SettingsManager {
         try {
             ignoreSecretMimetypes = s.get_boolean(PrefsFields.IGNORE_SECRET_MIMETYPES);
         } catch (_e) { /* old schema, keep default */ }
+        let favoritesEnabled = true;
+        try {
+            favoritesEnabled = s.get_boolean(PrefsFields.ENABLE_FAVORITES);
+        } catch (_e) { /* old schema, keep default */ }
         return {
             maxRegistryLength: s.get_int(PrefsFields.HISTORY_SIZE),
             cacheOnlyFavorite: s.get_boolean(PrefsFields.CACHE_ONLY_FAVORITE),
@@ -64,6 +68,7 @@ export class SettingsManager {
             regexSearch: s.get_boolean(PrefsFields.REGEX_SEARCH),
             showShortcutHints: s.get_boolean(PrefsFields.SHOW_SHORTCUT_HINTS),
             ignoreSecretMimetypes,
+            favoritesEnabled,
             localShortcuts: readLocalShortcuts(s),
             imagePreviewSize,
             language: readLanguage(s),

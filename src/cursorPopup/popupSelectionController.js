@@ -18,6 +18,8 @@ export class PopupSelectionController {
     #currentPageItems = [];
     #limitPopupPages = false;
     #maxPopupPages = 3;
+    #favoritesOnly = false;
+    #favoritesEnabled = true;
 
     constructor({ handlers, popup, search }) {
         this.#handlers = handlers;
@@ -49,6 +51,35 @@ export class PopupSelectionController {
         return this.#originalItems.length;
     }
 
+    get isFavoritesView() {
+        return this.#favoritesOnly;
+    }
+
+    get favoritesEnabled() {
+        return this.#favoritesEnabled;
+    }
+
+    getSelectedEntry() {
+        return this.#getSelectedTarget();
+    }
+
+    // the trailing Favorites/Back row sits after the last entry
+    // of the page and counts as a navigable row when enabled
+    isFavoritesRowSelected() {
+        if (!this.#favoritesEnabled)
+            return false;
+        const start = this.#currentPage * ITEMS_PER_PAGE;
+        const pageEntryCount = Math.min(ITEMS_PER_PAGE,
+            Math.max(0, this.#itemsToShow.length - start));
+        return this.#selectedIndex === pageEntryCount;
+    }
+
+    getSearchSource() {
+        if (this.#favoritesOnly)
+            return this.#originalItems.filter(e => e.isFavorite());
+        return this.#originalItems;
+    }
+
     getCurrentPageState() {
         const start = this.#currentPage * ITEMS_PER_PAGE;
         return {
@@ -75,10 +106,14 @@ export class PopupSelectionController {
     applySettings(prefs) {
         this.#limitPopupPages = prefs.limitPopupPages;
         this.#maxPopupPages = prefs.maxPopupPages;
+        this.#favoritesEnabled = prefs.favoritesEnabled ?? true;
+        if (!this.#favoritesEnabled)
+            this.#favoritesOnly = false;
     }
 
     reset(entries) {
         this.#originalItems = [...entries].reverse();
+        this.#favoritesOnly = false;
         this.showFiltered(this.#originalItems);
         this.#currentPageItems = [];
     }
@@ -86,13 +121,18 @@ export class PopupSelectionController {
     showFiltered(items) {
         this.#itemsToShow = items.slice(0, this.#getMaxItems(items.length));
         this.#currentPage = 0;
-        this.#selectedIndex = this.#itemsToShow.length > 0 ? 0 : -1;
+        this.#selectedIndex = this.#defaultSelectedIndex();
     }
 
     confirmSelection() {
-        if (this.#selectedIndex < 0 || this.#selectedIndex >= this.#currentPageItems.length) return;
-        const start = this.#currentPage * ITEMS_PER_PAGE;
-        this.selectItem(this.#itemsToShow[start + this.#selectedIndex]);
+        if (this.isFavoritesRowSelected()) {
+            this.toggleFavoritesView();
+            return;
+        }
+        const target = this.#getSelectedTarget();
+        if (!target)
+            return;
+        this.selectItem(target);
     }
 
     selectByNumberKey(keySymbol) {
@@ -134,40 +174,24 @@ export class PopupSelectionController {
     }
 
     deleteSelectedItem() {
-        if (this.#selectedIndex < 0 || this.#selectedIndex >= this.#currentPageItems.length) return;
-
-        const start = this.#currentPage * ITEMS_PER_PAGE;
-        const target = this.#itemsToShow[start + this.#selectedIndex];
+        const target = this.#getSelectedTarget();
+        if (!target)
+            return;
         this.#handlers.onRemoveEntry(target, 'delete');
 
         // keep the search filter after a delete
-        const updatedItems = this.#handlers.onGetEntries();
-        this.#originalItems = [...updatedItems].reverse();
-
-        if (this.#search.isSearchMode && this.#search.query !== '') {
-            this.#search.applyFilter(this.#search.query);
-        } else {
-            this.showFiltered(this.#originalItems);
-        }
+        this.#refreshOriginalItems();
+        if (this.#resyncItems())
+            return;
 
         if (this.#itemsToShow.length === 0) {
             this.#currentPage = 0;
-            this.#selectedIndex = -1;
+            this.#selectedIndex = this.#defaultSelectedIndex();
             this.#popup.renderPage();
             return;
         }
 
-        const newPageCount = this.getTotalPages();
-        if (this.#currentPage >= newPageCount) {
-            this.#currentPage = newPageCount - 1;
-        }
-
-        const newPageStart = this.#currentPage * ITEMS_PER_PAGE;
-        const newPageItemCount = Math.min(ITEMS_PER_PAGE, this.#itemsToShow.length - newPageStart);
-        if (this.#selectedIndex >= newPageItemCount) {
-            this.#selectedIndex = Math.max(0, newPageItemCount - 1);
-        }
-
+        this.#clampSelectionToPage();
         this.#popup.renderPage();
     }
 
@@ -175,8 +199,81 @@ export class PopupSelectionController {
         this.#handlers.onSelectEntryFromPopup(entry);
     }
 
+    toggleFavoritesView() {
+        this.#setFavoritesView(!this.#favoritesOnly);
+    }
+
+    toggleFavoriteSelected() {
+        if (!this.#favoritesEnabled)
+            return;
+        const target = this.#getSelectedTarget();
+        if (!target)
+            return;
+        this.#handlers.onToggleFavorite(target);
+        this.#refreshOriginalItems();
+        if (this.#resyncItems())
+            return;
+        const idx = this.#itemsToShow.indexOf(target);
+        if (idx >= 0) {
+            this.#currentPage = Math.floor(idx / ITEMS_PER_PAGE);
+            this.#selectedIndex = idx % ITEMS_PER_PAGE;
+        } else if (this.#itemsToShow.length === 0) {
+            this.#currentPage = 0;
+            this.#selectedIndex = this.#defaultSelectedIndex();
+        } else {
+            this.#clampSelectionToPage();
+        }
+        this.#popup.renderPage();
+    }
+
     getTotalPages() {
         return Math.ceil(this.#itemsToShow.length / ITEMS_PER_PAGE) || 1;
+    }
+
+    // entry under the highlight, or null when the trailing
+    // Favorites row (or nothing) is selected
+    #getSelectedTarget() {
+        if (this.#selectedIndex < 0)
+            return null;
+        const start = this.#currentPage * ITEMS_PER_PAGE;
+        return this.#itemsToShow[start + this.#selectedIndex] ?? null;
+    }
+
+    #setFavoritesView(on) {
+        if (!this.#favoritesEnabled || this.#favoritesOnly === on)
+            return;
+        this.#favoritesOnly = on;
+        if (!this.#resyncItems())
+            this.#popup.renderPage();
+    }
+
+    #refreshOriginalItems() {
+        this.#originalItems = [...this.#handlers.onGetEntries()].reverse();
+    }
+
+    // reloads the visible list from the active source. True when the
+    // search controller already rendered, so the caller must not.
+    #resyncItems() {
+        if (this.#search.isSearchMode && this.#search.query !== '') {
+            this.#search.applyFilter(this.#search.query);
+            return true;
+        }
+        this.showFiltered(this.getSearchSource());
+        return false;
+    }
+
+    #clampSelectionToPage() {
+        const newPageCount = this.getTotalPages();
+        if (this.#currentPage >= newPageCount)
+            this.#currentPage = newPageCount - 1;
+        const pageStart = this.#currentPage * ITEMS_PER_PAGE;
+        const pageCount = Math.min(ITEMS_PER_PAGE, this.#itemsToShow.length - pageStart);
+        if (this.#selectedIndex >= pageCount)
+            this.#selectedIndex = Math.max(0, pageCount - 1);
+    }
+
+    #defaultSelectedIndex() {
+        return (this.#itemsToShow.length > 0 || this.#favoritesEnabled) ? 0 : -1;
     }
 
     #updateSelection(newIndex) {
@@ -188,6 +285,7 @@ export class PopupSelectionController {
         }
         this.#selectedIndex = newIndex;
         this.#ensureSelectedVisibleOnScroll();
+        this.#popup.updateFavoriteHint();
     }
 
     // scrolls just enough to bring the highlighted entry into view

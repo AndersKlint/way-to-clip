@@ -49,6 +49,7 @@ export class WayToClipController {
             onGetEntries: () => this.entries,
             onSelectEntryFromPopup: entry => this.selectClipboardEntryFromPopup(entry),
             onRemoveEntry: (entry, event) => this.removeClipboardEntry(entry, event),
+            onToggleFavorite: entry => this.toggleFavorite(entry),
             onTogglePrivateMode: () => this.togglePrivateMode(),
             onIsPrivateMode: () => this.isPrivateMode(),
             onSetSearchOption: (name, value) => this.setSearchOption(name, value),
@@ -202,7 +203,7 @@ export class WayToClipController {
         const existing = this._store.findEqual(entry);
         if (!existing)
             return null;
-        // re-copies always bubble up (favorites stay pinned), not gated on the pref
+        // re-copies always bubble up, not gated on the pref
         this._store.select(existing, { moveFirst: true });
         this._persist();
         // truthy tells the clipboard watcher this was a duplicate, not a new entry
@@ -229,15 +230,12 @@ export class WayToClipController {
         this._persist();
     }
 
-    // no favorites UI yet, backend only.
-    // Persisted favorites predate the fork of clipboard-indicator
-    // (https://github.com/Tudmotu/gnome-shell-extension-clipboard-indicator).
-    // I need to figure out a decent ux design before implementing it
     toggleFavorite(entry) {
+        if (!this._settingsSnapshot.favoritesEnabled)
+            return;
         if (!this._store.has(entry))
             return;
         this._store.toggleFavorite(entry);
-        this._store.select(entry, { moveFirst: true });
         this._persist();
     }
 

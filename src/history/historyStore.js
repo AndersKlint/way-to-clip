@@ -45,7 +45,7 @@ export class HistoryStore {
         if (!existing)
             return null;
         this.#selected = existing;
-        if (moveFirst && !existing.isFavorite()) {
+        if (moveFirst) {
             this.#entries = this.#entries.filter(e => e !== existing);
             this.#entries.push(existing);
         }

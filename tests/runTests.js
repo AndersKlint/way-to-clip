@@ -62,6 +62,16 @@ function fakeEntry(value, favorite = false) {
     };
 }
 
+function makeFavSelection(handlers = {}) {
+    const sel = new PopupSelectionController({
+        handlers,
+        popup: { renderPage() {}, updateFavoriteHint() {} },
+        search: { isSearchMode: false, query: '' },
+    });
+    sel.applySettings({ limitPopupPages: false, maxPopupPages: 3, favoritesEnabled: true });
+    return sel;
+}
+
 // --- HistoryStore ---
 
 {
@@ -80,6 +90,17 @@ function fakeEntry(value, favorite = false) {
 
     store.select(a, { moveFirst: true });
     assert(store.entries[2] === a, 'store moveFirst moves to end (newest)');
+}
+
+{
+    // pasting a favorite moves it to the top like any other paste
+    const store = new HistoryStore();
+    const a = fakeEntry('a', true);
+    const b = fakeEntry('b');
+    const c = fakeEntry('c', true);
+    store.load([a, b, c]);
+    store.select(a, { moveFirst: true });
+    assert(store.entries[2] === a, 'store moveFirst moves favorite to end (newest)');
 }
 
 {
@@ -153,6 +174,55 @@ function fakeEntry(value, favorite = false) {
     sel.reset(store.entries);
     assert(sel.getCurrentPageState().entries[0] === a,
         'selection shows bubbled entry on top');
+}
+
+{
+    // favorites view lists newest first, just like the main list
+    const sel = makeFavSelection();
+    const a = fakeEntry('a', true);
+    const b = fakeEntry('b');
+    const c = fakeEntry('c', true);
+    sel.reset([a, b, c]);
+    sel.toggleFavoritesView();
+    const page = sel.getCurrentPageState();
+    assert(page.entries.length === 2 && page.entries[0] === c && page.entries[1] === a,
+        'favorites view shows newest first');
+    sel.toggleFavoritesView();
+    const back = sel.getCurrentPageState();
+    assert(!sel.isFavoritesView && back.entries.length === 3 && back.entries[0] === c,
+        'leaving favorites restores the full newest-first list');
+}
+
+{
+    // pasting a favorite from the favorites view puts it on top there too
+    const store = new HistoryStore();
+    const a = fakeEntry('a', true);
+    const b = fakeEntry('b');
+    const c = fakeEntry('c', true);
+    store.load([a, b, c]);
+    store.select(a, { moveFirst: true });
+    const sel = makeFavSelection();
+    sel.reset(store.entries);
+    sel.toggleFavoritesView();
+    assert(sel.getCurrentPageState().entries[0] === a,
+        'pasted favorite lands on top of favorites view');
+}
+
+{
+    // toggling follows the entry instead of jumping elsewhere
+    const backing = [fakeEntry('a', true), fakeEntry('b'), fakeEntry('c')];
+    const sel = makeFavSelection({
+        onToggleFavorite(target) {
+            target.favorite = !target.isFavorite();
+        },
+        onGetEntries: () => [...backing],
+    });
+    sel.reset([...backing]);
+    sel.toggleFavoriteSelected();
+    assert(sel.itemsToShow[0].getStringValue() === 'c' && sel.selectedIndex === 0,
+        'toggling favorite keeps order and selection');
+    assert(sel.getSelectedEntry().isFavorite(),
+        'toggled entry is marked favorite');
 }
 
 {

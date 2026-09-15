@@ -236,6 +236,22 @@
         <default><![CDATA[['<Alt>r']]]></default>
         <summary>Popup shortcut: toggle regular expressions while searching</summary>
     </key>
+    <key name="local-toggle-favorite" type="as">
+        <default><![CDATA[['f']]]></default>
+        <summary>Popup shortcut: toggle favorite on selected entry</summary>
+    </key>
+    <key name="local-favorites-view" type="as">
+        <default><![CDATA[['-']]]></default>
+        <summary>Popup shortcut: open favorites or go back</summary>
+    </key>
+    <key name="enable-favorites" type="b">
+        <default>true</default>
+        <summary>Enable favorites in the cursor popup</summary>
+        <description>
+            If true, entries can be marked as favorites and browsed
+            in a dedicated favorites view inside the cursor popup.
+        </description>
+    </key>
     <key name="image-preview-size" type="i">
         <default>96</default>
         <summary>Image thumbnail size in the popup</summary>

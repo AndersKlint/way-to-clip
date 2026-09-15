@@ -36,6 +36,9 @@ export const PrefsFields = {
     LOCAL_CLOSE                     : 'local-close',
     LOCAL_CASE_SENSITIVE            : 'local-case-sensitive',
     LOCAL_REGEX_SEARCH              : 'local-regex-search',
+    LOCAL_TOGGLE_FAVORITE           : 'local-toggle-favorite',
+    LOCAL_FAVORITES_VIEW            : 'local-favorites-view',
+    ENABLE_FAVORITES                : 'enable-favorites',
     LANGUAGE                        : 'language',
 };
 

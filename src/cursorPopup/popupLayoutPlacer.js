@@ -63,7 +63,8 @@ export class PopupLayoutPlacer {
 
         const {
             footerBox, searchHint, searchHintLabel, privateModeHint,
-            privateModeHintLabel, deleteHint, deleteHintLabel, pageIndicator,
+            privateModeHintLabel, favoriteHint, favoriteHintLabel,
+            deleteHint, deleteHintLabel, pageIndicator,
         } = this.#uiBuilder.createFooter(modalContainer, tooltip);
 
         // Group into one obj for easy destruction later
@@ -81,16 +82,56 @@ export class PopupLayoutPlacer {
             searchHintLabel,
             privateModeHint,
             privateModeHintLabel,
+            favoriteHint,
+            favoriteHintLabel,
             deleteHint,
             deleteHintLabel,
             pageIndicator,
+            favoritesRow: null,
+            favoritesIcon: null,
+            favoritesLabel: null,
         });
-        this.syncSettingsUI();
 
         const ui = this.#popup.ui;
         ui.popupLayout.add_child(ui.searchBar);
         ui.popupLayout.add_child(ui.listScrollView);
         ui.popupLayout.add_child(footerBox);
+        this.syncSettingsUI();
+    }
+
+    // trailing list entry after the 0 key item. It joins the page
+    // actors so arrows and Enter treat it like any other row.
+    // Built fresh on every render, so label, icon and highlight
+    // are set right here instead of a separate sync pass.
+    #buildFavoritesRow() {
+        const ui = this.#popup.ui;
+        if (!ui?.listContainer)
+            return;
+        if (!this.#selection.favoritesEnabled)
+            return;
+        const { row, icon, label } = this.#uiBuilder.createFavoritesRow({
+            isBack: this.#selection.isFavoritesView,
+            onActivate: () => this.#selection.toggleFavoritesView(),
+        });
+        ui.favoritesRow = row;
+        ui.favoritesIcon = icon;
+        ui.favoritesLabel = label;
+        ui.listContainer.add_child(row);
+        this.#selection.appendPageActor(row);
+        if (this.#selection.isFavoritesRowSelected())
+            row.add_style_class_name('selected');
+    }
+
+    // active state only, hint visibility stays owned by syncHints
+    updateFavoriteHint() {
+        const ui = this.#popup.ui;
+        if (!ui?.favoriteHint)
+            return;
+        const selected = this.#selection.getSelectedEntry();
+        if (selected && selected.isFavorite())
+            ui.favoriteHint.add_style_class_name('active');
+        else
+            ui.favoriteHint.remove_style_class_name('active');
     }
 
     syncSettingsUI() {
@@ -99,6 +140,7 @@ export class PopupLayoutPlacer {
             return;
         this.#search.refreshToggleButtons();
         this.#shortcuts.syncHints(ui);
+        this.updateFavoriteHint();
     }
 
     // initial placement: freeze the cursor edge into the lock. Runs staged so theme sizes are real.
@@ -193,15 +235,15 @@ export class PopupLayoutPlacer {
         const ui = this.#popup.ui;
         ui.listContainer.destroy_all_children();
         selection.clearPageActors();
+        ui.favoritesRow = null;
+        ui.favoritesIcon = null;
+        ui.favoritesLabel = null;
 
         const { entries: pageItems, selectedIndex } = selection.getCurrentPageState();
 
         if (pageItems.length === 0) {
-            const emptyText = selection.originalCount === 0
-                ? _('Clipboard history is empty')
-                : _('No matching clipboard items');
             ui.listContainer.add_child(
-                this.#uiBuilder.createEmptyLabel(emptyText));
+                this.#uiBuilder.createEmptyLabel(this.#getEmptyListText()));
         }
 
         for (const [index, entry] of pageItems.entries()) {
@@ -221,6 +263,8 @@ export class PopupLayoutPlacer {
         ui.pageIndicator.set_text(`${selection.currentPage + 1} / ${pageCount}`);
         ui.pageIndicator.visible = selection.itemsToShow.length > 0;
 
+        this.#buildFavoritesRow();
+        this.updateFavoriteHint();
         this.#linesPerItem = lines;
         this.#resetListScrollTop();
     }
@@ -228,6 +272,15 @@ export class PopupLayoutPlacer {
     #isOnStage() {
         const ui = this.#popup.ui;
         return !!(ui?.modalContainer && ui.modalContainer.get_parent());
+    }
+
+    #getEmptyListText() {
+        const selection = this.#selection;
+        if (selection.originalCount === 0)
+            return _('Clipboard history is empty');
+        if (selection.isFavoritesView)
+            return _('No favorites yet');
+        return _('No matching clipboard items');
     }
 
     #getAvailH() {

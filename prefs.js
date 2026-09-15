@@ -138,12 +138,18 @@ class Settings {
 
         this.field_should_cache_images = new Adw.SwitchRow({
             title: _('Cache images'),
+            subtitle: _('Save images to disk so they survive a restart. Otherwise they are kept in memory only'),
             active: true,
         });
 
         this.field_ignore_secret_mimetypes = new Adw.SwitchRow({
             title: _('Ignore secret clipboard types'),
             subtitle: _('Skip content marked with a secret mimetype (password managers)'),
+        });
+
+        this.field_enable_favorites = new Adw.SwitchRow({
+            title: _('Enable favorites'),
+            subtitle: _('Mark entries as favorites and browse them in the popup'),
         });
 
         this.field_exclusion_row = new Adw.ExpanderRow({
@@ -223,6 +229,7 @@ class Settings {
         this.popup.add(this.field_limit_popup_pages);
         this.popup.add(this.field_popup_pages);
         this.popup.add(this.field_image_preview_size);
+        this.popup.add(this.field_enable_favorites);
 
         this.behavior.add(this.field_auto_paste);
         this.behavior.add(this.field_terminal_row);
@@ -261,6 +268,7 @@ class Settings {
         this.schema.bind(PrefsFields.CLEAR_HISTORY_INTERVAL, this.field_clear_history_interval, 'value', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.SHOW_SHORTCUT_HINTS, this.field_show_shortcut_hints, 'active', Gio.SettingsBindFlags.DEFAULT);
         this.schema.bind(PrefsFields.IGNORE_SECRET_MIMETYPES, this.field_ignore_secret_mimetypes, 'active', Gio.SettingsBindFlags.DEFAULT);
+        this.schema.bind(PrefsFields.ENABLE_FAVORITES, this.field_enable_favorites, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         this.field_clear_history_interval.set_sensitive(this.field_clear_history_on_interval.active);
         this.field_popup_pages.set_sensitive(this.field_limit_popup_pages.active);
@@ -348,6 +356,8 @@ class Settings {
         [PrefsFields.LOCAL_CLOSE]: _('Close popup'),
         [PrefsFields.LOCAL_CASE_SENSITIVE]: _('Match case (while searching)'),
         [PrefsFields.LOCAL_REGEX_SEARCH]: _('Use regular expression (while searching)'),
+        [PrefsFields.LOCAL_TOGGLE_FAVORITE]: _('Toggle favorite on selected entry'),
+        [PrefsFields.LOCAL_FAVORITES_VIEW]: _('Open favorites or go back'),
     };
 
     #addShortcutRows(group, shortcuts) {
