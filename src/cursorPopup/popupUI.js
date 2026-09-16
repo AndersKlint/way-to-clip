@@ -4,8 +4,8 @@ import GLib from 'gi://GLib';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
 
-import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { makeTranslator } from '../common/i18n.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {makeTranslator} from '../common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 const IMAGE_PREVIEW_SIZE = 96;
@@ -68,7 +68,9 @@ const SEARCH_TOGGLE_DEBOUNCE_MS = 300;
 
 export class PopupUIBuilder {
     #imagePreviewSize = IMAGE_PREVIEW_SIZE;
+
     #pendingSearchTooltips = new Set();
+
     #hoverTooltipTexts = new WeakMap();
 
     setImagePreviewSize(size) {
@@ -97,9 +99,9 @@ export class PopupUIBuilder {
 
     // set_policy is 47+, older shells use the properties
     setScrollPolicies(scrollView, hPolicy, vPolicy) {
-        if (typeof scrollView.set_policy === 'function')
+        if (typeof scrollView.set_policy === 'function') {
             scrollView.set_policy(hPolicy, vPolicy);
-        else {
+        } else {
             scrollView.hscrollbar_policy = hPolicy;
             scrollView.vscrollbar_policy = vPolicy;
         }
@@ -168,7 +170,7 @@ export class PopupUIBuilder {
             reactive: true,
             can_focus: true,
             track_hover: true,
-            child: new St.Label({ text: label }),
+            child: new St.Label({text: label}),
             x_align: Clutter.ActorAlign.END,
             y_align: Clutter.ActorAlign.CENTER,
             x_expand: false,
@@ -301,7 +303,7 @@ export class PopupUIBuilder {
         text.connect('key-focus-in', () => searchBar.add_style_class_name('focus'));
         text.connect('key-focus-out', () => searchBar.remove_style_class_name('focus'));
 
-        return { searchBar, entry, caseButton, regexButton, tooltip };
+        return {searchBar, entry, caseButton, regexButton, tooltip};
     }
 
     createPageIndicator() {
@@ -322,7 +324,7 @@ export class PopupUIBuilder {
         const searchIcon = new St.Icon({
             icon_name: 'system-search-symbolic',
         });
-        const searchHintLabel = new St.Label({ text: ' = s' });
+        const searchHintLabel = new St.Label({text: ' = s'});
         searchHint.add_child(searchIcon);
         searchHint.add_child(searchHintLabel);
 
@@ -335,7 +337,7 @@ export class PopupUIBuilder {
         const privateIcon = new St.Icon({
             icon_name: 'security-medium-symbolic',
         });
-        const privateModeHintLabel = new St.Label({ text: ' = p' });
+        const privateModeHintLabel = new St.Label({text: ' = p'});
         privateModeHint.add_child(privateIcon);
         privateModeHint.add_child(privateModeHintLabel);
 
@@ -348,7 +350,7 @@ export class PopupUIBuilder {
         const favoriteIcon = new St.Icon({
             icon_name: 'starred-symbolic',
         });
-        const favoriteHintLabel = new St.Label({ text: ' = f' });
+        const favoriteHintLabel = new St.Label({text: ' = f'});
         favoriteHint.add_child(favoriteIcon);
         favoriteHint.add_child(favoriteHintLabel);
 
@@ -361,7 +363,7 @@ export class PopupUIBuilder {
         const deleteIcon = new St.Icon({
             icon_name: 'user-trash-symbolic',
         });
-        const deleteHintLabel = new St.Label({ text: ' = d' });
+        const deleteHintLabel = new St.Label({text: ' = d'});
         deleteHint.add_child(deleteIcon);
         deleteHint.add_child(deleteHintLabel);
 
@@ -378,7 +380,7 @@ export class PopupUIBuilder {
 
         const pageIndicator = this.createPageIndicator();
 
-        const footerBox = new St.BoxLayout({ x_expand: true });
+        const footerBox = new St.BoxLayout({x_expand: true});
         footerBox.add_child(searchHint);
         footerBox.add_child(privateModeHint);
         footerBox.add_child(pageIndicator);
@@ -392,7 +394,7 @@ export class PopupUIBuilder {
         };
     }
 
-    createFavoritesRow({ isBack, onActivate }) {
+    createFavoritesRow({isBack, onActivate}) {
         const row = new St.BoxLayout({
             style_class: 'waytoclip-popup-item waytoclip-favorites-row',
             reactive: true,
@@ -416,7 +418,7 @@ export class PopupUIBuilder {
             onActivate();
             return Clutter.EVENT_STOP;
         });
-        return { row, icon, label };
+        return {row, icon, label};
     }
 
     createEmptyLabel(text) {
@@ -491,11 +493,11 @@ export class PopupUIBuilder {
             textLabel.get_clutter_text().set_line_wrap_mode(Pango.WrapMode.WORD_CHAR);
             textLabel.get_clutter_text().set_ellipsize(Pango.EllipsizeMode.END);
             // squeeze tall rows: inline style beats the stylesheet here
-            if (maxLines === 2) {
+            if (maxLines === 2)
                 textLabel.set_style('max-height: 3.2em;');
-            } else if (maxLines <= 1) {
+            else if (maxLines <= 1)
                 textLabel.set_style('max-height: 1.6em;');
-            }
+
 
             textContainer.add_child(textLabel);
         }
@@ -514,7 +516,7 @@ export class PopupUIBuilder {
     // Prioritize below if it fits, else above if it fits, else whichever side is bigger.
     // x, y are stage coords, same as positionPopup takes.
     decidePopupSide(natH, y, monitor) {
-        const { MARGIN, GAP_BELOW, GAP_ABOVE } = POPUP_GEOMETRY;
+        const {MARGIN, GAP_BELOW, GAP_ABOVE} = POPUP_GEOMETRY;
 
         const relY = y - monitor.y;
         const spaceBelow = monitor.height - relY - GAP_BELOW - MARGIN;
@@ -528,7 +530,7 @@ export class PopupUIBuilder {
     }
 
     positionPopup(modalContainer, popup, x, y, monitor, isAnchoredInCenter = false) {
-        const { MARGIN, GAP_BELOW, GAP_ABOVE } = POPUP_GEOMETRY;
+        const {MARGIN, GAP_BELOW, GAP_ABOVE} = POPUP_GEOMETRY;
 
         const [, natW] = popup.get_preferred_width(-1);
         const [, natH] = popup.get_preferred_height(natW);
@@ -558,20 +560,20 @@ export class PopupUIBuilder {
 
         const mode = this.decidePopupSide(natH, y, monitor);
         let popupY;
-        if (mode === 'below') {
+        if (mode === 'below')
             popupY = belowTopY;
-        } else {
+        else
             popupY = aboveBottomY - natH;
-        }
+
 
         popup.set_position(popupX, popupY);
 
-        return { x: popupX, y: popupY, mode, belowTopY, aboveBottomY, isAnchoredInCenter: false };
+        return {x: popupX, y: popupY, mode, belowTopY, aboveBottomY, isAnchoredInCenter: false};
     }
 
     // re-glue after content changes, so the popup doesn't jump around
     anchorPopup(modalContainer, popup, lock, monitor, natH = null) {
-        const { MARGIN } = POPUP_GEOMETRY;
+        const {MARGIN} = POPUP_GEOMETRY;
 
         modalContainer.set_position(monitor.x, monitor.y);
         modalContainer.set_size(monitor.width, monitor.height);
@@ -580,11 +582,11 @@ export class PopupUIBuilder {
         const availableW = lock.isAnchoredInCenter
             ? Math.max(0, monitor.width - MARGIN * 2)
             : Math.max(0, monitor.width - lock.x - MARGIN);
-        if (natW > availableW) {
+        if (natW > availableW)
             popup.set_width(availableW);
-        } else {
+        else
             popup.set_width(-1);
-        }
+
 
         if (natH === null) {
             const [, h] = popup.get_preferred_height(
@@ -602,17 +604,17 @@ export class PopupUIBuilder {
             return natH;
         }
 
-        if (lock.mode === 'above') {
+        if (lock.mode === 'above')
             popup.set_position(lock.x, lock.aboveBottomY - natH);
-        } else {
+        else
             popup.set_position(lock.x, lock.belowTopY);
-        }
+
 
         return natH;
     }
 
     availHeightForLock(lock, monitor) {
-        const { MARGIN } = POPUP_GEOMETRY;
+        const {MARGIN} = POPUP_GEOMETRY;
         if (!lock || !monitor)
             return Infinity;
         if (lock.isAnchoredInCenter)
@@ -623,13 +625,13 @@ export class PopupUIBuilder {
     }
 
     measurePopup(popup, monitor, lockedX, isAnchoredInCenter = false) {
-        const { MARGIN } = POPUP_GEOMETRY;
+        const {MARGIN} = POPUP_GEOMETRY;
         const [, natW] = popup.get_preferred_width(-1);
         const availableW = isAnchoredInCenter
             ? Math.max(0, monitor.width - MARGIN * 2)
             : Math.max(0, monitor.width - lockedX - MARGIN);
         const effW = Math.min(natW, availableW);
         const [, natH] = popup.get_preferred_height(effW);
-        return { natW, natH, availableW };
+        return {natW, natH, availableW};
     }
 }

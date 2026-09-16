@@ -1,23 +1,30 @@
 import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
-import { gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { makeTranslator } from '../src/common/i18n.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {makeTranslator} from '../src/common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 
 export class StringListManager {
     #schema;
+
     #field;
+
     #inputPlaceholder;
+
     #expanderRow;
+
     #addButton;
+
     #autoExpand;
+
     #addClickedId = 0;
+
     #counter = 0;
 
     constructor(schema, expanderRow, addButton, field, inputPlaceholder,
-        { autoExpand = true } = {}) {
+        {autoExpand = true} = {}) {
         this.#schema = schema;
         this.#expanderRow = expanderRow;
         this.#addButton = addButton;
@@ -67,7 +74,7 @@ export class StringListManager {
     }
 
     #createAppRow(appClassName) {
-        const row = new Adw.ActionRow({ title: appClassName });
+        const row = new Adw.ActionRow({title: appClassName});
         const removeButton = new Gtk.Button({
             cssClasses: ['destructive-action'],
             iconName: 'edit-delete-symbolic',
@@ -84,7 +91,7 @@ export class StringListManager {
     }
 
     #createInputRow() {
-        const entryRow = new Adw.ActionRow({ hexpand: false });
+        const entryRow = new Adw.ActionRow({hexpand: false});
 
         const entry = new Gtk.Entry({
             placeholderText: this.#inputPlaceholder,
@@ -143,9 +150,9 @@ export class StringListManager {
                     margin_end: 6,
                 });
                 const icon = appInfo.get_icon();
-                if (icon) {
-                    box.append(new Gtk.Image({ gicon: icon, pixel_size: 24 }));
-                }
+                if (icon)
+                    box.append(new Gtk.Image({gicon: icon, pixel_size: 24}));
+
                 box.append(new Gtk.Label({
                     label: appInfo.get_display_name(),
                     halign: Gtk.Align.START,
@@ -154,16 +161,16 @@ export class StringListManager {
                 row.set_child(box);
                 row.appInfo = appInfo;
                 listBox.append(row);
-                appRows.push({ row, appInfo });
+                appRows.push({row, appInfo});
             });
 
         searchEntry.connect('search-changed', () => {
             const text = searchEntry.get_text().toLowerCase();
-            for (const { row, appInfo } of appRows)
+            for (const {row, appInfo} of appRows)
                 row.set_visible(appInfo.get_display_name().toLowerCase().includes(text));
         });
         searchEntry.connect('activate', () => {
-            const first = appRows.find(({ row }) => row.visible);
+            const first = appRows.find(({row}) => row.visible);
             if (first)
                 listBox.emit('row-activated', first.row);
             entry.grab_focus();

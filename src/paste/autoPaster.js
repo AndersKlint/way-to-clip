@@ -1,6 +1,6 @@
 import GLib from 'gi://GLib';
 
-import { decidePasteMode } from './pasteTarget.js';
+import {decidePasteMode} from './pasteTarget.js';
 
 const IMAGE_PASTE_DELAY_MS = 250;
 const TEXT_PASTE_DELAY_MS = 50;
@@ -8,10 +8,12 @@ const RESTORE_CLIPBOARD_DELAY_MS = 50;
 
 export class AutoPaster {
     #clipboardManager;
+
     #keyboard;
+
     #timeoutIds = [];
 
-    constructor({ clipboardManager, keyboard }) {
+    constructor({clipboardManager, keyboard}) {
         this.#clipboardManager = clipboardManager;
         this.#keyboard = keyboard;
     }

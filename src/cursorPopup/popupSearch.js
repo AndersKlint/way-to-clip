@@ -1,5 +1,6 @@
 export class PopupSearch {
     #caseSensitive = false;
+
     #regexEnabled = false;
 
     applySettings(caseSensitive, regexEnabled) {
@@ -24,9 +25,9 @@ export class PopupSearch {
     }
 
     filter(items, query) {
-        if (query === '') {
+        if (query === '')
             return items;
-        }
+
 
         return items.filter(entry => {
             const text = entry.getStringValue();

@@ -7,7 +7,7 @@ export class DialogManager {
     #openDialog = null;
 
     open(opts = {}) {
-        const { title, message, subMessage, okLabel, cancelLabel, onConfirm } = opts;
+        const {title, message, subMessage, okLabel, cancelLabel, onConfirm} = opts;
         if (this.#openDialog)
             return;
         this.#openDialog = new ConfirmDialog({
@@ -35,15 +35,15 @@ export class DialogManager {
 
 const ConfirmDialog = GObject.registerClass(
     class ConfirmDialog extends ModalDialog.ModalDialog {
-        _init({ title, message, subMessage, okLabel, cancelLabel, onConfirm, onFinish }) {
+        _init({title, message, subMessage, okLabel, cancelLabel, onConfirm, onFinish}) {
             super._init();
             this._onFinish = onFinish ?? (() => {});
             this._onConfirm = onConfirm ?? (() => {});
 
-            const mainBox = new St.BoxLayout({ vertical: false });
+            const mainBox = new St.BoxLayout({vertical: false});
             this.contentLayout.add_child(mainBox);
 
-            const messageBox = new St.BoxLayout({ vertical: true });
+            const messageBox = new St.BoxLayout({vertical: true});
             mainBox.add_child(messageBox);
 
             messageBox.add_child(new St.Label({

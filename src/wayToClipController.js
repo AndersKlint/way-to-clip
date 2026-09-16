@@ -1,28 +1,28 @@
 import GLib from 'gi://GLib';
 import Shell from 'gi://Shell';
 
-import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { resetLanguageOverride, syncOverrideFromSettings, makeTranslator } from './common/i18n.js';
-import { PrefsFields, PopupPositionMode } from './common/constants.js';
-import { error } from './common/logger.js';
-import { Registry } from './history/registry.js';
-import { HistoryStore } from './history/historyStore.js';
-import { HistoryClearScheduler } from './history/historyClearScheduler.js';
-import { ClipboardManager } from './clipboard/clipboardManager.js';
-import { Keyboard } from './paste/keyboard.js';
-import { AutoPaster } from './paste/autoPaster.js';
-import { isTerminalWindow, snapshotPasteTarget } from './paste/pasteTarget.js';
-import { SettingsManager } from './settings/settingsManager.js';
-import { ShortcutManager } from './settings/shortcutManager.js';
-import { CursorPopup } from './cursorPopup/cursorPopup.js';
-import { DialogManager } from './panel/confirmDialog.js';
-import { WayToClip } from './panel/panelButton.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {resetLanguageOverride, syncOverrideFromSettings, makeTranslator} from './common/i18n.js';
+import {PrefsFields, PopupPositionMode} from './common/constants.js';
+import {error} from './common/logger.js';
+import {Registry} from './history/registry.js';
+import {HistoryStore} from './history/historyStore.js';
+import {HistoryClearScheduler} from './history/historyClearScheduler.js';
+import {ClipboardManager} from './clipboard/clipboardManager.js';
+import {Keyboard} from './paste/keyboard.js';
+import {AutoPaster} from './paste/autoPaster.js';
+import {isTerminalWindow, snapshotPasteTarget} from './paste/pasteTarget.js';
+import {SettingsManager} from './settings/settingsManager.js';
+import {ShortcutManager} from './settings/shortcutManager.js';
+import {CursorPopup} from './cursorPopup/cursorPopup.js';
+import {DialogManager} from './panel/confirmDialog.js';
+import {WayToClip} from './panel/panelButton.js';
 
 const _ = makeTranslator(nativeGettext);
 
 // Main orchestration class for the extension. Handles callbacks, state and overall component orchestration.
 export class WayToClipController {
-    constructor({ clipboard, settings, openSettings, uuid }) {
+    constructor({clipboard, settings, openSettings, uuid}) {
         this._settingsManager = null;
         this._registry = null;
         this._shortcutManager = null;
@@ -43,7 +43,7 @@ export class WayToClipController {
         this._privateMode = false;
 
         this._store = new HistoryStore();
-        this._registry = new Registry({ settings: this._settingsManager.gio, uuid: this._uuid });
+        this._registry = new Registry({settings: this._settingsManager.gio, uuid: this._uuid});
         this._keyboard = new Keyboard();
         this._cursorPopup = new CursorPopup({
             onGetEntries: () => this.entries,
@@ -204,13 +204,13 @@ export class WayToClipController {
         if (!existing)
             return null;
         // re-copies always bubble up, not gated on the pref
-        this._store.select(existing, { moveFirst: true });
+        this._store.select(existing, {moveFirst: true});
         this._persist();
         // truthy tells the clipboard watcher this was a duplicate, not a new entry
         return existing;
     }
 
-    selectEntry(entry, { setClipboard = true } = {}) {
+    selectEntry(entry, {setClipboard = true} = {}) {
         const existing = this._store.select(entry);
         if (!existing)
             return;
@@ -267,10 +267,10 @@ export class WayToClipController {
 
 
     _clearHistory() {
-        const { removed, clearedClipboard } = this._store.clear({
+        const {removed, clearedClipboard} = this._store.clear({
             keepSelected: this._settingsSnapshot.keepSelectedOnClear,
         });
-        for (const { entry } of removed) {
+        for (const {entry} of removed) {
             if (entry.isImage()) {
                 this._registry.deleteEntryFile(entry).catch(e =>
                     error('Failed to delete cached image', e));
@@ -283,7 +283,7 @@ export class WayToClipController {
 
     _trimHistory() {
         const removed = this._store.trim(this._settingsSnapshot.maxRegistryLength);
-        for (const { entry } of removed) {
+        for (const {entry} of removed) {
             if (entry.isImage()) {
                 this._registry.deleteEntryFile(entry).catch(e =>
                     error('Failed to delete cached image', e));
@@ -374,9 +374,9 @@ export class WayToClipController {
             this._cursorPopup.close();
             return;
         }
-        this.selectEntry(live, { setClipboard: true });
+        this.selectEntry(live, {setClipboard: true});
         if (this._settingsSnapshot.moveItemFirst) {
-            this._store.select(live, { moveFirst: true });
+            this._store.select(live, {moveFirst: true});
             this._persist();
         }
         if (this._settingsSnapshot.autoPaste)
@@ -392,7 +392,7 @@ export class WayToClipController {
         const previouslySelected = currentlySelected && currentlySelected !== entry
             ? currentlySelected
             : null;
-        this.selectEntry(entry, { setClipboard: true });
+        this.selectEntry(entry, {setClipboard: true});
         if (this._settingsSnapshot.autoPaste) {
             this._autoPaster.paste(entry, previouslySelected, null,
                 this._pasteTarget);
@@ -406,7 +406,7 @@ export class WayToClipController {
         if (!this._privateMode) {
             const selected = this._store.selected;
             if (selected)
-                this.selectEntry(selected, { setClipboard: true });
+                this.selectEntry(selected, {setClipboard: true});
             else
                 this._clipboardManager.clear();
         }
@@ -437,7 +437,7 @@ export class WayToClipController {
         this._settingsManager.gio.set_boolean(key, !!value);
     }
 
-    async _onSettingsChange() {
+    _onSettingsChange() {
         try {
             this._refreshSnapshot();
             this._trimHistory();

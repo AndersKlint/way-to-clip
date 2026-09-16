@@ -1,8 +1,8 @@
 import Gdk from 'gi://Gdk';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-import { gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { makeTranslator } from '../src/common/i18n.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {makeTranslator} from '../src/common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 

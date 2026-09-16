@@ -1,18 +1,25 @@
 import GLib from 'gi://GLib';
 
-import { PrefsFields } from '../common/constants.js';
+import {PrefsFields} from '../common/constants.js';
 
 export class HistoryClearScheduler {
     #settings;
+
     #settingsManager;
+
     #onClear;
+
     #onTick;
+
     #nowSeconds;
+
     #timeoutId = 0;
+
     #intervalId = 0;
+
     #settingIds = [];
 
-    constructor({ settings, settingsManager, onClear, onTick, nowSeconds }) {
+    constructor({settings, settingsManager, onClear, onTick, nowSeconds}) {
         this.#settings = settings;
         this.#settingsManager = settingsManager;
         this.#onClear = onClear;
@@ -36,7 +43,7 @@ export class HistoryClearScheduler {
         }
 
         const now = this.#nowSeconds();
-        let next = snap.nextHistoryClear;
+        const next = snap.nextHistoryClear;
         if (next === -1) {
             this.schedule();
         } else if (next <= now) {

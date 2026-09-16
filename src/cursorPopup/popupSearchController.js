@@ -1,5 +1,5 @@
-import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { makeTranslator } from '../common/i18n.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {makeTranslator} from '../common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 
@@ -7,16 +7,24 @@ const _ = makeTranslator(nativeGettext);
 // item list through the facade and renders through it.
 export class PopupSearchController {
     #model;
+
     #shortcuts;
+
     #uiBuilder;
+
     #handlers;
+
     #popup;
+
     #selection = null;
+
     #placer = null;
+
     #isSearchMode = false;
+
     #query = '';
 
-    constructor({ model, shortcuts, uiBuilder, handlers, popup }) {
+    constructor({model, shortcuts, uiBuilder, handlers, popup}) {
         this.#model = model;
         this.#shortcuts = shortcuts;
         this.#uiBuilder = uiBuilder;

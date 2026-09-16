@@ -4,8 +4,8 @@ import St from 'gi://St';
 
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { makeTranslator } from '../common/i18n.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {makeTranslator} from '../common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 
@@ -14,11 +14,11 @@ const INDICATOR_ICON = 'edit-paste-symbolic';
 export const WayToClip = GObject.registerClass({
     GTypeName: 'WayToClip',
 }, class WayToClip extends PanelMenu.Button {
-    _init({ onShowPopup, onTogglePrivateMode, onRequestClearHistory,
-        onResetClearTimer, onOpenSettings }) {
+    _init({onShowPopup, onTogglePrivateMode, onRequestClearHistory,
+        onResetClearTimer, onOpenSettings}) {
         super._init(0.0, 'WayToClip');
-        this._handlers = { onShowPopup, onTogglePrivateMode, onRequestClearHistory,
-            onResetClearTimer, onOpenSettings };
+        this._handlers = {onShowPopup, onTogglePrivateMode, onRequestClearHistory,
+            onResetClearTimer, onOpenSettings};
         this._settingPrivateMode = false;
 
         const hbox = new St.BoxLayout({
@@ -53,7 +53,7 @@ export const WayToClip = GObject.registerClass({
         this.timerLabel.visible = enabled;
         if (!enabled)
             return;
-        if (secondsLeft == null || secondsLeft <= 0) {
+        if (secondsLeft === null || secondsLeft === undefined || secondsLeft <= 0) {
             this.timerLabel.set_text('');
             return;
         }
@@ -86,7 +86,7 @@ export const WayToClip = GObject.registerClass({
                 style_class: 'waytoclip-menu-icon',
                 y_align: Clutter.ActorAlign.CENTER,
             }),
-            0,
+            0
         );
         this.menu.addMenuItem(this.showPopupMenuItem);
         this.showPopupMenuItem.connect('activate', () => {
@@ -94,7 +94,7 @@ export const WayToClip = GObject.registerClass({
         });
 
         this.privateModeMenuItem = new PopupMenu.PopupSwitchMenuItem(
-            _('Private mode'), false, { reactive: true });
+            _('Private mode'), false, {reactive: true});
         this.privateModeMenuItem.connect('toggled', () => {
             if (this._settingPrivateMode)
                 return;
@@ -106,7 +106,7 @@ export const WayToClip = GObject.registerClass({
                 style_class: 'waytoclip-menu-icon',
                 y_align: Clutter.ActorAlign.CENTER,
             }),
-            0,
+            0
         );
         this.menu.addMenuItem(this.privateModeMenuItem);
 
@@ -117,7 +117,7 @@ export const WayToClip = GObject.registerClass({
                 style_class: 'waytoclip-menu-icon',
                 y_align: Clutter.ActorAlign.CENTER,
             }),
-            0,
+            0
         );
 
         const timerBox = new St.BoxLayout({
@@ -160,7 +160,7 @@ export const WayToClip = GObject.registerClass({
                 style_class: 'waytoclip-menu-icon',
                 y_align: Clutter.ActorAlign.CENTER,
             }),
-            0,
+            0
         );
         this.menu.addMenuItem(this.settingsMenuItem);
         this.settingsMenuItem.connect('activate', () => this._handlers.onOpenSettings());

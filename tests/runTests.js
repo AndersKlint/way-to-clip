@@ -1,10 +1,10 @@
 // headless tests for the pure bits, run with: gjs -m tests/runTests.js (or make check)
 
-import { HistoryStore } from '../src/history/historyStore.js';
-import { PopupSearch } from '../src/cursorPopup/popupSearch.js';
-import { decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode } from '../src/paste/pasteTarget.js';
+import {HistoryStore} from '../src/history/historyStore.js';
+import {PopupSearch} from '../src/cursorPopup/popupSearch.js';
+import {decidePasteMode, isTerminalWindow, snapshotPasteTarget, PasteMode} from '../src/paste/pasteTarget.js';
 import * as LocalShortcuts from '../src/cursorPopup/localShortcutUtils.js';
-import { ITEMS_PER_PAGE, PrefsFields } from '../src/common/constants.js';
+import {ITEMS_PER_PAGE, PrefsFields} from '../src/common/constants.js';
 import {
     AVAILABLE_LANGUAGES,
     LANGUAGE_LABELS,
@@ -14,17 +14,17 @@ import {
     normalizeLanguage,
     setLanguageOverride,
     getLanguageOverride,
-    translate,
+    translate
 } from '../src/common/i18n.js';
-import { TRANSLATIONS } from '../src/common/translations.js';
-import { HistoryClearScheduler } from '../src/history/historyClearScheduler.js';
-import { ClipboardEntry } from '../src/clipboard/clipboardEntry.js';
-import { PopupSelectionController } from '../src/cursorPopup/popupSelectionController.js';
+import {TRANSLATIONS} from '../src/common/translations.js';
+import {HistoryClearScheduler} from '../src/history/historyClearScheduler.js';
+import {ClipboardEntry} from '../src/clipboard/clipboardEntry.js';
+import {PopupSelectionController} from '../src/cursorPopup/popupSelectionController.js';
 import {
     SECRET_HINT_MIMETYPES,
     isSecretHintMimetype,
     isStrictSecretText,
-    isSecretHintPayload,
+    isSecretHintPayload
 } from '../src/clipboard/secretHints.js';
 
 let failures = 0;
@@ -52,23 +52,37 @@ function fakeEntry(value, favorite = false) {
     return {
         _value: value,
         _favorite: favorite,
-        isFavorite() { return this._favorite; },
-        set favorite(v) { this._favorite = !!v; },
-        getStringValue() { return this._value; },
-        mimetype() { return 'text/plain;charset=utf-8'; },
-        isText() { return true; },
-        isImage() { return false; },
-        equals(other) { return other && other.getStringValue() === this._value; },
+        isFavorite() {
+            return this._favorite;
+        },
+        set favorite(v) {
+            this._favorite = !!v;
+        },
+        getStringValue() {
+            return this._value;
+        },
+        mimetype() {
+            return 'text/plain;charset=utf-8';
+        },
+        isText() {
+            return true;
+        },
+        isImage() {
+            return false;
+        },
+        equals(other) {
+            return other && other.getStringValue() === this._value;
+        },
     };
 }
 
 function makeFavSelection(handlers = {}) {
     const sel = new PopupSelectionController({
         handlers,
-        popup: { renderPage() {}, updateFavoriteHint() {} },
-        search: { isSearchMode: false, query: '' },
+        popup: {renderPage() {}, updateFavoriteHint() {}},
+        search: {isSearchMode: false, query: ''},
     });
-    sel.applySettings({ limitPopupPages: false, maxPopupPages: 3, favoritesEnabled: true });
+    sel.applySettings({limitPopupPages: false, maxPopupPages: 3, favoritesEnabled: true});
     return sel;
 }
 
@@ -88,7 +102,7 @@ function makeFavSelection(handlers = {}) {
     store.select(a);
     assert(store.selected === a, 'store select updates selection');
 
-    store.select(a, { moveFirst: true });
+    store.select(a, {moveFirst: true});
     assert(store.entries[2] === a, 'store moveFirst moves to end (newest)');
 }
 
@@ -99,7 +113,7 @@ function makeFavSelection(handlers = {}) {
     const b = fakeEntry('b');
     const c = fakeEntry('c', true);
     store.load([a, b, c]);
-    store.select(a, { moveFirst: true });
+    store.select(a, {moveFirst: true});
     assert(store.entries[2] === a, 'store moveFirst moves favorite to end (newest)');
 }
 
@@ -129,10 +143,10 @@ function makeFavSelection(handlers = {}) {
     const sel = fakeEntry('sel');
     store.load([fav, sel]);
     store.select(sel);
-    const { removed, clearedClipboard } = store.clear({ keepSelected: true });
+    const {removed, clearedClipboard} = store.clear({keepSelected: true});
     assert(removed.length === 0, 'store clear keeps selected when asked');
     assert(clearedClipboard === false, 'store clear reports no clipboard clear');
-    const res2 = store.clear({ keepSelected: false });
+    const res2 = store.clear({keepSelected: false});
     assert(res2.removed.length === 1 && res2.clearedClipboard === true,
         'store clear removes selected and flags clipboard');
     assert(store.entries.length === 1 && store.entries[0] === fav,
@@ -142,8 +156,8 @@ function makeFavSelection(handlers = {}) {
 {
     const store = new HistoryStore();
     store.load([fakeEntry('x')]);
-    const persistAll = store.toPersistable({ cacheOnlyFavorite: false });
-    const persistFav = store.toPersistable({ cacheOnlyFavorite: true });
+    const persistAll = store.toPersistable({cacheOnlyFavorite: false});
+    const persistFav = store.toPersistable({cacheOnlyFavorite: true});
     assert(persistAll.length === 1, 'store persists all by default');
     assert(persistFav.length === 0, 'store cache-only-favorite filters');
 }
@@ -151,7 +165,7 @@ function makeFavSelection(handlers = {}) {
 // --- PopupSelectionController ordering ---
 
 {
-    const sel = new PopupSelectionController({ handlers: {}, popup: {}, search: {} });
+    const sel = new PopupSelectionController({handlers: {}, popup: {}, search: {}});
     const a = fakeEntry('a');
     const b = fakeEntry('b');
     const c = fakeEntry('c');
@@ -169,8 +183,8 @@ function makeFavSelection(handlers = {}) {
     const a = fakeEntry('a');
     const b = fakeEntry('b');
     store.load([a, b]);
-    store.select(a, { moveFirst: true });
-    const sel = new PopupSelectionController({ handlers: {}, popup: {}, search: {} });
+    store.select(a, {moveFirst: true});
+    const sel = new PopupSelectionController({handlers: {}, popup: {}, search: {}});
     sel.reset(store.entries);
     assert(sel.getCurrentPageState().entries[0] === a,
         'selection shows bubbled entry on top');
@@ -200,7 +214,7 @@ function makeFavSelection(handlers = {}) {
     const b = fakeEntry('b');
     const c = fakeEntry('c', true);
     store.load([a, b, c]);
-    store.select(a, { moveFirst: true });
+    store.select(a, {moveFirst: true});
     const sel = makeFavSelection();
     sel.reset(store.entries);
     sel.toggleFavoritesView();
@@ -237,8 +251,8 @@ function makeFavSelection(handlers = {}) {
             },
             onGetEntries: () => [...backing],
         },
-        popup: { renderPage() {} },
-        search: { isSearchMode: false },
+        popup: {renderPage() {}},
+        search: {isSearchMode: false},
     });
     sel.reset([...backing]);
     sel.setPageActors([{}, {}, {}]);
@@ -246,7 +260,7 @@ function makeFavSelection(handlers = {}) {
     const page = sel.getCurrentPageState();
     assert(page.entries.length === 2 && page.entries[0].getStringValue() === 'b' &&
         page.entries[1].getStringValue() === 'a',
-        'selection stays newest-first after delete');
+    'selection stays newest-first after delete');
 }
 
 // --- PopupSearch ---
@@ -286,9 +300,9 @@ function makeFavSelection(handlers = {}) {
 
 {
     const T = (isPurposeTerminal, isTerminalWindow = false) =>
-        snapshotPasteTarget({ isPurposeTerminal, isTerminalWindow });
+        snapshotPasteTarget({isPurposeTerminal, isTerminalWindow});
 
-    assert(snapshotPasteTarget({ isPurposeTerminal: 1, isTerminalWindow: 1 }).isTerminalWindow === true,
+    assert(snapshotPasteTarget({isPurposeTerminal: 1, isTerminalWindow: 1}).isTerminalWindow === true,
         'snapshot coerces window flag to boolean');
 
     // The reported bug: popup opened in a terminal (snapshot TERMINAL),
@@ -434,7 +448,7 @@ assert(ITEMS_PER_PAGE === 10, 'ITEMS_PER_PAGE is 10');
     assert(normalizeLanguage('') === 'system', 'normalize empty to system');
     assert(normalizeLanguage(null) === 'system', 'normalize null to system');
 
-    const fakeSettings = lang => ({ get_string: () => lang });
+    const fakeSettings = lang => ({get_string: () => lang});
     assert(getStoredLanguage(fakeSettings('de')) === 'de', 'stored language read');
     assert(getStoredLanguage(fakeSettings('xx')) === 'system', 'stored junk normalized');
     assert(getStoredLanguage({}) === 'system', 'stored missing key tolerated');
@@ -497,31 +511,37 @@ test('fakeEntry covers ClipboardEntry interface', () => {
 
 // --- HistoryClearScheduler ---
 
-function fakeScheduler({ snap, now = 1000 }) {
+function fakeScheduler({snap, now = 1000}) {
     const persisted = {};
     const ticks = [];
     let clears = 0;
     const settings = {
         connect: () => 1,
         disconnect: () => {},
-        set_int: (k, v) => { persisted[k] = v; },
+        set_int: (k, v) => {
+            persisted[k] = v;
+        },
     };
-    const settingsManager = { snapshot: () => ({ ...snap }) };
+    const settingsManager = {snapshot: () => ({...snap})};
     const sched = new HistoryClearScheduler({
         settings,
         settingsManager,
-        onClear: () => { clears++; },
-        onTick: v => { ticks.push(v); },
+        onClear: () => {
+            clears++;
+        },
+        onTick: v => {
+            ticks.push(v);
+        },
         nowSeconds: () => now,
     });
     // never arm real GLib timers in tests
     sched._arm = () => {};
-    return { sched, persisted, ticks, clears: () => clears };
+    return {sched, persisted, ticks, clears: () => clears};
 }
 
 test('scheduler start disabled ticks -1', () => {
-    const { sched, ticks } = fakeScheduler({
-        snap: { clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 5 },
+    const {sched, ticks} = fakeScheduler({
+        snap: {clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 5},
     });
     sched.start();
     if (ticks.length !== 1 || ticks[0] !== -1)
@@ -530,8 +550,8 @@ test('scheduler start disabled ticks -1', () => {
 });
 
 test('scheduler start with next===-1 schedules', () => {
-    const { sched, persisted } = fakeScheduler({
-        snap: { clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: -1 },
+    const {sched, persisted} = fakeScheduler({
+        snap: {clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: -1},
         now: 1000,
     });
     sched.start();
@@ -542,8 +562,8 @@ test('scheduler start with next===-1 schedules', () => {
 });
 
 test('scheduler start with overdue fires onClear then reschedules', () => {
-    const { sched, persisted, clears } = fakeScheduler({
-        snap: { clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: 500 },
+    const {sched, persisted, clears} = fakeScheduler({
+        snap: {clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: 500},
         now: 1000,
     });
     sched.start();
@@ -556,8 +576,8 @@ test('scheduler start with overdue fires onClear then reschedules', () => {
 });
 
 test('scheduler schedule disabled persists -1', () => {
-    const { sched, persisted, ticks } = fakeScheduler({
-        snap: { clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 999 },
+    const {sched, persisted, ticks} = fakeScheduler({
+        snap: {clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 999},
     });
     sched.schedule();
     if (persisted[PrefsFields.NEXT_HISTORY_CLEAR] !== -1)
@@ -569,14 +589,14 @@ test('scheduler schedule disabled persists -1', () => {
 
 test('scheduler timeLeft', () => {
     const disabled = fakeScheduler({
-        snap: { clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 2000 },
+        snap: {clearHistoryOnInterval: false, clearHistoryInterval: 10, nextHistoryClear: 2000},
         now: 1000,
     });
     if (disabled.sched.timeLeft() !== -1)
         throw new Error('disabled should be -1');
     disabled.sched.destroy();
     const enabled = fakeScheduler({
-        snap: { clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: 1500 },
+        snap: {clearHistoryOnInterval: true, clearHistoryInterval: 10, nextHistoryClear: 1500},
         now: 1000,
     });
     if (enabled.sched.timeLeft() !== 500)
@@ -667,11 +687,13 @@ test('quick select slot index picks visible item', () => {
     let picked = null;
     const backing = [fakeEntry('a'), fakeEntry('b'), fakeEntry('c')];
     const sel = new PopupSelectionController({
-        handlers: { onSelectEntryFromPopup: e => { picked = e; } },
-        popup: { renderPage() {}, updateFavoriteHint() {} },
-        search: { isSearchMode: false, query: '' },
+        handlers: {onSelectEntryFromPopup: e => {
+            picked = e;
+        }},
+        popup: {renderPage() {}, updateFavoriteHint() {}},
+        search: {isSearchMode: false, query: ''},
     });
-    sel.applySettings({ limitPopupPages: false, maxPopupPages: 3, favoritesEnabled: true });
+    sel.applySettings({limitPopupPages: false, maxPopupPages: 3, favoritesEnabled: true});
     sel.reset([...backing]);
     sel.selectBySlotIndex(0);
     if (!picked || picked.getStringValue() !== 'c')

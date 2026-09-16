@@ -4,8 +4,8 @@ export const PasteMode = {
 };
 
 // snapshot at popup-open, before the grab steals focus
-export function snapshotPasteTarget({ isPurposeTerminal, isTerminalWindow }) {
-    return { isPurposeTerminal: !!isPurposeTerminal, isTerminalWindow: !!isTerminalWindow };
+export function snapshotPasteTarget({isPurposeTerminal, isTerminalWindow}) {
+    return {isPurposeTerminal: !!isPurposeTerminal, isTerminalWindow: !!isTerminalWindow};
 }
 
 // terminal -> ctrl+shift+v, else ctrl+v. either terminal sighting wins

@@ -1,6 +1,6 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
-import { error } from '../common/logger.js';
+import {error} from '../common/logger.js';
 
 // promisified lazily so importing the module stays side-effect free
 let promisified = false;
@@ -16,7 +16,9 @@ const FileTest = GLib.FileTest;
 
 export class ClipboardEntry {
     #mimetype;
+
     #bytes;
+
     #favorite;
 
     static isTextMimetype(mimetype) {
@@ -96,9 +98,9 @@ export class ClipboardEntry {
     }
 
     getStringValue() {
-        if (this.isImage()) {
+        if (this.isImage())
             return `[Image ${this.checksum()}]`;
-        }
+
         return new TextDecoder().decode(this.#bytes);
     }
 

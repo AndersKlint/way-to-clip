@@ -1,8 +1,8 @@
 // language override ('system' = native gettext, else bundled catalogs)
 // process-local only, never touches the rest of the shell
 
-import { PrefsFields } from './constants.js';
-import { TRANSLATIONS } from './translations.js';
+import {PrefsFields} from './constants.js';
+import {TRANSLATIONS} from './translations.js';
 
 export const SYSTEM_LANGUAGE = 'system';
 
@@ -75,7 +75,7 @@ export function normalizeLanguage(code) {
 export function getStoredLanguage(settings) {
     try {
         return normalizeLanguage(settings.get_string(PrefsFields.LANGUAGE));
-    } catch (_e) {
+    } catch {
         return SYSTEM_LANGUAGE;
     }
 }

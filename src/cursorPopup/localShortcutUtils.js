@@ -3,7 +3,7 @@
     Gtk Gdk and Adw are banned in shell so this stays import free
     and works in shell prefs and gjs tests.
 */
-import { PrefsFields } from '../common/constants.js';
+import {PrefsFields} from '../common/constants.js';
 
 // modifier bits copied from the platform (GDK/Clutter ModifierType): Alt is bit 3, Super is bit 6, rest as listed.
 // event.get_state() reports these same bits, so matching below is plain bit masking. Keep the values in sync.
@@ -69,7 +69,7 @@ export const DEFAULT_LOCAL_SHORTCUTS = {
     [LocalActions.TOGGLE_FAVORITE]: ['f'],
     [LocalActions.FAVORITES_VIEW]: ['-'],
     [LocalActions.PAGE_NEXT]: ['Tab', 'Right'],
-    [LocalActions.PAGE_PREVIOUS]: ['<Shift>ISO_Left_Tab', 'Left'], 
+    [LocalActions.PAGE_PREVIOUS]: ['<Shift>ISO_Left_Tab', 'Left'],
     [LocalActions.MOVE_UP]: ['Up'],
     [LocalActions.MOVE_DOWN]: ['Down'],
     [LocalActions.CONFIRM]: ['Return', 'KP_Enter'],
@@ -175,7 +175,7 @@ export function parseAccelerator(accel) {
             return null;
         [keyval, display] = named;
     }
-    return { keyval, mods, display };
+    return {keyval, mods, display};
 }
 
 // one action can hold several bindings ('Tab' and 'Right' both turn the page). junk entries are dropped.
@@ -186,7 +186,7 @@ export function parseAcceleratorList(list) {
     for (const accel of list) {
         const parsed = parseAccelerator(accel);
         if (parsed)
-            out.push({ keyval: parsed.keyval, mods: parsed.mods });
+            out.push({keyval: parsed.keyval, mods: parsed.mods});
     }
     return out;
 }

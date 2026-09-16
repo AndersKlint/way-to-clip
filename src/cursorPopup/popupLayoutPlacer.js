@@ -1,9 +1,8 @@
 import GLib from 'gi://GLib';
 import St from 'gi://St';
 
-import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { makeTranslator } from '../common/i18n.js';
-import { ITEMS_PER_PAGE } from '../common/constants.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {makeTranslator} from '../common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
 
@@ -14,29 +13,39 @@ const MIN_LINES_PER_ITEM = 1;
 // and repositioning after layout. Item data comes from the selection module.
 export class PopupLayoutPlacer {
     #uiBuilder;
+
     #popup;
+
     #selection;
+
     #search;
+
     #shortcuts;
+
     #keyHandler;
 
     // Left edge + cursor edge stay put after open, rest can move.
     // This is to anchor the popup to the popup position, even if its resized on page changes
     #popupLock = null;
+
     #monitor = null;
+
     #anchorX = 0;
+
     #anchorY = 0;
 
     // defines how many text lines high each list item should be at max. This is used to determine if the popup fits on screen, and will shrink if needed.
     #linesPerItem = DEFAULT_LINES_PER_ITEM;
+
     // Direction is settled once per open. Later pages keep it to avoid jumping.
     #isDirectionSettled = false;
+
     // Centered popups stay dead centered instead of corner anchored.
     #isAnchoredInCenter = false;
 
     #repositionIdleId = 0;
 
-    constructor({ uiBuilder, popup, selection, search, shortcuts, keyHandler }) {
+    constructor({uiBuilder, popup, selection, search, shortcuts, keyHandler}) {
         this.#uiBuilder = uiBuilder;
         this.#popup = popup;
         this.#selection = selection;
@@ -55,12 +64,12 @@ export class PopupLayoutPlacer {
         const listContainer = this.#uiBuilder.createListContainer();
         const listScrollView = this.#uiBuilder.createListScrollView(listContainer);
 
-        const { searchBar, entry, caseButton, regexButton, tooltip } = this.#uiBuilder.createSearchBar(
+        const {searchBar, entry, caseButton, regexButton, tooltip} = this.#uiBuilder.createSearchBar(
             query => this.#search.applyFilter(query),
             event => this.#keyHandler.handleSearchKeyPress(event),
             () => this.#search.toggleCaseSensitiveSearch(),
             () => this.#search.toggleRegexSearch(),
-            modalContainer,
+            modalContainer
         );
 
         const {
@@ -111,7 +120,7 @@ export class PopupLayoutPlacer {
             return;
         if (!this.#selection.favoritesEnabled)
             return;
-        const { row, icon, label } = this.#uiBuilder.createFavoritesRow({
+        const {row, icon, label} = this.#uiBuilder.createFavoritesRow({
             isBack: this.#selection.isFavoritesView,
             onActivate: () => this.#selection.toggleFavoritesView(),
         });
@@ -190,7 +199,8 @@ export class PopupLayoutPlacer {
 
     reposition() {
         const ui = this.#popup.ui;
-        if (!ui?.modalContainer || !ui?.popupLayout || !this.#monitor) return;
+        if (!ui?.modalContainer || !ui?.popupLayout || !this.#monitor)
+            return;
 
         if (!this.#popupLock) {
             this.#uiBuilder.positionPopup(
@@ -199,7 +209,7 @@ export class PopupLayoutPlacer {
                 this.#anchorX,
                 this.#anchorY,
                 this.#monitor,
-                this.#isAnchoredInCenter,
+                this.#isAnchoredInCenter
             );
             return;
         }
@@ -209,7 +219,7 @@ export class PopupLayoutPlacer {
         // Measure unbounded first, since a capped list reports a falsely small height
         this.#disableListScroll();
         this.#resetLayoutMeasure();
-        const { natH } = this.#uiBuilder.measurePopup(
+        const {natH} = this.#uiBuilder.measurePopup(
             ui.popupLayout, this.#monitor, lock.x, lock.isAnchoredInCenter);
         const availH = this.#getAvailH();
 
@@ -233,7 +243,8 @@ export class PopupLayoutPlacer {
     }
 
     cancelPendingReposition() {
-        if (!this.#repositionIdleId) return;
+        if (!this.#repositionIdleId)
+            return;
 
         GLib.source_remove(this.#repositionIdleId);
         this.#repositionIdleId = 0;
@@ -248,7 +259,7 @@ export class PopupLayoutPlacer {
         ui.favoritesIcon = null;
         ui.favoritesLabel = null;
 
-        const { entries: pageItems, selectedIndex } = selection.getCurrentPageState();
+        const {entries: pageItems, selectedIndex} = selection.getCurrentPageState();
 
         if (pageItems.length === 0) {
             ui.listContainer.add_child(
@@ -261,9 +272,9 @@ export class PopupLayoutPlacer {
                 this.#shortcuts.quickSlotDisplay(index)
             );
 
-            if (index === selectedIndex) {
+            if (index === selectedIndex)
                 itemBox.add_style_class_name('selected');
-            }
+
 
             ui.listContainer.add_child(itemBox);
             selection.appendPageActor(itemBox);
@@ -305,7 +316,7 @@ export class PopupLayoutPlacer {
             // uncap first so we measure the real size
             this.#disableListScroll();
             this.#resetLayoutMeasure();
-            ({ natH: h } = this.#uiBuilder.measurePopup(
+            ({natH: h} = this.#uiBuilder.measurePopup(
                 ui.popupLayout, this.#monitor, this.#popupLock.x, this.#popupLock.isAnchoredInCenter));
             if (h <= this.#getAvailH())
                 break;
@@ -363,7 +374,7 @@ export class PopupLayoutPlacer {
             return;
         }
         // too tall even squeezed: lock the cursor edge, scroll the rows
-        const { availableW } = this.#uiBuilder.measurePopup(
+        const {availableW} = this.#uiBuilder.measurePopup(
             ui.popupLayout, this.#monitor, this.#popupLock.x, this.#popupLock.isAnchoredInCenter);
         const [, listNatH] = ui.listContainer.get_preferred_height(availableW);
         if (!Number.isFinite(listNatH)) {
@@ -402,7 +413,7 @@ export class PopupLayoutPlacer {
         // Shrinking and scrolling below only kick in when neither side fits clean.
         this.#buildPageItems(DEFAULT_LINES_PER_ITEM);
         if (!this.#isDirectionSettled) {
-            const { natH } = this.#uiBuilder.measurePopup(
+            const {natH} = this.#uiBuilder.measurePopup(
                 ui.popupLayout, this.#monitor, this.#popupLock.x, this.#popupLock.isAnchoredInCenter);
             this.#popupLock.mode = this.#uiBuilder.decidePopupSide(
                 natH, this.#anchorY, this.#monitor);

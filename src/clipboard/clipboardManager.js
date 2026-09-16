@@ -2,10 +2,10 @@ import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import { CLIPBOARD_MIMETYPES } from '../common/constants.js';
-import { ClipboardEntry } from './clipboardEntry.js';
-import { SECRET_HINT_MIMETYPES, isSecretHintPayload } from './secretHints.js';
-import { error } from '../common/logger.js';
+import {CLIPBOARD_MIMETYPES} from '../common/constants.js';
+import {ClipboardEntry} from './clipboardEntry.js';
+import {SECRET_HINT_MIMETYPES, isSecretHintPayload} from './secretHints.js';
+import {error} from '../common/logger.js';
 
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
@@ -14,14 +14,23 @@ const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
  */
 export class ClipboardManager {
     #clipboard;
+
     #registry;
+
     #selection = null;
+
     #selectionOwnerChangedId = 0;
+
     #refreshInProgress = false;
+
     #inhibitCount = 0;
+
     #isPrivateMode = () => false;
+
     #isExcludedApp = () => false;
+
     #shouldCacheImages = () => true;
+
     #shouldIgnoreSecrets = () => true;
 
     constructor(deps) {
@@ -101,7 +110,7 @@ export class ClipboardManager {
     }
 
     async hasSecretHint() {
-        for (let type of SECRET_HINT_MIMETYPES) {
+        for (const type of SECRET_HINT_MIMETYPES) {
             const secret = await new Promise(resolve => {
                 try {
                     this.#clipboard.get_content(CLIPBOARD_TYPE, type, (_cb, bytes) => {
@@ -128,7 +137,7 @@ export class ClipboardManager {
     }
 
     async readClipboard() {
-        for (let type of CLIPBOARD_MIMETYPES) {
+        for (const type of CLIPBOARD_MIMETYPES) {
             const entry = await new Promise(resolve => {
                 try {
                     this.#clipboard.get_content(CLIPBOARD_TYPE, type, (_cb, bytes) => {
@@ -138,7 +147,7 @@ export class ClipboardManager {
                         }
                         // gnome mangles text mimetypes on 2nd copy, squish them into one
                         // https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/8233
-                        let effectiveType = ClipboardEntry.canonicalizeMimetype(type);
+                        const effectiveType = ClipboardEntry.canonicalizeMimetype(type);
                         // outer try can't reach in here (later tick). Without this a throw hangs the promise and refresh stays wedged.
                         try {
                             const result = new ClipboardEntry(

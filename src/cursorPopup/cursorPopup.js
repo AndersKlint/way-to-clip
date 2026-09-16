@@ -1,25 +1,34 @@
 import Clutter from 'gi://Clutter';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-import { PopupUIBuilder } from './popupUI.js';
-import { PopupSearch } from './popupSearch.js';
-import { PopupKeyHandler } from './popupKeyHandler.js';
-import { PopupLocalShortcuts } from './popupLocalShortcuts.js';
-import { PopupSearchController } from './popupSearchController.js';
-import { PopupSelectionController } from './popupSelectionController.js';
-import { PopupLayoutPlacer } from './popupLayoutPlacer.js';
+import {PopupUIBuilder} from './popupUI.js';
+import {PopupSearch} from './popupSearch.js';
+import {PopupKeyHandler} from './popupKeyHandler.js';
+import {PopupLocalShortcuts} from './popupLocalShortcuts.js';
+import {PopupSearchController} from './popupSearchController.js';
+import {PopupSelectionController} from './popupSelectionController.js';
+import {PopupLayoutPlacer} from './popupLayoutPlacer.js';
 
 export class CursorPopup {
     // handlers are callbacks into the controller. Popup never touches the store directly.
     #handlers = null;
+
     #uiBuilder = null;
+
     #search = null;
+
     #keyHandler = null;
+
     #localShortcuts = null;
+
     #searchController = null;
+
     #selectionController = null;
+
     #layoutPlacer = null;
+
     #ui = null;
+
     #modalGrab = null;
 
     get ui() {
@@ -38,7 +47,7 @@ export class CursorPopup {
         this.#handlers = handlers;
         this.#uiBuilder = new PopupUIBuilder();
         this.#search = new PopupSearch();
-        this.#localShortcuts = new PopupLocalShortcuts({ uiBuilder: this.#uiBuilder });
+        this.#localShortcuts = new PopupLocalShortcuts({uiBuilder: this.#uiBuilder});
         this.#searchController = new PopupSearchController({
             model: this.#search,
             shortcuts: this.#localShortcuts,
@@ -156,11 +165,11 @@ export class CursorPopup {
     updatePrivateModeState() {
         if (!this.#ui?.privateModeHint)
             return;
-        if (this.#handlers.onIsPrivateMode()) {
+        if (this.#handlers.onIsPrivateMode())
             this.#ui.privateModeHint.add_style_class_name('active');
-        } else {
+        else
             this.#ui.privateModeHint.remove_style_class_name('active');
-        }
+
     }
 
     updateFavoriteHint() {

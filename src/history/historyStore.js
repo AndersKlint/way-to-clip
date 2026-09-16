@@ -1,5 +1,6 @@
 export class HistoryStore {
     #entries = [];
+
     #selected = null;
 
     get entries() {
@@ -38,7 +39,7 @@ export class HistoryStore {
         return entry;
     }
 
-    select(entry, { moveFirst = false } = {}) {
+    select(entry, {moveFirst = false} = {}) {
         const existing = this.#entries.includes(entry)
             ? entry
             : this.findEqual(entry);
@@ -78,7 +79,7 @@ export class HistoryStore {
             if (idx >= 0) {
                 const wasSelected = this.#selected === oldest;
                 this.#entries.splice(idx, 1);
-                removed.push({ entry: oldest, wasSelected });
+                removed.push({entry: oldest, wasSelected});
                 if (wasSelected)
                     this.#selected = this.#entries.length ? this.#entries[this.#entries.length - 1] : null;
             }
@@ -87,7 +88,7 @@ export class HistoryStore {
         return removed;
     }
 
-    clear({ keepSelected = false } = {}) {
+    clear({keepSelected = false} = {}) {
         const removed = [];
         let clearedClipboard = false;
         for (const entry of [...this.#entries]) {
@@ -97,14 +98,14 @@ export class HistoryStore {
                 continue;
             const wasSelected = this.#selected === entry;
             this.remove(entry);
-            removed.push({ entry, wasSelected });
+            removed.push({entry, wasSelected});
             if (wasSelected)
                 clearedClipboard = true;
         }
-        return { removed, clearedClipboard };
+        return {removed, clearedClipboard};
     }
 
-    toPersistable({ cacheOnlyFavorite = false } = {}) {
+    toPersistable({cacheOnlyFavorite = false} = {}) {
         if (!cacheOnlyFavorite)
             return [...this.#entries];
         return this.#entries.filter(e => e.isFavorite());

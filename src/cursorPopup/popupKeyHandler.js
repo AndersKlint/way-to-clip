@@ -2,11 +2,14 @@ import Clutter from 'gi://Clutter';
 
 export class PopupKeyHandler {
     #popup;
+
     #shortcuts;
+
     #search;
+
     #selection;
 
-    constructor({ popup, shortcuts, search, selection }) {
+    constructor({popup, shortcuts, search, selection}) {
         this.#popup = popup;
         this.#shortcuts = shortcuts;
         this.#search = search;

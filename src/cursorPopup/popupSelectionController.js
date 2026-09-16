@@ -1,4 +1,4 @@
-import { ITEMS_PER_PAGE } from '../common/constants.js';
+import {ITEMS_PER_PAGE} from '../common/constants.js';
 
 // Boundary keysyms for the digit keys: 1 starts the zero-based index range,
 // while 0 is handled specially because it selects the tenth popup item.
@@ -6,22 +6,33 @@ import { ITEMS_PER_PAGE } from '../common/constants.js';
 const KEY_0 = 0x30;
 const KEY_1 = 0x31;
 
-// This class handles visible clipboard items, paging, highlight, and delete. 
+// This class handles visible clipboard items, paging, highlight, and delete.
 export class PopupSelectionController {
     #handlers;
+
     #popup;
+
     #search;
+
     #originalItems = [];
+
     #itemsToShow = [];
+
     #currentPage = 0;
+
     #selectedIndex = -1;
+
     #currentPageItems = [];
+
     #limitPopupPages = false;
+
     #maxPopupPages = 3;
+
     #favoritesOnly = false;
+
     #favoritesEnabled = true;
 
-    constructor({ handlers, popup, search }) {
+    constructor({handlers, popup, search}) {
         this.#handlers = handlers;
         this.#popup = popup;
         this.#search = search;
@@ -145,26 +156,29 @@ export class PopupSelectionController {
         if (!Number.isInteger(idx) || idx < 0 || idx >= ITEMS_PER_PAGE)
             return;
         const start = this.#currentPage * ITEMS_PER_PAGE;
-        if (start + idx < this.#itemsToShow.length) {
+        if (start + idx < this.#itemsToShow.length)
             this.selectItem(this.#itemsToShow[start + idx]);
-        }
+
     }
 
     navigateUp() {
         const len = this.#currentPageItems.length;
-        if (len === 0) return;
+        if (len === 0)
+            return;
         this.#updateSelection(this.#selectedIndex <= 0 ? len - 1 : this.#selectedIndex - 1);
     }
 
     navigateDown() {
         const len = this.#currentPageItems.length;
-        if (len === 0) return;
+        if (len === 0)
+            return;
         this.#updateSelection(this.#selectedIndex >= len - 1 ? 0 : this.#selectedIndex + 1);
     }
 
     navigatePageForward() {
         const totalPages = this.getTotalPages();
-        if (totalPages <= 1) return;
+        if (totalPages <= 1)
+            return;
         this.#currentPage = (this.#currentPage + 1) % totalPages;
         this.#selectedIndex = 0;
         this.#popup.renderPage();
@@ -172,7 +186,8 @@ export class PopupSelectionController {
 
     navigatePageBack() {
         const totalPages = this.getTotalPages();
-        if (totalPages <= 1) return;
+        if (totalPages <= 1)
+            return;
         this.#currentPage = (this.#currentPage - 1 + totalPages) % totalPages;
         this.#selectedIndex = 0;
         this.#popup.renderPage();
@@ -325,7 +340,8 @@ export class PopupSelectionController {
     }
 
     #getMaxItems(totalAvailable) {
-        if (!this.#limitPopupPages) return totalAvailable;
+        if (!this.#limitPopupPages)
+            return totalAvailable;
         return this.#maxPopupPages * ITEMS_PER_PAGE;
     }
 }

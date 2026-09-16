@@ -1,9 +1,9 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import St from 'gi://St';
-import { PrefsFields } from '../common/constants.js';
-import { ClipboardEntry } from '../clipboard/clipboardEntry.js';
-import { error } from '../common/logger.js';
+import {PrefsFields} from '../common/constants.js';
+import {ClipboardEntry} from '../clipboard/clipboardEntry.js';
+import {error} from '../common/logger.js';
 
 // promisified lazily in the constructor so importing the module stays side-effect free
 let promisified = false;
@@ -37,7 +37,7 @@ function extensionFor(mimetype) {
 }
 
 export class Registry {
-    constructor({ settings, uuid }) {
+    constructor({settings, uuid}) {
         ensurePromisified();
         this.settings = settings;
         this.uuid = uuid;
@@ -132,14 +132,12 @@ export class Registry {
             await stream.write_bytes_async(new GLib.Bytes(contents),
                 GLib.PRIORITY_DEFAULT, null);
         } catch (e) {
-            try { stream.close(null); } catch (_ignored) {}
+            try {
+                stream.close(null);
+            } catch {}
             throw e;
         }
-        try {
-            stream.close(null);
-        } catch (e) {
-            throw e;
-        }
+        stream.close(null);
         tmpFile.move(destFile, FileCopyFlags.OVERWRITE, null, null);
     }
 
@@ -233,7 +231,7 @@ export class Registry {
         }
 
         const gicon = Gio.icon_new_for_string(this.getEntryFilename(entry));
-        return new St.Icon({ gicon });
+        return new St.Icon({gicon});
     }
 
     getEntryFilename(entry) {
@@ -254,7 +252,9 @@ export class Registry {
                 GLib.PRIORITY_DEFAULT, null);
             stream.close(null);
         } catch (e) {
-            try { stream.close(null); } catch (_ignored) {}
+            try {
+                stream.close(null);
+            } catch {}
             throw e;
         }
     }
@@ -288,7 +288,9 @@ export class Registry {
                     error('failed to delete cache file', e);
                 }
             }
-            try { enumerator.close(null); } catch (_e) { /* ignore */ }
+            try {
+                enumerator.close(null);
+            } catch { /* ignore */ }
         } catch (e) {
             error('failed to clear cache folder', e);
         }

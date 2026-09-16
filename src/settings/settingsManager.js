@@ -1,4 +1,4 @@
-import { PrefsFields } from '../common/constants.js';
+import {PrefsFields} from '../common/constants.js';
 import * as LocalShortcuts from '../cursorPopup/localShortcutUtils.js';
 
 export const SYSTEM_LANGUAGE = 'system';
@@ -8,7 +8,7 @@ function readLanguage(settings) {
     try {
         const v = settings.get_string(PrefsFields.LANGUAGE);
         return typeof v === 'string' && v ? v : SYSTEM_LANGUAGE;
-    } catch (_e) {
+    } catch {
         return SYSTEM_LANGUAGE;
     }
 }
@@ -22,6 +22,7 @@ function readLocalShortcuts(settings) {
 
 export class SettingsManager {
     #settings;
+
     #changedIds = [];
 
     constructor(settings) {
@@ -37,15 +38,15 @@ export class SettingsManager {
         let imagePreviewSize = 96;
         try {
             imagePreviewSize = s.get_int(PrefsFields.IMAGE_PREVIEW_SIZE);
-        } catch (_e) { /* old schema, keep default */ }
+        } catch { /* old schema, keep default */ }
         let ignoreSecretMimetypes = true;
         try {
             ignoreSecretMimetypes = s.get_boolean(PrefsFields.IGNORE_SECRET_MIMETYPES);
-        } catch (_e) { /* old schema, keep default */ }
+        } catch { /* old schema, keep default */ }
         let favoritesEnabled = true;
         try {
             favoritesEnabled = s.get_boolean(PrefsFields.ENABLE_FAVORITES);
-        } catch (_e) { /* old schema, keep default */ }
+        } catch { /* old schema, keep default */ }
         return {
             maxRegistryLength: s.get_int(PrefsFields.HISTORY_SIZE),
             cacheOnlyFavorite: s.get_boolean(PrefsFields.CACHE_ONLY_FAVORITE),

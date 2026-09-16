@@ -2,7 +2,7 @@ import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import { PrefsFields } from '../common/constants.js';
+import {PrefsFields} from '../common/constants.js';
 
 const BINDINGS = [
     [PrefsFields.BINDING_CLEAR_HISTORY, 'onRequestClearHistory'],
@@ -12,7 +12,9 @@ const BINDINGS = [
 
 export class ShortcutManager {
     #settings;
+
     #handlers;
+
     #boundNames = [];
 
     constructor(settings, handlers) {
@@ -38,7 +40,7 @@ export class ShortcutManager {
             this.#settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.ALL,
-            callback,
+            callback
         );
         this.#boundNames.push(name);
     }

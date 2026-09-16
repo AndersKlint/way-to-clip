@@ -1,5 +1,5 @@
-import { gettext as nativeGettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { makeTranslator } from '../common/i18n.js';
+import {gettext as nativeGettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {makeTranslator} from '../common/i18n.js';
 import * as LocalShortcuts from './localShortcutUtils.js';
 
 const _ = makeTranslator(nativeGettext);
@@ -7,12 +7,16 @@ const _ = makeTranslator(nativeGettext);
 // configured key bindings plus the footer hint labels that advertise them
 export class PopupLocalShortcuts {
     #shortcutStrings = {};
+
     #bindings = {};
+
     #showHints = true;
+
     #favoritesEnabled = true;
+
     #uiBuilder = null;
 
-    constructor({ uiBuilder } = {}) {
+    constructor({uiBuilder} = {}) {
         this.#uiBuilder = uiBuilder ?? null;
         for (const [action, list] of Object.entries(LocalShortcuts.DEFAULT_LOCAL_SHORTCUTS)) {
             this.#shortcutStrings[action] = [...list];
@@ -78,11 +82,12 @@ export class PopupLocalShortcuts {
         this.#applyHint(ui.privateModeHint, ui.privateModeHintLabel,
             'privateMode', ' = %s', _('Toggle private mode (%s)'));
         if (ui.favoriteHint) {
-            if (!this.#favoritesEnabled)
+            if (!this.#favoritesEnabled) {
                 ui.favoriteHint.visible = false;
-            else
+            } else {
                 this.#applyHint(ui.favoriteHint, ui.favoriteHintLabel,
                     'toggleFavorite', ' = %s', _('Toggle favorite (%s)'));
+            }
         }
         this.#applyHint(ui.deleteHint, ui.deleteHintLabel,
             'deleteEntry', ' = %s', _('Delete selected entry (%s)'));

@@ -1,8 +1,5 @@
 // ESLint flat config for way-to-clip, ported from the GNOME Shell rules
 // (gnome-shell-extensions lint/eslintrc-gjs.yml, as modernized in GSConnect).
-// Covers syntax and logic errors plus consistent style. EGO process isolation
-// (shell vs prefs imports) and the 200 char line cap stay in make lint, since
-// ESLint cannot express module closure reachability.
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import jsdoc from 'eslint-plugin-jsdoc';
@@ -224,4 +221,4 @@ export default defineConfig([
             'jsdoc/tag-lines': ['error', 'any', { startLines: 1 }],
         },
     },
-];
+]);

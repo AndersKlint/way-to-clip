@@ -1,17 +1,17 @@
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
-import { ExtensionPreferences, gettext as nativeGettext } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import { PrefsFields } from './src/common/constants.js';
-import { createShortcutEditor } from './prefs/shortcutRow.js';
-import { StringListManager } from './prefs/stringListManager.js';
+import {ExtensionPreferences, gettext as nativeGettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {PrefsFields} from './src/common/constants.js';
+import {createShortcutEditor} from './prefs/shortcutRow.js';
+import {StringListManager} from './prefs/stringListManager.js';
 import {
     AVAILABLE_LANGUAGES,
     LANGUAGE_LABELS,
     SYSTEM_LANGUAGE,
     normalizeLanguage,
     syncOverrideFromSettings,
-    makeTranslator,
+    makeTranslator
 } from './src/common/i18n.js';
 
 const _ = makeTranslator(nativeGettext);
@@ -207,11 +207,11 @@ class Settings {
             model: this.#createLanguageOptions(),
         });
 
-        this.general = new Adw.PreferencesGroup({ title: _('General') });
-        this.popup = new Adw.PreferencesGroup({ title: _('Popup') });
-        this.behavior = new Adw.PreferencesGroup({ title: _('Behavior') });
-        this.exclusion = new Adw.PreferencesGroup({ title: _('Exclusion') });
-        this.limits = new Adw.PreferencesGroup({ title: _('Limits') });
+        this.general = new Adw.PreferencesGroup({title: _('General')});
+        this.popup = new Adw.PreferencesGroup({title: _('Popup')});
+        this.behavior = new Adw.PreferencesGroup({title: _('Behavior')});
+        this.exclusion = new Adw.PreferencesGroup({title: _('Exclusion')});
+        this.limits = new Adw.PreferencesGroup({title: _('Limits')});
         this.globalShortcuts = new Adw.PreferencesGroup({
             title: _('Global shortcuts'),
             // No global shortcuts for accessing clipbaord data bound by default (as the gnome extension
@@ -220,7 +220,7 @@ class Settings {
             // to be on the safe side, we don't bind any default keybindings.
             description: _('Disabled by default; assign a shortcut below to enable each action'),
         });
-        this.localShortcuts = new Adw.PreferencesGroup({ title: _('Popup shortcuts') });
+        this.localShortcuts = new Adw.PreferencesGroup({title: _('Popup shortcuts')});
 
         this.general.add(this.field_language);
         this.#bindLanguageRow();
@@ -278,7 +278,7 @@ class Settings {
             this.field_exclusion_row,
             this.field_exclusion_row_add_button,
             PrefsFields.EXCLUDED_APPS,
-            _('Window class name, e.g. "KeePassXC"'),
+            _('Window class name, e.g. "KeePassXC"')
         );
         this.excludedApps.load();
 
@@ -288,7 +288,7 @@ class Settings {
             this.field_terminal_row_add_button,
             PrefsFields.TERMINAL_APPS,
             _('Window class or app id, e.g. "org.gnome.Ptyxis"'),
-            { autoExpand: false },
+            {autoExpand: false}
         );
         this.terminalApps.load();
     }
@@ -309,7 +309,7 @@ class Settings {
         const readStored = () => {
             try {
                 return normalizeLanguage(this.schema.get_string(PrefsFields.LANGUAGE));
-            } catch (_e) {
+            } catch {
                 return SYSTEM_LANGUAGE;
             }
         };
@@ -372,7 +372,7 @@ class Settings {
 
     #addShortcutRows(group, shortcuts) {
         for (const [pref, title] of Object.entries(shortcuts)) {
-            const row = new Adw.ActionRow({ title });
+            const row = new Adw.ActionRow({title});
             row.add_suffix(createShortcutEditor(this.schema, pref));
             group.add(row);
         }
@@ -400,7 +400,7 @@ class Settings {
     }
 
     #addResetRow(group, shortcuts) {
-        const row = new Adw.ActionRow({ title: _('Reset shortcuts to defaults') });
+        const row = new Adw.ActionRow({title: _('Reset shortcuts to defaults')});
         const button = new Gtk.Button({
             label: _('Reset'),
             css_classes: ['flat'],
