@@ -1,0 +1,16 @@
+{
+  "name": "way-to-clip",
+  "private": true,
+  "description": "GNOME Shell clipboard manager extension (dev tooling only; never shipped in bundle.zip)",
+  "scripts": {
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@stylistic/eslint-plugin": "^4.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-jsdoc": "^50.0.0",
+    "globals": "^16.0.0"
+  }
+}
