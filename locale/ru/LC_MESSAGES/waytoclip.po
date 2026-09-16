@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 16:53+0200\n"
+"POT-Creation-Date: 2026-09-16 11:53+0200\n"
 "PO-Revision-Date: 2026-09-09 12:45+0200\n"
 "Last-Translator: Mariya Shikunova <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -19,126 +19,116 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: extension.js:171
-msgid "Show clipboard popup"
-msgstr "Показать всплывающее окно буфера обмена"
-
-#: extension.js:188 prefs.js:303
-msgid "Private mode"
-msgstr "Приватный режим"
-
-#: extension.js:201 prefs.js:304
-msgid "Clear history"
-msgstr "Очистить историю"
-
-#: extension.js:242
-msgid "Settings"
-msgstr "Настройки"
-
-#: extension.js:329
-msgid "Clear all?"
-msgstr "Очистить всё?"
-
-#: extension.js:330
-msgid "Are you sure you want to delete all clipboard items?"
-msgstr "Вы уверены, что хотите удалить все элементы буфера обмена?"
-
-#: extension.js:331
-msgid "This operation cannot be undone."
-msgstr "Эту операцию нельзя отменить."
-
-#: extension.js:332
-msgid "Clear"
-msgstr "Очистить"
-
-#: extension.js:333 prefs/shortcutRow.js:127
-msgid "Cancel"
-msgstr "Отменить"
-
-#: prefs.js:46
+#: prefs.js:70
 msgid "History Size"
 msgstr "Размер истории"
 
-#: prefs.js:55
+#: prefs.js:79
 msgid "Max cache file size (MB)"
 msgstr "Максимальный размер кэша (МБ)"
 
-#: prefs.js:64
+#: prefs.js:88
 msgid "Show confirmation on Clear History"
 msgstr "Показывать подтверждение при очистке истории"
 
-#: prefs.js:68
+#: prefs.js:92
 msgid "Move item to the top after selection"
 msgstr "Переместить запись в начало после выделения"
 
-#: prefs.js:72
+#: prefs.js:96
 msgid "Keep selected entry after Clear History"
 msgstr "Не очищать выбранную запись после очистки истории"
 
-#: prefs.js:76
+#: prefs.js:100
 msgid "Clear clipboard history on system reboot"
 msgstr "Очищать историю буфера обмена при перезагрузке системы"
 
-#: prefs.js:80
+#: prefs.js:104
 msgid "Auto-paste on selection"
 msgstr "Автовставка при выборе"
 
-#: prefs.js:81
+#: prefs.js:105
 msgid "Automatically paste after selecting an item from the popup"
 msgstr "Автоматически вставлять после выбора элемента во всплывающем окне"
 
-#: prefs.js:85
+#: prefs.js:109
 msgid "Popup position"
 msgstr "Положение всплывающего окна"
 
-#: prefs.js:86
+#: prefs.js:110
 msgid "Where to show the clipboard popup"
 msgstr "Место отображения всплывающего окна буфера обмена"
 
-#: prefs.js:91
+#: prefs.js:115
 msgid "Limit number of pages"
 msgstr "Ограничить число страниц"
 
-#: prefs.js:92
+#: prefs.js:116
 msgid "When off, the popup shows the full clipboard history"
 msgstr "Если выключено, всплывающее окно показывает всю историю буфера обмена"
 
-#: prefs.js:96
+#: prefs.js:120
 msgid "Number of pages"
 msgstr "Число страниц"
 
-#: prefs.js:97
+#: prefs.js:121
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr ""
 "Каждая страница показывает 10 элементов (Tab для перехода между страницами)"
 
-#: prefs.js:106
+#: prefs.js:130
 msgid "Image thumbnail size (px)"
 msgstr "Размер миниатюр изображений (px)"
 
-#: prefs.js:107
+#: prefs.js:131
 msgid "Preview size for images in the popup"
 msgstr "Размер предпросмотра изображений во всплывающем окне"
 
-#: prefs.js:116
+#: prefs.js:140
 msgid "Cache images"
 msgstr "Кеш изображений"
 
-#: prefs.js:121
+#: prefs.js:141
+msgid ""
+"Save images to disk so they survive a restart. Otherwise they are kept in "
+"memory only"
+msgstr ""
+"Сохраняйте изображения на диск, чтобы они пережили перезапуск. Иначе "
+"они хранятся только в памяти"
+
+#: prefs.js:146
+msgid "Ignore secret clipboard types"
+msgstr "Игнорировать секретные типы буфера обмена"
+
+#: prefs.js:147
+msgid "Skip content marked with a secret mimetype (password managers)"
+msgstr "Пропускать содержимое с секретным MIME-типом (менеджеры паролей)"
+
+#: prefs.js:151
+msgid "Enable favorites"
+msgstr "Включить избранное"
+
+#: prefs.js:152
+msgid "Mark entries as favorites and browse them in the popup"
+msgstr ""
+"Отмечайте записи как избранные и просматривайте их во всплывающем "
+"окне"
+
+#: prefs.js:156
 msgid "Excluded Apps"
 msgstr "Исключённые приложения"
 
-#: prefs.js:122
+#: prefs.js:157
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr ""
 "Скопированное содержимое не будет сохранено, пока эти приложения находятся в "
 "фокусе"
 
-#: prefs.js:134
+#: prefs.js:169
 msgid "Terminal Apps"
 msgstr "Терминалы"
 
-#: prefs.js:135
+#: prefs.js:170
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -146,157 +136,321 @@ msgstr ""
 "Автовставка использует Ctrl+Shift+V в терминалах. Добавьте свой терминал, "
 "если вставка подставляет неверный текст"
 
-#: prefs.js:147
+#: prefs.js:182
 msgid "Clear clipboard history on interval"
 msgstr "Очищать историю буфера обмена через интервалы"
 
-#: prefs.js:151
+#: prefs.js:186
 msgid "History clear interval (in minutes)"
 msgstr "Интервал очистки истории (в минутах)"
 
-#: prefs.js:168
+#: prefs.js:205
 msgid "Language"
 msgstr "Язык"
 
-#: prefs.js:169
+#: prefs.js:206
 msgid "Requires reopening Settings and restarting the extension"
 msgstr "Требуется заново открыть Настройки и перезапустить расширение"
 
-#: prefs.js:173
+#: prefs.js:210
 msgid "General"
 msgstr "Общие"
 
-#: prefs.js:174
+#: prefs.js:211
 msgid "Popup"
 msgstr "Всплывающее окно"
 
-#: prefs.js:175
+#: prefs.js:212
 msgid "Behavior"
 msgstr "Поведение"
 
-#: prefs.js:176
+#: prefs.js:213
 msgid "Exclusion"
 msgstr "Исключение"
 
-#: prefs.js:177
+#: prefs.js:214
 msgid "Limits"
 msgstr "Ограничения"
 
-#: prefs.js:179
+#: prefs.js:216
 msgid "Global shortcuts"
 msgstr "Глобальные горячие клавиши"
 
-#: prefs.js:182
+#: prefs.js:221
 msgid "Disabled by default; assign a shortcut below to enable each action"
 msgstr ""
+"По умолчанию выключено; назначьте ниже сочетание клавиш, чтобы "
+"включить каждое действие"
 
-#: prefs.js:184
+#: prefs.js:223
 msgid "Popup shortcuts"
 msgstr "Горячие клавиши всплывающего окна"
 
-#: prefs.js:240
+#: prefs.js:281
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Имя класса окна, например «KeePassXC»"
 
-#: prefs.js:249
+#: prefs.js:290
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Класс окна или ID приложения, например «org.gnome.Ptyxis»"
 
-#: prefs.js:259
+#: prefs.js:300
 msgid "System"
 msgstr "Система"
 
-#: prefs.js:295
+#: prefs.js:336
 msgid "At mouse cursor"
 msgstr "У курсора мыши"
 
-#: prefs.js:296
+#: prefs.js:337
 msgid "Center of focused window"
 msgstr "В центре активного окна"
 
-#: prefs.js:302
+#: prefs.js:342
 msgid "Toggle the clipboard popup"
 msgstr "Показать/скрыть всплывающее окно буфера обмена"
 
-#: prefs.js:311
+#: prefs.js:343 src/panel/panelButton.js:97
+msgid "Private mode"
+msgstr "Приватный режим"
+
+#: prefs.js:344 src/panel/panelButton.js:113
+msgid "Clear history"
+msgstr "Очистить историю"
+
+#: prefs.js:348
 msgid "Search in popup"
 msgstr "Поиск во всплывающем окне"
 
-#: prefs.js:312
+#: prefs.js:349
 msgid "Delete selected entry"
 msgstr "Удалить выбранную запись"
 
-#: prefs.js:313
+#: prefs.js:350
 msgid "Toggle private mode"
 msgstr "Включить/выключить приватный режим"
 
-#: prefs.js:314
+#: prefs.js:351
 msgid "Next page"
 msgstr "Следующая страница"
 
-#: prefs.js:315
+#: prefs.js:352
 msgid "Previous page"
 msgstr "Предыдущая страница"
 
-#: prefs.js:316
+#: prefs.js:353
 msgid "Move selection up"
 msgstr "Переместить выделение вверх"
 
-#: prefs.js:317
+#: prefs.js:354
 msgid "Move selection down"
 msgstr "Переместить выделение вниз"
 
-#: prefs.js:318
+#: prefs.js:355
 msgid "Confirm selection"
 msgstr "Подтвердить выбор"
 
-#: prefs.js:319
+#: prefs.js:356
 msgid "Close popup"
 msgstr "Закрыть всплывающее окно"
 
-#: prefs.js:320
+#: prefs.js:357
 msgid "Match case (while searching)"
 msgstr "Учитывать регистр (при поиске)"
 
-#: prefs.js:321
+#: prefs.js:358
 msgid "Use regular expression (while searching)"
 msgstr "Использовать регулярное выражение (при поиске)"
 
-#: prefs.js:334
+#: prefs.js:359
+msgid "Toggle favorite on selected entry"
+msgstr "Включить/выключить избранное для выбранной записи"
+
+#: prefs.js:360
+msgid "Open favorites or go back"
+msgstr "Открыть избранное или вернуться назад"
+
+#: prefs.js:361
+msgid "Quick select item 1"
+msgstr "Быстрый выбор записи 1"
+
+#: prefs.js:362
+msgid "Quick select item 2"
+msgstr "Быстрый выбор записи 2"
+
+#: prefs.js:363
+msgid "Quick select item 3"
+msgstr "Быстрый выбор записи 3"
+
+#: prefs.js:364
+msgid "Quick select item 4"
+msgstr "Быстрый выбор записи 4"
+
+#: prefs.js:365
+msgid "Quick select item 5"
+msgstr "Быстрый выбор записи 5"
+
+#: prefs.js:366
+msgid "Quick select item 6"
+msgstr "Быстрый выбор записи 6"
+
+#: prefs.js:367
+msgid "Quick select item 7"
+msgstr "Быстрый выбор записи 7"
+
+#: prefs.js:368
+msgid "Quick select item 8"
+msgstr "Быстрый выбор записи 8"
+
+#: prefs.js:369
+msgid "Quick select item 9"
+msgstr "Быстрый выбор записи 9"
+
+#: prefs.js:370
+msgid "Quick select item 10"
+msgstr "Быстрый выбор записи 10"
+
+#: prefs.js:383
 msgid "Enable shortcuts"
 msgstr "Включить горячие клавиши"
 
-#: prefs.js:344
+#: prefs.js:393
 msgid "Show shortcut reminder icons"
 msgstr "Показывать значки-подсказки горячих клавиш"
 
-#: prefs.js:345
+#: prefs.js:394
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Показывать значки-подсказки горячих клавиш внизу всплывающего окна"
 
-#: prefs.js:354
+#: prefs.js:403
 msgid "Reset shortcuts to defaults"
 msgstr "Сбросить горячие клавиши по умолчанию"
 
-#: prefs.js:356
+#: prefs.js:405
 msgid "Reset"
 msgstr "Сбросить"
 
-#: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-msgid "Add shortcut"
-msgstr "Добавить комбинацию клавиш"
+#: src/wayToClipController.js:258
+msgid "Clear all?"
+msgstr "Очистить всё?"
 
-#: prefs/shortcutRow.js:79
-msgid "Remove shortcut"
-msgstr "Удалить комбинацию клавиш"
+#: src/wayToClipController.js:259
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "Вы уверены, что хотите удалить все элементы буфера обмена?"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
+#: src/wayToClipController.js:260
+msgid "This operation cannot be undone."
+msgstr "Эту операцию нельзя отменить."
+
+#: src/wayToClipController.js:261
+msgid "Clear"
+msgstr "Очистить"
+
+#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+msgid "Cancel"
+msgstr "Отменить"
+
+#: src/cursorPopup/popupLayoutPlacer.js:290
+msgid "Clipboard history is empty"
+msgstr "История буфера обмена пуста"
+
+#: src/cursorPopup/popupLayoutPlacer.js:292
+msgid "No favorites yet"
+msgstr "Пока нет избранного"
+
+#: src/cursorPopup/popupLayoutPlacer.js:293
+msgid "No matching clipboard items"
+msgstr "Нет подходящих элементов буфера обмена"
+
+#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
 msgid "Disabled"
 msgstr "Выключено"
 
-#: prefs/shortcutRow.js:134
+#: src/cursorPopup/popupLocalShortcuts.js:77
+#, javascript-format
+msgid "Toggle search (%s)"
+msgstr "Показать/скрыть поиск (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:79
+#, javascript-format
+msgid "Toggle private mode (%s)"
+msgstr "Включить/выключить приватный режим (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:85
+#, javascript-format
+msgid "Toggle favorite (%s)"
+msgstr "Включить/выключить избранное (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:88
+#, javascript-format
+msgid "Delete selected entry (%s)"
+msgstr "Удалить выбранную запись (%s)"
+
+#: src/cursorPopup/popupSearchController.js:122
+#, javascript-format
+msgid "Match Case (%s)"
+msgstr "Учитывать регистр (%s)"
+
+#: src/cursorPopup/popupSearchController.js:129
+#, javascript-format
+msgid "Use Regular Expression (%s)"
+msgstr "Использовать регулярное выражение (%s)"
+
+#: src/cursorPopup/popupUI.js:148
+msgid "Search..."
+msgstr "Поиск…"
+
+#: src/cursorPopup/popupUI.js:291
+msgid "Match Case (Alt+C)"
+msgstr "Учитывать регистр (Alt+C)"
+
+#: src/cursorPopup/popupUI.js:293
+msgid "Use Regular Expression (Alt+R)"
+msgstr "Использовать регулярное выражение (Alt+R)"
+
+#: src/cursorPopup/popupUI.js:370
+msgid "Toggle search (s)"
+msgstr "Показать/скрыть поиск (s)"
+
+#: src/cursorPopup/popupUI.js:372
+msgid "Toggle private mode (p)"
+msgstr "Включить/выключить приватный режим (p)"
+
+#: src/cursorPopup/popupUI.js:374
+msgid "Toggle favorite (f)"
+msgstr "Включить/выключить избранное (f)"
+
+#: src/cursorPopup/popupUI.js:376
+msgid "Delete selected entry (d)"
+msgstr "Удалить выбранную запись (d)"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Back"
+msgstr "Назад"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Favorites"
+msgstr "Избранное"
+
+#: src/panel/panelButton.js:82
+msgid "Show clipboard popup"
+msgstr "Показать всплывающее окно буфера обмена"
+
+#: src/panel/panelButton.js:156
+msgid "Settings"
+msgstr "Настройки"
+
+#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+msgid "Add shortcut"
+msgstr "Добавить комбинацию клавиш"
+
+#: prefs/shortcutRow.js:57
 msgid "Enter shortcut…"
 msgstr "Введите комбинацию клавиш…"
+
+#: prefs/shortcutRow.js:154
+msgid "Remove shortcut"
+msgstr "Удалить комбинацию клавиш"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
@@ -305,60 +459,3 @@ msgstr "Выбрать из установленных приложений"
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
 msgstr "Поиск приложений…"
-
-#: cursor-popup/cursorPopup.js:335
-#, javascript-format
-msgid "Match Case (%s)"
-msgstr "Учитывать регистр (%s)"
-
-#: cursor-popup/cursorPopup.js:339
-#, javascript-format
-msgid "Use Regular Expression (%s)"
-msgstr "Использовать регулярное выражение (%s)"
-
-#: cursor-popup/cursorPopup.js:376
-#, javascript-format
-msgid "Toggle search (%s)"
-msgstr "Показать/скрыть поиск (%s)"
-
-#: cursor-popup/cursorPopup.js:378
-#, javascript-format
-msgid "Toggle private mode (%s)"
-msgstr "Включить/выключить приватный режим (%s)"
-
-#: cursor-popup/cursorPopup.js:380
-#, javascript-format
-msgid "Delete selected entry (%s)"
-msgstr "Удалить выбранную запись (%s)"
-
-#: cursor-popup/cursorPopup.js:571
-msgid "Clipboard history is empty"
-msgstr "История буфера обмена пуста"
-
-#: cursor-popup/cursorPopup.js:572
-msgid "No matching clipboard items"
-msgstr "Нет подходящих элементов буфера обмена"
-
-#: cursor-popup/popupUI.js:101
-msgid "Search..."
-msgstr "Поиск…"
-
-#: cursor-popup/popupUI.js:332
-msgid "Match Case (Alt+C)"
-msgstr "Учитывать регистр (Alt+C)"
-
-#: cursor-popup/popupUI.js:334
-msgid "Use Regular Expression (Alt+R)"
-msgstr "Использовать регулярное выражение (Alt+R)"
-
-#: cursor-popup/popupUI.js:414
-msgid "Toggle search (s)"
-msgstr "Показать/скрыть поиск (s)"
-
-#: cursor-popup/popupUI.js:416
-msgid "Toggle private mode (p)"
-msgstr "Включить/выключить приватный режим (p)"
-
-#: cursor-popup/popupUI.js:418
-msgid "Delete selected entry (d)"
-msgstr "Удалить выбранную запись (d)"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 60\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 16:53+0200\n"
+"POT-Creation-Date: 2026-09-16 11:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:12+0200\n"
 "Last-Translator: Avid <avds+git@disroot.org>\n"
 "Language-Team: Farsi <avds+git@disroot.org>\n"
@@ -17,124 +17,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: extension.js:171
-msgid "Show clipboard popup"
-msgstr "نمایش پنجرهٔ تخته‌گیره"
-
-#: extension.js:188 prefs.js:303
-msgid "Private mode"
-msgstr "حالت خصوصی"
-
-#: extension.js:201 prefs.js:304
-msgid "Clear history"
-msgstr "پاک‌سازی تاریخچه"
-
-#: extension.js:242
-msgid "Settings"
-msgstr "تنظیمات"
-
-#: extension.js:329
-msgid "Clear all?"
-msgstr "همه پاک شوند؟"
-
-#: extension.js:330
-msgid "Are you sure you want to delete all clipboard items?"
-msgstr "آیا از حذف همهٔ موارد تخته‌گیره مطمئنید؟"
-
-#: extension.js:331
-msgid "This operation cannot be undone."
-msgstr "این عملیات نمی‌تواند بازگردانی شود."
-
-#: extension.js:332
-msgid "Clear"
-msgstr "پاک‌سازی"
-
-#: extension.js:333 prefs/shortcutRow.js:127
-msgid "Cancel"
-msgstr "لغو"
-
-#: prefs.js:46
+#: prefs.js:70
 msgid "History Size"
 msgstr "اندازهٔ‌ تاریخچه"
 
-#: prefs.js:55
+#: prefs.js:79
 msgid "Max cache file size (MB)"
 msgstr "بیشینهٔ اندازهٔ پروندهٔ انبارش (م‌ب)"
 
-#: prefs.js:64
+#: prefs.js:88
 msgid "Show confirmation on Clear History"
 msgstr "نمایش تائیدیه هنگام پاک‌سازی تاریخچه"
 
-#: prefs.js:68
+#: prefs.js:92
 msgid "Move item to the top after selection"
 msgstr "جابه‌جایی مورد به بالا پس از گزینش"
 
-#: prefs.js:72
+#: prefs.js:96
 msgid "Keep selected entry after Clear History"
 msgstr "نگه داشتن ورودی برگزیده پس از پاک‌سازی تاریخچه"
 
-#: prefs.js:76
+#: prefs.js:100
 msgid "Clear clipboard history on system reboot"
 msgstr "پاک‌سازی تاریخچهٔ تخته‌گیره هنگام بازراه‌اندازی سامانه"
 
-#: prefs.js:80
+#: prefs.js:104
 msgid "Auto-paste on selection"
 msgstr "چسباندن خودکار هنگام گزینش"
 
-#: prefs.js:81
+#: prefs.js:105
 msgid "Automatically paste after selecting an item from the popup"
 msgstr "چسباندن خودکار پس از گزینش موردی از پنجره"
 
-#: prefs.js:85
+#: prefs.js:109
 msgid "Popup position"
 msgstr "جایگاه پنجره"
 
-#: prefs.js:86
+#: prefs.js:110
 msgid "Where to show the clipboard popup"
 msgstr "محل نمایش پنجرهٔ تخته‌گیره"
 
-#: prefs.js:91
+#: prefs.js:115
 msgid "Limit number of pages"
 msgstr "محدود کردن شمار صفحه‌ها"
 
-#: prefs.js:92
+#: prefs.js:116
 msgid "When off, the popup shows the full clipboard history"
 msgstr "اگر خاموش باشد، پنجره تاریخچهٔ کامل تخته‌گیره را نشان می‌دهد"
 
-#: prefs.js:96
+#: prefs.js:120
 msgid "Number of pages"
 msgstr "شمار صفحه‌ها"
 
-#: prefs.js:97
+#: prefs.js:121
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr "هر صفحه ۱۰ مورد را نشان می‌دهد (Tab برای جابه‌جایی میان صفحه‌ها)"
 
-#: prefs.js:106
+#: prefs.js:130
 msgid "Image thumbnail size (px)"
 msgstr "اندازهٔ بندانگشتی تصویرها (px)"
 
-#: prefs.js:107
+#: prefs.js:131
 msgid "Preview size for images in the popup"
 msgstr "اندازهٔ پیش‌نمایش تصویرها در پنجره"
 
-#: prefs.js:116
+#: prefs.js:140
 msgid "Cache images"
 msgstr "نهان‌سازی تصویرها"
 
-#: prefs.js:121
+#: prefs.js:141
+msgid ""
+"Save images to disk so they survive a restart. Otherwise they are kept in "
+"memory only"
+msgstr ""
+"تصویرها را روی دیسک ذخیره کنید تا از راه‌اندازی دوباره جان به در "
+"برند. در غیر این صورت فقط در حافظه نگه داشته می‌شوند"
+
+#: prefs.js:146
+msgid "Ignore secret clipboard types"
+msgstr "نادیده گرفتن گونه‌های محرمانهٔ تخته‌گیره"
+
+#: prefs.js:147
+msgid "Skip content marked with a secret mimetype (password managers)"
+msgstr "رد شدن از محتوای دارای گونهٔ MIME محرمانه (مدیران گذرواژه)"
+
+#: prefs.js:151
+msgid "Enable favorites"
+msgstr "به کار اندازی علاقه‌مندی‌ها"
+
+#: prefs.js:152
+msgid "Mark entries as favorites and browse them in the popup"
+msgstr ""
+"ورودی‌ها را به‌عنوان علاقه‌مندی نشان کنید و آن‌ها را در پنجره مرور "
+"کنید"
+
+#: prefs.js:156
 msgid "Excluded Apps"
 msgstr "برنامه‌های مستثنا"
 
-#: prefs.js:122
+#: prefs.js:157
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr ""
 "محتوای رونوشت‌شده ذخیره نخواهد شد تا زمانی که این برنامه‌ها در کانون باشند"
 
-#: prefs.js:134
+#: prefs.js:169
 msgid "Terminal Apps"
 msgstr "برنامه‌های پایانه"
 
-#: prefs.js:135
+#: prefs.js:170
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -142,157 +132,321 @@ msgstr ""
 "چسباندن خودکار در پایانه‌ها از Ctrl+Shift+V استفاده می‌کند. اگر چسباندن متن "
 "نادرست درج می‌کند، پایانهٔ خود را بیفزایید"
 
-#: prefs.js:147
+#: prefs.js:182
 msgid "Clear clipboard history on interval"
 msgstr "پاک‌سازی تاریخچهٔ تخته‌گیره در بازه‌های زمانی"
 
-#: prefs.js:151
+#: prefs.js:186
 msgid "History clear interval (in minutes)"
 msgstr "بازهٔ پاک‌سازی تاریخچه (به دقیقه)"
 
-#: prefs.js:168
+#: prefs.js:205
 msgid "Language"
 msgstr "زبان"
 
-#: prefs.js:169
+#: prefs.js:206
 msgid "Requires reopening Settings and restarting the extension"
 msgstr "نیازمند باز کردن دوبارهٔ تنظیمات و راه‌اندازی دوبارهٔ افزونه است"
 
-#: prefs.js:173
+#: prefs.js:210
 msgid "General"
 msgstr "کلی"
 
-#: prefs.js:174
+#: prefs.js:211
 msgid "Popup"
 msgstr "پنجره"
 
-#: prefs.js:175
+#: prefs.js:212
 msgid "Behavior"
 msgstr "رفتار"
 
-#: prefs.js:176
+#: prefs.js:213
 msgid "Exclusion"
 msgstr "استثنا"
 
-#: prefs.js:177
+#: prefs.js:214
 msgid "Limits"
 msgstr "محدودیت‌ها"
 
-#: prefs.js:179
+#: prefs.js:216
 msgid "Global shortcuts"
 msgstr "میان‌برهای سراسری"
 
-#: prefs.js:182
+#: prefs.js:221
 msgid "Disabled by default; assign a shortcut below to enable each action"
 msgstr ""
+"به‌طور پیش‌فرض ناکار است؛ برای به کار انداختن هر کنش یک میان‌بر در "
+"پایین بگمارید"
 
-#: prefs.js:184
+#: prefs.js:223
 msgid "Popup shortcuts"
 msgstr "میان‌برهای پنجره"
 
-#: prefs.js:240
+#: prefs.js:281
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "نام کلاس پنجره، مثل «KeePassXC»"
 
-#: prefs.js:249
+#: prefs.js:290
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "کلاس پنجره یا شناسهٔ برنامه، مثل «org.gnome.Ptyxis»"
 
-#: prefs.js:259
+#: prefs.js:300
 msgid "System"
 msgstr "سامانه"
 
-#: prefs.js:295
+#: prefs.js:336
 msgid "At mouse cursor"
 msgstr "در کنار مکان‌نمای موشواره"
 
-#: prefs.js:296
+#: prefs.js:337
 msgid "Center of focused window"
 msgstr "در مرکز پنجرهٔ کانونی"
 
-#: prefs.js:302
+#: prefs.js:342
 msgid "Toggle the clipboard popup"
 msgstr "نمایش/پنهان‌سازی پنجرهٔ تخته‌گیره"
 
-#: prefs.js:311
+#: prefs.js:343 src/panel/panelButton.js:97
+msgid "Private mode"
+msgstr "حالت خصوصی"
+
+#: prefs.js:344 src/panel/panelButton.js:113
+msgid "Clear history"
+msgstr "پاک‌سازی تاریخچه"
+
+#: prefs.js:348
 msgid "Search in popup"
 msgstr "جست‌وجو در پنجره"
 
-#: prefs.js:312
+#: prefs.js:349
 msgid "Delete selected entry"
 msgstr "حذف ورودی گزیده‌شده"
 
-#: prefs.js:313
+#: prefs.js:350
 msgid "Toggle private mode"
 msgstr "تغییر وضعیت حالت خصوصی"
 
-#: prefs.js:314
+#: prefs.js:351
 msgid "Next page"
 msgstr "صفحهٔ پسین"
 
-#: prefs.js:315
+#: prefs.js:352
 msgid "Previous page"
 msgstr "صفحهٔ پیشین"
 
-#: prefs.js:316
+#: prefs.js:353
 msgid "Move selection up"
 msgstr "جابه‌جایی گزینش به بالا"
 
-#: prefs.js:317
+#: prefs.js:354
 msgid "Move selection down"
 msgstr "جابه‌جایی گزینش به پایین"
 
-#: prefs.js:318
+#: prefs.js:355
 msgid "Confirm selection"
 msgstr "تأیید گزینش"
 
-#: prefs.js:319
+#: prefs.js:356
 msgid "Close popup"
 msgstr "بستن پنجره"
 
-#: prefs.js:320
+#: prefs.js:357
 msgid "Match case (while searching)"
 msgstr "حساسیت به نویسه (هنگام جست‌وجو)"
 
-#: prefs.js:321
+#: prefs.js:358
 msgid "Use regular expression (while searching)"
 msgstr "استفاده از عبارت باقاعده (هنگام جست‌وجو)"
 
-#: prefs.js:334
+#: prefs.js:359
+msgid "Toggle favorite on selected entry"
+msgstr "تغییر وضعیت علاقه‌مندی ورودی گزیده‌شده"
+
+#: prefs.js:360
+msgid "Open favorites or go back"
+msgstr "گشودن علاقه‌مندی‌ها یا بازگشت"
+
+#: prefs.js:361
+msgid "Quick select item 1"
+msgstr "گزینش سریع ورودی 1"
+
+#: prefs.js:362
+msgid "Quick select item 2"
+msgstr "گزینش سریع ورودی 2"
+
+#: prefs.js:363
+msgid "Quick select item 3"
+msgstr "گزینش سریع ورودی 3"
+
+#: prefs.js:364
+msgid "Quick select item 4"
+msgstr "گزینش سریع ورودی 4"
+
+#: prefs.js:365
+msgid "Quick select item 5"
+msgstr "گزینش سریع ورودی 5"
+
+#: prefs.js:366
+msgid "Quick select item 6"
+msgstr "گزینش سریع ورودی 6"
+
+#: prefs.js:367
+msgid "Quick select item 7"
+msgstr "گزینش سریع ورودی 7"
+
+#: prefs.js:368
+msgid "Quick select item 8"
+msgstr "گزینش سریع ورودی 8"
+
+#: prefs.js:369
+msgid "Quick select item 9"
+msgstr "گزینش سریع ورودی 9"
+
+#: prefs.js:370
+msgid "Quick select item 10"
+msgstr "گزینش سریع ورودی 10"
+
+#: prefs.js:383
 msgid "Enable shortcuts"
 msgstr "به کار اندازی میان‌برها"
 
-#: prefs.js:344
+#: prefs.js:393
 msgid "Show shortcut reminder icons"
 msgstr "نمایش شمایل‌های یادآور میان‌بر"
 
-#: prefs.js:345
+#: prefs.js:394
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "نمایش شمایل‌های یادآور میان‌بر در پایین پنجره"
 
-#: prefs.js:354
+#: prefs.js:403
 msgid "Reset shortcuts to defaults"
 msgstr "بازنشانی میان‌برها به پیش‌فرض"
 
-#: prefs.js:356
+#: prefs.js:405
 msgid "Reset"
 msgstr "بازنشانی"
 
-#: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-msgid "Add shortcut"
-msgstr "افزودن میان‌بر"
+#: src/wayToClipController.js:258
+msgid "Clear all?"
+msgstr "همه پاک شوند؟"
 
-#: prefs/shortcutRow.js:79
-msgid "Remove shortcut"
-msgstr "حذف میان‌بر"
+#: src/wayToClipController.js:259
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "آیا از حذف همهٔ موارد تخته‌گیره مطمئنید؟"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
+#: src/wayToClipController.js:260
+msgid "This operation cannot be undone."
+msgstr "این عملیات نمی‌تواند بازگردانی شود."
+
+#: src/wayToClipController.js:261
+msgid "Clear"
+msgstr "پاک‌سازی"
+
+#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+msgid "Cancel"
+msgstr "لغو"
+
+#: src/cursorPopup/popupLayoutPlacer.js:290
+msgid "Clipboard history is empty"
+msgstr "تاریخچهٔ تخته‌گیره خالی است"
+
+#: src/cursorPopup/popupLayoutPlacer.js:292
+msgid "No favorites yet"
+msgstr "هنوز علاقه‌مندی‌ای نیست"
+
+#: src/cursorPopup/popupLayoutPlacer.js:293
+msgid "No matching clipboard items"
+msgstr "موردی مطابق در تخته‌گیره نیست"
+
+#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
 msgid "Disabled"
 msgstr "از کار افتاده"
 
-#: prefs/shortcutRow.js:134
+#: src/cursorPopup/popupLocalShortcuts.js:77
+#, javascript-format
+msgid "Toggle search (%s)"
+msgstr "نمایش/پنهان‌سازی جست‌وجو (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:79
+#, javascript-format
+msgid "Toggle private mode (%s)"
+msgstr "تغییر وضعیت حالت خصوصی (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:85
+#, javascript-format
+msgid "Toggle favorite (%s)"
+msgstr "تغییر وضعیت علاقه‌مندی (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:88
+#, javascript-format
+msgid "Delete selected entry (%s)"
+msgstr "حذف ورودی گزیده‌شده (%s)"
+
+#: src/cursorPopup/popupSearchController.js:122
+#, javascript-format
+msgid "Match Case (%s)"
+msgstr "حساسیت به نویسه (%s)"
+
+#: src/cursorPopup/popupSearchController.js:129
+#, javascript-format
+msgid "Use Regular Expression (%s)"
+msgstr "استفاده از عبارت باقاعده (%s)"
+
+#: src/cursorPopup/popupUI.js:148
+msgid "Search..."
+msgstr "جست‌وجو…"
+
+#: src/cursorPopup/popupUI.js:291
+msgid "Match Case (Alt+C)"
+msgstr "حساسیت به نویسه (Alt+C)"
+
+#: src/cursorPopup/popupUI.js:293
+msgid "Use Regular Expression (Alt+R)"
+msgstr "استفاده از عبارت باقاعده (Alt+R)"
+
+#: src/cursorPopup/popupUI.js:370
+msgid "Toggle search (s)"
+msgstr "نمایش/پنهان‌سازی جست‌وجو (s)"
+
+#: src/cursorPopup/popupUI.js:372
+msgid "Toggle private mode (p)"
+msgstr "تغییر وضعیت حالت خصوصی (p)"
+
+#: src/cursorPopup/popupUI.js:374
+msgid "Toggle favorite (f)"
+msgstr "تغییر وضعیت علاقه‌مندی (f)"
+
+#: src/cursorPopup/popupUI.js:376
+msgid "Delete selected entry (d)"
+msgstr "حذف ورودی گزیده‌شده (d)"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Back"
+msgstr "بازگشت"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Favorites"
+msgstr "علاقه‌مندی‌ها"
+
+#: src/panel/panelButton.js:82
+msgid "Show clipboard popup"
+msgstr "نمایش پنجرهٔ تخته‌گیره"
+
+#: src/panel/panelButton.js:156
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+msgid "Add shortcut"
+msgstr "افزودن میان‌بر"
+
+#: prefs/shortcutRow.js:57
 msgid "Enter shortcut…"
 msgstr "میان‌بر را وارد کنید…"
+
+#: prefs/shortcutRow.js:154
+msgid "Remove shortcut"
+msgstr "حذف میان‌بر"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
@@ -301,60 +455,3 @@ msgstr "گزینش از میان برنامه‌های نصب‌شده"
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
 msgstr "جست‌وجوی برنامه‌ها…"
-
-#: cursor-popup/cursorPopup.js:335
-#, javascript-format
-msgid "Match Case (%s)"
-msgstr "حساسیت به نویسه (%s)"
-
-#: cursor-popup/cursorPopup.js:339
-#, javascript-format
-msgid "Use Regular Expression (%s)"
-msgstr "استفاده از عبارت باقاعده (%s)"
-
-#: cursor-popup/cursorPopup.js:376
-#, javascript-format
-msgid "Toggle search (%s)"
-msgstr "نمایش/پنهان‌سازی جست‌وجو (%s)"
-
-#: cursor-popup/cursorPopup.js:378
-#, javascript-format
-msgid "Toggle private mode (%s)"
-msgstr "تغییر وضعیت حالت خصوصی (%s)"
-
-#: cursor-popup/cursorPopup.js:380
-#, javascript-format
-msgid "Delete selected entry (%s)"
-msgstr "حذف ورودی گزیده‌شده (%s)"
-
-#: cursor-popup/cursorPopup.js:571
-msgid "Clipboard history is empty"
-msgstr "تاریخچهٔ تخته‌گیره خالی است"
-
-#: cursor-popup/cursorPopup.js:572
-msgid "No matching clipboard items"
-msgstr "موردی مطابق در تخته‌گیره نیست"
-
-#: cursor-popup/popupUI.js:101
-msgid "Search..."
-msgstr "جست‌وجو…"
-
-#: cursor-popup/popupUI.js:332
-msgid "Match Case (Alt+C)"
-msgstr "حساسیت به نویسه (Alt+C)"
-
-#: cursor-popup/popupUI.js:334
-msgid "Use Regular Expression (Alt+R)"
-msgstr "استفاده از عبارت باقاعده (Alt+R)"
-
-#: cursor-popup/popupUI.js:414
-msgid "Toggle search (s)"
-msgstr "نمایش/پنهان‌سازی جست‌وجو (s)"
-
-#: cursor-popup/popupUI.js:416
-msgid "Toggle private mode (p)"
-msgstr "تغییر وضعیت حالت خصوصی (p)"
-
-#: cursor-popup/popupUI.js:418
-msgid "Delete selected entry (d)"
-msgstr "حذف ورودی گزیده‌شده (d)"

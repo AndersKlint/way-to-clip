@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 16:53+0200\n"
+"POT-Creation-Date: 2026-09-16 11:53+0200\n"
 "PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,123 +18,109 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: extension.js:171
-msgid "Show clipboard popup"
-msgstr "클립보드 팝업 표시"
-
-#: extension.js:188 prefs.js:303
-msgid "Private mode"
-msgstr "프라이빗 모드"
-
-#: extension.js:201 prefs.js:304
-msgid "Clear history"
-msgstr "기록 지우기"
-
-#: extension.js:242
-msgid "Settings"
-msgstr "설정"
-
-#: extension.js:329
-msgid "Clear all?"
-msgstr "모두 지우시겠습니까?"
-
-#: extension.js:330
-msgid "Are you sure you want to delete all clipboard items?"
-msgstr "모든 클립보드 항목을 지우시겠습니까?"
-
-#: extension.js:331
-msgid "This operation cannot be undone."
-msgstr "이 동작은 되돌릴 수 없습니다."
-
-#: extension.js:332
-msgid "Clear"
-msgstr "지우기"
-
-#: extension.js:333 prefs/shortcutRow.js:127
-msgid "Cancel"
-msgstr "취소"
-
-#: prefs.js:46
+#: prefs.js:70
 msgid "History Size"
 msgstr "기록 크기"
 
-#: prefs.js:55
+#: prefs.js:79
 msgid "Max cache file size (MB)"
 msgstr "최대 캐시 파일 크기(MB)"
 
-#: prefs.js:64
+#: prefs.js:88
 msgid "Show confirmation on Clear History"
 msgstr "기록 지우기 시 확인 표시"
 
-#: prefs.js:68
+#: prefs.js:92
 msgid "Move item to the top after selection"
 msgstr "선택 후 항목을 맨 위로 이동"
 
-#: prefs.js:72
+#: prefs.js:96
 msgid "Keep selected entry after Clear History"
 msgstr "기록 지우기 후 선택한 항목 유지"
 
-#: prefs.js:76
+#: prefs.js:100
 msgid "Clear clipboard history on system reboot"
 msgstr "시스템 재부팅 시 클립보드 기록 지우기"
 
-#: prefs.js:80
+#: prefs.js:104
 msgid "Auto-paste on selection"
 msgstr "선택 시 자동 붙여넣기"
 
-#: prefs.js:81
+#: prefs.js:105
 msgid "Automatically paste after selecting an item from the popup"
 msgstr "팝업에서 항목을 선택한 후 자동으로 붙여넣기"
 
-#: prefs.js:85
+#: prefs.js:109
 msgid "Popup position"
 msgstr "팝업 위치"
 
-#: prefs.js:86
+#: prefs.js:110
 msgid "Where to show the clipboard popup"
 msgstr "클립보드 팝업을 표시할 위치"
 
-#: prefs.js:91
+#: prefs.js:115
 msgid "Limit number of pages"
 msgstr "페이지 수 제한"
 
-#: prefs.js:92
+#: prefs.js:116
 msgid "When off, the popup shows the full clipboard history"
 msgstr "끔으로 설정하면 팝업에 전체 클립보드 기록이 표시됩니다"
 
-#: prefs.js:96
+#: prefs.js:120
 msgid "Number of pages"
 msgstr "페이지 수"
 
-#: prefs.js:97
+#: prefs.js:121
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr "각 페이지에 10개의 항목 표시(Tab으로 페이지 이동)"
 
-#: prefs.js:106
+#: prefs.js:130
 msgid "Image thumbnail size (px)"
 msgstr "이미지 썸네일 크기(px)"
 
-#: prefs.js:107
+#: prefs.js:131
 msgid "Preview size for images in the popup"
 msgstr "팝업의 이미지 미리보기 크기"
 
-#: prefs.js:116
+#: prefs.js:140
 msgid "Cache images"
 msgstr "이미지 캐시"
 
-#: prefs.js:121
+#: prefs.js:141
+msgid ""
+"Save images to disk so they survive a restart. Otherwise they are kept in "
+"memory only"
+msgstr "다시 시작해도 유지되도록 이미지를 디스크에 저장합니다. 그렇지 않으면 메모리에만 보관됩니다"
+
+#: prefs.js:146
+msgid "Ignore secret clipboard types"
+msgstr "비밀 클립보드 형식 무시"
+
+#: prefs.js:147
+msgid "Skip content marked with a secret mimetype (password managers)"
+msgstr "비밀 MIME 형식으로 표시된 콘텐츠 건너뛰기(비밀번호 관리자)"
+
+#: prefs.js:151
+msgid "Enable favorites"
+msgstr "즐겨찾기 활성화"
+
+#: prefs.js:152
+msgid "Mark entries as favorites and browse them in the popup"
+msgstr "항목을 즐겨찾기로 표시하고 팝업에서 찾아보기"
+
+#: prefs.js:156
 msgid "Excluded Apps"
 msgstr "제외된 앱"
 
-#: prefs.js:122
+#: prefs.js:157
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr "이러한 앱에 포커스가 있는 동안 복사한 내용은 저장되지 않습니다"
 
-#: prefs.js:134
+#: prefs.js:169
 msgid "Terminal Apps"
 msgstr "터미널 앱"
 
-#: prefs.js:135
+#: prefs.js:170
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -142,157 +128,319 @@ msgstr ""
 "자동 붙여넣기는 터미널에서 Ctrl+Shift+V를 사용합니다. 붙여넣기 시 잘못된 텍스"
 "트가 입력되면 사용 중인 터미널을 추가하세요"
 
-#: prefs.js:147
+#: prefs.js:182
 msgid "Clear clipboard history on interval"
 msgstr "주기적으로 클립보드 기록 지우기"
 
-#: prefs.js:151
+#: prefs.js:186
 msgid "History clear interval (in minutes)"
 msgstr "기록 지우기 간격(분)"
 
-#: prefs.js:168
+#: prefs.js:205
 msgid "Language"
 msgstr "언어"
 
-#: prefs.js:169
+#: prefs.js:206
 msgid "Requires reopening Settings and restarting the extension"
 msgstr "설정을 다시 열고 확장 기능을 다시 시작해야 합니다"
 
-#: prefs.js:173
+#: prefs.js:210
 msgid "General"
 msgstr "일반"
 
-#: prefs.js:174
+#: prefs.js:211
 msgid "Popup"
 msgstr "팝업"
 
-#: prefs.js:175
+#: prefs.js:212
 msgid "Behavior"
 msgstr "동작"
 
-#: prefs.js:176
+#: prefs.js:213
 msgid "Exclusion"
 msgstr "제외"
 
-#: prefs.js:177
+#: prefs.js:214
 msgid "Limits"
 msgstr "제한"
 
-#: prefs.js:179
+#: prefs.js:216
 msgid "Global shortcuts"
 msgstr "전역 단축키"
 
-#: prefs.js:182
+#: prefs.js:221
 msgid "Disabled by default; assign a shortcut below to enable each action"
-msgstr ""
+msgstr "기본적으로 비활성화되어 있습니다. 각 동작을 활성화하려면 아래에서 단축키를 지정하세요"
 
-#: prefs.js:184
+#: prefs.js:223
 msgid "Popup shortcuts"
 msgstr "팝업 단축키"
 
-#: prefs.js:240
+#: prefs.js:281
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "창 클래스 이름(예: “KeePassXC”)"
 
-#: prefs.js:249
+#: prefs.js:290
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "창 클래스 또는 앱 ID(예: “org.gnome.Ptyxis”)"
 
-#: prefs.js:259
+#: prefs.js:300
 msgid "System"
 msgstr "시스템"
 
-#: prefs.js:295
+#: prefs.js:336
 msgid "At mouse cursor"
 msgstr "마우스 커서 위치"
 
-#: prefs.js:296
+#: prefs.js:337
 msgid "Center of focused window"
 msgstr "포커스된 창 중앙"
 
-#: prefs.js:302
+#: prefs.js:342
 msgid "Toggle the clipboard popup"
 msgstr "클립보드 팝업 표시 전환"
 
-#: prefs.js:311
+#: prefs.js:343 src/panel/panelButton.js:97
+msgid "Private mode"
+msgstr "프라이빗 모드"
+
+#: prefs.js:344 src/panel/panelButton.js:113
+msgid "Clear history"
+msgstr "기록 지우기"
+
+#: prefs.js:348
 msgid "Search in popup"
 msgstr "팝업에서 검색"
 
-#: prefs.js:312
+#: prefs.js:349
 msgid "Delete selected entry"
 msgstr "선택한 항목 삭제"
 
-#: prefs.js:313
+#: prefs.js:350
 msgid "Toggle private mode"
 msgstr "프라이빗 모드 전환"
 
-#: prefs.js:314
+#: prefs.js:351
 msgid "Next page"
 msgstr "다음 페이지"
 
-#: prefs.js:315
+#: prefs.js:352
 msgid "Previous page"
 msgstr "이전 페이지"
 
-#: prefs.js:316
+#: prefs.js:353
 msgid "Move selection up"
 msgstr "선택을 위로 이동"
 
-#: prefs.js:317
+#: prefs.js:354
 msgid "Move selection down"
 msgstr "선택을 아래로 이동"
 
-#: prefs.js:318
+#: prefs.js:355
 msgid "Confirm selection"
 msgstr "선택 확인"
 
-#: prefs.js:319
+#: prefs.js:356
 msgid "Close popup"
 msgstr "팝업 닫기"
 
-#: prefs.js:320
+#: prefs.js:357
 msgid "Match case (while searching)"
 msgstr "대소문자 구분(검색 시)"
 
-#: prefs.js:321
+#: prefs.js:358
 msgid "Use regular expression (while searching)"
 msgstr "정규식 사용(검색 시)"
 
-#: prefs.js:334
+#: prefs.js:359
+msgid "Toggle favorite on selected entry"
+msgstr "선택한 항목의 즐겨찾기 전환"
+
+#: prefs.js:360
+msgid "Open favorites or go back"
+msgstr "즐겨찾기 열기 또는 뒤로 가기"
+
+#: prefs.js:361
+msgid "Quick select item 1"
+msgstr "항목 1 빠른 선택"
+
+#: prefs.js:362
+msgid "Quick select item 2"
+msgstr "항목 2 빠른 선택"
+
+#: prefs.js:363
+msgid "Quick select item 3"
+msgstr "항목 3 빠른 선택"
+
+#: prefs.js:364
+msgid "Quick select item 4"
+msgstr "항목 4 빠른 선택"
+
+#: prefs.js:365
+msgid "Quick select item 5"
+msgstr "항목 5 빠른 선택"
+
+#: prefs.js:366
+msgid "Quick select item 6"
+msgstr "항목 6 빠른 선택"
+
+#: prefs.js:367
+msgid "Quick select item 7"
+msgstr "항목 7 빠른 선택"
+
+#: prefs.js:368
+msgid "Quick select item 8"
+msgstr "항목 8 빠른 선택"
+
+#: prefs.js:369
+msgid "Quick select item 9"
+msgstr "항목 9 빠른 선택"
+
+#: prefs.js:370
+msgid "Quick select item 10"
+msgstr "항목 10 빠른 선택"
+
+#: prefs.js:383
 msgid "Enable shortcuts"
 msgstr "단축키 활성화"
 
-#: prefs.js:344
+#: prefs.js:393
 msgid "Show shortcut reminder icons"
 msgstr "단축키 알림 아이콘 표시"
 
-#: prefs.js:345
+#: prefs.js:394
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "팝업 하단에 단축키 알림 아이콘 표시"
 
-#: prefs.js:354
+#: prefs.js:403
 msgid "Reset shortcuts to defaults"
 msgstr "단축키를 기본값으로 초기화"
 
-#: prefs.js:356
+#: prefs.js:405
 msgid "Reset"
 msgstr "초기화"
 
-#: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-msgid "Add shortcut"
-msgstr "단축키 추가"
+#: src/wayToClipController.js:258
+msgid "Clear all?"
+msgstr "모두 지우시겠습니까?"
 
-#: prefs/shortcutRow.js:79
-msgid "Remove shortcut"
-msgstr "단축키 제거"
+#: src/wayToClipController.js:259
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "모든 클립보드 항목을 지우시겠습니까?"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
+#: src/wayToClipController.js:260
+msgid "This operation cannot be undone."
+msgstr "이 동작은 되돌릴 수 없습니다."
+
+#: src/wayToClipController.js:261
+msgid "Clear"
+msgstr "지우기"
+
+#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+msgid "Cancel"
+msgstr "취소"
+
+#: src/cursorPopup/popupLayoutPlacer.js:290
+msgid "Clipboard history is empty"
+msgstr "클립보드 기록이 비어 있습니다"
+
+#: src/cursorPopup/popupLayoutPlacer.js:292
+msgid "No favorites yet"
+msgstr "아직 즐겨찾기가 없습니다"
+
+#: src/cursorPopup/popupLayoutPlacer.js:293
+msgid "No matching clipboard items"
+msgstr "일치하는 클립보드 항목이 없습니다"
+
+#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
 msgid "Disabled"
 msgstr "비활성화됨"
 
-#: prefs/shortcutRow.js:134
+#: src/cursorPopup/popupLocalShortcuts.js:77
+#, javascript-format
+msgid "Toggle search (%s)"
+msgstr "검색 표시 전환(%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:79
+#, javascript-format
+msgid "Toggle private mode (%s)"
+msgstr "프라이빗 모드 전환(%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:85
+#, javascript-format
+msgid "Toggle favorite (%s)"
+msgstr "즐겨찾기 전환(%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:88
+#, javascript-format
+msgid "Delete selected entry (%s)"
+msgstr "선택한 항목 삭제(%s)"
+
+#: src/cursorPopup/popupSearchController.js:122
+#, javascript-format
+msgid "Match Case (%s)"
+msgstr "대소문자 구분(%s)"
+
+#: src/cursorPopup/popupSearchController.js:129
+#, javascript-format
+msgid "Use Regular Expression (%s)"
+msgstr "정규식 사용(%s)"
+
+#: src/cursorPopup/popupUI.js:148
+msgid "Search..."
+msgstr "검색…"
+
+#: src/cursorPopup/popupUI.js:291
+msgid "Match Case (Alt+C)"
+msgstr "대소문자 구분(Alt+C)"
+
+#: src/cursorPopup/popupUI.js:293
+msgid "Use Regular Expression (Alt+R)"
+msgstr "정규식 사용(Alt+R)"
+
+#: src/cursorPopup/popupUI.js:370
+msgid "Toggle search (s)"
+msgstr "검색 표시 전환(s)"
+
+#: src/cursorPopup/popupUI.js:372
+msgid "Toggle private mode (p)"
+msgstr "프라이빗 모드 전환(p)"
+
+#: src/cursorPopup/popupUI.js:374
+msgid "Toggle favorite (f)"
+msgstr "즐겨찾기 전환(f)"
+
+#: src/cursorPopup/popupUI.js:376
+msgid "Delete selected entry (d)"
+msgstr "선택한 항목 삭제(d)"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Back"
+msgstr "뒤로"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Favorites"
+msgstr "즐겨찾기"
+
+#: src/panel/panelButton.js:82
+msgid "Show clipboard popup"
+msgstr "클립보드 팝업 표시"
+
+#: src/panel/panelButton.js:156
+msgid "Settings"
+msgstr "설정"
+
+#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+msgid "Add shortcut"
+msgstr "단축키 추가"
+
+#: prefs/shortcutRow.js:57
 msgid "Enter shortcut…"
 msgstr "단축키 입력…"
+
+#: prefs/shortcutRow.js:154
+msgid "Remove shortcut"
+msgstr "단축키 제거"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
@@ -301,60 +449,3 @@ msgstr "설치된 앱에서 선택"
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
 msgstr "앱 검색…"
-
-#: cursor-popup/cursorPopup.js:335
-#, javascript-format
-msgid "Match Case (%s)"
-msgstr "대소문자 구분(%s)"
-
-#: cursor-popup/cursorPopup.js:339
-#, javascript-format
-msgid "Use Regular Expression (%s)"
-msgstr "정규식 사용(%s)"
-
-#: cursor-popup/cursorPopup.js:376
-#, javascript-format
-msgid "Toggle search (%s)"
-msgstr "검색 표시 전환(%s)"
-
-#: cursor-popup/cursorPopup.js:378
-#, javascript-format
-msgid "Toggle private mode (%s)"
-msgstr "프라이빗 모드 전환(%s)"
-
-#: cursor-popup/cursorPopup.js:380
-#, javascript-format
-msgid "Delete selected entry (%s)"
-msgstr "선택한 항목 삭제(%s)"
-
-#: cursor-popup/cursorPopup.js:571
-msgid "Clipboard history is empty"
-msgstr "클립보드 기록이 비어 있습니다"
-
-#: cursor-popup/cursorPopup.js:572
-msgid "No matching clipboard items"
-msgstr "일치하는 클립보드 항목이 없습니다"
-
-#: cursor-popup/popupUI.js:101
-msgid "Search..."
-msgstr "검색…"
-
-#: cursor-popup/popupUI.js:332
-msgid "Match Case (Alt+C)"
-msgstr "대소문자 구분(Alt+C)"
-
-#: cursor-popup/popupUI.js:334
-msgid "Use Regular Expression (Alt+R)"
-msgstr "정규식 사용(Alt+R)"
-
-#: cursor-popup/popupUI.js:414
-msgid "Toggle search (s)"
-msgstr "검색 표시 전환(s)"
-
-#: cursor-popup/popupUI.js:416
-msgid "Toggle private mode (p)"
-msgstr "프라이빗 모드 전환(p)"
-
-#: cursor-popup/popupUI.js:418
-msgid "Delete selected entry (d)"
-msgstr "선택한 항목 삭제(d)"

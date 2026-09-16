@@ -11,9 +11,9 @@ compile-locales:
 		msgfmt $(file) -o $(subst .po,.mo,$(file));)
 
 update-po-files:
-	xgettext -L JavaScript --from-code=UTF-8 -k_ -kN_ -o waytoclip.pot *.js src/*/*.js prefs/*.js
+	xgettext -L JavaScript --from-code=UTF-8 -k_ -kN_ -o waytoclip.pot *.js src/*.js src/*/*.js prefs/*.js
 	$(foreach file, $(wildcard locale/*/LC_MESSAGES/*.po), \
-		msgmerge -U $(file) waytoclip.pot;)
+		msgmerge -N --backup=none -U $(file) waytoclip.pot;)
 
 # Regenerate the runtime override dictionaries from the .po files.
 # src/common/translations.js is committed so the extension works without a build step.

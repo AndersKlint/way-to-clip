@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-09 16:53+0200\n"
+"POT-Creation-Date: 2026-09-16 11:53+0200\n"
 "PO-Revision-Date: 2026-09-09 12:45+0200\n"
 "Last-Translator: p-sage <>\n"
 "Language-Team: French\n"
@@ -13,125 +13,115 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: extension.js:171
-msgid "Show clipboard popup"
-msgstr "Afficher la fenêtre du presse-papiers"
-
-#: extension.js:188 prefs.js:303
-msgid "Private mode"
-msgstr "Mode privé"
-
-#: extension.js:201 prefs.js:304
-msgid "Clear history"
-msgstr "Effacer l'historique"
-
-#: extension.js:242
-msgid "Settings"
-msgstr "Paramètres"
-
-#: extension.js:329
-msgid "Clear all?"
-msgstr "Tout effacer ?"
-
-#: extension.js:330
-msgid "Are you sure you want to delete all clipboard items?"
-msgstr "Êtes-vous sûr de vouloir vider le presse-papiers ?"
-
-#: extension.js:331
-msgid "This operation cannot be undone."
-msgstr "Cette action ne peut être annulée."
-
-#: extension.js:332
-msgid "Clear"
-msgstr "Effacer"
-
-#: extension.js:333 prefs/shortcutRow.js:127
-msgid "Cancel"
-msgstr "Annuler"
-
-#: prefs.js:46
+#: prefs.js:70
 msgid "History Size"
 msgstr "Taille de l'historique"
 
-#: prefs.js:55
+#: prefs.js:79
 msgid "Max cache file size (MB)"
 msgstr "Taille maximale du fichier cache (MB)"
 
-#: prefs.js:64
+#: prefs.js:88
 msgid "Show confirmation on Clear History"
 msgstr "Confirmer l'effacement de l'historique"
 
-#: prefs.js:68
+#: prefs.js:92
 msgid "Move item to the top after selection"
 msgstr "Déplacer l'élément vers le haut après la sélection"
 
-#: prefs.js:72
+#: prefs.js:96
 msgid "Keep selected entry after Clear History"
 msgstr "Conserver l'entrée sélectionnée après l'effacement de l'historique"
 
-#: prefs.js:76
+#: prefs.js:100
 msgid "Clear clipboard history on system reboot"
 msgstr "Effacer l'historique du presse-papiers au redémarrage du système"
 
-#: prefs.js:80
+#: prefs.js:104
 msgid "Auto-paste on selection"
 msgstr "Coller lors de la sélection"
 
-#: prefs.js:81
+#: prefs.js:105
 msgid "Automatically paste after selecting an item from the popup"
 msgstr "Coller automatiquement après la sélection d'un élément de la fenêtre"
 
-#: prefs.js:85
+#: prefs.js:109
 msgid "Popup position"
 msgstr "Position de la fenêtre"
 
-#: prefs.js:86
+#: prefs.js:110
 msgid "Where to show the clipboard popup"
 msgstr "Endroit où afficher la fenêtre du presse-papiers"
 
-#: prefs.js:91
+#: prefs.js:115
 msgid "Limit number of pages"
 msgstr "Limiter le nombre de pages"
 
-#: prefs.js:92
+#: prefs.js:116
 msgid "When off, the popup shows the full clipboard history"
 msgstr "Si désactivé, la fenêtre affiche tout l'historique du presse-papiers"
 
-#: prefs.js:96
+#: prefs.js:120
 msgid "Number of pages"
 msgstr "Nombre de pages"
 
-#: prefs.js:97
+#: prefs.js:121
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr "Chaque page affiche 10 éléments (Tab pour changer de page)"
 
-#: prefs.js:106
+#: prefs.js:130
 msgid "Image thumbnail size (px)"
 msgstr "Taille des miniatures d'images (px)"
 
-#: prefs.js:107
+#: prefs.js:131
 msgid "Preview size for images in the popup"
 msgstr "Taille d'aperçu des images dans la fenêtre"
 
-#: prefs.js:116
+#: prefs.js:140
 msgid "Cache images"
 msgstr "Mettre les images en cache"
 
-#: prefs.js:121
+#: prefs.js:141
+msgid ""
+"Save images to disk so they survive a restart. Otherwise they are kept in "
+"memory only"
+msgstr ""
+"Enregistrez les images sur le disque pour qu'elles survivent à un "
+"redémarrage. Sinon, elles ne sont conservées qu'en mémoire"
+
+#: prefs.js:146
+msgid "Ignore secret clipboard types"
+msgstr "Ignorer les types secrets du presse-papiers"
+
+#: prefs.js:147
+msgid "Skip content marked with a secret mimetype (password managers)"
+msgstr ""
+"Ignorer le contenu marqué d'un type MIME secret (gestionnaires de "
+"mots de passe)"
+
+#: prefs.js:151
+msgid "Enable favorites"
+msgstr "Activer les favoris"
+
+#: prefs.js:152
+msgid "Mark entries as favorites and browse them in the popup"
+msgstr "Marquez les entrées comme favorites et parcourez-les dans la fenêtre"
+
+#: prefs.js:156
 msgid "Excluded Apps"
 msgstr "Applications exclues"
 
-#: prefs.js:122
+#: prefs.js:157
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr ""
 "Le contenu copié ne sera pas enregistré tant que ces applications sont "
 "actives"
 
-#: prefs.js:134
+#: prefs.js:169
 msgid "Terminal Apps"
 msgstr "Terminaux"
 
-#: prefs.js:135
+#: prefs.js:170
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -139,158 +129,322 @@ msgstr ""
 "Le collage automatique utilise Ctrl+Maj+V dans les terminaux. Ajoutez votre "
 "terminal si le collage insère un texte incorrect"
 
-#: prefs.js:147
+#: prefs.js:182
 msgid "Clear clipboard history on interval"
 msgstr "Effacer l'historique du presse-papiers à intervalles réguliers"
 
-#: prefs.js:151
+#: prefs.js:186
 msgid "History clear interval (in minutes)"
 msgstr "Intervalle d'effacement de l'historique (en minutes)"
 
-#: prefs.js:168
+#: prefs.js:205
 msgid "Language"
 msgstr "Langue"
 
-#: prefs.js:169
+#: prefs.js:206
 msgid "Requires reopening Settings and restarting the extension"
 msgstr "Nécessite de rouvrir les Paramètres et de redémarrer l'extension"
 
-#: prefs.js:173
+#: prefs.js:210
 msgid "General"
 msgstr "Général"
 
-#: prefs.js:174
+#: prefs.js:211
 msgid "Popup"
 msgstr "Fenêtre"
 
-#: prefs.js:175
+#: prefs.js:212
 msgid "Behavior"
 msgstr "Comportement"
 
-#: prefs.js:176
+#: prefs.js:213
 msgid "Exclusion"
 msgstr "Exclusion"
 
-#: prefs.js:177
+#: prefs.js:214
 msgid "Limits"
 msgstr "Limites"
 
-#: prefs.js:179
+#: prefs.js:216
 msgid "Global shortcuts"
 msgstr "Raccourcis globaux"
 
-#: prefs.js:182
+#: prefs.js:221
 msgid "Disabled by default; assign a shortcut below to enable each action"
 msgstr ""
+"Désactivé par défaut ; attribuez un raccourci ci-dessous pour "
+"activer chaque action"
 
-#: prefs.js:184
+#: prefs.js:223
 msgid "Popup shortcuts"
 msgstr "Raccourcis de la fenêtre"
 
-#: prefs.js:240
+#: prefs.js:281
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Classe de fenêtre (ex. : « KeePassXC »)"
 
-#: prefs.js:249
+#: prefs.js:290
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr ""
 "Classe de fenêtre ou identifiant d'application (ex. : « org.gnome.Ptyxis »)"
 
-#: prefs.js:259
+#: prefs.js:300
 msgid "System"
 msgstr "Système"
 
-#: prefs.js:295
+#: prefs.js:336
 msgid "At mouse cursor"
 msgstr "Au curseur de la souris"
 
-#: prefs.js:296
+#: prefs.js:337
 msgid "Center of focused window"
 msgstr "Au centre de la fenêtre active"
 
-#: prefs.js:302
+#: prefs.js:342
 msgid "Toggle the clipboard popup"
 msgstr "Afficher/cacher la fenêtre du presse-papiers"
 
-#: prefs.js:311
+#: prefs.js:343 src/panel/panelButton.js:97
+msgid "Private mode"
+msgstr "Mode privé"
+
+#: prefs.js:344 src/panel/panelButton.js:113
+msgid "Clear history"
+msgstr "Effacer l'historique"
+
+#: prefs.js:348
 msgid "Search in popup"
 msgstr "Rechercher dans la fenêtre"
 
-#: prefs.js:312
+#: prefs.js:349
 msgid "Delete selected entry"
 msgstr "Supprimer l'entrée sélectionnée"
 
-#: prefs.js:313
+#: prefs.js:350
 msgid "Toggle private mode"
 msgstr "Activer/désactiver le mode privé"
 
-#: prefs.js:314
+#: prefs.js:351
 msgid "Next page"
 msgstr "Page suivante"
 
-#: prefs.js:315
+#: prefs.js:352
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: prefs.js:316
+#: prefs.js:353
 msgid "Move selection up"
 msgstr "Déplacer la sélection vers le haut"
 
-#: prefs.js:317
+#: prefs.js:354
 msgid "Move selection down"
 msgstr "Déplacer la sélection vers le bas"
 
-#: prefs.js:318
+#: prefs.js:355
 msgid "Confirm selection"
 msgstr "Confirmer la sélection"
 
-#: prefs.js:319
+#: prefs.js:356
 msgid "Close popup"
 msgstr "Fermer la fenêtre"
 
-#: prefs.js:320
+#: prefs.js:357
 msgid "Match case (while searching)"
 msgstr "Respecter la casse (pendant la recherche)"
 
-#: prefs.js:321
+#: prefs.js:358
 msgid "Use regular expression (while searching)"
 msgstr "Utiliser une expression rationnelle (pendant la recherche)"
 
-#: prefs.js:334
+#: prefs.js:359
+msgid "Toggle favorite on selected entry"
+msgstr "Activer/désactiver le favori de l'entrée sélectionnée"
+
+#: prefs.js:360
+msgid "Open favorites or go back"
+msgstr "Ouvrir les favoris ou revenir en arrière"
+
+#: prefs.js:361
+msgid "Quick select item 1"
+msgstr "Sélection rapide de l'entrée 1"
+
+#: prefs.js:362
+msgid "Quick select item 2"
+msgstr "Sélection rapide de l'entrée 2"
+
+#: prefs.js:363
+msgid "Quick select item 3"
+msgstr "Sélection rapide de l'entrée 3"
+
+#: prefs.js:364
+msgid "Quick select item 4"
+msgstr "Sélection rapide de l'entrée 4"
+
+#: prefs.js:365
+msgid "Quick select item 5"
+msgstr "Sélection rapide de l'entrée 5"
+
+#: prefs.js:366
+msgid "Quick select item 6"
+msgstr "Sélection rapide de l'entrée 6"
+
+#: prefs.js:367
+msgid "Quick select item 7"
+msgstr "Sélection rapide de l'entrée 7"
+
+#: prefs.js:368
+msgid "Quick select item 8"
+msgstr "Sélection rapide de l'entrée 8"
+
+#: prefs.js:369
+msgid "Quick select item 9"
+msgstr "Sélection rapide de l'entrée 9"
+
+#: prefs.js:370
+msgid "Quick select item 10"
+msgstr "Sélection rapide de l'entrée 10"
+
+#: prefs.js:383
 msgid "Enable shortcuts"
 msgstr "Activer les raccourcis"
 
-#: prefs.js:344
+#: prefs.js:393
 msgid "Show shortcut reminder icons"
 msgstr "Afficher les icônes de rappel des raccourcis"
 
-#: prefs.js:345
+#: prefs.js:394
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Afficher les icônes de rappel des raccourcis en bas de la fenêtre"
 
-#: prefs.js:354
+#: prefs.js:403
 msgid "Reset shortcuts to defaults"
 msgstr "Réinitialiser les raccourcis aux valeurs par défaut"
 
-#: prefs.js:356
+#: prefs.js:405
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: prefs/shortcutRow.js:42 prefs/shortcutRow.js:115
-msgid "Add shortcut"
-msgstr "Ajouter un raccourci"
+#: src/wayToClipController.js:258
+msgid "Clear all?"
+msgstr "Tout effacer ?"
 
-#: prefs/shortcutRow.js:79
-msgid "Remove shortcut"
-msgstr "Supprimer un raccourci"
+#: src/wayToClipController.js:259
+msgid "Are you sure you want to delete all clipboard items?"
+msgstr "Êtes-vous sûr de vouloir vider le presse-papiers ?"
 
-#: prefs/shortcutRow.js:96 cursor-popup/cursorPopup.js:364
+#: src/wayToClipController.js:260
+msgid "This operation cannot be undone."
+msgstr "Cette action ne peut être annulée."
+
+#: src/wayToClipController.js:261
+msgid "Clear"
+msgstr "Effacer"
+
+#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/cursorPopup/popupLayoutPlacer.js:290
+msgid "Clipboard history is empty"
+msgstr "L'historique du presse-papiers est vide"
+
+#: src/cursorPopup/popupLayoutPlacer.js:292
+msgid "No favorites yet"
+msgstr "Aucun favori pour le moment"
+
+#: src/cursorPopup/popupLayoutPlacer.js:293
+msgid "No matching clipboard items"
+msgstr "Aucun élément correspondant dans le presse-papiers"
+
+#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: prefs/shortcutRow.js:134
+#: src/cursorPopup/popupLocalShortcuts.js:77
+#, javascript-format
+msgid "Toggle search (%s)"
+msgstr "Afficher/cacher la recherche (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:79
+#, javascript-format
+msgid "Toggle private mode (%s)"
+msgstr "Activer/désactiver le mode privé (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:85
+#, javascript-format
+msgid "Toggle favorite (%s)"
+msgstr "Activer/désactiver le favori (%s)"
+
+#: src/cursorPopup/popupLocalShortcuts.js:88
+#, javascript-format
+msgid "Delete selected entry (%s)"
+msgstr "Supprimer l'entrée sélectionnée (%s)"
+
+#: src/cursorPopup/popupSearchController.js:122
+#, javascript-format
+msgid "Match Case (%s)"
+msgstr "Respecter la casse (%s)"
+
+#: src/cursorPopup/popupSearchController.js:129
+#, javascript-format
+msgid "Use Regular Expression (%s)"
+msgstr "Utiliser une expression rationnelle (%s)"
+
+#: src/cursorPopup/popupUI.js:148
+msgid "Search..."
+msgstr "Rechercher…"
+
+#: src/cursorPopup/popupUI.js:291
+msgid "Match Case (Alt+C)"
+msgstr "Respecter la casse (Alt+C)"
+
+#: src/cursorPopup/popupUI.js:293
+msgid "Use Regular Expression (Alt+R)"
+msgstr "Utiliser une expression rationnelle (Alt+R)"
+
+#: src/cursorPopup/popupUI.js:370
+msgid "Toggle search (s)"
+msgstr "Afficher/cacher la recherche (s)"
+
+#: src/cursorPopup/popupUI.js:372
+msgid "Toggle private mode (p)"
+msgstr "Activer/désactiver le mode privé (p)"
+
+#: src/cursorPopup/popupUI.js:374
+msgid "Toggle favorite (f)"
+msgstr "Activer/désactiver le favori (f)"
+
+#: src/cursorPopup/popupUI.js:376
+msgid "Delete selected entry (d)"
+msgstr "Supprimer l'entrée sélectionnée (d)"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Back"
+msgstr "Retour"
+
+#: src/cursorPopup/popupUI.js:408
+msgid "Favorites"
+msgstr "Favoris"
+
+#: src/panel/panelButton.js:82
+msgid "Show clipboard popup"
+msgstr "Afficher la fenêtre du presse-papiers"
+
+#: src/panel/panelButton.js:156
+msgid "Settings"
+msgstr "Paramètres"
+
+#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+msgid "Add shortcut"
+msgstr "Ajouter un raccourci"
+
+#: prefs/shortcutRow.js:57
 msgid "Enter shortcut…"
 msgstr "Entrer un raccourci…"
+
+#: prefs/shortcutRow.js:154
+msgid "Remove shortcut"
+msgstr "Supprimer un raccourci"
 
 #: prefs/stringListManager.js:101
 msgid "Choose from installed applications"
@@ -299,60 +453,3 @@ msgstr "Choisir parmi les applications installées"
 #: prefs/stringListManager.js:113
 msgid "Search applications..."
 msgstr "Rechercher des applications…"
-
-#: cursor-popup/cursorPopup.js:335
-#, javascript-format
-msgid "Match Case (%s)"
-msgstr "Respecter la casse (%s)"
-
-#: cursor-popup/cursorPopup.js:339
-#, javascript-format
-msgid "Use Regular Expression (%s)"
-msgstr "Utiliser une expression rationnelle (%s)"
-
-#: cursor-popup/cursorPopup.js:376
-#, javascript-format
-msgid "Toggle search (%s)"
-msgstr "Afficher/cacher la recherche (%s)"
-
-#: cursor-popup/cursorPopup.js:378
-#, javascript-format
-msgid "Toggle private mode (%s)"
-msgstr "Activer/désactiver le mode privé (%s)"
-
-#: cursor-popup/cursorPopup.js:380
-#, javascript-format
-msgid "Delete selected entry (%s)"
-msgstr "Supprimer l'entrée sélectionnée (%s)"
-
-#: cursor-popup/cursorPopup.js:571
-msgid "Clipboard history is empty"
-msgstr "L'historique du presse-papiers est vide"
-
-#: cursor-popup/cursorPopup.js:572
-msgid "No matching clipboard items"
-msgstr "Aucun élément correspondant dans le presse-papiers"
-
-#: cursor-popup/popupUI.js:101
-msgid "Search..."
-msgstr "Rechercher…"
-
-#: cursor-popup/popupUI.js:332
-msgid "Match Case (Alt+C)"
-msgstr "Respecter la casse (Alt+C)"
-
-#: cursor-popup/popupUI.js:334
-msgid "Use Regular Expression (Alt+R)"
-msgstr "Utiliser une expression rationnelle (Alt+R)"
-
-#: cursor-popup/popupUI.js:414
-msgid "Toggle search (s)"
-msgstr "Afficher/cacher la recherche (s)"
-
-#: cursor-popup/popupUI.js:416
-msgid "Toggle private mode (p)"
-msgstr "Activer/désactiver le mode privé (p)"
-
-#: cursor-popup/popupUI.js:418
-msgid "Delete selected entry (d)"
-msgstr "Supprimer l'entrée sélectionnée (d)"
