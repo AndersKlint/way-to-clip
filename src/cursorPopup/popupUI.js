@@ -527,7 +527,7 @@ export class PopupUIBuilder {
         return spaceAbove > spaceBelow ? 'above' : 'below';
     }
 
-    positionPopup(modalContainer, popup, x, y, monitor) {
+    positionPopup(modalContainer, popup, x, y, monitor, isAnchoredInCenter = false) {
         const { MARGIN, GAP_BELOW, GAP_ABOVE } = POPUP_GEOMETRY;
 
         const [, natW] = popup.get_preferred_width(-1);
@@ -538,6 +538,18 @@ export class PopupUIBuilder {
 
         const relX = x - monitor.x;
         const relY = y - monitor.y;
+
+        if (isAnchoredInCenter) {
+            const popupX = Math.max(MARGIN,
+                Math.min(relX - natW / 2, monitor.width - natW - MARGIN));
+            const popupY = Math.max(MARGIN,
+                Math.min(relY - natH / 2, monitor.height - natH - MARGIN));
+            popup.set_position(popupX, popupY);
+            return {
+                x: popupX, y: popupY, mode: 'center', isAnchoredInCenter: true,
+                centerX: relX, centerY: relY,
+            };
+        }
 
         const popupX = Math.max(MARGIN, Math.min(relX, monitor.width - natW - MARGIN));
 
@@ -554,7 +566,7 @@ export class PopupUIBuilder {
 
         popup.set_position(popupX, popupY);
 
-        return { x: popupX, y: popupY, mode, belowTopY, aboveBottomY };
+        return { x: popupX, y: popupY, mode, belowTopY, aboveBottomY, isAnchoredInCenter: false };
     }
 
     // re-glue after content changes, so the popup doesn't jump around
@@ -565,7 +577,9 @@ export class PopupUIBuilder {
         modalContainer.set_size(monitor.width, monitor.height);
 
         const [, natW] = popup.get_preferred_width(-1);
-        const availableW = Math.max(0, monitor.width - lock.x - MARGIN);
+        const availableW = lock.isAnchoredInCenter
+            ? Math.max(0, monitor.width - MARGIN * 2)
+            : Math.max(0, monitor.width - lock.x - MARGIN);
         if (natW > availableW) {
             popup.set_width(availableW);
         } else {
@@ -576,6 +590,16 @@ export class PopupUIBuilder {
             const [, h] = popup.get_preferred_height(
                 Math.min(natW, availableW));
             natH = h;
+        }
+
+        if (lock.isAnchoredInCenter) {
+            const effW = Math.min(natW, availableW);
+            const popupX = Math.max(MARGIN,
+                Math.min(lock.centerX - effW / 2, monitor.width - effW - MARGIN));
+            const popupY = Math.max(MARGIN,
+                Math.min(lock.centerY - natH / 2, monitor.height - natH - MARGIN));
+            popup.set_position(popupX, popupY);
+            return natH;
         }
 
         if (lock.mode === 'above') {
@@ -591,15 +615,19 @@ export class PopupUIBuilder {
         const { MARGIN } = POPUP_GEOMETRY;
         if (!lock || !monitor)
             return Infinity;
+        if (lock.isAnchoredInCenter)
+            return Math.max(0, monitor.height - MARGIN * 2);
         if (lock.mode === 'above')
             return Math.max(0, lock.aboveBottomY - MARGIN);
         return Math.max(0, monitor.height - lock.belowTopY - MARGIN);
     }
 
-    measurePopup(popup, monitor, lockedX) {
+    measurePopup(popup, monitor, lockedX, isAnchoredInCenter = false) {
         const { MARGIN } = POPUP_GEOMETRY;
         const [, natW] = popup.get_preferred_width(-1);
-        const availableW = Math.max(0, monitor.width - lockedX - MARGIN);
+        const availableW = isAnchoredInCenter
+            ? Math.max(0, monitor.width - MARGIN * 2)
+            : Math.max(0, monitor.width - lockedX - MARGIN);
         const effW = Math.min(natW, availableW);
         const [, natH] = popup.get_preferred_height(effW);
         return { natW, natH, availableW };

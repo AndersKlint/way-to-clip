@@ -31,6 +31,8 @@ export class PopupLayoutPlacer {
     #linesPerItem = DEFAULT_LINES_PER_ITEM;
     // Direction is settled once per open. Later pages keep it to avoid jumping.
     #isDirectionSettled = false;
+    // Centered popups stay dead centered instead of corner anchored.
+    #isAnchoredInCenter = false;
 
     #repositionIdleId = 0;
 
@@ -145,21 +147,26 @@ export class PopupLayoutPlacer {
 
     // initial placement: freeze the cursor edge into the lock. Runs staged so theme sizes are real.
     // Side is provisional (list is still empty), re-settled after items are built.
-    firstPosition(x, y, monitor) {
+    // Centered locks instead freeze the window center and keep the popup dead centered.
+    firstPosition(x, y, monitor, isAnchoredInCenter = false) {
         this.#anchorX = x;
         this.#anchorY = y;
         this.#monitor = monitor;
-        this.#isDirectionSettled = false;
+        this.#isAnchoredInCenter = !!isAnchoredInCenter;
+        this.#isDirectionSettled = !!isAnchoredInCenter;
 
         const ui = this.#popup.ui;
         const pos = this.#uiBuilder.positionPopup(
-            ui.modalContainer, ui.popupLayout, x, y, monitor
+            ui.modalContainer, ui.popupLayout, x, y, monitor, isAnchoredInCenter
         );
         this.#popupLock = {
             x: pos.x,
             mode: pos.mode,
             belowTopY: pos.belowTopY,
             aboveBottomY: pos.aboveBottomY,
+            isAnchoredInCenter: !!pos.isAnchoredInCenter,
+            centerX: pos.centerX,
+            centerY: pos.centerY,
         };
         ui.popupLayout.set_height(-1);
         ui.popupLayout.set_width(-1);
@@ -177,6 +184,7 @@ export class PopupLayoutPlacer {
         this.#anchorY = 0;
         this.#linesPerItem = DEFAULT_LINES_PER_ITEM;
         this.#isDirectionSettled = false;
+        this.#isAnchoredInCenter = false;
         this.cancelPendingReposition();
     }
 
@@ -191,6 +199,7 @@ export class PopupLayoutPlacer {
                 this.#anchorX,
                 this.#anchorY,
                 this.#monitor,
+                this.#isAnchoredInCenter,
             );
             return;
         }
@@ -201,7 +210,7 @@ export class PopupLayoutPlacer {
         this.#disableListScroll();
         this.#resetLayoutMeasure();
         const { natH } = this.#uiBuilder.measurePopup(
-            ui.popupLayout, this.#monitor, lock.x);
+            ui.popupLayout, this.#monitor, lock.x, lock.isAnchoredInCenter);
         const availH = this.#getAvailH();
 
         if (natH > availH && this.#linesPerItem > MIN_LINES_PER_ITEM) {
@@ -297,7 +306,7 @@ export class PopupLayoutPlacer {
             this.#disableListScroll();
             this.#resetLayoutMeasure();
             ({ natH: h } = this.#uiBuilder.measurePopup(
-                ui.popupLayout, this.#monitor, this.#popupLock.x));
+                ui.popupLayout, this.#monitor, this.#popupLock.x, this.#popupLock.isAnchoredInCenter));
             if (h <= this.#getAvailH())
                 break;
         }
@@ -355,7 +364,7 @@ export class PopupLayoutPlacer {
         }
         // too tall even squeezed: lock the cursor edge, scroll the rows
         const { availableW } = this.#uiBuilder.measurePopup(
-            ui.popupLayout, this.#monitor, this.#popupLock.x);
+            ui.popupLayout, this.#monitor, this.#popupLock.x, this.#popupLock.isAnchoredInCenter);
         const [, listNatH] = ui.listContainer.get_preferred_height(availableW);
         if (!Number.isFinite(listNatH)) {
             // measuring broke, just hard-cap so we stay on-screen
@@ -394,7 +403,7 @@ export class PopupLayoutPlacer {
         this.#buildPageItems(DEFAULT_LINES_PER_ITEM);
         if (!this.#isDirectionSettled) {
             const { natH } = this.#uiBuilder.measurePopup(
-                ui.popupLayout, this.#monitor, this.#popupLock.x);
+                ui.popupLayout, this.#monitor, this.#popupLock.x, this.#popupLock.isAnchoredInCenter);
             this.#popupLock.mode = this.#uiBuilder.decidePopupSide(
                 natH, this.#anchorY, this.#monitor);
             this.#isDirectionSettled = true;

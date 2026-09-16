@@ -84,7 +84,7 @@ export class CursorPopup {
         return this.#ui !== null;
     }
 
-    open(x, y, entries, monitor) {
+    open(x, y, entries, monitor, isAnchoredInCenter = false) {
         this.#selectionController.reset(entries);
         this.#searchController.reset();
 
@@ -97,7 +97,7 @@ export class CursorPopup {
         global.stage.add_child(ui.modalContainer);
 
         // stage before measuring: off-stage widgets get unthemed sizes and spam theme-node warnings
-        this.#layoutPlacer.firstPosition(x, y, monitor);
+        this.#layoutPlacer.firstPosition(x, y, monitor, isAnchoredInCenter);
 
         // clicks inside stop here, clicks outside hit the container below and close the popup
         ui.popupLayout.connect('button-press-event', () => {

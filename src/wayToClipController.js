@@ -340,15 +340,16 @@ export class WayToClipController {
         const monitor = global.display.get_current_monitor();
         const monitorGeometry = global.display.get_monitor_geometry(monitor);
 
-        if (this._settingsSnapshot.popupPositionMode === PopupPositionMode.WINDOW_CENTER && focusedWindow) {
+        const isAnchoredInCenter = this._settingsSnapshot.popupPositionMode === PopupPositionMode.WINDOW_CENTER && focusedWindow;
+        if (isAnchoredInCenter) {
             const rect = focusedWindow.get_frame_rect();
             x = rect.x + rect.width / 2;
-            y = rect.y + rect.height / 3;
+            y = rect.y + rect.height / 2;
         } else {
             [x, y] = global.get_pointer();
         }
 
-        this._cursorPopup.open(x, y, this._store.entries, monitorGeometry);
+        this._cursorPopup.open(x, y, this._store.entries, monitorGeometry, !!isAnchoredInCenter);
     }
 
     closeCursorPopup() {
