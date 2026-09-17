@@ -18,7 +18,7 @@ class ShortcutEditor extends Gtk.Box {
         });
         this._schema = schema;
         this._pref = pref;
-        this._debounceTimeoutId = 0;
+        this._pendingShortcut = null;
 
         const chips = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
@@ -68,11 +68,6 @@ class ShortcutEditor extends Gtk.Box {
 
             eventController.connect('key-pressed',
                 (_ec, keyval, keycode, mask) => {
-                    if (this._debounceTimeoutId) {
-                        clearTimeout(this._debounceTimeoutId);
-                        this._debounceTimeoutId = 0;
-                    }
-
                     mask &= Gtk.accelerator_get_default_mod_mask();
 
                     if (mask === 0) {
@@ -83,16 +78,32 @@ class ShortcutEditor extends Gtk.Box {
                         }
                     }
 
-                    const selectedShortcut = Gtk.accelerator_name_with_keycode(
+                    this._pendingShortcut = Gtk.accelerator_name_with_keycode(
                         null, keyval, keycode, mask);
 
-                    this._debounceTimeoutId = setTimeout(() => {
-                        this._debounceTimeoutId = 0;
-                        const current = this._getAccels();
-                        if (!current.includes(selectedShortcut))
-                            schema.set_strv(pref, [...current, selectedShortcut]);
-                        this._stopCapture();
-                    }, 400);
+                    return Gdk.EVENT_STOP;
+                });
+
+            eventController.connect('key-released',
+                (_ec, keyval, keycode, state) => {
+                    let releasedShortcut = this._pendingShortcut;
+                    if (!releasedShortcut) {
+                        state &= Gtk.accelerator_get_default_mod_mask();
+                        if (state === 0) {
+                            if (keyval === Gdk.KEY_Escape ||
+                                keyval === Gdk.KEY_BackSpace)
+                                return Gdk.EVENT_STOP;
+                        }
+                        releasedShortcut = Gtk.accelerator_name_with_keycode(
+                            null, keyval, keycode, state);
+                    }
+                    if (!releasedShortcut)
+                        return Gdk.EVENT_STOP;
+
+                    const current = this._getAccels();
+                    if (!current.includes(releasedShortcut))
+                        schema.set_strv(pref, [...current, releasedShortcut]);
+                    this._stopCapture();
 
                     return Gdk.EVENT_STOP;
                 });
@@ -108,10 +119,7 @@ class ShortcutEditor extends Gtk.Box {
     }
 
     destroy() {
-        if (this._debounceTimeoutId) {
-            clearTimeout(this._debounceTimeoutId);
-            this._debounceTimeoutId = 0;
-        }
+        this._pendingShortcut = null;
         if (this._captureController) {
             this._addButton.remove_controller(this._captureController);
             this._captureController = null;
@@ -180,10 +188,7 @@ class ShortcutEditor extends Gtk.Box {
     }
 
     _stopCapture() {
-        if (this._debounceTimeoutId) {
-            clearTimeout(this._debounceTimeoutId);
-            this._debounceTimeoutId = 0;
-        }
+        this._pendingShortcut = null;
         if (this._captureController) {
             this._addButton.remove_controller(this._captureController);
             this._captureController = null;
