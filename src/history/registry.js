@@ -1,11 +1,10 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
-import St from 'gi://St';
 import {PrefsFields} from '../common/constants.js';
 import {ClipboardEntry} from '../clipboard/clipboardEntry.js';
 import {error} from '../common/logger.js';
 
-// promisified lazily in the constructor so importing the module stays side-effect free
+// Tracks whether the Gio async methods have already been promisified in this process.
 let promisified = false;
 
 function ensurePromisified() {
@@ -215,23 +214,6 @@ export class Registry {
     #entryFileExists(entry) {
         const filename = this.getEntryFilename(entry);
         return GLib.file_test(filename, FileTest.EXISTS);
-    }
-
-    async getEntryAsImage(entry) {
-        if (!entry.isImage())
-            return null;
-
-        if (!this.#entryFileExists(entry)) {
-            try {
-                await this.writeEntryFile(entry);
-            } catch (e) {
-                error('failed to materialize image file', e);
-                return null;
-            }
-        }
-
-        const gicon = Gio.icon_new_for_string(this.getEntryFilename(entry));
-        return new St.Icon({gicon});
     }
 
     getEntryFilename(entry) {

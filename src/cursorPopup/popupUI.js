@@ -97,14 +97,9 @@ export class PopupUIBuilder {
         return this.#hoverTooltipTexts.get(actor) ?? fallback;
     }
 
-    // set_policy is 47+, older shells use the properties
     setScrollPolicies(scrollView, hPolicy, vPolicy) {
-        if (typeof scrollView.set_policy === 'function') {
-            scrollView.set_policy(hPolicy, vPolicy);
-        } else {
-            scrollView.hscrollbar_policy = hPolicy;
-            scrollView.vscrollbar_policy = vPolicy;
-        }
+        scrollView.hscrollbar_policy = hPolicy;
+        scrollView.vscrollbar_policy = vPolicy;
     }
 
     createModalContainer() {
