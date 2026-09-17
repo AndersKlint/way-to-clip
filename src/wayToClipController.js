@@ -427,6 +427,7 @@ export class WayToClipController {
         syncOverrideFromSettings(this._settingsManager.gio);
         this._settingsSnapshot = this._settingsManager.snapshot();
         this._cursorPopup.applySettings(this._settingsSnapshot);
+        this._updateShortcutRowVisibility();
     }
 
     // popup search toggles write back here. Gio write fires changed, which round-trips through _refreshSnapshot.
@@ -452,6 +453,12 @@ export class WayToClipController {
 
     resetClearTimer() {
         this._scheduler.schedule();
+    }
+
+    _updateShortcutRowVisibility() {
+        const shortcuts = this._settingsSnapshot.togglePopupShortcut ?? [];
+        const isTogglePopupShortcutUnset = shortcuts.length === 0;
+        this._panel.setTogglePopupShortcutVisible(isTogglePopupShortcutUnset);
     }
 
     openSettings() {

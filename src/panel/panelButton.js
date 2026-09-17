@@ -69,6 +69,12 @@ export const WayToClip = GObject.registerClass({
         this.timerLabel.set_text(text);
     }
 
+    // Only show "set popup keyboard shortcut" menu item if the user has not set a shortcut yet.
+    setTogglePopupShortcutVisible(isVisible) {
+        if (this.shortcutMenuItem)
+            this.shortcutMenuItem.visible = !!isVisible;
+    }
+
     closeMenu() {
         this.menu.close();
     }
@@ -91,6 +97,20 @@ export const WayToClip = GObject.registerClass({
         this.menu.addMenuItem(this.showPopupMenuItem);
         this.showPopupMenuItem.connect('activate', () => {
             this._handlers.onShowPopup();
+        });
+
+        this.shortcutMenuItem = new PopupMenu.PopupMenuItem(_('Set popup keyboard shortcut'));
+        this.shortcutMenuItem.insert_child_at_index(
+            new St.Icon({
+                icon_name: 'input-keyboard-symbolic',
+                style_class: 'waytoclip-menu-icon',
+                y_align: Clutter.ActorAlign.CENTER,
+            }),
+            0
+        );
+        this.menu.addMenuItem(this.shortcutMenuItem, 1);
+        this.shortcutMenuItem.connect('activate', () => {
+            this._handlers.onOpenSettings();
         });
 
         this.privateModeMenuItem = new PopupMenu.PopupSwitchMenuItem(

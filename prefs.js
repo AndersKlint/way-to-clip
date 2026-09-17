@@ -3,7 +3,8 @@ import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 import {ExtensionPreferences, gettext as nativeGettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {PrefsFields} from './src/common/constants.js';
-import {createShortcutEditor} from './prefs/shortcutRow.js';
+import {createShortcutEditor} from './prefs/shortcutEditor.js';
+import {ShortcutHighlighter} from './prefs/shortcutHighlight.js';
 import {StringListManager} from './prefs/stringListManager.js';
 import {
     AVAILABLE_LANGUAGES,
@@ -34,6 +35,7 @@ export default class WayToClipPreferences extends ExtensionPreferences {
         page.add(settingsUI.globalShortcuts);
         page.add(settingsUI.localShortcuts);
         window.add(page);
+        settingsUI.highlightTogglePopupIfUnset(window);
         window.connect('destroy', () => {
             settings.disconnect(languageChangedId);
             settingsUI.destroy();
@@ -43,6 +45,10 @@ export default class WayToClipPreferences extends ExtensionPreferences {
 
 class Settings {
     #disconnectors = [];
+
+    #togglePopupRow = null;
+
+    #shortcutHighlighter = null;
 
     #track(target, id) {
         this.#disconnectors.push(() => target.disconnect(id));
@@ -59,6 +65,10 @@ class Settings {
         if (this.terminalApps) {
             this.terminalApps.destroy();
             this.terminalApps = null;
+        }
+        if (this.#shortcutHighlighter) {
+            this.#shortcutHighlighter.destroy();
+            this.#shortcutHighlighter = null;
         }
         this.schema = null;
     }
@@ -371,11 +381,19 @@ class Settings {
     };
 
     #addShortcutRows(group, shortcuts) {
+        const rows = {};
         for (const [pref, title] of Object.entries(shortcuts)) {
             const row = new Adw.ActionRow({title});
-            row.add_suffix(createShortcutEditor(this.schema, pref));
+            const editor = createShortcutEditor(this.schema, pref);
+            row.add_suffix(editor);
             group.add(row);
+            rows[pref] = {row, editor};
         }
+        return rows;
+    }
+
+    #isTogglePopupShortcutUnset() {
+        return this.schema.get_strv(PrefsFields.BINDING_TOGGLE_POPUP).length === 0;
     }
 
     #buildGlobalShortcuts(group) {
@@ -384,8 +402,53 @@ class Settings {
         });
 
         group.add(this.field_keybinding_activation);
-        this.#addShortcutRows(group, this.#globalShortcuts);
+        const rows = this.#addShortcutRows(group, this.#globalShortcuts);
         this.#addResetRow(group, this.#globalShortcuts);
+        this.#togglePopupRow = rows[PrefsFields.BINDING_TOGGLE_POPUP] ?? null;
+        if (this.#togglePopupRow) {
+            this.#togglePopupRow.row.set_subtitle(
+                _('Suggested shortcuts: Alt+X, Alt+C, or Alt+V'));
+        }
+        this.#shortcutHighlighter = new ShortcutHighlighter();
+        this.#track(this.schema,
+            this.schema.connect(`changed::${PrefsFields.BINDING_TOGGLE_POPUP}`, () => {
+                this.#syncTogglePopupHighlight();
+            }));
+    }
+
+    highlightTogglePopupIfUnset(window) {
+        if (!this.#isTogglePopupShortcutUnset())
+            return;
+        if (window.get_mapped())
+            this.#syncTogglePopupHighlight();
+        else
+            this.#deferUntilMapped(window, () => this.#syncTogglePopupHighlight());
+    }
+
+    #syncTogglePopupHighlight() {
+        if (!this.#togglePopupRow)
+            return;
+        if (this.#isTogglePopupShortcutUnset()) {
+            this.#shortcutHighlighter.highlight(
+                this.#togglePopupRow.row, this.#togglePopupRow.editor);
+        } else {
+            this.#shortcutHighlighter.clear();
+        }
+    }
+
+    #deferUntilMapped(window, callback) {
+        let mapId = 0;
+        const stopListening = () => {
+            if (mapId) {
+                window.disconnect(mapId);
+                mapId = 0;
+            }
+        };
+        mapId = window.connect('map', () => {
+            stopListening();
+            callback();
+        });
+        this.#disconnectors.push(stopListening);
     }
 
     #buildLocalShortcuts(group) {

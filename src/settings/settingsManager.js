@@ -71,6 +71,7 @@ export class SettingsManager {
             ignoreSecretMimetypes,
             favoritesEnabled,
             localShortcuts: readLocalShortcuts(s),
+            togglePopupShortcut: s.get_strv(PrefsFields.BINDING_TOGGLE_POPUP),
             imagePreviewSize,
             language: readLanguage(s),
         };

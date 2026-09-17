@@ -192,6 +192,10 @@ class ShortcutEditor extends Gtk.Box {
         this._addButton.set_tooltip_text(_('Add shortcut'));
         this._render();
     }
+
+    focusAddButton() {
+        this._addButton.grab_focus();
+    }
 });
 
 export function createShortcutEditor(schema, pref) {
