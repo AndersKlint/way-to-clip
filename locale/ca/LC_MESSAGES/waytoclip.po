@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-clipboard-indicator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-16 11:53+0200\n"
+"POT-Creation-Date: 2026-09-17 12:54+0200\n"
 "PO-Revision-Date: 2026-09-09 13:14+0200\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: \n"
@@ -18,120 +18,118 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: prefs.js:70
+#: prefs.js:80
 msgid "History Size"
 msgstr "Mida de l’historial"
 
-#: prefs.js:79
+#: prefs.js:89
 msgid "Max cache file size (MB)"
 msgstr "Mida màxima del fitxer de memòria cau (MB)"
 
-#: prefs.js:88
+#: prefs.js:98
 msgid "Show confirmation on Clear History"
 msgstr "Mostra una confirmació en netejar l’historial"
 
-#: prefs.js:92
+#: prefs.js:102
 msgid "Move item to the top after selection"
 msgstr "Mou l'element al capdamunt després de seleccionar-lo"
 
-#: prefs.js:96
+#: prefs.js:106
 msgid "Keep selected entry after Clear History"
 msgstr "Conserva l'entrada seleccionada després de netejar l’historial"
 
-#: prefs.js:100
+#: prefs.js:110
 msgid "Clear clipboard history on system reboot"
 msgstr "Neteja l’historial del porta-retalls en reiniciar el sistema"
 
-#: prefs.js:104
+#: prefs.js:114
 msgid "Auto-paste on selection"
 msgstr "Enganxament automàtic en seleccionar"
 
-#: prefs.js:105
+#: prefs.js:115
 msgid "Automatically paste after selecting an item from the popup"
 msgstr ""
 "Enganxa automàticament després de seleccionar un element de la finestra "
 "emergent"
 
-#: prefs.js:109
+#: prefs.js:119
 msgid "Popup position"
 msgstr "Posició de la finestra emergent"
 
-#: prefs.js:110
+#: prefs.js:120
 msgid "Where to show the clipboard popup"
 msgstr "On es mostra la finestra emergent del porta-retalls"
 
-#: prefs.js:115
+#: prefs.js:125
 msgid "Limit number of pages"
 msgstr "Limita el nombre de pàgines"
 
-#: prefs.js:116
+#: prefs.js:126
 msgid "When off, the popup shows the full clipboard history"
 msgstr ""
 "Quan està desactivat, la finestra emergent mostra tot l’historial del porta-"
 "retalls"
 
-#: prefs.js:120
+#: prefs.js:130
 msgid "Number of pages"
 msgstr "Nombre de pàgines"
 
-#: prefs.js:121
+#: prefs.js:131
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr "Cada pàgina mostra 10 elements (Tab per navegar entre pàgines)"
 
-#: prefs.js:130
+#: prefs.js:140
 msgid "Image thumbnail size (px)"
 msgstr "Mida de les miniatures d'imatges (px)"
 
-#: prefs.js:131
+#: prefs.js:141
 msgid "Preview size for images in the popup"
 msgstr "Mida de la previsualització de les imatges a la finestra emergent"
 
-#: prefs.js:140
+#: prefs.js:150
 msgid "Cache images"
 msgstr "Desa les imatges a la memòria cau"
 
-#: prefs.js:141
+#: prefs.js:151
 msgid ""
 "Save images to disk so they survive a restart. Otherwise they are kept in "
 "memory only"
 msgstr ""
-"Desa les imatges al disc perquè sobrevisquin a un reinici. En cas "
-"contrari, només es conserven a la memòria"
+"Desa les imatges al disc perquè sobrevisquin a un reinici. En cas contrari, "
+"només es conserven a la memòria"
 
-#: prefs.js:146
+#: prefs.js:156
 msgid "Ignore secret clipboard types"
 msgstr "Ignora els tipus secrets del porta-retalls"
 
-#: prefs.js:147
+#: prefs.js:157
 msgid "Skip content marked with a secret mimetype (password managers)"
 msgstr ""
-"Omet el contingut marcat amb un tipus MIME secret (gestors de "
-"contrasenyes)"
+"Omet el contingut marcat amb un tipus MIME secret (gestors de contrasenyes)"
 
-#: prefs.js:151
+#: prefs.js:161
 msgid "Enable favorites"
 msgstr "Activa els preferits"
 
-#: prefs.js:152
+#: prefs.js:162
 msgid "Mark entries as favorites and browse them in the popup"
 msgstr ""
-"Marca les entrades com a preferides i fulleja-les a la finestra "
-"emergent"
+"Marca les entrades com a preferides i fulleja-les a la finestra emergent"
 
-#: prefs.js:156
+#: prefs.js:166
 msgid "Excluded Apps"
 msgstr "Aplicacions excloses"
 
-#: prefs.js:157
+#: prefs.js:167
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr ""
 "El contingut copiat no es desarà mentre aquestes aplicacions tinguin el focus"
 
-#: prefs.js:169
+#: prefs.js:179
 msgid "Terminal Apps"
 msgstr "Aplicacions de terminal"
 
-#: prefs.js:170
+#: prefs.js:180
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -139,199 +137,203 @@ msgstr ""
 "L'enganxament automàtic utilitza Ctrl+Maj+V als terminals. Afegeix el teu "
 "terminal si en enganxar s'insereix el text incorrecte"
 
-#: prefs.js:182
+#: prefs.js:192
 msgid "Clear clipboard history on interval"
 msgstr "Neteja l’historial del porta-retalls a intervals"
 
-#: prefs.js:186
+#: prefs.js:196
 msgid "History clear interval (in minutes)"
 msgstr "Interval de neteja de l’historial (en minuts)"
 
-#: prefs.js:205
+#: prefs.js:215
 msgid "Language"
 msgstr "Llengua"
 
-#: prefs.js:206
+#: prefs.js:216
 msgid "Requires reopening Settings and restarting the extension"
 msgstr "Requereix tornar a obrir els Paràmetres i reiniciar l'extensió"
 
-#: prefs.js:210
+#: prefs.js:220
 msgid "General"
 msgstr "General"
 
-#: prefs.js:211
+#: prefs.js:221
 msgid "Popup"
 msgstr "Finestra emergent"
 
-#: prefs.js:212
+#: prefs.js:222
 msgid "Behavior"
 msgstr "Comportament"
 
-#: prefs.js:213
+#: prefs.js:223
 msgid "Exclusion"
 msgstr "Exclusió"
 
-#: prefs.js:214
+#: prefs.js:224
 msgid "Limits"
 msgstr "Límits"
 
-#: prefs.js:216
+#: prefs.js:226
 msgid "Global shortcuts"
 msgstr "Dreceres de teclat globals"
 
-#: prefs.js:221
+#: prefs.js:231
 msgid "Disabled by default; assign a shortcut below to enable each action"
 msgstr ""
-"Desactivat per defecte; assigneu una drecera a continuació per "
-"activar cada acció"
+"Desactivat per defecte; assigneu una drecera a continuació per activar cada "
+"acció"
 
-#: prefs.js:223
+#: prefs.js:233
 msgid "Popup shortcuts"
 msgstr "Dreceres de teclat de la finestra emergent"
 
-#: prefs.js:281
+#: prefs.js:291
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Nom de classe de finestra, p. ex. «KeePassXC»"
 
-#: prefs.js:290
+#: prefs.js:300
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Classe de finestra o id d'aplicació, p. ex. «org.gnome.Ptyxis»"
 
-#: prefs.js:300
+#: prefs.js:310
 msgid "System"
 msgstr "Sistema"
 
-#: prefs.js:336
+#: prefs.js:346
 msgid "At mouse cursor"
 msgstr "Al cursor del ratolí"
 
-#: prefs.js:337
+#: prefs.js:347
 msgid "Center of focused window"
 msgstr "Al centre de la finestra enfocada"
 
-#: prefs.js:342
+#: prefs.js:352
 msgid "Toggle the clipboard popup"
 msgstr "Mostra/amaga la finestra emergent del porta-retalls"
 
-#: prefs.js:343 src/panel/panelButton.js:97
+#: prefs.js:353 src/panel/panelButton.js:117
 msgid "Private mode"
 msgstr "Mode privat"
 
-#: prefs.js:344 src/panel/panelButton.js:113
+#: prefs.js:354 src/panel/panelButton.js:133
 msgid "Clear history"
 msgstr "Esborra l’historial"
 
-#: prefs.js:348
+#: prefs.js:358
 msgid "Search in popup"
 msgstr "Cerca a la finestra emergent"
 
-#: prefs.js:349
+#: prefs.js:359
 msgid "Delete selected entry"
 msgstr "Suprimeix l'entrada seleccionada"
 
-#: prefs.js:350
+#: prefs.js:360
 msgid "Toggle private mode"
 msgstr "Commuta el mode privat"
 
-#: prefs.js:351
+#: prefs.js:361
 msgid "Next page"
 msgstr "Pàgina següent"
 
-#: prefs.js:352
+#: prefs.js:362
 msgid "Previous page"
 msgstr "Pàgina anterior"
 
-#: prefs.js:353
+#: prefs.js:363
 msgid "Move selection up"
 msgstr "Mou la selecció cap amunt"
 
-#: prefs.js:354
+#: prefs.js:364
 msgid "Move selection down"
 msgstr "Mou la selecció cap avall"
 
-#: prefs.js:355
+#: prefs.js:365
 msgid "Confirm selection"
 msgstr "Confirma la selecció"
 
-#: prefs.js:356
+#: prefs.js:366
 msgid "Close popup"
 msgstr "Tanca la finestra emergent"
 
-#: prefs.js:357
+#: prefs.js:367
 msgid "Match case (while searching)"
 msgstr "Distingeix majúscules (en cercar)"
 
-#: prefs.js:358
+#: prefs.js:368
 msgid "Use regular expression (while searching)"
 msgstr "Utilitza una expressió regular (en cercar)"
 
-#: prefs.js:359
+#: prefs.js:369
 msgid "Toggle favorite on selected entry"
 msgstr "Commuta el preferit de l'entrada seleccionada"
 
-#: prefs.js:360
+#: prefs.js:370
 msgid "Open favorites or go back"
 msgstr "Obre els preferits o torna enrere"
 
-#: prefs.js:361
+#: prefs.js:371
 msgid "Quick select item 1"
 msgstr "Selecció ràpida de l'entrada 1"
 
-#: prefs.js:362
+#: prefs.js:372
 msgid "Quick select item 2"
 msgstr "Selecció ràpida de l'entrada 2"
 
-#: prefs.js:363
+#: prefs.js:373
 msgid "Quick select item 3"
 msgstr "Selecció ràpida de l'entrada 3"
 
-#: prefs.js:364
+#: prefs.js:374
 msgid "Quick select item 4"
 msgstr "Selecció ràpida de l'entrada 4"
 
-#: prefs.js:365
+#: prefs.js:375
 msgid "Quick select item 5"
 msgstr "Selecció ràpida de l'entrada 5"
 
-#: prefs.js:366
+#: prefs.js:376
 msgid "Quick select item 6"
 msgstr "Selecció ràpida de l'entrada 6"
 
-#: prefs.js:367
+#: prefs.js:377
 msgid "Quick select item 7"
 msgstr "Selecció ràpida de l'entrada 7"
 
-#: prefs.js:368
+#: prefs.js:378
 msgid "Quick select item 8"
 msgstr "Selecció ràpida de l'entrada 8"
 
-#: prefs.js:369
+#: prefs.js:379
 msgid "Quick select item 9"
 msgstr "Selecció ràpida de l'entrada 9"
 
-#: prefs.js:370
+#: prefs.js:380
 msgid "Quick select item 10"
 msgstr "Selecció ràpida de l'entrada 10"
 
-#: prefs.js:383
+#: prefs.js:401
 msgid "Enable shortcuts"
 msgstr "Activa les dreceres de teclat"
 
-#: prefs.js:393
+#: prefs.js:410
+msgid "Suggested shortcuts: Alt+X, Alt+C, or Alt+V"
+msgstr "Dreceres suggerides: Alt+X, Alt+C o Alt+V"
+
+#: prefs.js:456
 msgid "Show shortcut reminder icons"
 msgstr "Mostra les icones de recordatori de dreceres"
 
-#: prefs.js:394
+#: prefs.js:457
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr ""
 "Mostra les icones de recordatori de dreceres a la part inferior de la "
 "finestra emergent"
 
-#: prefs.js:403
+#: prefs.js:466
 msgid "Reset shortcuts to defaults"
 msgstr "Restableix les dreceres per defecte"
 
-#: prefs.js:405
+#: prefs.js:468
 msgid "Reset"
 msgstr "Restableix"
 
@@ -351,116 +353,120 @@ msgstr "Aquesta operació no es pot desfer."
 msgid "Clear"
 msgstr "Esborra"
 
-#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+#: src/wayToClipController.js:262 prefs/shortcutEditor.js:50
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/cursorPopup/popupLayoutPlacer.js:290
+#: src/cursorPopup/popupLayoutPlacer.js:301
 msgid "Clipboard history is empty"
 msgstr "L'historial del porta-retalls és buit"
 
-#: src/cursorPopup/popupLayoutPlacer.js:292
+#: src/cursorPopup/popupLayoutPlacer.js:303
 msgid "No favorites yet"
 msgstr "Encara no hi ha preferits"
 
-#: src/cursorPopup/popupLayoutPlacer.js:293
+#: src/cursorPopup/popupLayoutPlacer.js:304
 msgid "No matching clipboard items"
 msgstr "Cap element coincident al porta-retalls"
 
-#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
+#: src/cursorPopup/popupLocalShortcuts.js:72 prefs/shortcutEditor.js:172
 msgid "Disabled"
 msgstr "Desactivat"
 
-#: src/cursorPopup/popupLocalShortcuts.js:77
+#: src/cursorPopup/popupLocalShortcuts.js:81
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Mostra/amaga la cerca (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:79
+#: src/cursorPopup/popupLocalShortcuts.js:83
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Commuta el mode privat (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:85
+#: src/cursorPopup/popupLocalShortcuts.js:89
 #, javascript-format
 msgid "Toggle favorite (%s)"
 msgstr "Commuta el preferit (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:88
+#: src/cursorPopup/popupLocalShortcuts.js:93
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Suprimeix l'entrada seleccionada (%s)"
 
-#: src/cursorPopup/popupSearchController.js:122
+#: src/cursorPopup/popupSearchController.js:130
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Distingeix majúscules (%s)"
 
-#: src/cursorPopup/popupSearchController.js:129
+#: src/cursorPopup/popupSearchController.js:137
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Utilitza una expressió regular (%s)"
 
-#: src/cursorPopup/popupUI.js:148
+#: src/cursorPopup/popupUI.js:145
 msgid "Search..."
 msgstr "Cerca…"
 
-#: src/cursorPopup/popupUI.js:291
+#: src/cursorPopup/popupUI.js:288
 msgid "Match Case (Alt+C)"
 msgstr "Distingeix majúscules (Alt+C)"
 
-#: src/cursorPopup/popupUI.js:293
+#: src/cursorPopup/popupUI.js:290
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Utilitza una expressió regular (Alt+R)"
 
-#: src/cursorPopup/popupUI.js:370
+#: src/cursorPopup/popupUI.js:367
 msgid "Toggle search (s)"
 msgstr "Mostra/amaga la cerca (s)"
 
-#: src/cursorPopup/popupUI.js:372
+#: src/cursorPopup/popupUI.js:369
 msgid "Toggle private mode (p)"
 msgstr "Commuta el mode privat (p)"
 
-#: src/cursorPopup/popupUI.js:374
+#: src/cursorPopup/popupUI.js:371
 msgid "Toggle favorite (f)"
 msgstr "Commuta el preferit (f)"
 
-#: src/cursorPopup/popupUI.js:376
+#: src/cursorPopup/popupUI.js:373
 msgid "Delete selected entry (d)"
 msgstr "Suprimeix l'entrada seleccionada (d)"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Back"
 msgstr "Enrere"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Favorites"
 msgstr "Preferits"
 
-#: src/panel/panelButton.js:82
+#: src/panel/panelButton.js:88
 msgid "Show clipboard popup"
 msgstr "Mostra la finestra emergent del porta-retalls"
 
-#: src/panel/panelButton.js:156
+#: src/panel/panelButton.js:102
+msgid "Set popup keyboard shortcut"
+msgstr "Estableix la drecera de teclat de la finestra emergent"
+
+#: src/panel/panelButton.js:176
 msgid "Settings"
 msgstr "Paràmetres"
 
-#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+#: prefs/shortcutEditor.js:36 prefs/shortcutEditor.js:192
 msgid "Add shortcut"
 msgstr "Afegeix una drecera"
 
-#: prefs/shortcutRow.js:57
+#: prefs/shortcutEditor.js:57
 msgid "Enter shortcut…"
 msgstr "Introdueix la drecera…"
 
-#: prefs/shortcutRow.js:154
+#: prefs/shortcutEditor.js:154
 msgid "Remove shortcut"
 msgstr "Suprimeix la drecera"
 
-#: prefs/stringListManager.js:101
+#: prefs/stringListManager.js:108
 msgid "Choose from installed applications"
 msgstr "Tria d'entre les aplicacions instal·lades"
 
-#: prefs/stringListManager.js:113
+#: prefs/stringListManager.js:120
 msgid "Search applications..."
 msgstr "Cerca aplicacions…"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-16 11:53+0200\n"
+"POT-Creation-Date: 2026-09-17 12:54+0200\n"
 "PO-Revision-Date: 2026-09-09 12:45+0200\n"
 "Last-Translator: bywkgexmkiltxh <ascdasvcfasx@outlook.com>\n"
 "Language-Team: Turkish <dev@pardus.org.tr>\n"
@@ -20,111 +20,111 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Gtranslator 48.0\n"
 
-#: prefs.js:70
+#: prefs.js:80
 msgid "History Size"
 msgstr "Geçmiş boyutu"
 
-#: prefs.js:79
+#: prefs.js:89
 msgid "Max cache file size (MB)"
 msgstr "En yüksek önbellek boyutu (MB)"
 
-#: prefs.js:88
+#: prefs.js:98
 msgid "Show confirmation on Clear History"
 msgstr "Geçmişi temizlerken onay iste"
 
-#: prefs.js:92
+#: prefs.js:102
 msgid "Move item to the top after selection"
 msgstr "Seçilen öğeyi en üste taşı"
 
-#: prefs.js:96
+#: prefs.js:106
 msgid "Keep selected entry after Clear History"
 msgstr "Seçili girdiyi geçmişi temizlerken sakla"
 
-#: prefs.js:100
+#: prefs.js:110
 msgid "Clear clipboard history on system reboot"
 msgstr "Pano geçmişini sistem yeniden başlatıldığında temizle"
 
-#: prefs.js:104
+#: prefs.js:114
 msgid "Auto-paste on selection"
 msgstr "Seçerken yapıştır"
 
-#: prefs.js:105
+#: prefs.js:115
 msgid "Automatically paste after selecting an item from the popup"
 msgstr "Açılır pencereden bir öğe seçtikten sonra otomatik olarak yapıştır"
 
-#: prefs.js:109
+#: prefs.js:119
 msgid "Popup position"
 msgstr "Açılır pencere konumu"
 
-#: prefs.js:110
+#: prefs.js:120
 msgid "Where to show the clipboard popup"
 msgstr "Pano penceresinin gösterileceği yer"
 
-#: prefs.js:115
+#: prefs.js:125
 msgid "Limit number of pages"
 msgstr "Sayfa sayısını sınırla"
 
-#: prefs.js:116
+#: prefs.js:126
 msgid "When off, the popup shows the full clipboard history"
 msgstr "Kapalıyken açılır pencere tüm pano geçmişini gösterir"
 
-#: prefs.js:120
+#: prefs.js:130
 msgid "Number of pages"
 msgstr "Sayfa sayısı"
 
-#: prefs.js:121
+#: prefs.js:131
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr "Her sayfa 10 öğe gösterir (sayfalar arası geçiş için Tab)"
 
-#: prefs.js:130
+#: prefs.js:140
 msgid "Image thumbnail size (px)"
 msgstr "Küçük resim boyutu (px)"
 
-#: prefs.js:131
+#: prefs.js:141
 msgid "Preview size for images in the popup"
 msgstr "Açılır penceredeki resimlerin önizleme boyutu"
 
-#: prefs.js:140
+#: prefs.js:150
 msgid "Cache images"
 msgstr "Resimleri önbellekte tut"
 
-#: prefs.js:141
+#: prefs.js:151
 msgid ""
 "Save images to disk so they survive a restart. Otherwise they are kept in "
 "memory only"
 msgstr ""
-"Resimleri yeniden başlatmaya dayanması için diske kaydedin. Aksi "
-"takdirde yalnızca bellekte tutulurlar"
+"Resimleri yeniden başlatmaya dayanması için diske kaydedin. Aksi takdirde "
+"yalnızca bellekte tutulurlar"
 
-#: prefs.js:146
+#: prefs.js:156
 msgid "Ignore secret clipboard types"
 msgstr "Gizli pano türlerini yoksay"
 
-#: prefs.js:147
+#: prefs.js:157
 msgid "Skip content marked with a secret mimetype (password managers)"
 msgstr "Gizli MIME türüyle işaretli içeriği atla (parola yöneticileri)"
 
-#: prefs.js:151
+#: prefs.js:161
 msgid "Enable favorites"
 msgstr "Favorileri etkinleştir"
 
-#: prefs.js:152
+#: prefs.js:162
 msgid "Mark entries as favorites and browse them in the popup"
 msgstr "Girdileri favori olarak işaretleyin ve açılır pencerede göz atın"
 
-#: prefs.js:156
+#: prefs.js:166
 msgid "Excluded Apps"
 msgstr "Dışlanan Uygulamalar"
 
-#: prefs.js:157
+#: prefs.js:167
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr "Bu uygulamalar odaklanmışsa kopyalanan içerikler kaydedilmeyecek"
 
-#: prefs.js:169
+#: prefs.js:179
 msgid "Terminal Apps"
 msgstr "Uçbirim Uygulamaları"
 
-#: prefs.js:170
+#: prefs.js:180
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -132,198 +132,202 @@ msgstr ""
 "Otomatik yapıştırma, uçbirimlerde Ctrl+Shift+V kullanır. Yapıştırma yanlış "
 "metin eklerse uçbiriminizi ekleyin"
 
-#: prefs.js:182
+#: prefs.js:192
 msgid "Clear clipboard history on interval"
 msgstr "Pano geçmişini düzenli aralıklarla temizle"
 
-#: prefs.js:186
+#: prefs.js:196
 msgid "History clear interval (in minutes)"
 msgstr "Geçmiş temizleme aralığı (dakika olarak)"
 
-#: prefs.js:205
+#: prefs.js:215
 msgid "Language"
 msgstr "Dil"
 
-#: prefs.js:206
+#: prefs.js:216
 msgid "Requires reopening Settings and restarting the extension"
 msgstr ""
 "Ayarların yeniden açılmasını ve eklentinin yeniden başlatılmasını gerektirir"
 
-#: prefs.js:210
+#: prefs.js:220
 msgid "General"
 msgstr "Genel"
 
-#: prefs.js:211
+#: prefs.js:221
 msgid "Popup"
 msgstr "Açılır pencere"
 
-#: prefs.js:212
+#: prefs.js:222
 msgid "Behavior"
 msgstr "Davranış"
 
-#: prefs.js:213
+#: prefs.js:223
 msgid "Exclusion"
 msgstr "Dışlama"
 
-#: prefs.js:214
+#: prefs.js:224
 msgid "Limits"
 msgstr "Sınırlamalar"
 
-#: prefs.js:216
+#: prefs.js:226
 msgid "Global shortcuts"
 msgstr "Genel kısayollar"
 
-#: prefs.js:221
+#: prefs.js:231
 msgid "Disabled by default; assign a shortcut below to enable each action"
 msgstr ""
-"Varsayılan olarak devre dışı; her eylemi etkinleştirmek için "
-"aşağıdan bir kısayol atayın"
+"Varsayılan olarak devre dışı; her eylemi etkinleştirmek için aşağıdan bir "
+"kısayol atayın"
 
-#: prefs.js:223
+#: prefs.js:233
 msgid "Popup shortcuts"
 msgstr "Açılır pencere kısayolları"
 
-#: prefs.js:281
+#: prefs.js:291
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Pencere sınıf adı, örn. \"KeePassXC\""
 
-#: prefs.js:290
+#: prefs.js:300
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Pencere sınıfı veya uygulama kimliği, örn. \"org.gnome.Ptyxis\""
 
-#: prefs.js:300
+#: prefs.js:310
 msgid "System"
 msgstr "Sistem"
 
-#: prefs.js:336
+#: prefs.js:346
 msgid "At mouse cursor"
 msgstr "Fare imlecinde"
 
-#: prefs.js:337
+#: prefs.js:347
 msgid "Center of focused window"
 msgstr "Odaklanılan pencerenin ortasında"
 
-#: prefs.js:342
+#: prefs.js:352
 msgid "Toggle the clipboard popup"
 msgstr "Pano penceresini aç/kapat"
 
-#: prefs.js:343 src/panel/panelButton.js:97
+#: prefs.js:353 src/panel/panelButton.js:117
 msgid "Private mode"
 msgstr "Gizli kip"
 
-#: prefs.js:344 src/panel/panelButton.js:113
+#: prefs.js:354 src/panel/panelButton.js:133
 msgid "Clear history"
 msgstr "Geçmişi temizle"
 
-#: prefs.js:348
+#: prefs.js:358
 msgid "Search in popup"
 msgstr "Açılır pencerede ara"
 
-#: prefs.js:349
+#: prefs.js:359
 msgid "Delete selected entry"
 msgstr "Seçili girdiyi sil"
 
-#: prefs.js:350
+#: prefs.js:360
 msgid "Toggle private mode"
 msgstr "Gizli kipi aç/kapat"
 
-#: prefs.js:351
+#: prefs.js:361
 msgid "Next page"
 msgstr "Sonraki sayfa"
 
-#: prefs.js:352
+#: prefs.js:362
 msgid "Previous page"
 msgstr "Önceki sayfa"
 
-#: prefs.js:353
+#: prefs.js:363
 msgid "Move selection up"
 msgstr "Seçimi yukarı taşı"
 
-#: prefs.js:354
+#: prefs.js:364
 msgid "Move selection down"
 msgstr "Seçimi aşağı taşı"
 
-#: prefs.js:355
+#: prefs.js:365
 msgid "Confirm selection"
 msgstr "Seçimi onayla"
 
-#: prefs.js:356
+#: prefs.js:366
 msgid "Close popup"
 msgstr "Açılır pencereyi kapat"
 
-#: prefs.js:357
+#: prefs.js:367
 msgid "Match case (while searching)"
 msgstr "Büyük/küçük harf eşleştir (ararken)"
 
-#: prefs.js:358
+#: prefs.js:368
 msgid "Use regular expression (while searching)"
 msgstr "Düzenli ifade kullan (ararken)"
 
-#: prefs.js:359
+#: prefs.js:369
 msgid "Toggle favorite on selected entry"
 msgstr "Seçili girdinin favori durumunu aç/kapat"
 
-#: prefs.js:360
+#: prefs.js:370
 msgid "Open favorites or go back"
 msgstr "Favorileri aç veya geri dön"
 
-#: prefs.js:361
+#: prefs.js:371
 msgid "Quick select item 1"
 msgstr "Girdi 1'yi hızlı seç"
 
-#: prefs.js:362
+#: prefs.js:372
 msgid "Quick select item 2"
 msgstr "Girdi 2'yi hızlı seç"
 
-#: prefs.js:363
+#: prefs.js:373
 msgid "Quick select item 3"
 msgstr "Girdi 3'yi hızlı seç"
 
-#: prefs.js:364
+#: prefs.js:374
 msgid "Quick select item 4"
 msgstr "Girdi 4'yi hızlı seç"
 
-#: prefs.js:365
+#: prefs.js:375
 msgid "Quick select item 5"
 msgstr "Girdi 5'yi hızlı seç"
 
-#: prefs.js:366
+#: prefs.js:376
 msgid "Quick select item 6"
 msgstr "Girdi 6'yi hızlı seç"
 
-#: prefs.js:367
+#: prefs.js:377
 msgid "Quick select item 7"
 msgstr "Girdi 7'yi hızlı seç"
 
-#: prefs.js:368
+#: prefs.js:378
 msgid "Quick select item 8"
 msgstr "Girdi 8'yi hızlı seç"
 
-#: prefs.js:369
+#: prefs.js:379
 msgid "Quick select item 9"
 msgstr "Girdi 9'yi hızlı seç"
 
-#: prefs.js:370
+#: prefs.js:380
 msgid "Quick select item 10"
 msgstr "Girdi 10'yi hızlı seç"
 
-#: prefs.js:383
+#: prefs.js:401
 msgid "Enable shortcuts"
 msgstr "Kısayolları etkinleştir"
 
-#: prefs.js:393
+#: prefs.js:410
+msgid "Suggested shortcuts: Alt+X, Alt+C, or Alt+V"
+msgstr "Önerilen kısayollar: Alt+X, Alt+C veya Alt+V"
+
+#: prefs.js:456
 msgid "Show shortcut reminder icons"
 msgstr "Kısayol hatırlatma simgelerini göster"
 
-#: prefs.js:394
+#: prefs.js:457
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Kısayol hatırlatma simgelerini açılır pencerenin altında göster"
 
-#: prefs.js:403
+#: prefs.js:466
 msgid "Reset shortcuts to defaults"
 msgstr "Kısayolları varsayılanlara sıfırla"
 
-#: prefs.js:405
+#: prefs.js:468
 msgid "Reset"
 msgstr "Sıfırla"
 
@@ -343,116 +347,120 @@ msgstr "Bu işlem geri alınamaz."
 msgid "Clear"
 msgstr "Temizle"
 
-#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+#: src/wayToClipController.js:262 prefs/shortcutEditor.js:50
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/cursorPopup/popupLayoutPlacer.js:290
+#: src/cursorPopup/popupLayoutPlacer.js:301
 msgid "Clipboard history is empty"
 msgstr "Pano geçmişi boş"
 
-#: src/cursorPopup/popupLayoutPlacer.js:292
+#: src/cursorPopup/popupLayoutPlacer.js:303
 msgid "No favorites yet"
 msgstr "Henüz favori yok"
 
-#: src/cursorPopup/popupLayoutPlacer.js:293
+#: src/cursorPopup/popupLayoutPlacer.js:304
 msgid "No matching clipboard items"
 msgstr "Eşleşen pano öğesi yok"
 
-#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
+#: src/cursorPopup/popupLocalShortcuts.js:72 prefs/shortcutEditor.js:172
 msgid "Disabled"
 msgstr "Devre dışı"
 
-#: src/cursorPopup/popupLocalShortcuts.js:77
+#: src/cursorPopup/popupLocalShortcuts.js:81
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Aramayı aç/kapat (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:79
+#: src/cursorPopup/popupLocalShortcuts.js:83
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Gizli kipi aç/kapat (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:85
+#: src/cursorPopup/popupLocalShortcuts.js:89
 #, javascript-format
 msgid "Toggle favorite (%s)"
 msgstr "Favoriyi aç/kapat (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:88
+#: src/cursorPopup/popupLocalShortcuts.js:93
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Seçili girdiyi sil (%s)"
 
-#: src/cursorPopup/popupSearchController.js:122
+#: src/cursorPopup/popupSearchController.js:130
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Büyük/küçük harf eşleştir (%s)"
 
-#: src/cursorPopup/popupSearchController.js:129
+#: src/cursorPopup/popupSearchController.js:137
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Düzenli ifade kullan (%s)"
 
-#: src/cursorPopup/popupUI.js:148
+#: src/cursorPopup/popupUI.js:145
 msgid "Search..."
 msgstr "Ara…"
 
-#: src/cursorPopup/popupUI.js:291
+#: src/cursorPopup/popupUI.js:288
 msgid "Match Case (Alt+C)"
 msgstr "Büyük/küçük harf eşleştir (Alt+C)"
 
-#: src/cursorPopup/popupUI.js:293
+#: src/cursorPopup/popupUI.js:290
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Düzenli ifade kullan (Alt+R)"
 
-#: src/cursorPopup/popupUI.js:370
+#: src/cursorPopup/popupUI.js:367
 msgid "Toggle search (s)"
 msgstr "Aramayı aç/kapat (s)"
 
-#: src/cursorPopup/popupUI.js:372
+#: src/cursorPopup/popupUI.js:369
 msgid "Toggle private mode (p)"
 msgstr "Gizli kipi aç/kapat (p)"
 
-#: src/cursorPopup/popupUI.js:374
+#: src/cursorPopup/popupUI.js:371
 msgid "Toggle favorite (f)"
 msgstr "Favoriyi aç/kapat (f)"
 
-#: src/cursorPopup/popupUI.js:376
+#: src/cursorPopup/popupUI.js:373
 msgid "Delete selected entry (d)"
 msgstr "Seçili girdiyi sil (d)"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Back"
 msgstr "Geri"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Favorites"
 msgstr "Favoriler"
 
-#: src/panel/panelButton.js:82
+#: src/panel/panelButton.js:88
 msgid "Show clipboard popup"
 msgstr "Pano penceresini göster"
 
-#: src/panel/panelButton.js:156
+#: src/panel/panelButton.js:102
+msgid "Set popup keyboard shortcut"
+msgstr "Pencere klavye kısayolunu ayarla"
+
+#: src/panel/panelButton.js:176
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+#: prefs/shortcutEditor.js:36 prefs/shortcutEditor.js:192
 msgid "Add shortcut"
 msgstr "Kısayol ekle"
 
-#: prefs/shortcutRow.js:57
+#: prefs/shortcutEditor.js:57
 msgid "Enter shortcut…"
 msgstr "Kısayol gir…"
 
-#: prefs/shortcutRow.js:154
+#: prefs/shortcutEditor.js:154
 msgid "Remove shortcut"
 msgstr "Kısayolu kaldır"
 
-#: prefs/stringListManager.js:101
+#: prefs/stringListManager.js:108
 msgid "Choose from installed applications"
 msgstr "Kurulu uygulamalardan seç"
 
-#: prefs/stringListManager.js:113
+#: prefs/stringListManager.js:120
 msgid "Search applications..."
 msgstr "Uygulama ara…"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-16 11:53+0200\n"
+"POT-Creation-Date: 2026-09-17 12:54+0200\n"
 "PO-Revision-Date: 2026-09-09 13:11+0200\n"
 "Last-Translator: Yevhen Popok <xalt7x.service@gmail.com>\n"
 "Language-Team: \n"
@@ -20,111 +20,111 @@ msgstr ""
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Poedit 3.4.4\n"
 
-#: prefs.js:70
+#: prefs.js:80
 msgid "History Size"
 msgstr "Розмір історії"
 
-#: prefs.js:79
+#: prefs.js:89
 msgid "Max cache file size (MB)"
 msgstr "Максимальний розмір кешу (МБ)"
 
-#: prefs.js:88
+#: prefs.js:98
 msgid "Show confirmation on Clear History"
 msgstr "Підтверджувати очищення історії"
 
-#: prefs.js:92
+#: prefs.js:102
 msgid "Move item to the top after selection"
 msgstr "Переміщувати вибраний елемент вгору"
 
-#: prefs.js:96
+#: prefs.js:106
 msgid "Keep selected entry after Clear History"
 msgstr "Зберігати вибраний запис після очищення історії"
 
-#: prefs.js:100
+#: prefs.js:110
 msgid "Clear clipboard history on system reboot"
 msgstr "Очищати історію буфера обміну під час перезапуску"
 
-#: prefs.js:104
+#: prefs.js:114
 msgid "Auto-paste on selection"
 msgstr "Автовставлення під час вибору"
 
-#: prefs.js:105
+#: prefs.js:115
 msgid "Automatically paste after selecting an item from the popup"
 msgstr "Автоматично вставляти після вибору елемента зі спливного вікна"
 
-#: prefs.js:109
+#: prefs.js:119
 msgid "Popup position"
 msgstr "Положення спливного вікна"
 
-#: prefs.js:110
+#: prefs.js:120
 msgid "Where to show the clipboard popup"
 msgstr "Місце показу спливного вікна буфера обміну"
 
-#: prefs.js:115
+#: prefs.js:125
 msgid "Limit number of pages"
 msgstr "Обмежити кількість сторінок"
 
-#: prefs.js:116
+#: prefs.js:126
 msgid "When off, the popup shows the full clipboard history"
 msgstr "Якщо вимкнено, спливне вікно показує всю історію буфера обміну"
 
-#: prefs.js:120
+#: prefs.js:130
 msgid "Number of pages"
 msgstr "Кількість сторінок"
 
-#: prefs.js:121
+#: prefs.js:131
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr "Кожна сторінка показує 10 елементів (Tab для переходу між сторінками)"
 
-#: prefs.js:130
+#: prefs.js:140
 msgid "Image thumbnail size (px)"
 msgstr "Розмір мініатюр зображень (px)"
 
-#: prefs.js:131
+#: prefs.js:141
 msgid "Preview size for images in the popup"
 msgstr "Розмір попереднього перегляду зображень у спливному вікні"
 
-#: prefs.js:140
+#: prefs.js:150
 msgid "Cache images"
 msgstr "Кешувати зображення"
 
-#: prefs.js:141
+#: prefs.js:151
 msgid ""
 "Save images to disk so they survive a restart. Otherwise they are kept in "
 "memory only"
 msgstr ""
-"Зберігайте зображення на диск, щоб вони пережили перезапуск. Інакше "
-"вони зберігаються лише в пам'яті"
+"Зберігайте зображення на диск, щоб вони пережили перезапуск. Інакше вони "
+"зберігаються лише в пам'яті"
 
-#: prefs.js:146
+#: prefs.js:156
 msgid "Ignore secret clipboard types"
 msgstr "Ігнорувати секретні типи буфера обміну"
 
-#: prefs.js:147
+#: prefs.js:157
 msgid "Skip content marked with a secret mimetype (password managers)"
 msgstr "Пропускати вміст із секретним MIME-типом (менеджери паролів)"
 
-#: prefs.js:151
+#: prefs.js:161
 msgid "Enable favorites"
 msgstr "Увімкнути улюблене"
 
-#: prefs.js:152
+#: prefs.js:162
 msgid "Mark entries as favorites and browse them in the popup"
 msgstr "Позначайте записи як улюблені та переглядайте їх у спливному вікні"
 
-#: prefs.js:156
+#: prefs.js:166
 msgid "Excluded Apps"
 msgstr "Виключені програми"
 
-#: prefs.js:157
+#: prefs.js:167
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr "Скопійований вміст не зберігатиметься, поки ці програми у фокусі"
 
-#: prefs.js:169
+#: prefs.js:179
 msgid "Terminal Apps"
 msgstr "Термінали"
 
-#: prefs.js:170
+#: prefs.js:180
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -132,197 +132,201 @@ msgstr ""
 "Автовставлення використовує Ctrl+Shift+V у терміналах. Додайте свій "
 "термінал, якщо вставлення підставляє неправильний текст"
 
-#: prefs.js:182
+#: prefs.js:192
 msgid "Clear clipboard history on interval"
 msgstr "Очищати історію буфера обміну через проміжки часу"
 
-#: prefs.js:186
+#: prefs.js:196
 msgid "History clear interval (in minutes)"
 msgstr "Інтервал очищення історії (у хвилинах)"
 
-#: prefs.js:205
+#: prefs.js:215
 msgid "Language"
 msgstr "Мова"
 
-#: prefs.js:206
+#: prefs.js:216
 msgid "Requires reopening Settings and restarting the extension"
 msgstr "Потребує повторного відкриття Налаштувань і перезапуску розширення"
 
-#: prefs.js:210
+#: prefs.js:220
 msgid "General"
 msgstr "Загальні"
 
-#: prefs.js:211
+#: prefs.js:221
 msgid "Popup"
 msgstr "Спливне вікно"
 
-#: prefs.js:212
+#: prefs.js:222
 msgid "Behavior"
 msgstr "Поведінка"
 
-#: prefs.js:213
+#: prefs.js:223
 msgid "Exclusion"
 msgstr "Виключення"
 
-#: prefs.js:214
+#: prefs.js:224
 msgid "Limits"
 msgstr "Обмеження"
 
-#: prefs.js:216
+#: prefs.js:226
 msgid "Global shortcuts"
 msgstr "Глобальні клавіатурні скорочення"
 
-#: prefs.js:221
+#: prefs.js:231
 msgid "Disabled by default; assign a shortcut below to enable each action"
 msgstr ""
-"За замовчуванням вимкнено; призначте скорочення нижче, щоб увімкнути "
-"кожну дію"
+"За замовчуванням вимкнено; призначте скорочення нижче, щоб увімкнути кожну "
+"дію"
 
-#: prefs.js:223
+#: prefs.js:233
 msgid "Popup shortcuts"
 msgstr "Клавіатурні скорочення спливного вікна"
 
-#: prefs.js:281
+#: prefs.js:291
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "Назва класу вікна, напр. «KeePassXC»"
 
-#: prefs.js:290
+#: prefs.js:300
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "Клас вікна або ID програми, напр. «org.gnome.Ptyxis»"
 
-#: prefs.js:300
+#: prefs.js:310
 msgid "System"
 msgstr "Система"
 
-#: prefs.js:336
+#: prefs.js:346
 msgid "At mouse cursor"
 msgstr "Біля курсора миші"
 
-#: prefs.js:337
+#: prefs.js:347
 msgid "Center of focused window"
 msgstr "У центрі активного вікна"
 
-#: prefs.js:342
+#: prefs.js:352
 msgid "Toggle the clipboard popup"
 msgstr "Показати/приховати спливне вікно буфера обміну"
 
-#: prefs.js:343 src/panel/panelButton.js:97
+#: prefs.js:353 src/panel/panelButton.js:117
 msgid "Private mode"
 msgstr "Приватний режим"
 
-#: prefs.js:344 src/panel/panelButton.js:113
+#: prefs.js:354 src/panel/panelButton.js:133
 msgid "Clear history"
 msgstr "Очистити історію"
 
-#: prefs.js:348
+#: prefs.js:358
 msgid "Search in popup"
 msgstr "Пошук у спливному вікні"
 
-#: prefs.js:349
+#: prefs.js:359
 msgid "Delete selected entry"
 msgstr "Видалити вибраний запис"
 
-#: prefs.js:350
+#: prefs.js:360
 msgid "Toggle private mode"
 msgstr "Увімкнути/вимкнути приватний режим"
 
-#: prefs.js:351
+#: prefs.js:361
 msgid "Next page"
 msgstr "Наступна сторінка"
 
-#: prefs.js:352
+#: prefs.js:362
 msgid "Previous page"
 msgstr "Попередня сторінка"
 
-#: prefs.js:353
+#: prefs.js:363
 msgid "Move selection up"
 msgstr "Перемістити виділення вгору"
 
-#: prefs.js:354
+#: prefs.js:364
 msgid "Move selection down"
 msgstr "Перемістити виділення вниз"
 
-#: prefs.js:355
+#: prefs.js:365
 msgid "Confirm selection"
 msgstr "Підтвердити вибір"
 
-#: prefs.js:356
+#: prefs.js:366
 msgid "Close popup"
 msgstr "Закрити спливне вікно"
 
-#: prefs.js:357
+#: prefs.js:367
 msgid "Match case (while searching)"
 msgstr "Враховувати регістр (під час пошуку)"
 
-#: prefs.js:358
+#: prefs.js:368
 msgid "Use regular expression (while searching)"
 msgstr "Використовувати регулярний вираз (під час пошуку)"
 
-#: prefs.js:359
+#: prefs.js:369
 msgid "Toggle favorite on selected entry"
 msgstr "Увімкнути/вимкнути улюблене для вибраного запису"
 
-#: prefs.js:360
+#: prefs.js:370
 msgid "Open favorites or go back"
 msgstr "Відкрити улюблене або повернутися назад"
 
-#: prefs.js:361
+#: prefs.js:371
 msgid "Quick select item 1"
 msgstr "Швидкий вибір запису 1"
 
-#: prefs.js:362
+#: prefs.js:372
 msgid "Quick select item 2"
 msgstr "Швидкий вибір запису 2"
 
-#: prefs.js:363
+#: prefs.js:373
 msgid "Quick select item 3"
 msgstr "Швидкий вибір запису 3"
 
-#: prefs.js:364
+#: prefs.js:374
 msgid "Quick select item 4"
 msgstr "Швидкий вибір запису 4"
 
-#: prefs.js:365
+#: prefs.js:375
 msgid "Quick select item 5"
 msgstr "Швидкий вибір запису 5"
 
-#: prefs.js:366
+#: prefs.js:376
 msgid "Quick select item 6"
 msgstr "Швидкий вибір запису 6"
 
-#: prefs.js:367
+#: prefs.js:377
 msgid "Quick select item 7"
 msgstr "Швидкий вибір запису 7"
 
-#: prefs.js:368
+#: prefs.js:378
 msgid "Quick select item 8"
 msgstr "Швидкий вибір запису 8"
 
-#: prefs.js:369
+#: prefs.js:379
 msgid "Quick select item 9"
 msgstr "Швидкий вибір запису 9"
 
-#: prefs.js:370
+#: prefs.js:380
 msgid "Quick select item 10"
 msgstr "Швидкий вибір запису 10"
 
-#: prefs.js:383
+#: prefs.js:401
 msgid "Enable shortcuts"
 msgstr "Увімкнути клавіатурні скорочення"
 
-#: prefs.js:393
+#: prefs.js:410
+msgid "Suggested shortcuts: Alt+X, Alt+C, or Alt+V"
+msgstr "Запропоновані скорочення: Alt+X, Alt+C або Alt+V"
+
+#: prefs.js:456
 msgid "Show shortcut reminder icons"
 msgstr "Показувати значки-нагадування скорочень"
 
-#: prefs.js:394
+#: prefs.js:457
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "Показувати значки-нагадування скорочень унизу спливного вікна"
 
-#: prefs.js:403
+#: prefs.js:466
 msgid "Reset shortcuts to defaults"
 msgstr "Скинути скорочення до стандартних"
 
-#: prefs.js:405
+#: prefs.js:468
 msgid "Reset"
 msgstr "Скинути"
 
@@ -342,116 +346,120 @@ msgstr "Цю операцію неможливо скасувати."
 msgid "Clear"
 msgstr "Очистити"
 
-#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+#: src/wayToClipController.js:262 prefs/shortcutEditor.js:50
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/cursorPopup/popupLayoutPlacer.js:290
+#: src/cursorPopup/popupLayoutPlacer.js:301
 msgid "Clipboard history is empty"
 msgstr "Історія буфера обміну порожня"
 
-#: src/cursorPopup/popupLayoutPlacer.js:292
+#: src/cursorPopup/popupLayoutPlacer.js:303
 msgid "No favorites yet"
 msgstr "Поки немає улюбленого"
 
-#: src/cursorPopup/popupLayoutPlacer.js:293
+#: src/cursorPopup/popupLayoutPlacer.js:304
 msgid "No matching clipboard items"
 msgstr "Немає відповідних елементів буфера обміну"
 
-#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
+#: src/cursorPopup/popupLocalShortcuts.js:72 prefs/shortcutEditor.js:172
 msgid "Disabled"
 msgstr "Вимкнено"
 
-#: src/cursorPopup/popupLocalShortcuts.js:77
+#: src/cursorPopup/popupLocalShortcuts.js:81
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "Показати/приховати пошук (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:79
+#: src/cursorPopup/popupLocalShortcuts.js:83
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "Увімкнути/вимкнути приватний режим (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:85
+#: src/cursorPopup/popupLocalShortcuts.js:89
 #, javascript-format
 msgid "Toggle favorite (%s)"
 msgstr "Увімкнути/вимкнути улюблене (%s)"
 
-#: src/cursorPopup/popupLocalShortcuts.js:88
+#: src/cursorPopup/popupLocalShortcuts.js:93
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "Видалити вибраний запис (%s)"
 
-#: src/cursorPopup/popupSearchController.js:122
+#: src/cursorPopup/popupSearchController.js:130
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "Враховувати регістр (%s)"
 
-#: src/cursorPopup/popupSearchController.js:129
+#: src/cursorPopup/popupSearchController.js:137
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "Використовувати регулярний вираз (%s)"
 
-#: src/cursorPopup/popupUI.js:148
+#: src/cursorPopup/popupUI.js:145
 msgid "Search..."
 msgstr "Пошук…"
 
-#: src/cursorPopup/popupUI.js:291
+#: src/cursorPopup/popupUI.js:288
 msgid "Match Case (Alt+C)"
 msgstr "Враховувати регістр (Alt+C)"
 
-#: src/cursorPopup/popupUI.js:293
+#: src/cursorPopup/popupUI.js:290
 msgid "Use Regular Expression (Alt+R)"
 msgstr "Використовувати регулярний вираз (Alt+R)"
 
-#: src/cursorPopup/popupUI.js:370
+#: src/cursorPopup/popupUI.js:367
 msgid "Toggle search (s)"
 msgstr "Показати/приховати пошук (s)"
 
-#: src/cursorPopup/popupUI.js:372
+#: src/cursorPopup/popupUI.js:369
 msgid "Toggle private mode (p)"
 msgstr "Увімкнути/вимкнути приватний режим (p)"
 
-#: src/cursorPopup/popupUI.js:374
+#: src/cursorPopup/popupUI.js:371
 msgid "Toggle favorite (f)"
 msgstr "Увімкнути/вимкнути улюблене (f)"
 
-#: src/cursorPopup/popupUI.js:376
+#: src/cursorPopup/popupUI.js:373
 msgid "Delete selected entry (d)"
 msgstr "Видалити вибраний запис (d)"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Back"
 msgstr "Назад"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Favorites"
 msgstr "Улюблене"
 
-#: src/panel/panelButton.js:82
+#: src/panel/panelButton.js:88
 msgid "Show clipboard popup"
 msgstr "Показати спливне вікно буфера обміну"
 
-#: src/panel/panelButton.js:156
+#: src/panel/panelButton.js:102
+msgid "Set popup keyboard shortcut"
+msgstr "Задати клавіатурне скорочення для спливного вікна"
+
+#: src/panel/panelButton.js:176
 msgid "Settings"
 msgstr "Параметри"
 
-#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+#: prefs/shortcutEditor.js:36 prefs/shortcutEditor.js:192
 msgid "Add shortcut"
 msgstr "Додати скорочення"
 
-#: prefs/shortcutRow.js:57
+#: prefs/shortcutEditor.js:57
 msgid "Enter shortcut…"
 msgstr "Введіть клавіатурне скорочення…"
 
-#: prefs/shortcutRow.js:154
+#: prefs/shortcutEditor.js:154
 msgid "Remove shortcut"
 msgstr "Видалити скорочення"
 
-#: prefs/stringListManager.js:101
+#: prefs/stringListManager.js:108
 msgid "Choose from installed applications"
 msgstr "Вибрати зі встановлених програм"
 
-#: prefs/stringListManager.js:113
+#: prefs/stringListManager.js:120
 msgid "Search applications..."
 msgstr "Пошук програм…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-16 11:53+0200\n"
+"POT-Creation-Date: 2026-09-17 12:54+0200\n"
 "PO-Revision-Date: 2026-09-09 13:13+0200\n"
 "Last-Translator: nexryai <nexryai@outlook.com>\n"
 "Language-Team: \n"
@@ -21,109 +21,112 @@ msgstr ""
 "X-Poedit-SearchPath-0: prefs.js\n"
 "X-Poedit-SearchPath-1: extension.js\n"
 
-#: prefs.js:70
+#: prefs.js:80
 msgid "History Size"
 msgstr "保存件数"
 
-#: prefs.js:79
+#: prefs.js:89
 msgid "Max cache file size (MB)"
 msgstr "最大キャッシュサイズ（MB）"
 
-#: prefs.js:88
+#: prefs.js:98
 msgid "Show confirmation on Clear History"
 msgstr "履歴の消去時に確認を表示する"
 
-#: prefs.js:92
+#: prefs.js:102
 msgid "Move item to the top after selection"
 msgstr "選択後にアイテムをトップに移動"
 
-#: prefs.js:96
+#: prefs.js:106
 msgid "Keep selected entry after Clear History"
 msgstr "履歴の消去後も選択中の項目を保持する"
 
-#: prefs.js:100
+#: prefs.js:110
 msgid "Clear clipboard history on system reboot"
 msgstr "システムの再起動時にクリップボードの履歴を消去する"
 
-#: prefs.js:104
+#: prefs.js:114
 msgid "Auto-paste on selection"
 msgstr "選択時に自動貼り付け"
 
-#: prefs.js:105
+#: prefs.js:115
 msgid "Automatically paste after selecting an item from the popup"
 msgstr "ポップアップから項目を選択した後に自動的に貼り付ける"
 
-#: prefs.js:109
+#: prefs.js:119
 msgid "Popup position"
 msgstr "ポップアップの位置"
 
-#: prefs.js:110
+#: prefs.js:120
 msgid "Where to show the clipboard popup"
 msgstr "クリップボードのポップアップを表示する場所"
 
-#: prefs.js:115
+#: prefs.js:125
 msgid "Limit number of pages"
 msgstr "ページ数を制限する"
 
-#: prefs.js:116
+#: prefs.js:126
 msgid "When off, the popup shows the full clipboard history"
 msgstr "オフの場合、ポップアップはクリップボードの全履歴を表示します"
 
-#: prefs.js:120
+#: prefs.js:130
 msgid "Number of pages"
 msgstr "ページ数"
 
-#: prefs.js:121
+#: prefs.js:131
 msgid "Each page shows 10 items (Tab to navigate pages)"
 msgstr "各ページに10件の項目を表示（Tabでページ移動）"
 
-#: prefs.js:130
+#: prefs.js:140
 msgid "Image thumbnail size (px)"
 msgstr "画像のサムネイルサイズ（px）"
 
-#: prefs.js:131
+#: prefs.js:141
 msgid "Preview size for images in the popup"
 msgstr "ポップアップ内の画像のプレビューサイズ"
 
-#: prefs.js:140
+#: prefs.js:150
 msgid "Cache images"
 msgstr "画像をキャッシュする"
 
-#: prefs.js:141
+#: prefs.js:151
 msgid ""
 "Save images to disk so they survive a restart. Otherwise they are kept in "
 "memory only"
-msgstr "再起動後も残るように画像をディスクに保存します。そうでない場合はメモリにのみ保持されます"
+msgstr ""
+"再起動後も残るように画像をディスクに保存します。そうでない場合はメモリにのみ"
+"保持されます"
 
-#: prefs.js:146
+#: prefs.js:156
 msgid "Ignore secret clipboard types"
 msgstr "シークレットなクリップボードの種類を無視する"
 
-#: prefs.js:147
+#: prefs.js:157
 msgid "Skip content marked with a secret mimetype (password managers)"
-msgstr "シークレットMIMEタイプが付いた内容をスキップする（パスワードマネージャー）"
+msgstr ""
+"シークレットMIMEタイプが付いた内容をスキップする（パスワードマネージャー）"
 
-#: prefs.js:151
+#: prefs.js:161
 msgid "Enable favorites"
 msgstr "お気に入りを有効にする"
 
-#: prefs.js:152
+#: prefs.js:162
 msgid "Mark entries as favorites and browse them in the popup"
 msgstr "項目をお気に入りとしてマークし、ポップアップで閲覧する"
 
-#: prefs.js:156
+#: prefs.js:166
 msgid "Excluded Apps"
 msgstr "除外するアプリ"
 
-#: prefs.js:157
+#: prefs.js:167
 msgid "Content copied will not be saved while these apps are in focus"
 msgstr "これらのアプリにフォーカスがある間は、コピーした内容は保存されません"
 
-#: prefs.js:169
+#: prefs.js:179
 msgid "Terminal Apps"
 msgstr "ターミナルアプリ"
 
-#: prefs.js:170
+#: prefs.js:180
 msgid ""
 "Auto-paste uses Ctrl+Shift+V in terminals. Add your terminal if pasting "
 "inserts the wrong text"
@@ -131,195 +134,201 @@ msgstr ""
 "自動貼り付けではターミナルで Ctrl+Shift+V を使用します。貼り付けで誤ったテキ"
 "ストが挿入される場合は、お使いのターミナルを追加してください"
 
-#: prefs.js:182
+#: prefs.js:192
 msgid "Clear clipboard history on interval"
 msgstr "クリップボードの履歴を定期的に消去する"
 
-#: prefs.js:186
+#: prefs.js:196
 msgid "History clear interval (in minutes)"
 msgstr "履歴の消去間隔（分）"
 
-#: prefs.js:205
+#: prefs.js:215
 msgid "Language"
 msgstr "言語"
 
-#: prefs.js:206
+#: prefs.js:216
 msgid "Requires reopening Settings and restarting the extension"
 msgstr "設定を開き直して拡張機能を再起動する必要があります"
 
-#: prefs.js:210
+#: prefs.js:220
 msgid "General"
 msgstr "一般"
 
-#: prefs.js:211
+#: prefs.js:221
 msgid "Popup"
 msgstr "ポップアップ"
 
-#: prefs.js:212
+#: prefs.js:222
 msgid "Behavior"
 msgstr "動作"
 
-#: prefs.js:213
+#: prefs.js:223
 msgid "Exclusion"
 msgstr "除外"
 
-#: prefs.js:214
+#: prefs.js:224
 msgid "Limits"
 msgstr "制限"
 
-#: prefs.js:216
+#: prefs.js:226
 msgid "Global shortcuts"
 msgstr "グローバルショートカット"
 
-#: prefs.js:221
+#: prefs.js:231
 msgid "Disabled by default; assign a shortcut below to enable each action"
-msgstr "デフォルトでは無効です。各アクションを有効にするには、以下でショートカットを割り当ててください"
+msgstr ""
+"デフォルトでは無効です。各アクションを有効にするには、以下でショートカットを"
+"割り当ててください"
 
-#: prefs.js:223
+#: prefs.js:233
 msgid "Popup shortcuts"
 msgstr "ポップアップのショートカット"
 
-#: prefs.js:281
+#: prefs.js:291
 msgid "Window class name, e.g. \"KeePassXC\""
 msgstr "ウィンドウクラス名（例：「KeePassXC」）"
 
-#: prefs.js:290
+#: prefs.js:300
 msgid "Window class or app id, e.g. \"org.gnome.Ptyxis\""
 msgstr "ウィンドウクラスまたはアプリID（例：「org.gnome.Ptyxis」）"
 
-#: prefs.js:300
+#: prefs.js:310
 msgid "System"
 msgstr "システム"
 
-#: prefs.js:336
+#: prefs.js:346
 msgid "At mouse cursor"
 msgstr "マウスカーソル位置"
 
-#: prefs.js:337
+#: prefs.js:347
 msgid "Center of focused window"
 msgstr "フォーカス中のウィンドウの中央"
 
-#: prefs.js:342
+#: prefs.js:352
 msgid "Toggle the clipboard popup"
 msgstr "クリップボードのポップアップの表示切り替え"
 
-#: prefs.js:343 src/panel/panelButton.js:97
+#: prefs.js:353 src/panel/panelButton.js:117
 msgid "Private mode"
 msgstr "プライベートモード"
 
-#: prefs.js:344 src/panel/panelButton.js:113
+#: prefs.js:354 src/panel/panelButton.js:133
 msgid "Clear history"
 msgstr "履歴を消去"
 
-#: prefs.js:348
+#: prefs.js:358
 msgid "Search in popup"
 msgstr "ポップアップ内を検索"
 
-#: prefs.js:349
+#: prefs.js:359
 msgid "Delete selected entry"
 msgstr "選択中の項目を削除"
 
-#: prefs.js:350
+#: prefs.js:360
 msgid "Toggle private mode"
 msgstr "プライベートモードの切り替え"
 
-#: prefs.js:351
+#: prefs.js:361
 msgid "Next page"
 msgstr "次のページ"
 
-#: prefs.js:352
+#: prefs.js:362
 msgid "Previous page"
 msgstr "前のページ"
 
-#: prefs.js:353
+#: prefs.js:363
 msgid "Move selection up"
 msgstr "選択を上に移動"
 
-#: prefs.js:354
+#: prefs.js:364
 msgid "Move selection down"
 msgstr "選択を下に移動"
 
-#: prefs.js:355
+#: prefs.js:365
 msgid "Confirm selection"
 msgstr "選択を確定"
 
-#: prefs.js:356
+#: prefs.js:366
 msgid "Close popup"
 msgstr "ポップアップを閉じる"
 
-#: prefs.js:357
+#: prefs.js:367
 msgid "Match case (while searching)"
 msgstr "大文字小文字を区別する（検索時）"
 
-#: prefs.js:358
+#: prefs.js:368
 msgid "Use regular expression (while searching)"
 msgstr "正規表現を使用する（検索時）"
 
-#: prefs.js:359
+#: prefs.js:369
 msgid "Toggle favorite on selected entry"
 msgstr "選択中の項目のお気に入りを切り替え"
 
-#: prefs.js:360
+#: prefs.js:370
 msgid "Open favorites or go back"
 msgstr "お気に入りを開く／戻る"
 
-#: prefs.js:361
+#: prefs.js:371
 msgid "Quick select item 1"
 msgstr "項目1のクイック選択"
 
-#: prefs.js:362
+#: prefs.js:372
 msgid "Quick select item 2"
 msgstr "項目2のクイック選択"
 
-#: prefs.js:363
+#: prefs.js:373
 msgid "Quick select item 3"
 msgstr "項目3のクイック選択"
 
-#: prefs.js:364
+#: prefs.js:374
 msgid "Quick select item 4"
 msgstr "項目4のクイック選択"
 
-#: prefs.js:365
+#: prefs.js:375
 msgid "Quick select item 5"
 msgstr "項目5のクイック選択"
 
-#: prefs.js:366
+#: prefs.js:376
 msgid "Quick select item 6"
 msgstr "項目6のクイック選択"
 
-#: prefs.js:367
+#: prefs.js:377
 msgid "Quick select item 7"
 msgstr "項目7のクイック選択"
 
-#: prefs.js:368
+#: prefs.js:378
 msgid "Quick select item 8"
 msgstr "項目8のクイック選択"
 
-#: prefs.js:369
+#: prefs.js:379
 msgid "Quick select item 9"
 msgstr "項目9のクイック選択"
 
-#: prefs.js:370
+#: prefs.js:380
 msgid "Quick select item 10"
 msgstr "項目10のクイック選択"
 
-#: prefs.js:383
+#: prefs.js:401
 msgid "Enable shortcuts"
 msgstr "ショートカットを有効にする"
 
-#: prefs.js:393
+#: prefs.js:410
+msgid "Suggested shortcuts: Alt+X, Alt+C, or Alt+V"
+msgstr "推奨ショートカット: Alt+X、Alt+C または Alt+V"
+
+#: prefs.js:456
 msgid "Show shortcut reminder icons"
 msgstr "ショートカットのリマインダーアイコンを表示する"
 
-#: prefs.js:394
+#: prefs.js:457
 msgid "Show the shortcut reminder icons at the bottom of the popup"
 msgstr "ポップアップの下部にショートカットのリマインダーアイコンを表示する"
 
-#: prefs.js:403
+#: prefs.js:466
 msgid "Reset shortcuts to defaults"
 msgstr "ショートカットをデフォルトにリセット"
 
-#: prefs.js:405
+#: prefs.js:468
 msgid "Reset"
 msgstr "リセット"
 
@@ -339,116 +348,120 @@ msgstr "この操作を元に戻すことはできません。"
 msgid "Clear"
 msgstr "消去"
 
-#: src/wayToClipController.js:262 prefs/shortcutRow.js:50
+#: src/wayToClipController.js:262 prefs/shortcutEditor.js:50
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: src/cursorPopup/popupLayoutPlacer.js:290
+#: src/cursorPopup/popupLayoutPlacer.js:301
 msgid "Clipboard history is empty"
 msgstr "クリップボードの履歴は空です"
 
-#: src/cursorPopup/popupLayoutPlacer.js:292
+#: src/cursorPopup/popupLayoutPlacer.js:303
 msgid "No favorites yet"
 msgstr "お気に入りはまだありません"
 
-#: src/cursorPopup/popupLayoutPlacer.js:293
+#: src/cursorPopup/popupLayoutPlacer.js:304
 msgid "No matching clipboard items"
 msgstr "一致するクリップボードの項目がありません"
 
-#: src/cursorPopup/popupLocalShortcuts.js:68 prefs/shortcutRow.js:172
+#: src/cursorPopup/popupLocalShortcuts.js:72 prefs/shortcutEditor.js:172
 msgid "Disabled"
 msgstr "無効"
 
-#: src/cursorPopup/popupLocalShortcuts.js:77
+#: src/cursorPopup/popupLocalShortcuts.js:81
 #, javascript-format
 msgid "Toggle search (%s)"
 msgstr "検索の表示切り替え（%s）"
 
-#: src/cursorPopup/popupLocalShortcuts.js:79
+#: src/cursorPopup/popupLocalShortcuts.js:83
 #, javascript-format
 msgid "Toggle private mode (%s)"
 msgstr "プライベートモードの切り替え（%s）"
 
-#: src/cursorPopup/popupLocalShortcuts.js:85
+#: src/cursorPopup/popupLocalShortcuts.js:89
 #, javascript-format
 msgid "Toggle favorite (%s)"
 msgstr "お気に入りの切り替え（%s）"
 
-#: src/cursorPopup/popupLocalShortcuts.js:88
+#: src/cursorPopup/popupLocalShortcuts.js:93
 #, javascript-format
 msgid "Delete selected entry (%s)"
 msgstr "選択中の項目を削除（%s）"
 
-#: src/cursorPopup/popupSearchController.js:122
+#: src/cursorPopup/popupSearchController.js:130
 #, javascript-format
 msgid "Match Case (%s)"
 msgstr "大文字小文字の区別（%s）"
 
-#: src/cursorPopup/popupSearchController.js:129
+#: src/cursorPopup/popupSearchController.js:137
 #, javascript-format
 msgid "Use Regular Expression (%s)"
 msgstr "正規表現の使用（%s）"
 
-#: src/cursorPopup/popupUI.js:148
+#: src/cursorPopup/popupUI.js:145
 msgid "Search..."
 msgstr "検索…"
 
-#: src/cursorPopup/popupUI.js:291
+#: src/cursorPopup/popupUI.js:288
 msgid "Match Case (Alt+C)"
 msgstr "大文字小文字の区別（Alt+C）"
 
-#: src/cursorPopup/popupUI.js:293
+#: src/cursorPopup/popupUI.js:290
 msgid "Use Regular Expression (Alt+R)"
 msgstr "正規表現の使用（Alt+R）"
 
-#: src/cursorPopup/popupUI.js:370
+#: src/cursorPopup/popupUI.js:367
 msgid "Toggle search (s)"
 msgstr "検索の表示切り替え（s）"
 
-#: src/cursorPopup/popupUI.js:372
+#: src/cursorPopup/popupUI.js:369
 msgid "Toggle private mode (p)"
 msgstr "プライベートモードの切り替え（p）"
 
-#: src/cursorPopup/popupUI.js:374
+#: src/cursorPopup/popupUI.js:371
 msgid "Toggle favorite (f)"
 msgstr "お気に入りの切り替え（f）"
 
-#: src/cursorPopup/popupUI.js:376
+#: src/cursorPopup/popupUI.js:373
 msgid "Delete selected entry (d)"
 msgstr "選択中の項目を削除（d）"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Back"
 msgstr "戻る"
 
-#: src/cursorPopup/popupUI.js:408
+#: src/cursorPopup/popupUI.js:405
 msgid "Favorites"
 msgstr "お気に入り"
 
-#: src/panel/panelButton.js:82
+#: src/panel/panelButton.js:88
 msgid "Show clipboard popup"
 msgstr "クリップボードのポップアップを表示"
 
-#: src/panel/panelButton.js:156
+#: src/panel/panelButton.js:102
+msgid "Set popup keyboard shortcut"
+msgstr "ポップアップのキーボードショートカットを設定"
+
+#: src/panel/panelButton.js:176
 msgid "Settings"
 msgstr "設定"
 
-#: prefs/shortcutRow.js:36 prefs/shortcutRow.js:192
+#: prefs/shortcutEditor.js:36 prefs/shortcutEditor.js:192
 msgid "Add shortcut"
 msgstr "ショートカットを追加"
 
-#: prefs/shortcutRow.js:57
+#: prefs/shortcutEditor.js:57
 msgid "Enter shortcut…"
 msgstr "ショートカットを入力…"
 
-#: prefs/shortcutRow.js:154
+#: prefs/shortcutEditor.js:154
 msgid "Remove shortcut"
 msgstr "ショートカットを削除"
 
-#: prefs/stringListManager.js:101
+#: prefs/stringListManager.js:108
 msgid "Choose from installed applications"
 msgstr "インストール済みアプリから選択"
 
-#: prefs/stringListManager.js:113
+#: prefs/stringListManager.js:120
 msgid "Search applications..."
 msgstr "アプリを検索…"

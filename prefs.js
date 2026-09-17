@@ -4,7 +4,7 @@ import Gio from 'gi://Gio';
 import {ExtensionPreferences, gettext as nativeGettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {PrefsFields} from './src/common/constants.js';
 import {createShortcutEditor} from './prefs/shortcutEditor.js';
-import {ShortcutHighlighter} from './prefs/shortcutHighlight.js';
+import {ShortcutHighlighter} from './prefs/shortcutHighlighter.js';
 import {StringListManager} from './prefs/stringListManager.js';
 import {
     AVAILABLE_LANGUAGES,
