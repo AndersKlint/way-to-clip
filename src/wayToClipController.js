@@ -254,6 +254,8 @@ export class WayToClipController {
         // menu has to close first or the dialog never shows
         this._panel.closeMenu();
         this._runIdle(() => {
+            if (!this._dialogManager)
+                return;
             this._dialogManager.open({
                 title: _('Clear all?'),
                 message: _('Are you sure you want to delete all clipboard items?'),
@@ -317,10 +319,16 @@ export class WayToClipController {
 
     // Needs to run in an idle so the indicator menu has time to close
     showPopupFromIndicatorMenu() {
-        this._runIdle(() => this.openCursorPopup());
+        this._runIdle(() => {
+            if (!this._cursorPopup)
+                return;
+            this.openCursorPopup();
+        });
     }
 
     toggleCursorPopup() {
+        if (!this._cursorPopup)
+            return;
         if (this._cursorPopup.isOpen())
             this._cursorPopup.close();
         else
@@ -328,6 +336,8 @@ export class WayToClipController {
     }
 
     openCursorPopup() {
+        if (!this._cursorPopup || !this._keyboard)
+            return;
         // grab the target first. Opening the popup steals focus and messes up terminal detection.
         const focusedWindow = global.display.get_focus_window();
         this._keyboard.savePurpose();

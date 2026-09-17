@@ -133,7 +133,9 @@ export class Registry {
         } catch (e) {
             try {
                 stream.close(null);
-            } catch {}
+            } catch {
+                // stream already failed so close is best effort
+            }
             throw e;
         }
         stream.close(null);
@@ -236,7 +238,9 @@ export class Registry {
         } catch (e) {
             try {
                 stream.close(null);
-            } catch {}
+            } catch {
+                // stream already failed so close is best effort
+            }
             throw e;
         }
     }

@@ -124,7 +124,10 @@ class ShortcutEditor extends Gtk.Box {
             this._addButton.remove_controller(this._captureController);
             this._captureController = null;
         }
-        this._schema.disconnect(this._externalChangedId);
+        if (this._schema && this._externalChangedId) {
+            this._schema.disconnect(this._externalChangedId);
+            this._externalChangedId = 0;
+        }
         this._schema = null;
         super.destroy();
     }

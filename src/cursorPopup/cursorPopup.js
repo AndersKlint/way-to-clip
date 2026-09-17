@@ -94,6 +94,8 @@ export class CursorPopup {
     }
 
     open(x, y, entries, monitor, isAnchoredInCenter = false) {
+        if (this.isOpen())
+            this.close();
         this.#selectionController.reset(entries);
         this.#searchController.reset();
 
