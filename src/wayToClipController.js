@@ -471,8 +471,13 @@ export class WayToClipController {
         this._panel.setTogglePopupShortcutVisible(isTogglePopupShortcutUnset);
     }
 
+    // Deferred like the popup path so the indicator menu finishes closing first.
+    // Otherwise openPreferences can reject while the menu still holds its grab.
     openSettings() {
-        this._openSettingsFunc();
+        this._runIdle(() => {
+            Promise.resolve(this._openSettingsFunc()).catch(e =>
+                error('Failed to open settings', e));
+        });
     }
 
     _applyKeybindingPref() {
