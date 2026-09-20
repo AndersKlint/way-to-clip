@@ -321,3 +321,39 @@ test('favorites search source lists favorites only', () => {
     if (favs.length !== 2 || !favs.includes(a))
         throw new Error('favorites source must list favorites only');
 });
+
+test('navigation follows selection without adjustment errors', () => {
+    const adjustment = {page_size: 20, upper: 100, lower: 0, value: 0};
+    const rowActor = rowTop => ({
+        add_style_class_name() {},
+        remove_style_class_name() {},
+        get_position() {
+            return [true, rowTop];
+        },
+        get_height() {
+            return 10;
+        },
+    });
+    let hintCalls = 0;
+    const sel = new PopupSelectionController({
+        handlers: {},
+        popup: {
+            renderPage() {},
+            updateFavoriteHint() {
+                hintCalls += 1;
+            },
+            ui: {listScrollView: {get_vadjustment: () => adjustment}},
+        },
+        search: {isSearchMode: false, query: ''},
+    });
+    sel.applySettings({limitPopupPages: false, maxPopupPages: 3, favoritesEnabled: false});
+    sel.reset([fakeEntry('a'), fakeEntry('b'), fakeEntry('c')]);
+    sel.setPageActors([rowActor(0), rowActor(40), rowActor(80)]);
+    sel.navigateDown();
+    sel.navigateDown();
+    sel.navigateUp();
+    if (sel.selectedIndex !== 1)
+        throw new Error('property style navigation must land on second row');
+    if (hintCalls !== 3)
+        throw new Error('scroll follow must not abort hint updates');
+});

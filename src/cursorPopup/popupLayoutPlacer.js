@@ -352,7 +352,7 @@ export class PopupLayoutPlacer {
         const ui = this.#popup.ui;
         if (!ui.listScrollView)
             return;
-        ui.listScrollView.get_vadjustment().set_value(0);
+        ui.listScrollView.get_vadjustment().value = 0;
     }
 
     #resetLayoutMeasure() {

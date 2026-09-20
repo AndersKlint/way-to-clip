@@ -315,9 +315,7 @@ export class PopupSelectionController {
         if (!scrollView || !item)
             return;
         const adjustment = scrollView.get_vadjustment();
-        if (!adjustment)
-            return;
-        if (adjustment.get_page_size() >= adjustment.get_upper())
+        if (!adjustment || adjustment.page_size >= adjustment.upper)
             return;
         let top = null;
         let bottom = null;
@@ -336,7 +334,10 @@ export class PopupSelectionController {
         }
         if (top === null || bottom === null)
             return;
-        adjustment.clamp_page(top, bottom);
+        if (top < adjustment.value)
+            adjustment.value = Math.max(top, adjustment.lower);
+        else if (bottom > adjustment.value + adjustment.page_size)
+            adjustment.value = Math.min(bottom - adjustment.page_size, adjustment.upper - adjustment.page_size);
     }
 
     #getMaxItems(totalAvailable) {
