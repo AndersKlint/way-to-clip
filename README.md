@@ -1,101 +1,94 @@
 # WayToClip
 
-A clipboard manager for GNOME with cursor-positioned popup and quick selection.
-It reads the clipboard to keep a local history; clipboard contents stay on
-your machine and are never shared.
+Keyboard-driven clipboard manager for GNOME, Wayland. Press a shortcut, a popup opens at your cursor, press 1-9 to paste.
 
-## Features
+Inspired by the classic clipboard manager for Windows [CLCL](https://nakka.com/soft/clcl/index_eng.html). For years,
+I never found a Linux alternative that mirrored the keyboard-focused, productive way of working like with CLCL, hence
+this project was made.
 
-- **Cursor Popup** - Show clipboard history at cursor position (set a shortcut in Settings, e.g. `Alt+X`)
-- **Quick Selection** - Press keys `1-9` to instantly select and paste items
-- **Auto-Paste** - Selected items are automatically pasted at cursor
-- **Text & Images** - Supports both text and image clipboard content
-- **Private Mode** - Disable clipboard history recording when needed (`p` in popup)
-- **Panel Indicator** - Minimal panel menu (private-mode toggle, clear history, settings)
-- **Search** - Filter clipboard history with `s` (case-sensitive/regex optional)
-- **Configurable Shortcuts** - Popup, clear history and private mode shortcuts are customizable
-- **No notifications** - Fully silent operation
+Monitoring logic based on [Clipboard Indicator](https://github.com/Tudmotu/gnome-shell-extension-clipboard-indicator).
+Big thanks to the author and contributors to that project! (This was originally a fork, but has since been deforked as
+to many changes was made to justify keeping the upstream).
 
-## Keyboard Shortcuts
+<img src="screenshot.png" width="400" alt="popup-screenshot">
 
-No global shortcuts are set by default. Open Settings to assign your own:
+Clipboard history stays on your machine. Nothing is sent anywhere.
 
-| Shortcut (suggested) | Action |
-|----------|--------|
-| `Alt+X` | Open/close cursor popup |
-| `Ctrl+F10` | Clear history |
-| `Ctrl+F8` | Toggle private mode |
+## Install
 
-### In-Popup Controls
-
-- `0-9` - Select item by number
-- `Up/Down` - Navigate items (wraps around)
-- `Tab` / `Right` - Next page, `Shift+Tab` / `Left` - Previous page
-- `Enter` - Paste selected item
-- `s` - Toggle search mode
-- `d` - Delete selected item
-- `p` - Toggle private mode
-- `Escape` - Close search or popup
-- `Backspace` - Close popup (when not searching)
-
-## Installation
-
-### From Source
+From source:
 
 ```bash
-# Clone to your GNOME extensions directory
-git clone <repo-url> ~/.local/share/gnome-shell/extensions/waytoclip@andersklint.github.io
-
-# Restart GNOME Shell (Alt+F2, then type 'r' and press Enter)
-# Or log out and log back in
-
-# Enable the extension
-gnome-extensions enable waytoclip@andersklint.github.io
+make install
 ```
 
-> Upgrading from an older checkout? Remove the previous
-> `waytoclip@waytoclip` directory first; the extension UUID changed
-> before release and old installs (including `~/.cache/waytoclip@waytoclip/`)
-> are not migrated automatically.
+Then log out and back in (or restart GNOME Shell), and enable it in Extension Manager.
 
-### Requirements
+Requires GNOME Shell 46-51.
 
-- GNOME 46, 47, 48, 49, 50, or 51
+## Setup
 
-## Configuration
+No shortcut is set by default. Go to the extension settings and set one for "Toggle the cursor popup", e.g. Alt+X.
 
-Open settings with:
+## Use
+
+Open the popup with your shortcut, then:
+
+- `1-0` - paste item by number
+- `Up/Down` - move selection
+- `Tab` / `Right` - next page, `Shift+Tab` / `Left` - previous page
+- `Enter` - paste selected item
+- `s` - search, (then `Alt+c` to match case, `Alt+r` for regex)
+- `f` - mark as favorite
+- `-` - toggle favorites view
+- `d` - delete selected item
+- `p` - toggle private mode (stops recording)
+- `Esc` - close
+
+Selecting an item copies it and pastes it at the cursor. Turn off auto-paste in settings if you just want to copy.
+
+All popup keys can be changed in settings.
+
+## Development
+
 ```bash
-gnome-extensions prefs waytoclip@andersklint.github.io
+make check          # run tests (gjs, headless)
+make lint           # eslint + import and line-length checks
+make install        # build + copy to ~/.local/share/gnome-shell/extensions/
+make nested-session # open a nested GNOME Shell to test without relogging (requires some dev packages to run)
+make bundle         # build bundle.zip for extensions.gnome.org
 ```
 
-### Available Settings
+### Architecture
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Auto-paste on selection | On | Automatically paste after selecting an item |
-| Language | System | Interface language override (`system` follows GNOME language; requires restart) |
-| History size | 100 | Maximum number of items to keep |
-| Move item to top after selection | On | Reorder history on selection (re-copied duplicates always bubble up) |
-| Popup position | At mouse cursor | Cursor or center of focused window |
-| Number of pages | 3 | 10 items per page |
+This project follows domain-driven design (DDD): each folder under `src/` is one domain with its own logic, and `wayToClipController.js` wires them together.
 
-## How It Works
+- `clipboard/` - watches St.Clipboard, filters secrets/excluded apps
+- `history/` - in-memory store, disk cache, clear timers
+- `cursorPopup/` - popup UI, selection, search, local shortcuts
+- `paste/` - auto-paste via synthetic keypress, terminal handling
+- `panel/` - top bar button and dialogs
+- `settings/` - GSettings wrapper and global shortcuts
+- `common/` - constants, logging, translations
+- `prefs/` - settings UI, kept separate (shell and prefs run in different processes)
 
-1. **Clipboard Monitoring**: The extension monitors clipboard changes automatically
-2. **History Storage**: Items are persisted to `~/.cache/waytoclip@andersklint.github.io/`
-3. **Selection**: When you select an item, it's copied to clipboard and pasted at cursor
-4. **Private Mode**: When enabled, clipboard changes are not recorded
+### Translations
 
-## Differences from Clipboard Indicator
+User-visible strings go through `_('...')`. When you add or change one:
 
-WayToClip is based on [Clipboard Indicator](https://github.com/Tudmotu/gnome-shell-extension-clipboard-indicator) with these additions:
+```bash
+make update-po-files  # xgettext -> waytoclip.pot, merge into each locale/*/LC_MESSAGES/waytoclip.po
+```
 
-- Cursor-positioned popup (assign a shortcut in Settings, e.g. Alt+X)
-- Quick selection with keys 1-9
-- Auto-paste on selection
-- Larger default history size (100 vs 15)
+Then fill in the `msgstr` entries in the `.po` files and rebuild:
 
-## License
+```bash
+make all  # rebuilds src/common/translations.js + compiled .mo files
+```
 
-MIT (see LICENSE.rst)
+Two generated outputs, both needed:
+
+- `src/common/translations.js` - bundled catalogs for the language override setting in prefs. Committed, so regenerate and commit it.
+- `locale/*/LC_MESSAGES/waytoclip.mo` - compiled files for native gettext (system language). Rebuilt by `make all` / `make install`.
+
+To add a new language: copy an existing `locale/<lang>/LC_MESSAGES/waytoclip.po`, translate the `msgstr` entries, and add its label to `LANGUAGE_LABELS` in `src/common/i18n.js`.

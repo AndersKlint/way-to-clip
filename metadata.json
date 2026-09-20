@@ -9,7 +9,7 @@
     ],
     "uuid": "waytoclip@andersklint.github.io",
     "name": "WayToClip",
-    "description": "A keyboard centric clipboard manager for quickly accessing clipboard history using quick selection with keys 1-9. Clipboard contents are only stored locally on your machine and never shared.",
+    "description": "Keyboard-driven clipboard manager. Press a shortcut, a popup opens at your cursor, press 1-9 to paste. Fast, simple, efficient.\\n\\nInspired by the classic Windows utility CLCL, with monitoring logic built upon Clipboard Indicator.\\n\\nNOTE: No shortcut is set by default. Please go to the extension settings to bind a custom shortcut (e.g., Alt+X) to \"Toggle the cursor popup\".",
     "url": "https://github.com/AndersKlint/way-to-clip",
     "gettext-domain": "waytoclip",
     "settings-schema": "org.gnome.shell.extensions.waytoclip"
