@@ -7,3 +7,5 @@ type to search (? needed? in that case we need to disable local one key shortcut
 popup at input field instead of cursor (unfeasible, only works in some gtk apps reliably)
 
 add panelitem to bind shortcut for cursoropen when unbound.
+
+hitting backspace or esc while in favorites should navigate back

@@ -112,9 +112,11 @@ export class PopupUIBuilder {
         });
     }
 
+    // popup-menu-content is inherited from gnome theme. We use that to keep the popup
+    // persistent with the user's selected theme, but we also add our own class for custom styling.
     createPopupLayout() {
         return new St.BoxLayout({
-            style_class: 'waytoclip-cursor-popup',
+            style_class: 'waytoclip-cursor-popup popup-menu-content',
             vertical: true,
             reactive: true,
         });
@@ -177,7 +179,7 @@ export class PopupUIBuilder {
     // shared floating tooltip (native ones don't render here)
     createSearchTooltip() {
         return new St.Label({
-            style_class: 'waytoclip-search-tooltip',
+            style_class: 'waytoclip-search-tooltip popup-menu-content',
             visible: false,
         });
     }

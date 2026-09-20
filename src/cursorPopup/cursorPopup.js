@@ -85,8 +85,8 @@ export class CursorPopup {
         this.#searchController.applySettings(prefs);
         this.#localShortcuts.applySettings(prefs);
         this.#selectionController.applySettings(prefs);
-        this.#layoutPlacer.syncSettingsUI();
         this.#uiBuilder.setImagePreviewSize(prefs.imagePreviewSize);
+        this.#layoutPlacer.syncSettingsUI();
     }
 
     isOpen() {
