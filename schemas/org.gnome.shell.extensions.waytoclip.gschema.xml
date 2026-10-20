@@ -297,7 +297,6 @@
         <summary>Image thumbnail size in the popup</summary>
         <description>
             Maximum height in pixels of image previews shown in the cursor popup.
-            Images retain their aspect ratio and are clipped when wider than the available space.
         </description>
         <range min="32" max="512"/>
     </key>
