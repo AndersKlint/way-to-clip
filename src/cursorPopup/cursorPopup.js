@@ -45,7 +45,7 @@ export class CursorPopup {
 
     constructor(handlers) {
         this.#handlers = handlers;
-        this.#uiBuilder = new PopupUIBuilder();
+        this.#uiBuilder = new PopupUIBuilder({getImageFile: handlers.onGetImageFile});
         this.#search = new PopupSearch();
         this.#localShortcuts = new PopupLocalShortcuts({uiBuilder: this.#uiBuilder});
         this.#searchController = new PopupSearchController({

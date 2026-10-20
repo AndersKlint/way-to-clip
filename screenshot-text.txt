@@ -1,0 +1,28 @@
+Remember to set a keyboard shortcut for  the WayToClip cursor popup in the extension settings! :)
+
+Press '-' to go to favorites, or just navigate to it with arrow keys + Enter.
+
+Other keybindings have hints below ⬇️
+
+You can also select items with the mouse if you prefer!
+
+All keybindings are customizable in settings :)
+
+Having recent screenshots in the clipboard history can be very convinient
+
+pic
+
+Passwords from password managers are ignored by default.
+
+Make sure to check out the settings for more customization!
+
+早上好中国😁
+
+
+Tested on:
+- Ubuntu 24.04 LTS - GNOME 46.0 (VM)
+- Fedora 41 - GNOME 47 (VM)
+- Fedora 42 - GNOME 48 (VM)
+- Fedora 43 - GNOME 49.9
+- Fedora 44 - GNOME 50.4
+- Fedora 45 (pre-release) - GNOME 51 (VM)

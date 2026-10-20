@@ -1,3 +1,4 @@
+import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Shell from 'gi://Shell';
 
@@ -47,6 +48,7 @@ export class WayToClipController {
         this._keyboard = new Keyboard();
         this._cursorPopup = new CursorPopup({
             onGetEntries: () => this.entries,
+            onGetImageFile: entry => Gio.File.new_for_path(this._registry.getEntryFilename(entry)),
             onSelectEntryFromPopup: entry => this.selectClipboardEntryFromPopup(entry),
             onRemoveEntry: (entry, event) => this.removeClipboardEntry(entry, event),
             onToggleFavorite: entry => this.toggleFavorite(entry),

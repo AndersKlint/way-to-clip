@@ -1,11 +1,11 @@
 import Clutter from 'gi://Clutter';
-import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
 
 import {gettext as nativeGettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {makeTranslator} from '../common/i18n.js';
+import {ImagePreview} from './imagePreview.js';
 
 const _ = makeTranslator(nativeGettext);
 const IMAGE_PREVIEW_SIZE = 96;
@@ -67,11 +67,17 @@ const SEARCH_TOOLTIP_DELAY_MS = 500;
 const SEARCH_TOGGLE_DEBOUNCE_MS = 300;
 
 export class PopupUIBuilder {
+    #getImageFile;
+
     #imagePreviewSize = IMAGE_PREVIEW_SIZE;
 
     #pendingSearchTooltips = new Set();
 
     #hoverTooltipTexts = new WeakMap();
+
+    constructor({getImageFile}) {
+        this.#getImageFile = getImageFile;
+    }
 
     setImagePreviewSize(size) {
         if (!Number.isFinite(size))
@@ -81,6 +87,7 @@ export class PopupUIBuilder {
 
     destroy() {
         this.cancelPendingSearchTooltips();
+        this.#getImageFile = null;
     }
 
     cancelPendingSearchTooltips() {
@@ -427,29 +434,16 @@ export class PopupUIBuilder {
         });
     }
 
-    createImagePreview(entry) {
+    createImagePreview(entry, onLoaded) {
         if (!entry || !entry.isImage())
             return null;
-        let bytes = null;
-        try {
-            bytes = entry.asBytes();
-        } catch {
-            return null;
-        }
-        if (!bytes || bytes.get_size() === 0)
-            return null;
-        const gicon = Gio.BytesIcon.new(bytes);
-        return new St.Icon({
-            gicon,
-            icon_size: this.#imagePreviewSize,
-            style_class: 'waytoclip-item-image',
-            x_align: Clutter.ActorAlign.START,
-        });
+        const imageFile = this.#getImageFile(entry);
+        return new ImagePreview(imageFile, this.#imagePreviewSize, onLoaded);
     }
 
     // one clipboard row (maxLines lets us squeeze rows instead of moving the popup)
     // shortcutLabel is the configured shortcut for this slot, empty when unbound
-    createItemWidget(entry, index, onSelect, maxLines = 3, shortcutLabel = null) {
+    createItemWidget(entry, index, onSelect, maxLines = 3, shortcutLabel = null, onPreviewLoaded = null) {
         const itemBox = new St.BoxLayout({
             style_class: 'waytoclip-popup-item',
             reactive: true,
@@ -476,7 +470,7 @@ export class PopupUIBuilder {
             x_expand: true,
         });
 
-        const imagePreview = this.createImagePreview(entry);
+        const imagePreview = this.createImagePreview(entry, onPreviewLoaded);
         if (imagePreview) {
             textContainer.add_child(imagePreview);
         } else {
